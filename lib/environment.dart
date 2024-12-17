@@ -14,6 +14,6 @@ class Environment {
 
   //MAP CONFIG
   static const String mapKey =
-      "AIzaSyCLxeKSc5xDHSNq3Baw8A87ichrnzq9P78"; //Enter Your Map Api Key
+      "AIzaSyAPYIt3VRbHgQaMT9Dt28HMZqQZOvF7mrQ"; //Enter Your Map Api Key
   static const double mapDefaultZoom = 20;
 }

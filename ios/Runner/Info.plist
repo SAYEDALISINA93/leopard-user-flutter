@@ -53,5 +53,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>GMSServicesAPIKey</key>
+    <string>AIzaSyAPYIt3VRbHgQaMT9Dt28HMZqQZOvF7mrQ</string>
 </dict>
 </plist>
