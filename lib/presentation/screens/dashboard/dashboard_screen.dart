@@ -43,7 +43,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     _widgets = <Widget>[
       HomeScreen(dashBoardScaffoldKey: _dashBoardScaffoldKey),
       InterCityScreen(dashBoardScaffoldKey: _dashBoardScaffoldKey),
-      const ProfileAndSettingsScreen(),
+      const ProfileAndSettingsScreen(
+        showBackBtn: false,
+      ),
     ];
   }
 

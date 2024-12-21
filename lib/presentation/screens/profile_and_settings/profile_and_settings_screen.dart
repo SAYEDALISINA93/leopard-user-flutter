@@ -27,7 +27,9 @@ import 'widgets/account_user_card.dart';
 import 'widgets/menu_row_widget.dart';
 
 class ProfileAndSettingsScreen extends StatefulWidget {
-  const ProfileAndSettingsScreen({super.key});
+  final bool showBackBtn;
+
+  const ProfileAndSettingsScreen({super.key, this.showBackBtn = false});
 
   @override
   State<ProfileAndSettingsScreen> createState() =>
@@ -58,7 +60,7 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
       backgroundColor: MyColor.screenBgColor,
       appBar: CustomAppBar(
         title: MyStrings.accountAndSettings,
-        isShowBackBtn: false,
+        isShowBackBtn: widget.showBackBtn,
         isTitleCenter: true,
       ),
       body: GetBuilder<ProfileController>(builder: (controller) {

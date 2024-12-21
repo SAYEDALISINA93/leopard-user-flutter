@@ -225,7 +225,9 @@ class RouteHelper {
 
     GetPage(
         name: profileAndSettingsScreen,
-        page: () => const ProfileAndSettingsScreen(),
+        page: () => const ProfileAndSettingsScreen(
+              showBackBtn: true,
+            ),
         transition: Transition.fadeIn,
         transitionDuration: const Duration(milliseconds: 300)),
     //Location
