@@ -6,6 +6,7 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.secrets_gradle_plugin" version "0.5"
 }
 
 android {
@@ -32,10 +33,6 @@ android {
         targetSdk = 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-    // Load secrets from properties file
-    def secrets = new Properties()
-    file("secrets.properties").withInputStream { secrets.load(it) }
-    buildConfigField "String", "MAPS_API_KEY", secrets["MAPS_API_KEY"]
     }
 
     signingConfigs {
@@ -62,8 +59,4 @@ dependencies {
 
 flutter {
     source = "../.."
-}
-secrets {
-    propertiesFileName = "secrets.properties"
-    defaultPropertiesFileName = "local.defaults.properties"
 }
