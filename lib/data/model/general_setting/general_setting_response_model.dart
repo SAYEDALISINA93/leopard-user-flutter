@@ -4,9 +4,13 @@
 
 import 'dart:convert';
 
-GeneralSettingResponseModel generalSettingResponseModelFromJson(String str) => GeneralSettingResponseModel.fromJson(json.decode(str));
+import 'package:leoparduser/data/model/country_model/country_model.dart';
 
-String generalSettingResponseModelToJson(GeneralSettingResponseModel data) => json.encode(data.toJson());
+GeneralSettingResponseModel generalSettingResponseModelFromJson(String str) =>
+    GeneralSettingResponseModel.fromJson(json.decode(str));
+
+String generalSettingResponseModelToJson(GeneralSettingResponseModel data) =>
+    json.encode(data.toJson());
 
 class GeneralSettingResponseModel {
   String? remark;
@@ -21,10 +25,13 @@ class GeneralSettingResponseModel {
     this.data,
   });
 
-  factory GeneralSettingResponseModel.fromJson(Map<String, dynamic> json) => GeneralSettingResponseModel(
+  factory GeneralSettingResponseModel.fromJson(Map<String, dynamic> json) =>
+      GeneralSettingResponseModel(
         remark: json["remark"],
         status: json["status"],
-        message: json["message"] == null ? [] : List<String>.from(json["message"]!.map((x) => x.toString())),
+        message: json["message"] == null
+            ? []
+            : List<String>.from(json["message"]!.map((x) => x.toString())),
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
@@ -39,20 +46,26 @@ class GeneralSettingResponseModel {
 class Data {
   GeneralSetting? generalSetting;
   String? socialRedirectUrl;
+  String? notificationAudioPath;
 
   Data({
     this.generalSetting,
     this.socialRedirectUrl,
+    this.notificationAudioPath,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        generalSetting: json["general_setting"] == null ? null : GeneralSetting.fromJson(json["general_setting"]),
+        generalSetting: json["general_setting"] == null
+            ? null
+            : GeneralSetting.fromJson(json["general_setting"]),
         socialRedirectUrl: json["social_login_redirect"].toString(),
+        notificationAudioPath: json["notification_audio_path"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
         "general_setting": generalSetting?.toJson(),
         "social_login_redirect": socialRedirectUrl,
+        "notification_audio_path": notificationAudioPath,
       };
 }
 
@@ -96,6 +109,8 @@ class GeneralSetting {
   String? createdAt;
   String? updatedAt;
   String? googleLogin;
+  List<Countries>? operatingCountry;
+  String? notificationAudio;
 
   GeneralSetting({
     this.id,
@@ -137,6 +152,8 @@ class GeneralSetting {
     this.createdAt,
     this.updatedAt,
     this.googleLogin,
+    this.operatingCountry,
+    this.notificationAudio,
   });
 
   factory GeneralSetting.fromJson(Map<String, dynamic> json) => GeneralSetting(
@@ -150,9 +167,15 @@ class GeneralSetting {
         riderReferralAmount: json["rider_referral_amount"].toString(),
         driverReferralAmount: json["driver_referral_amount"].toString(),
         extraActiveTime: json["extra_active_time"].toString(),
-        pushConfig: json["pusher_config"] == null ? null : PusherConfig.fromJson(json["pusher_config"]),
-        globalShortCodes: json["global_shortcodes"] == null ? null : GlobalShortCodes.fromJson(json["global_shortcodes"]),
-        socialiteCredentials: json["socialite_credentials"] == null ? null : SocialiteCredentials.fromJson(json["socialite_credentials"]),
+        pushConfig: json["pusher_config"] == null
+            ? null
+            : PusherConfig.fromJson(json["pusher_config"]),
+        globalShortCodes: json["global_shortcodes"] == null
+            ? null
+            : GlobalShortCodes.fromJson(json["global_shortcodes"]),
+        socialiteCredentials: json["socialite_credentials"] == null
+            ? null
+            : SocialiteCredentials.fromJson(json["socialite_credentials"]),
         kv: json["kv"].toString(),
         ev: json["ev"].toString(),
         en: json["en"].toString(),
@@ -179,6 +202,11 @@ class GeneralSetting {
         createdAt: json["created_at"].toString(),
         updatedAt: json["updated_at"]?.toString(),
         googleLogin: json["google_login"].toString(),
+        operatingCountry: json["operating_country"] == null
+            ? []
+            : List<Countries>.from(
+                json["operating_country"]!.map((x) => Countries.fromJson(x))),
+        notificationAudio: json["notification_audio"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -221,6 +249,8 @@ class GeneralSetting {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "google_login": googleLogin,
+        "operating_country": operatingCountry?.map((e) => e.toJson()).toList(),
+        "notification_audio": notificationAudio,
       };
 }
 
@@ -235,7 +265,8 @@ class GlobalShortCodes {
     this.currencySymbol,
   });
 
-  factory GlobalShortCodes.fromJson(Map<String, dynamic> json) => GlobalShortCodes(
+  factory GlobalShortCodes.fromJson(Map<String, dynamic> json) =>
+      GlobalShortCodes(
         siteName: json["site_name"],
         siteCurrency: json["site_currency"],
         currencySymbol: json["currency_symbol"],
@@ -288,10 +319,17 @@ class SocialiteCredentials {
     this.linkedin,
   });
 
-  factory SocialiteCredentials.fromJson(Map<String, dynamic> json) => SocialiteCredentials(
-        google: json["google"] == null ? null : SocialCredential.fromJson(json["google"]),
-        facebook: json["facebook"] == null ? null : SocialCredential.fromJson(json["facebook"]),
-        linkedin: json["linkedin"] == null ? null : SocialCredential.fromJson(json["linkedin"]),
+  factory SocialiteCredentials.fromJson(Map<String, dynamic> json) =>
+      SocialiteCredentials(
+        google: json["google"] == null
+            ? null
+            : SocialCredential.fromJson(json["google"]),
+        facebook: json["facebook"] == null
+            ? null
+            : SocialCredential.fromJson(json["facebook"]),
+        linkedin: json["linkedin"] == null
+            ? null
+            : SocialCredential.fromJson(json["linkedin"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -314,7 +352,8 @@ class SocialCredential {
     this.info,
   });
 
-  factory SocialCredential.fromJson(Map<String, dynamic> json) => SocialCredential(
+  factory SocialCredential.fromJson(Map<String, dynamic> json) =>
+      SocialCredential(
         clientId: json["client_id"],
         clientSecret: json["client_secret"],
         status: json["status"].toString(),

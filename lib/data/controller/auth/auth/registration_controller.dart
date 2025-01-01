@@ -224,7 +224,7 @@ class RegistrationController extends GetxController {
   void initData() async {
     isLoading = true;
     update();
-    await getCountryData();
+    //   await getCountryData();
 
     ResponseModel response = await generalSettingRepo.getGeneralSetting();
     if (response.statusCode == 200) {

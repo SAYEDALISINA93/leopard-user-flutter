@@ -14,6 +14,7 @@ import 'package:leoparduser/data/controller/account/profile_complete_controller.
 import 'package:leoparduser/data/repo/account/profile_repo.dart';
 import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/environment.dart';
+import 'package:leoparduser/presentation/components/bottom-sheet/custom_bottom_sheet.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
 import 'package:leoparduser/presentation/components/divider/custom_spacer.dart';
@@ -22,6 +23,7 @@ import 'package:leoparduser/presentation/components/image/my_network_image_widge
 import 'package:leoparduser/presentation/components/text-form-field/custom_text_field.dart';
 import 'package:leoparduser/presentation/components/text/label_text.dart';
 import 'package:leoparduser/presentation/components/will_pop_widget.dart';
+import 'package:leoparduser/presentation/screens/auth/registration/widget/country_bottom_sheet.dart';
 
 class ProfileCompleteScreen extends StatefulWidget {
   const ProfileCompleteScreen({super.key});
@@ -169,43 +171,58 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            MyImageWidget(
+                                        GestureDetector(
+                                          onTap: () {
+                                            CountryBottomSheet
+                                                .profileBottomSheet(
+                                                    context, controller);
+                                          },
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              MyImageWidget(
                                                 imageUrl: UrlContainer
                                                     .countryFlagImageLink
                                                     .replaceAll(
                                                         "{countryCode}",
-                                                        Environment
-                                                            .defaultCountryCode
+                                                        controller
+                                                            .selectedCountryData
+                                                            .countryCode
                                                             .toString()
                                                             .toLowerCase()),
                                                 height: Dimensions.space25,
-                                                width: Dimensions.space40),
-                                            spaceSide(Dimensions.space10),
-                                            Container(
-                                                color:
-                                                    MyColor.getBodyTextColor(),
-                                                width: 1,
-                                                height: Dimensions.space15),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .only(
-                                                      start:
-                                                          Dimensions.space10),
-                                              child: Text(
-                                                  "+${Environment.defaultDialCode}",
-                                                  style: regularMediumLarge
-                                                      .copyWith(
-                                                          fontSize: Dimensions
-                                                              .fontOverLarge)),
-                                            )
-                                          ],
+                                                width: Dimensions.space40,
+                                              ),
+                                              spaceSide(Dimensions.space3),
+                                              Icon(
+                                                  Icons
+                                                      .keyboard_arrow_down_rounded,
+                                                  color: MyColor
+                                                      .getBodyTextColor()),
+                                              spaceSide(Dimensions.space5),
+                                              Container(
+                                                  color: MyColor
+                                                      .getBodyTextColor(),
+                                                  width: 1,
+                                                  height: Dimensions.space15),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .only(
+                                                        start:
+                                                            Dimensions.space10),
+                                                child: Text(
+                                                    "+${controller.selectedCountryData.dialCode}",
+                                                    style: regularMediumLarge
+                                                        .copyWith(
+                                                            fontSize: Dimensions
+                                                                .fontOverLarge)),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         Expanded(
                                           child: Padding(

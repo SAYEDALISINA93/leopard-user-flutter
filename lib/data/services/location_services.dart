@@ -15,7 +15,8 @@ class LocationService {
 
   void getLocation() async {}
 
-  //ADDRESS   srarch+
+  //ADDRESS search+
+
   bool isSearched = false;
   List<Prediction> allPredictions = [];
   Future<void> searchYourAddress({String locationName = ''}) async {

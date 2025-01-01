@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:leoparduser/data/model/global/app/ride_model.dart';
+import 'package:leoparduser/data/model/global/user/global_driver_model.dart';
 import 'package:leoparduser/data/model/global/user/global_user_model.dart';
 
 ReviewHistoryResponseModel reviewHistoryResponseModelFromJson(String str) =>
@@ -41,11 +43,19 @@ class ReviewHistoryResponseModel {
 
 class Data {
   List<Review>? reviews;
+  GlobalUser? rider;
+  GlobalDriverInfo? driver;
   String? userImagePath;
+  String? driverImagePath;
+  String? userImageWithPath;
 
   Data({
     this.reviews,
+    this.rider,
+    this.driver,
     this.userImagePath,
+    this.driverImagePath,
+    this.userImageWithPath,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -53,7 +63,14 @@ class Data {
             ? []
             : List<Review>.from(
                 json["reviews"]!.map((x) => Review.fromJson(x))),
+        rider:
+            json["rider"] == null ? null : GlobalUser.fromJson(json["rider"]),
+        driver: json["driver"] == null
+            ? null
+            : GlobalDriverInfo.fromJson(json["driver"]),
         userImagePath: json["user_image_path"],
+        driverImagePath: json["driver_image_path"],
+        userImageWithPath: json["user_image_with_path"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,6 +78,10 @@ class Data {
             ? []
             : List<dynamic>.from(reviews!.map((x) => x.toJson())),
         "user_image_path": userImagePath,
+        "driver_image_path": driverImagePath,
+        "user_image_with_path": userImageWithPath,
+        "rider": rider?.toJson(),
+        "driver": driver?.toJson(),
       };
 }
 
@@ -73,8 +94,8 @@ class Review {
   String? review;
   String? createdAt;
   String? updatedAt;
+  RideModel? ride;
   GlobalUser? user;
-
   Review({
     this.id,
     this.userId,
@@ -84,6 +105,7 @@ class Review {
     this.review,
     this.createdAt,
     this.updatedAt,
+    this.ride,
     this.user,
   });
 
@@ -94,6 +116,7 @@ class Review {
         rideId: json["ride_id"].toString(),
         rating: json["rating"].toString(),
         review: json["review"].toString(),
+        ride: json['ride'] == null ? null : RideModel.fromJson(json['ride']),
         user: json['user'] == null ? null : GlobalUser.fromJson(json['user']),
         createdAt: json["created_at"]?.toString(),
         updatedAt: json["updated_at"]?.toString(),
@@ -106,6 +129,7 @@ class Review {
         "ride_id": rideId,
         "rating": rating,
         "review": review,
+        "ride": ride,
         "user": user,
         "created_at": createdAt,
         "updated_at": updatedAt,

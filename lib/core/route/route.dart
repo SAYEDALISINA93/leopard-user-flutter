@@ -44,6 +44,7 @@ import 'package:leoparduser/presentation/screens/profile_and_settings/profile_an
 
 import 'package:leoparduser/presentation/screens/referral_a_friends/referral_a_friends_screen.dart';
 import 'package:leoparduser/presentation/screens/review/review_history_screen.dart';
+import 'package:leoparduser/presentation/screens/review/user_review_history_screen.dart';
 
 import 'package:leoparduser/presentation/screens/ride/ride_screen.dart';
 
@@ -142,6 +143,8 @@ class RouteHelper {
 
   static const String driverReviewScreen = '/driver_review_screen';
 
+  static const String myReviewScreen = '/my_review_screen';
+
   List<GetPage> routes = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
 
@@ -206,6 +209,9 @@ class RouteHelper {
     GetPage(
         name: driverReviewScreen,
         page: () => ReviewHistoryScreen(driverId: Get.arguments)),
+    GetPage(
+        name: myReviewScreen,
+        page: () => UserReviewHistoryScreen(avgRating: Get.arguments)),
 
     GetPage(
         name: referralAFriendsScreen,

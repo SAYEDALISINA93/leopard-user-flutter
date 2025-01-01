@@ -1027,6 +1027,9 @@ class MyStrings {
   static const String hide = "Hide";
 
   static const String show = "Show";
+
+  static const String audioNotification = "Audio Notification";
+
   static const String regTerm = "I have read & agree to the";
 
   static const String maintenanceTitle = "We're Down For Maintenance";
@@ -1038,6 +1041,11 @@ class MyStrings {
 
   static const String deleteBottomSheetSubtitle =
       'You will lose all of your data by deleting your account. This action cannot be undone.';
+
+  static const String yourAverageRatingIs = "Your average rating is";
+
+  static const String riderReviews = "Riders reviews";
+  static const String driverReviews = "My reviews";
 
   static List<MyLanguageModel> myLanguages = [
     MyLanguageModel(

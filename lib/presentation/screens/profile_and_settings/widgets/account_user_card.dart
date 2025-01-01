@@ -1,6 +1,7 @@
+import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../../../../core/utils/dimensions.dart';
 import '../../../../core/utils/my_color.dart';
 import '../../../../core/utils/my_icons.dart';
@@ -17,6 +18,7 @@ class AccountUserCard extends StatelessWidget {
   final double? imgHeight;
   final double? imgWidth;
   final VoidCallback? onTap;
+  final String? rating;
   const AccountUserCard({
     super.key,
     this.username,
@@ -32,6 +34,7 @@ class AccountUserCard extends StatelessWidget {
     this.imgWidth,
     this.imgWidget,
     this.onTap,
+    this.rating,
   });
 
   @override
@@ -99,6 +102,33 @@ class AccountUserCard extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis),
                         const SizedBox(height: Dimensions.space5),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: MyColor.colorBlack,
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.space20)),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Dimensions.space10,
+                              vertical: Dimensions.space5),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.star_rounded,
+                                  color: MyColor.colorOrange,
+                                  size: Dimensions.fontLarge),
+                              const SizedBox(width: 5),
+                              Text(
+                                  rating == '0.00'
+                                      ? MyStrings.nA.tr
+                                      : (rating ?? ''),
+                                  style: boldDefault.copyWith(
+                                      fontSize: Dimensions.fontDefault,
+                                      color: MyColor.colorWhite))
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),

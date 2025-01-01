@@ -60,6 +60,7 @@ class UrlContainer {
 
   static const String sosRide = '$ride/sos';
   static const String reviewRide = 'review';
+  static const String getDriverReview = 'get-driver-review';
   static const String rideList = '$ride/list';
 
   static const String activeRide = '$ride/active';

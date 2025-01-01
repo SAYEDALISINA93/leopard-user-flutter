@@ -55,8 +55,7 @@ class _LocationPickUpHomeWidgetState extends State<LocationPickUpHomeWidget> {
               ? const SizedBox.shrink()
               : HeaderText(
                   text: MyStrings.enterLocation,
-                  textStyle: boldLarge.copyWith(fontSize: 17),
-                ),
+                  textStyle: boldLarge.copyWith(fontSize: 17)),
           spaceDown(Dimensions.space15),
           LocationPickTextField(
             hintText: MyStrings.pickUpLocation,

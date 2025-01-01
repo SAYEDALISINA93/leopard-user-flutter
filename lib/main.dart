@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:leoparduser/core/theme/light/light.dart';
+import 'package:leoparduser/core/utils/audio_utils.dart';
 import 'package:leoparduser/core/utils/util.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -33,9 +34,13 @@ Future<void> main() async {
   Map<String, Map<String, String>> languages = await di_service.init();
   MyUtils.allScreen();
   MyUtils().stopLandscape();
-
-  FirebaseMessaging.onBackgroundMessage(_messageHandler);
-  await PushNotificationService(apiClient: Get.find()).setupInteractedMessage();
+  AudioUtils();
+  try {
+    FirebaseMessaging.onBackgroundMessage(_messageHandler);
+    await PushNotificationService(apiClient: Get.find()).setupInteractedMessage();
+  } catch (e) {
+    print(e);
+  }
   HttpOverrides.global = MyHttpOverrides();
   UnverifiedService.instance.setIsUnverified(false);
   runApp(MyApp(languages: languages));
@@ -44,9 +49,7 @@ Future<void> main() async {
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -73,8 +76,7 @@ class _MyAppState extends State<MyApp> {
         getPages: RouteHelper().routes,
         locale: localizeController.locale,
         translations: Messages(languages: widget.languages),
-        fallbackLocale: Locale(localizeController.locale.languageCode,
-            localizeController.locale.countryCode),
+        fallbackLocale: Locale(localizeController.locale.languageCode, localizeController.locale.countryCode),
       ),
     );
   }

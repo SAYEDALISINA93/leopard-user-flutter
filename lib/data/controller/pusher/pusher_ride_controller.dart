@@ -4,7 +4,9 @@ import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:leoparduser/core/route/route.dart';
+import 'package:leoparduser/core/utils/audio_utils.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
+import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/controller/ride/ride_details/ride_details_controller.dart';
 import 'package:leoparduser/data/model/general_setting/general_setting_response_model.dart';
 import 'package:leoparduser/data/model/global/pusher/pusher_event_response_model.dart';
@@ -99,7 +101,9 @@ class PusherRideController extends GetxController {
         Uri.parse(authUrl),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $token',
+          "dev-token":
+              "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
         },
       );
       if (result.statusCode == 200) {
@@ -173,6 +177,8 @@ class PusherRideController extends GetxController {
       if (event.data?.bid != null) {
         printx(
             '${detailsController.driverImagePath}/${event.data?.bid?.driver?.avatar}');
+        AudioUtils.playAudio(apiClient.getNotificationAudio());
+        MyUtils.vibrate();
         CustomBidToast.newBid(
           bid: event.data!.bid!,
           currency: detailsController.currencySym,

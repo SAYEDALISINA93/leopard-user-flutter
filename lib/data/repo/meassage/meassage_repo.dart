@@ -34,8 +34,11 @@ class MessageRepo {
     apiClient.initToken();
     Map<String, String> params = {'message': txt};
     var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.headers
-        .addAll(<String, String>{'Authorization': 'Bearer ${apiClient.token}'});
+    request.headers.addAll(<String, String>{
+      'Authorization': 'Bearer ${apiClient.token}',
+      "dev-token":
+          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+    });
     if (file != null) {
       request.files.add(http.MultipartFile(
           'image', file.readAsBytes().asStream(), file.lengthSync(),
@@ -53,7 +56,5 @@ class MessageRepo {
       CustomSnackBar.error(errorList: model.message ?? [MyStrings.requestFail]);
       return false;
     }
-    // ResponseModel responseModel = await apiClient.request(url, Method.postMethod, params, passHeader: true);
-    // return responseModel;
   }
 }

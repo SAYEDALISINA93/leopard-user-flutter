@@ -279,37 +279,45 @@ class MyUtils {
   }
 
   static String maskSensitiveInformation(String input) {
-    if (input.isEmpty) {
-      return '';
+    try {
+      if (input.isEmpty) {
+        return '';
+      }
+
+      final int maskLength = input.length ~/ 2; // Mask half of the characters.
+
+      final String mask = '*' * maskLength;
+
+      final String maskedInput = maskLength > 4
+          ? input.replaceRange(5, maskLength, mask)
+          : input.replaceRange(0, maskLength, mask);
+
+      return maskedInput;
+    } catch (e) {
+      return input;
     }
-
-    final int maskLength = input.length ~/ 2; // Mask half of the characters.
-
-    final String mask = '*' * maskLength;
-
-    final String maskedInput = maskLength > 4
-        ? input.replaceRange(5, maskLength, mask)
-        : input.replaceRange(0, maskLength, mask);
-
-    return maskedInput;
   }
 
   static String maskEmail(String email) {
-    if (email.isEmpty) {
-      return '';
-    }
+    try {
+      if (email.isEmpty) {
+        return '';
+      }
 
-    // Split the email address into parts before and after '@' symbol
-    List<String> parts = email.split('@');
-    String maskedPart = maskString(parts[0]);
+      // Split the email address into parts before and after '@' symbol
+      List<String> parts = email.split('@');
+      String maskedPart = maskString(parts[0]);
 
-    // Check if there are more than one '@' symbols
-    if (parts.length > 2) {
-      // If there are, reconstruct the email address with only the first part masked
-      return "$maskedPart@${parts[1]}";
-    } else {
-      // Otherwise, just mask the first part and keep the domain intact
-      return "$maskedPart@${parts[1]}";
+      // Check if there are more than one '@' symbols
+      if (parts.length > 2) {
+        // If there are, reconstruct the email address with only the first part masked
+        return "$maskedPart@${parts[1]}";
+      } else {
+        // Otherwise, just mask the first part and keep the domain intact
+        return "$maskedPart@${parts[1]}";
+      }
+    } catch (e) {
+      return email;
     }
   }
 

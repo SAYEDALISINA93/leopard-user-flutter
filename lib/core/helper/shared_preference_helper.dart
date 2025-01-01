@@ -1,5 +1,7 @@
 class SharedPreferenceHelper {
   static const String pusherConfigSettingKey = 'pusherConfig-setting-key';
+  static const String notificationAudioKey = 'notification-audio-key';
+  static const String notificationAudioEnableKey = 'rider-notification-audio-enable-key';
   static const String accessTokenKey = 'access_token';
   static const String accessTokenType = 'access_type';
   static const String resetPassTokenKey = 'reset_pass_token';

@@ -200,7 +200,7 @@ class RideDetailsMapWidget extends StatelessWidget {
                           color: MyColor.redCancelTextColor,
                         ),
                       ] else if (ride.paymentStatus == '1' &&
-                          ride.userReview == null) ...[
+                          ride.driverReview == null) ...[
                         RoundedButton(
                           text: MyStrings.review,
                           isOutlined: false,
