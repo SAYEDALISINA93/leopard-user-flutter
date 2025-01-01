@@ -9,6 +9,20 @@ plugins {
     id "com.google.secrets_gradle_plugin" version "0.5"
 }
 
+def getSecretPropertiesFile() {
+    return rootProject.file("secret.properties")
+}
+
+def getSecretProperties() {
+    Properties properties = new Properties()
+    if (getSecretPropertiesFile().exists()) {
+        properties.load(new FileInputStream(getSecretPropertiesFile()))
+    }
+    return properties
+}
+
+def secretProperties = getSecretProperties()
+
 android {
     namespace = "app.theleopard.rider"
     compileSdk = 34
@@ -33,6 +47,9 @@ android {
         targetSdk = 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders = [
+            MAPS_API_KEY: "${secretProperties['MAPS_API_KEY']}"
+        ]
     }
 
     signingConfigs {

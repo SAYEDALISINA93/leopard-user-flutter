@@ -61,5 +61,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>GMSServicesAPIKey</key>
+    <string>AIzaSyAPYIt3VRbHgQaMT9Dt28HMZqQZOvF7mrQ</string>
 </dict>
 </plist>

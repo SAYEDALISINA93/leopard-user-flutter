@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -17,7 +18,6 @@
     
     <application
         android:label="LeoPard Rider"
-        android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">

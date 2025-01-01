@@ -56,6 +56,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
                     Image.asset(MyImages.appLogoWhite,
                         width: MediaQuery.of(context).size.width / 3),
                     Align(
