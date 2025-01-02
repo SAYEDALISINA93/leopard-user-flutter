@@ -163,7 +163,7 @@ class SelectLocationController extends GetxController {
       Placemark placemark = placeMark[0];
       loggerX(placemark.toJson());
       currentAddress.value =
-          '${placemark.locality ?? ''}, ${placemark.subAdministrativeArea ?? ''}, ${placemark.administrativeArea ?? ''}, ${placemark.country ?? ''}';
+          '${placemark.name ?? ''}, ${placemark.thoroughfare ?? ''}, ${placemark.subThoroughfare ?? ''}, ${placemark.locality ?? ''}, ${placemark.subAdministrativeArea ?? ''}, ${placemark.administrativeArea ?? ''}, ${placemark.country ?? ''}';
       update();
       if (index == 0) {
         pickUpController.text = selectedAddressFromSearch.isEmpty
