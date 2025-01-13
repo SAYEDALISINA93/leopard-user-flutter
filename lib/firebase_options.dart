@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCSNEWOwQsQ8XgegBlFk4M0DJ_8opz5vik',
-    appId: '1:723926195144:android:9085b1de7ff80c9874befd',
+    appId: '1:723926195144:android:53221f6f66c3a0f074befd',
     messagingSenderId: '723926195144',
     projectId: 'leopard-user-105ff',
     storageBucket: 'leopard-user-105ff.firebasestorage.app',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDoBJGyUedZA7ZihWNV0ACau6K5T3DliAI',
-    appId: '1:723926195144:ios:768f56ec0da8435d74befd',
+    appId: '1:723926195144:ios:039e1ee901c6595774befd',
     messagingSenderId: '723926195144',
     projectId: 'leopard-user-105ff',
     storageBucket: 'leopard-user-105ff.firebasestorage.app',
-    androidClientId: '723926195144-pki4os7fblvup63ovvq772bqpvukdnno.apps.googleusercontent.com',
+    androidClientId: '723926195144-6ddfp9j22ivfeatnlqss1pddv0vmuc7b.apps.googleusercontent.com',
     iosClientId: '723926195144-7iufs2d5l7acaba3ktspiion0d8o5q7j.apps.googleusercontent.com',
     iosBundleId: 'com.leopard.rider',
   );

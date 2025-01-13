@@ -63,5 +63,17 @@
 	<true/>
 	<key>GMSServicesAPIKey</key>
     <string>AIzaSyAPYIt3VRbHgQaMT9Dt28HMZqQZOvF7mrQ</string>
+
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.723926195144-7iufs2d5l7acaba3ktspiion0d8o5q7j</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
