@@ -16,8 +16,40 @@ class LoginRepo {
 
   LoginRepo({required this.apiClient});
 
-  Future<ResponseModel> loginUser(String email, String password) async {
-    Map<String, String> map = {'username': email, 'password': password};
+  Future<ResponseModel> checkUserHasAccount(
+      String phoneNumber, countryCode) async {
+    Map<String, String> map = {
+      'phone_number': phoneNumber,
+      'country_code': countryCode
+    };
+
+    String url = '${UrlContainer.baseUrl}${UrlContainer.checkUserHasAccount}';
+
+    ResponseModel model =
+        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+
+    return model;
+  }
+
+  Future<ResponseModel> loginWithPhone(
+      String phoneNumber, String countryCode, String firebaseToken) async {
+    Map<String, String> map = {
+      'phone': phoneNumber,
+      'country_code': countryCode,
+    };
+
+    String url = '${UrlContainer.baseUrl}${UrlContainer.loginWithPhone}';
+
+    ResponseModel model =
+        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+
+    return model;
+  }
+
+  Future<ResponseModel> loginUser(String phoneNumber, String fbToken) async {
+    Map<String, String> map = {'phone': phoneNumber, 'token_id': fbToken};
+
+    // Map<String, String> map = {'username': email, 'password': password};
     String url = '${UrlContainer.baseUrl}${UrlContainer.loginEndPoint}';
 
     ResponseModel model =

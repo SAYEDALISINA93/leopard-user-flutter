@@ -29,6 +29,12 @@ class ApiClient extends GetxService {
     Uri url = Uri.parse(uri);
     http.Response response;
 
+    print('url rewuest--------------${uri.toString()}');
+    print('params rewuest-----------${params.toString()}');
+    print('method rewuest-----------$method');
+    print('passHeader rewuest--------$passHeader');
+    print('isOnlyAcceptType rewuest--$isOnlyAcceptType');
+
     try {
       if (method == Method.postMethod) {
         if (passHeader) {

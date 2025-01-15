@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
@@ -111,35 +113,97 @@ class LoginController extends GetxController {
     }
   }
 
+  Future<bool> checkUserHasAccount(
+      String phoneNumber, String countryCode) async {
+    ResponseModel responseModel =
+        await loginRepo.checkUserHasAccount(phoneNumber, countryCode);
+    if (responseModel.statusCode == 200) {
+      LoginResponseModel loginModel =
+          LoginResponseModel.fromJson(jsonDecode(responseModel.responseJson));
+      if (loginModel.status.toString().toLowerCase() ==
+          MyStrings.success.toLowerCase()) {
+        return true;
+      } else {
+        CustomSnackBar.error(
+            errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain]);
+        return false;
+      }
+    } else {
+      CustomSnackBar.error(errorList: [responseModel.message]);
+      return false;
+    }
+  }
+
   bool isSubmitLoading = false;
+  String countryCode = '93';
   void loginUser() async {
     isSubmitLoading = true;
     update();
 
-    ResponseModel model = await loginRepo.loginUser(
-        emailController.text.toString(), passwordController.text.toString());
+// First Check if the user has an account or not
+    if (await checkUserHasAccount(
+            mobileNumberController.text.toString(), countryCode) ==
+        true) {
+      // Call Firebase phone authentication
+      String formattedPhoneNumber = mobileNumberController.text
+              .toString()
+              .startsWith('+')
+          ? mobileNumberController.text.toString()
+          : '+$countryCode${mobileNumberController.text.toString()}'; // Ensure the phone number includes the country code
 
-    if (model.statusCode == 200) {
-      LoginResponseModel loginModel =
-          LoginResponseModel.fromJson(jsonDecode(model.responseJson));
-      if (loginModel.status.toString().toLowerCase() ==
-          MyStrings.success.toLowerCase()) {
-        // checkAndGotoNextStep(loginModel);
-        await loginRepo.apiClient.sharedPreferences
-            .setBool(SharedPreferenceHelper.rememberMeKey, remember);
-        loggerI(loginModel.data?.toJson());
-        RouteMiddleware.checkNGotoNext(
-          accessToken: loginModel.data?.accessToken ?? '',
-          tokenType: loginModel.data?.tokenType ?? '',
-          user: loginModel.data?.user,
+      print('formattedPhoneNumber: $formattedPhoneNumber');
+
+      try {
+        await FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: formattedPhoneNumber,
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            // Auto-retrieval or instant verification
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            CustomSnackBar.error(
+                errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
+          },
+          codeSent: (String verificationId, int? resendToken) {
+            // Handle code sent
+            Get.toNamed(RouteHelper.smsVerificationScreen, arguments: [
+              verificationId,
+              mobileNumberController.text.toString(),
+              countryCode
+            ]);
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {
+            // Handle timeout
+          },
         );
-      } else {
-        CustomSnackBar.error(
-            errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain]);
+      } catch (e) {
+        CustomSnackBar.error(errorList: [e.toString()]);
       }
-    } else {
-      CustomSnackBar.error(errorList: [model.message]);
     }
+
+    // ResponseModel model = await loginRepo.loginUser(
+    //     emailController.text.toString(), passwordController.text.toString());
+
+    // if (model.statusCode == 200) {
+    //   LoginResponseModel loginModel =
+    //       LoginResponseModel.fromJson(jsonDecode(model.responseJson));
+    //   if (loginModel.status.toString().toLowerCase() ==
+    //       MyStrings.success.toLowerCase()) {
+    //     // checkAndGotoNextStep(loginModel);
+    //     await loginRepo.apiClient.sharedPreferences
+    //         .setBool(SharedPreferenceHelper.rememberMeKey, remember);
+    //     loggerI(loginModel.data?.toJson());
+    //     RouteMiddleware.checkNGotoNext(
+    //       accessToken: loginModel.data?.accessToken ?? '',
+    //       tokenType: loginModel.data?.tokenType ?? '',
+    //       user: loginModel.data?.user,
+    //     );
+    //   } else {
+    //     CustomSnackBar.error(
+    //         errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain]);
+    //   }
+    // } else {
+    //   CustomSnackBar.error(errorList: [model.message]);
+    // }
 
     isSubmitLoading = false;
     update();

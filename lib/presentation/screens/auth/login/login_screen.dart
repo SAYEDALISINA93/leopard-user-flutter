@@ -114,18 +114,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 CustomTextField(
                                   animatedLabel: true,
                                   needOutlineBorder: true,
-                                  controller: controller.emailController,
-                                  labelText: MyStrings.usernameOrEmail.tr,
+                                  controller: controller.mobileNumberController,
+                                  labelText: MyStrings.enterYourPhoneNumber.tr,
                                   onChanged: (value) {},
-                                  focusNode: controller.emailFocusNode,
-                                  nextFocus: controller.passwordFocusNode,
-                                  textInputType: TextInputType.emailAddress,
+                                  focusNode: controller.mobileNumberFocusNode,
+                                  // nextFocus: controller.passwordFocusNode,
+                                  textInputType: TextInputType.phone,
                                   inputAction: TextInputAction.next,
                                   prefixIcon: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
                                     child: CustomSvgPicture(
-                                        image: MyIcons.user,
+                                        image: MyIcons.phone,
                                         color: MyColor.primaryColor),
                                   ),
                                   validator: (value) {
@@ -136,94 +136,94 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                   },
                                 ),
-                                spaceDown(Dimensions.space20),
-                                CustomTextField(
-                                  animatedLabel: true,
-                                  needOutlineBorder: true,
-                                  labelText: MyStrings.password.tr,
-                                  controller: controller.passwordController,
-                                  focusNode: controller.passwordFocusNode,
-                                  onChanged: (value) {},
-                                  isShowSuffixIcon: true,
-                                  isPassword: true,
-                                  textInputType: TextInputType.text,
-                                  inputAction: TextInputAction.done,
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    child: CustomSvgPicture(
-                                        image: MyIcons.password,
-                                        color: MyColor.primaryColor),
-                                  ),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return MyStrings.fieldErrorMsg.tr;
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                                spaceDown(Dimensions.space15),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: Dimensions.space15,
-                                          height: 25,
-                                          child: Checkbox(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        Dimensions.space5)),
-                                            activeColor: MyColor.primaryColor,
-                                            checkColor: MyColor.colorWhite,
-                                            value: controller.remember,
-                                            side: WidgetStateBorderSide
-                                                .resolveWith(
-                                              (states) => BorderSide(
-                                                  width: 1.0,
-                                                  color: controller.remember
-                                                      ? MyColor
-                                                          .getTextFieldEnableBorder()
-                                                      : MyColor
-                                                          .getTextFieldDisableBorder()),
-                                            ),
-                                            onChanged: (value) {
-                                              controller.changeRememberMe();
-                                            },
-                                          ),
-                                        ),
-                                        spaceSide(Dimensions.space8),
-                                        InkWell(
-                                            onTap: () {
-                                              controller.changeRememberMe();
-                                            },
-                                            splashFactory:
-                                                NoSplash.splashFactory,
-                                            child: DefaultText(
-                                              text: MyStrings.rememberMe.tr,
-                                              textColor:
-                                                  MyColor.getBodyTextColor(),
-                                              fontSize: 14,
-                                            ))
-                                      ],
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        controller.clearTextField();
-                                        Get.toNamed(
-                                            RouteHelper.forgotPasswordScreen);
-                                      },
-                                      child: DefaultText(
-                                          text: MyStrings.forgotPassword.tr,
-                                          textColor: MyColor.redCancelTextColor,
-                                          fontSize: 14),
-                                    )
-                                  ],
-                                ),
+                                // spaceDown(Dimensions.space20),
+                                // CustomTextField(
+                                //   animatedLabel: true,
+                                //   needOutlineBorder: true,
+                                //   labelText: MyStrings.password.tr,
+                                //   controller: controller.passwordController,
+                                //   focusNode: controller.passwordFocusNode,
+                                //   onChanged: (value) {},
+                                //   isShowSuffixIcon: true,
+                                //   isPassword: true,
+                                //   textInputType: TextInputType.text,
+                                //   inputAction: TextInputAction.done,
+                                //   prefixIcon: Padding(
+                                //     padding: const EdgeInsets.symmetric(
+                                //         horizontal: 10.0),
+                                //     child: CustomSvgPicture(
+                                //         image: MyIcons.password,
+                                //         color: MyColor.primaryColor),
+                                //   ),
+                                //   validator: (value) {
+                                //     if (value!.isEmpty) {
+                                //       return MyStrings.fieldErrorMsg.tr;
+                                //     } else {
+                                //       return null;
+                                //     }
+                                //   },
+                                // ),
+                                // spaceDown(Dimensions.space15),
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     Row(
+                                //       children: [
+                                //         SizedBox(
+                                //           width: Dimensions.space15,
+                                //           height: 25,
+                                //           child: Checkbox(
+                                //             shape: RoundedRectangleBorder(
+                                //                 borderRadius:
+                                //                     BorderRadius.circular(
+                                //                         Dimensions.space5)),
+                                //             activeColor: MyColor.primaryColor,
+                                //             checkColor: MyColor.colorWhite,
+                                //             value: controller.remember,
+                                //             side: WidgetStateBorderSide
+                                //                 .resolveWith(
+                                //               (states) => BorderSide(
+                                //                   width: 1.0,
+                                //                   color: controller.remember
+                                //                       ? MyColor
+                                //                           .getTextFieldEnableBorder()
+                                //                       : MyColor
+                                //                           .getTextFieldDisableBorder()),
+                                //             ),
+                                //             onChanged: (value) {
+                                //               controller.changeRememberMe();
+                                //             },
+                                //           ),
+                                //         ),
+                                //         spaceSide(Dimensions.space8),
+                                //         InkWell(
+                                //             onTap: () {
+                                //               controller.changeRememberMe();
+                                //             },
+                                //             splashFactory:
+                                //                 NoSplash.splashFactory,
+                                //             child: DefaultText(
+                                //               text: MyStrings.rememberMe.tr,
+                                //               textColor:
+                                //                   MyColor.getBodyTextColor(),
+                                //               fontSize: 14,
+                                //             ))
+                                //       ],
+                                //     ),
+                                //     // InkWell(
+                                //     //   onTap: () {
+                                //     //     controller.clearTextField();
+                                //     //     Get.toNamed(
+                                //     //         RouteHelper.forgotPasswordScreen);
+                                //     //   },
+                                //     //   child: DefaultText(
+                                //     //       text: MyStrings.forgotPassword.tr,
+                                //     //       textColor: MyColor.redCancelTextColor,
+                                //     //       fontSize: 14),
+                                //     // )
+                                //   ],
+                                // ),
                                 spaceDown(Dimensions.space25),
                                 RoundedButton(
                                   isLoading: controller.isSubmitLoading,

@@ -1,14 +1,17 @@
 class UrlContainer {
   static const String domainUrl =
-      'https://www.theleopard.app'; //YOUR WEBSITE DOMAIN URL HERE
+      // 'https://www.theleopard.app/dev_test'; //YOUR WEBSITE DOMAIN URL HERE
 //   static const String domainUrl =
-  //   'http://localhost/index.php'; //YOUR WEBSITE DOMAIN URL HERE
+      'http://localhost/index.php'; //YOUR WEBSITE DOMAIN URL HERE
 
   static const String baseUrl = '$domainUrl/api/';
   static const String dashBoardEndPoint = 'dashboard';
   static const String depositHistoryUrl = 'deposit/history';
   static const String depositMethodUrl = 'deposit/methods';
   static const String addMoneyUrl = 'add-money';
+
+  static const String checkUserHasAccount = 'check-phone-number';
+  static const String loginWithPhone = 'login-with-phone';
 
   static const String registrationEndPoint = 'register';
   static const String loginEndPoint = 'login';
