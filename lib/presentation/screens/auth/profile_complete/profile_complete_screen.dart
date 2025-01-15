@@ -37,6 +37,7 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
 
   @override
   void initState() {
+    // print("Profile Complete Screen");
     Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(ProfileRepo(
       apiClient: Get.find(),
@@ -122,195 +123,243 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       height:
                                           MediaQuery.of(context).size.height *
                                               .04),
+                                  // CustomTextField(
+                                  //   animatedLabel: false,
+                                  //   isRequired: true,
+                                  //   needOutlineBorder: true,
+                                  //   labelText: MyStrings.username.tr,
+                                  //   hintText:
+                                  //       "${MyStrings.enterYour.tr} ${MyStrings.username.toLowerCase().tr}",
+                                  //   textInputType: TextInputType.text,
+                                  //   inputAction: TextInputAction.next,
+                                  //   focusNode: controller.userNameFocusNode,
+                                  //   controller: controller.userNameController,
+                                  //   nextFocus: controller.mobileNoFocusNode,
+                                  //   onChanged: (value) {
+                                  //     return;
+                                  //   },
+                                  //   validator: (value) {
+                                  //     if (value != null && value.isEmpty) {
+                                  //       return MyStrings.enterYourUsername.tr;
+                                  //     } else if (value.length < 6) {
+                                  //       return MyStrings.kShortUserNameError;
+                                  //     } else {
+                                  //       return null;
+                                  //     }
+                                  //   },
+                                  // ),
+                                  // const SizedBox(height: Dimensions.space20),
+                                  // LabelText(
+                                  //     text: MyStrings.country,
+                                  //     isRequired: true),
+                                  // const SizedBox(
+                                  //     height: Dimensions.textToTextSpace),
+                                  // Container(
+                                  //   decoration: BoxDecoration(
+                                  //       color: MyColor.colorWhite,
+                                  //       border: Border.all(
+                                  //           color: isNumberBlank
+                                  //               ? MyColor.colorRed
+                                  //               : MyColor.primaryColor
+                                  //                   .withOpacity(0.08)),
+                                  //       borderRadius: BorderRadius.circular(
+                                  //           Dimensions.mediumRadius)),
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: Dimensions.space10),
+                                  //   child: Row(
+                                  //     crossAxisAlignment:
+                                  //         CrossAxisAlignment.center,
+                                  //     mainAxisAlignment:
+                                  //         MainAxisAlignment.start,
+                                  //     children: [
+                                  //       GestureDetector(
+                                  //         onTap: () {
+                                  //           CountryBottomSheet
+                                  //               .profileBottomSheet(
+                                  //                   context, controller);
+                                  //         },
+                                  //         child: Row(
+                                  //           crossAxisAlignment:
+                                  //               CrossAxisAlignment.center,
+                                  //           mainAxisAlignment:
+                                  //               MainAxisAlignment.center,
+                                  //           children: [
+                                  //             MyImageWidget(
+                                  //               imageUrl: UrlContainer
+                                  //                   .countryFlagImageLink
+                                  //                   .replaceAll(
+                                  //                       "{countryCode}",
+                                  //                       controller
+                                  //                           .selectedCountryData
+                                  //                           .countryCode
+                                  //                           .toString()
+                                  //                           .toLowerCase()),
+                                  //               height: Dimensions.space25,
+                                  //               width: Dimensions.space40,
+                                  //             ),
+                                  //             spaceSide(Dimensions.space3),
+                                  //             Icon(
+                                  //                 Icons
+                                  //                     .keyboard_arrow_down_rounded,
+                                  //                 color: MyColor
+                                  //                     .getBodyTextColor()),
+                                  //             spaceSide(Dimensions.space5),
+                                  //             Container(
+                                  //                 color: MyColor
+                                  //                     .getBodyTextColor(),
+                                  //                 width: 1,
+                                  //                 height: Dimensions.space15),
+                                  //             Padding(
+                                  //               padding:
+                                  //                   const EdgeInsetsDirectional
+                                  //                       .only(
+                                  //                       start:
+                                  //                           Dimensions.space10),
+                                  //               child: Text(
+                                  //                   "+${controller.selectedCountryData.dialCode}",
+                                  //                   style: regularMediumLarge
+                                  //                       .copyWith(
+                                  //                           fontSize: Dimensions
+                                  //                               .fontOverLarge)),
+                                  //             )
+                                  //           ],
+                                  //         ),
+                                  //       ),
+                                  //       Expanded(
+                                  //         child: Padding(
+                                  //           padding: const EdgeInsetsDirectional
+                                  //               .only(
+                                  //               start: Dimensions.space5,
+                                  //               top: Dimensions.space5 - 1),
+                                  //           child: TextFormField(
+                                  //             decoration: InputDecoration(
+                                  //               suffixIcon: Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     Dimensions.space15),
+                                  //                 child: MyLocalImageWidget(
+                                  //                     imagePath: MyIcons.phone,
+                                  //                     height: 15,
+                                  //                     imageOverlayColor: MyColor
+                                  //                         .getBodyTextColor()),
+                                  //               ),
+                                  //               border: InputBorder
+                                  //                   .none, // Remove border
+                                  //               filled: false, // Remove fill
+                                  //               contentPadding:
+                                  //                   const EdgeInsetsDirectional
+                                  //                       .only(
+                                  //                       top: 6.7,
+                                  //                       start: 0,
+                                  //                       end: 15,
+                                  //                       bottom: 0),
+                                  //               hintStyle:
+                                  //                   regularMediumLarge.copyWith(
+                                  //                       fontSize: Dimensions
+                                  //                           .fontOverLarge,
+                                  //                       color: MyColor
+                                  //                           .getBodyTextColor()),
+                                  //               hintText: MyStrings
+                                  //                   .enterPhoneNumber000.tr,
+                                  //             ),
+                                  //             controller:
+                                  //                 controller.mobileNoController,
+                                  //             keyboardType: TextInputType
+                                  //                 .phone, // Set keyboard type to phone
+                                  //             style:
+                                  //                 regularMediumLarge.copyWith(
+                                  //                     fontSize: Dimensions
+                                  //                         .fontOverLarge),
+                                  //             cursorColor: MyColor
+                                  //                 .primaryColor, // Set cursor color to red
+                                  //             onChanged: (value) {
+                                  //               controller.mobileNoController
+                                  //                       .text.isNotEmpty
+                                  //                   ? isNumberBlank = false
+                                  //                   : null;
+                                  //               setState(() {});
+                                  //             },
+                                  //             focusNode:
+                                  //                 controller.mobileNoFocusNode,
+                                  //             validator: (value) {
+                                  //               final whitespaceOrEmpty =
+                                  //                   RegExp(r"^\s*$|^$");
+                                  //               if (whitespaceOrEmpty
+                                  //                   .hasMatch(value ?? "")) {
+                                  //                 setState(() {
+                                  //                   isNumberBlank = true;
+                                  //                 });
+                                  //                 return;
+                                  //               } else {
+                                  //                 return null;
+                                  //               }
+                                  //             },
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // isNumberBlank
+                                  //     ? const SizedBox(
+                                  //         height: Dimensions.space5)
+                                  //     : const SizedBox.shrink(),
+                                  // isNumberBlank
+                                  //     ? Padding(
+                                  //         padding:
+                                  //             const EdgeInsets.only(left: 8.0),
+                                  //         child: Text(
+                                  //             MyStrings.enterYourPhoneNumber,
+                                  //             style: regularSmall.copyWith(
+                                  //                 color: MyColor.colorRed)))
+                                  //     : const SizedBox.shrink(),
+                                  const SizedBox(height: Dimensions.space20),
                                   CustomTextField(
                                     animatedLabel: false,
                                     isRequired: true,
                                     needOutlineBorder: true,
-                                    labelText: MyStrings.username.tr,
+                                    labelText: MyStrings.firstName.tr,
                                     hintText:
-                                        "${MyStrings.enterYour.tr} ${MyStrings.username.toLowerCase().tr}",
+                                        "${MyStrings.enterYour.tr} ${MyStrings.firstName.toLowerCase().tr}",
                                     textInputType: TextInputType.text,
                                     inputAction: TextInputAction.next,
-                                    focusNode: controller.userNameFocusNode,
-                                    controller: controller.userNameController,
-                                    nextFocus: controller.mobileNoFocusNode,
+                                    focusNode: controller.firstNameFocusNode,
+                                    controller: controller.firstNameController,
+                                    nextFocus: controller.lastNameFocusNode,
                                     onChanged: (value) {
                                       return;
                                     },
                                     validator: (value) {
                                       if (value != null && value.isEmpty) {
-                                        return MyStrings.enterYourUsername.tr;
-                                      } else if (value.length < 6) {
-                                        return MyStrings.kShortUserNameError;
+                                        return MyStrings.kFirstNameNullError.tr;
                                       } else {
                                         return null;
                                       }
                                     },
                                   ),
                                   const SizedBox(height: Dimensions.space20),
-                                  LabelText(
-                                      text: MyStrings.country,
-                                      isRequired: true),
-                                  const SizedBox(
-                                      height: Dimensions.textToTextSpace),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: MyColor.colorWhite,
-                                        border: Border.all(
-                                            color: isNumberBlank
-                                                ? MyColor.colorRed
-                                                : MyColor.primaryColor
-                                                    .withOpacity(0.08)),
-                                        borderRadius: BorderRadius.circular(
-                                            Dimensions.mediumRadius)),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: Dimensions.space10),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            CountryBottomSheet
-                                                .profileBottomSheet(
-                                                    context, controller);
-                                          },
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              MyImageWidget(
-                                                imageUrl: UrlContainer
-                                                    .countryFlagImageLink
-                                                    .replaceAll(
-                                                        "{countryCode}",
-                                                        controller
-                                                            .selectedCountryData
-                                                            .countryCode
-                                                            .toString()
-                                                            .toLowerCase()),
-                                                height: Dimensions.space25,
-                                                width: Dimensions.space40,
-                                              ),
-                                              spaceSide(Dimensions.space3),
-                                              Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_rounded,
-                                                  color: MyColor
-                                                      .getBodyTextColor()),
-                                              spaceSide(Dimensions.space5),
-                                              Container(
-                                                  color: MyColor
-                                                      .getBodyTextColor(),
-                                                  width: 1,
-                                                  height: Dimensions.space15),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsetsDirectional
-                                                        .only(
-                                                        start:
-                                                            Dimensions.space10),
-                                                child: Text(
-                                                    "+${controller.selectedCountryData.dialCode}",
-                                                    style: regularMediumLarge
-                                                        .copyWith(
-                                                            fontSize: Dimensions
-                                                                .fontOverLarge)),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .only(
-                                                start: Dimensions.space5,
-                                                top: Dimensions.space5 - 1),
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                suffixIcon: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      Dimensions.space15),
-                                                  child: MyLocalImageWidget(
-                                                      imagePath: MyIcons.phone,
-                                                      height: 15,
-                                                      imageOverlayColor: MyColor
-                                                          .getBodyTextColor()),
-                                                ),
-                                                border: InputBorder
-                                                    .none, // Remove border
-                                                filled: false, // Remove fill
-                                                contentPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .only(
-                                                        top: 6.7,
-                                                        start: 0,
-                                                        end: 15,
-                                                        bottom: 0),
-                                                hintStyle:
-                                                    regularMediumLarge.copyWith(
-                                                        fontSize: Dimensions
-                                                            .fontOverLarge,
-                                                        color: MyColor
-                                                            .getBodyTextColor()),
-                                                hintText: MyStrings
-                                                    .enterPhoneNumber000.tr,
-                                              ),
-                                              controller:
-                                                  controller.mobileNoController,
-                                              keyboardType: TextInputType
-                                                  .phone, // Set keyboard type to phone
-                                              style:
-                                                  regularMediumLarge.copyWith(
-                                                      fontSize: Dimensions
-                                                          .fontOverLarge),
-                                              cursorColor: MyColor
-                                                  .primaryColor, // Set cursor color to red
-                                              onChanged: (value) {
-                                                controller.mobileNoController
-                                                        .text.isNotEmpty
-                                                    ? isNumberBlank = false
-                                                    : null;
-                                                setState(() {});
-                                              },
-                                              focusNode:
-                                                  controller.mobileNoFocusNode,
-                                              validator: (value) {
-                                                final whitespaceOrEmpty =
-                                                    RegExp(r"^\s*$|^$");
-                                                if (whitespaceOrEmpty
-                                                    .hasMatch(value ?? "")) {
-                                                  setState(() {
-                                                    isNumberBlank = true;
-                                                  });
-                                                  return;
-                                                } else {
-                                                  return null;
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  CustomTextField(
+                                    animatedLabel: false,
+                                    isRequired: true,
+                                    needOutlineBorder: true,
+                                    labelText: MyStrings.lastName.tr,
+                                    hintText:
+                                        "${MyStrings.enterYour.tr} ${MyStrings.lastName.toLowerCase().tr}",
+                                    textInputType: TextInputType.text,
+                                    inputAction: TextInputAction.next,
+                                    focusNode: controller.lastNameFocusNode,
+                                    controller: controller.lastNameController,
+                                    nextFocus: controller.addressFocusNode,
+                                    onChanged: (value) {
+                                      return;
+                                    },
+                                    validator: (value) {
+                                      if (value != null && value.isEmpty) {
+                                        return MyStrings.kLastNameNullError.tr;
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
-                                  isNumberBlank
-                                      ? const SizedBox(
-                                          height: Dimensions.space5)
-                                      : const SizedBox.shrink(),
-                                  isNumberBlank
-                                      ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                              MyStrings.enterYourPhoneNumber,
-                                              style: regularSmall.copyWith(
-                                                  color: MyColor.colorRed)))
-                                      : const SizedBox.shrink(),
                                   const SizedBox(height: Dimensions.space20),
                                   CustomTextField(
                                     animatedLabel: false,

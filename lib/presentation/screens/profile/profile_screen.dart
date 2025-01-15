@@ -78,13 +78,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     spaceDown(Dimensions.space50),
-                                    ProfileCardColumn(
-                                        header:
-                                            MyStrings.username.tr.toUpperCase(),
-                                        body: controller
-                                                .model.data?.user?.username
-                                                ?.toUpperCase() ??
-                                            ""),
+                                    // ProfileCardColumn(
+                                    //     header:
+                                    //         MyStrings.username.tr.toUpperCase(),
+                                    //     body: controller
+                                    //             .model.data?.user?.username
+                                    //             ?.toUpperCase() ??
+                                    //         ""),
                                     CustomDivider(
                                         space: Dimensions.space15,
                                         color: MyColor.primaryColor

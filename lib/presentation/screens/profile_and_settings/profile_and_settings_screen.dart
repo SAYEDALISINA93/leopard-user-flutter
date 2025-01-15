@@ -100,7 +100,8 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                               fullName:
                                   '${controller.firstNameController.text} ${controller.lastNameController.text}',
                               username: controller.user.username,
-                              subtitle: "+${controller.user.mobile}",
+                              subtitle:
+                                  "+${controller.user.dialCode}${controller.user.mobile}",
                               rating: controller.user.avgRating,
                               imgWidget: Container(
                                 decoration: BoxDecoration(

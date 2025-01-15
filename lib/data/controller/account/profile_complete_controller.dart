@@ -126,7 +126,7 @@ class ProfileCompleteController extends GetxController {
       lastName: lastName,
       mobile: mobileNoController.text,
       email: '',
-      username: userNameController.text,
+      username: "",
       countryCode: selectedCountryData.countryCode.toString(),
       country: selectedCountryData.country.toString(),
       mobileCode: selectedCountryData.dialCode.toString(),
