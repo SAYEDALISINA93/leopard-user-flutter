@@ -248,8 +248,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const SizedBox(width: Dimensions.space5),
                                     InkWell(
                                       onTap: () {
-                                        Get.offAndToNamed(
-                                            RouteHelper.registrationScreen);
+                                        // Get.offAndToNamed(
+                                        // RouteHelper.registrationScreen);
+                                        Get.defaultDialog(
+                                          title: "Under Development",
+                                          middleText:
+                                              "This feature is under development.",
+                                          textConfirm: "OK",
+                                          onConfirm: () {
+                                            Get.back();
+                                          },
+                                        );
                                       },
                                       child: Text(MyStrings.signUp.tr,
                                           maxLines: 2,
