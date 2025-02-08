@@ -58,7 +58,7 @@ class PusherRideController extends GetxController {
     rideId = rideId;
     update();
 
-    printx('appKey ${pusherConfig.toJson()}');
+    printx('appKey to json ${pusherConfig.toJson()}');
     printx('appKey $appKey');
     printx('appKey $cluster');
 
@@ -107,11 +107,27 @@ class PusherRideController extends GetxController {
         },
       );
       if (result.statusCode == 200) {
-        Map<String, dynamic> json = jsonDecode(result.body);
-        loggerX(json);
-        return json;
+        printx("global pusher auth success");
+
+        var decodedResult = jsonDecode(result.body);
+
+        if (decodedResult is Map<String, dynamic> &&
+            decodedResult['success'] == true) {
+          if (decodedResult['auth'] is bool) {
+            decodedResult['auth'] = decodedResult['auth'].toString();
+          }
+          if (decodedResult['success'] is bool) {
+            decodedResult['success'] = decodedResult['success'].toString();
+          }
+          return decodedResult;
+        } else {
+          print(
+              "Error: 'success' field is not true or 'decodedResult' is not a Map");
+          return null;
+        }
       } else {
-        return null; // or throw an exception
+        print("Error: HTTP status code is not 200");
+        return null;
       }
     } catch (e) {
       return null; // or throw an exception
@@ -125,19 +141,21 @@ class PusherRideController extends GetxController {
 
   void onEvent(PusherEvent event) {
     try {
-      loggerX(event.eventName);
+      printx("ONEVENT before: ${event}");
+      event.userId ??= userId;
       PusherResponseModel model =
           PusherResponseModel.fromJson(jsonDecode(event.data));
-      loggerX(event.channelName);
+      loggerX("model: ${event.channelName}");
       final modify = PusherResponseModel(
           eventName: event.eventName,
           channelName: event.channelName,
           data: model.data);
+      loggerX("ONEVENT: ${modify}");
       if (event.data == null) return;
 
       updateEvent(modify);
     } catch (e) {
-      printx(e);
+      printx("Error on Pusher ride controller event: ${e}");
     }
   }
 

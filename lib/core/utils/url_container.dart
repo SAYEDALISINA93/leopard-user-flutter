@@ -1,7 +1,7 @@
 class UrlContainer {
   static const String domainUrl =
-      // 'https://www.theleopard.app/dev_test'; //YOUR WEBSITE DOMAIN URL HERE
-//   static const String domainUrl =
+      // 'https://www.demo.theleopard.app'; //YOUR WEBSITE DOMAIN URL HERE
+      // static const String domainUrl =
       'http://localhost/index.php'; //YOUR WEBSITE DOMAIN URL HERE
 
   static const String baseUrl = '$domainUrl/api/';

@@ -71,21 +71,25 @@ class RideMapController extends GetxController {
   Future<List<LatLng>> getPolyLinePoints() async {
     List<LatLng> polylineCoordinates = [];
     PolylinePoints polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      request: PolylineRequest(
-        origin: PointLatLng(pickupLatLng.latitude, pickupLatLng.longitude),
-        destination: PointLatLng(
-            destinationLatLng.latitude, destinationLatLng.longitude),
-        mode: TravelMode.driving,
-      ),
-      googleApiKey: Environment.mapKey,
-    );
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+    try {
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        request: PolylineRequest(
+          origin: PointLatLng(pickupLatLng.latitude, pickupLatLng.longitude),
+          destination: PointLatLng(
+              destinationLatLng.latitude, destinationLatLng.longitude),
+          mode: TravelMode.driving,
+        ),
+        googleApiKey: Environment.mapKey ?? '',
+      );
+      if (result.points.isNotEmpty) {
+        for (var point in result.points) {
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+      } else {
+        printx('Error: ${result.errorMessage}');
       }
-    } else {
-      printx(result.errorMessage);
+    } catch (e) {
+      printx('Exception: $e');
     }
     return polylineCoordinates;
   }
