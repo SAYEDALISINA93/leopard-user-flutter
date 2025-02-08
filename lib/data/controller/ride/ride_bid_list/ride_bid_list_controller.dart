@@ -63,7 +63,7 @@ class RideBidListController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isLoading = false;
     update();
@@ -90,7 +90,7 @@ class RideBidListController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     selectedId = '-1';
     isAcceptLoading = false;
@@ -121,7 +121,7 @@ class RideBidListController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isRejectLoading = false;
     selectedId = '-1';
@@ -148,7 +148,7 @@ class RideBidListController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isCancelLoading = false;
     update();

@@ -245,7 +245,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     width: 50,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: MyColor.colorGrey.withOpacity(0.2))),
+                        color: MyColor.colorGrey.withValues(alpha: 0.2))),
               ),
               Container(
                 margin: const EdgeInsets.all(Dimensions.space15),
@@ -269,7 +269,8 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                               border: Border.all(
                                   color: controller.index == 0
                                       ? MyColor.primaryColor
-                                      : MyColor.colorGrey.withOpacity(0.1),
+                                      : MyColor.colorGrey
+                                          .withValues(alpha: 0.1),
                                   width: controller.index == 0 ? 1 : 0.1),
                               borderRadius: BorderRadius.circular(
                                   Dimensions.mediumRadius),
@@ -312,7 +313,8 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                               border: Border.all(
                                   color: controller.index == 1
                                       ? MyColor.primaryColor
-                                      : MyColor.colorGrey.withOpacity(0.1),
+                                      : MyColor.colorGrey
+                                          .withValues(alpha: 0.1),
                                   width: controller.index == 1 ? 1 : 0.1),
                               borderRadius: BorderRadius.circular(
                                   Dimensions.mediumRadius),

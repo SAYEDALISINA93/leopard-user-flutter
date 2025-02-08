@@ -37,21 +37,24 @@ class ProfileCardColumn extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
-          crossAxisAlignment: alignmentEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment:
+              alignmentEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Text(
               header.tr,
-              style: headerTextDecoration ?? boldDefault.copyWith(color: MyColor.getTextColor().withOpacity(0.6)),
+              style: headerTextDecoration ??
+                  boldDefault.copyWith(
+                      color: MyColor.getTextColor().withValues(alpha: 0.6)),
               overflow: TextOverflow.ellipsis,
             ),
-             SizedBox(
+            SizedBox(
               height: space,
             ),
             Text(
               body.tr,
               style: bodyTextDecoration ??
                   regularDefault.copyWith(
-                    fontSize: Dimensions.fontExtraLarge-1,
+                    fontSize: Dimensions.fontExtraLarge - 1,
                     color: textColor ?? MyColor.getTextColor(),
                   ),
               // maxLines: 1,

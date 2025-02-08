@@ -171,9 +171,9 @@ class RegistrationController extends GetxController {
             : responseModel.data?.user?.profileComplete.toString() == 'null'
                 ? true
                 : false;
-    printx(
+    printX(
         'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.loginBy}');
-    printx(
+    printX(
         'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.profileComplete}');
     bool isTwoFactorEnable = false;
 
@@ -275,9 +275,9 @@ class RegistrationController extends GetxController {
 
   selectCountryData(Countries value) {
     selectedCountryData = value;
-    printx('value.country ${value.country}');
-    printx('value.dialCode ${value.countryCode}');
-    printx('value.dialCode ${value.dialCode}');
+    printX('value.country ${value.country}');
+    printX('value.dialCode ${value.countryCode}');
+    printX('value.dialCode ${value.dialCode}');
     update();
   }
 
@@ -381,7 +381,7 @@ class RegistrationController extends GetxController {
       await socialLoginUser(
           provider: 'google', accessToken: googleAuth.accessToken ?? '');
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
 
       CustomSnackBar.error(errorList: [e.toString()]);
     }
@@ -423,7 +423,7 @@ class RegistrationController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
 
     isGoogle = false;

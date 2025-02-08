@@ -17,6 +17,7 @@ class UrlContainer {
   static const String loginEndPoint = 'login';
   static const String socialLoginEndPoint = 'social-login';
   static const String logoutUrl = 'logout';
+
   static const String forgetPasswordEndPoint = 'password/email';
   static const String passwordVerifyEndPoint = 'password/verify-code';
   static const String resetPasswordEndPoint = 'password/reset';
@@ -29,7 +30,6 @@ class UrlContainer {
   static const String verifySmsEndPoint = 'verify-mobile';
   static const String resendVerifyCodeEndPoint = 'resend-verify/';
   static const String authorizationCodeEndPoint = 'authorization';
-
   static const String dashBoardUrl = 'dashboard';
   static const String paymentHistoryEndpoint = 'payment/history';
 

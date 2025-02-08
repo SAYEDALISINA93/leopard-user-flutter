@@ -48,7 +48,7 @@ class RideMessageController extends GetxController {
     page = 0;
     imageFile = null;
     update();
-    printx(userId);
+    printX(userId);
     getRideMessage(id);
   }
 
@@ -70,7 +70,7 @@ class RideMessageController extends GetxController {
                 jsonDecode(responseModel.responseJson));
         if (model.status == "success") {
           imagePath = '${UrlContainer.domainUrl}/${model.data?.imagePath}';
-          List<RideMessage>? tempMsgList = model.data?.messages?.data;
+          List<RideMessage>? tempMsgList = model.data?.messages;
           if (tempMsgList != null && tempMsgList.isNotEmpty) {
             if (shouldLoading == false) {
               meassage.clear();
@@ -87,7 +87,7 @@ class RideMessageController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     isLoading = false;
@@ -114,15 +114,15 @@ class RideMessageController extends GetxController {
         CustomSnackBar.error(errorList: [MyStrings.somethingWentWrong]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isSubmitLoading = false;
     update();
   }
 
   void addEventMessage(RideMessage rideMessage) {
-    meassage.add(rideMessage);
-    scrollController.animateTo(scrollController.offset + 100,
+    meassage.insert(0, rideMessage);
+    scrollController.animateTo(scrollController.offset,
         duration: const Duration(microseconds: 500), curve: Curves.easeInOut);
     update();
   }

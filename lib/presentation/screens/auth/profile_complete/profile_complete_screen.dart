@@ -37,7 +37,6 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
 
   @override
   void initState() {
-    // print("Profile Complete Screen");
     Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(ProfileRepo(
       apiClient: Get.find(),

@@ -205,7 +205,7 @@ class _AppDrawerScreenState extends State<AppDrawerScreen> {
                           end: Dimensions.space20, start: Dimensions.space30),
                       padding: const EdgeInsets.all(Dimensions.space15),
                       decoration: BoxDecoration(
-                          color: MyColor.colorRed2.withOpacity(0.15),
+                          color: MyColor.colorRed2.withValues(alpha: 0.15),
                           borderRadius:
                               BorderRadius.circular(Dimensions.space5)),
                       child: Row(

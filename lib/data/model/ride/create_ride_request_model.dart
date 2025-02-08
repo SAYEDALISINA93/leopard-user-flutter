@@ -73,5 +73,7 @@ class CreateRideRequestModel {
 
   String toJson() => json.encode(toMap());
 
-  factory CreateRideRequestModel.fromJson(String source) => CreateRideRequestModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CreateRideRequestModel.fromJson(String source) =>
+      CreateRideRequestModel.fromMap(
+          json.decode(source) as Map<String, dynamic>);
 }

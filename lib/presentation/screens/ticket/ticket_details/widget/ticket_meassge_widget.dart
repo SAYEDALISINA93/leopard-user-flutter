@@ -32,7 +32,7 @@ class TicketViewCommentReplyModel extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 15),
         decoration: BoxDecoration(
             color: messages.adminId == "1"
-                ? MyColor.pendingColor.withOpacity(0.1)
+                ? MyColor.pendingColor.withValues(alpha: 0.1)
                 : MyColor.getCardBgColor(),
             borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
             border: Border.all(

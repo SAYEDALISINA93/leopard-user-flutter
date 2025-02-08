@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     CustomDivider(
                                         space: Dimensions.space15,
                                         color: MyColor.primaryColor
-                                            .withOpacity(0.3)),
+                                            .withValues(alpha: 0.3)),
                                     ProfileCardColumn(
                                         header:
                                             MyStrings.fullName.tr.toUpperCase(),
@@ -98,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     CustomDivider(
                                         space: Dimensions.space15,
                                         color: MyColor.primaryColor
-                                            .withOpacity(0.3)),
+                                            .withValues(alpha: 0.3)),
                                     ProfileCardColumn(
                                         header:
                                             MyStrings.email.tr.toUpperCase(),
@@ -108,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     CustomDivider(
                                         space: Dimensions.space15,
                                         color: MyColor.primaryColor
-                                            .withOpacity(0.3)),
+                                            .withValues(alpha: 0.3)),
                                     ProfileCardColumn(
                                         header:
                                             MyStrings.phone.tr.toUpperCase(),
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     CustomDivider(
                                         space: Dimensions.space15,
                                         color: MyColor.primaryColor
-                                            .withOpacity(0.3)),
+                                            .withValues(alpha: 0.3)),
                                     ProfileCardColumn(
                                         header:
                                             MyStrings.country.tr.toUpperCase(),

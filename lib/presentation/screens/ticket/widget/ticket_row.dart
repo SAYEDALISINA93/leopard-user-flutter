@@ -57,7 +57,7 @@ class TicketRow extends StatelessWidget {
                               horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
                               color: textColor ??
-                                  MyColor.primaryColor.withOpacity(0.5),
+                                  MyColor.primaryColor.withValues(alpha: 0.5),
                               border: Border.all(
                                   color: textColor ?? MyColor.borderColor),
                               borderRadius:

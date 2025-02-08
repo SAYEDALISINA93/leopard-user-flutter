@@ -55,7 +55,7 @@ class MyImageWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius),
           child: Center(
             child: SpinKitFadingCube(
-              color: MyColor.primaryColor.withOpacity(0.3),
+              color: MyColor.primaryColor.withValues(alpha: 0.3),
               size: Dimensions.space20,
             ),
           ),
@@ -71,7 +71,7 @@ class MyImageWidget extends StatelessWidget {
                 child: Center(
                   child: Icon(
                     Icons.image,
-                    color: MyColor.colorGrey.withOpacity(0.5),
+                    color: MyColor.colorGrey.withValues(alpha: 0.5),
                   ),
                 ),
               ),

@@ -44,7 +44,7 @@ class CustomElevatedBtn extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: bgColor, //
               elevation: elevation, //
-              // overlayColor: bgColor.withOpacity(0.5),
+              // overlayColor: bgColor.withValues(alpha:0.5),
               shadowColor: shadowColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(radius)),
@@ -74,7 +74,7 @@ class CustomElevatedBtn extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: bgColor, //
               elevation: elevation, //
-              // overlayColor: bgColor.withOpacity(0.5),
+              // overlayColor: bgColor.withValues(alpha:0.5),
               // shadowColor: shadowColor,
               splashFactory: InkRipple.splashFactory,
               shape: RoundedRectangleBorder(

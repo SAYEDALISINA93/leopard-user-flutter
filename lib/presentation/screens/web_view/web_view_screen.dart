@@ -37,6 +37,7 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
     useHybridComposition: true,
     useShouldOverrideUrlLoading: true,
     mediaPlaybackRequiresUserGesture: false,
+    javaScriptEnabled: true,
   );
 
   @override
@@ -53,13 +54,16 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
               webViewController = controller;
             },
             onLoadStart: (controller, url) {
+              loggerX('url : ${url}');
               loggerX('url : ${url?.path}');
               if (url.toString() ==
-                  '${UrlContainer.domainUrl}user/deposit/history') {
-                Get.offAndToNamed(RouteHelper.dashboard);
+                  '${UrlContainer.domainUrl}/user/deposit/history') {
+                Future.delayed(const Duration(seconds: 1), () {
+                  Get.offNamed(RouteHelper.dashboard);
+                });
                 CustomSnackBar.success(successList: [MyStrings.requestSuccess]);
               } else if (url.toString() ==
-                  '${UrlContainer.baseUrl}user/deposit') {
+                  '${UrlContainer.domainUrl}/user/deposit') {
                 Get.back();
                 CustomSnackBar.error(errorList: [MyStrings.requestFail]);
               }

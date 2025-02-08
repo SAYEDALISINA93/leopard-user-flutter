@@ -103,7 +103,8 @@ class CountryBottomSheet {
                               color: MyColor.transparentColor,
                               border: Border(
                                 bottom: BorderSide(
-                                  color: MyColor.colorGrey.withOpacity(0.3),
+                                  color:
+                                      MyColor.colorGrey.withValues(alpha: 0.3),
                                   width: 0.5,
                                 ),
                               ),
@@ -235,7 +236,8 @@ class CountryBottomSheet {
                               color: MyColor.transparentColor,
                               border: Border(
                                 bottom: BorderSide(
-                                  color: MyColor.colorGrey.withOpacity(0.3),
+                                  color:
+                                      MyColor.colorGrey.withValues(alpha: 0.3),
                                   width: index ==
                                           controller.filteredCountries.length -
                                               1

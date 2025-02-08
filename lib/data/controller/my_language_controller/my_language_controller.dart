@@ -53,7 +53,7 @@ class MyLanguageController extends GetxController {
         pref.getString(SharedPreferenceHelper.languageCode) ?? 'en';
 
     if (kDebugMode) {
-      printx('current lang code: $languageCode');
+      printX('current lang code: $languageCode');
     }
 
     if (langList.isNotEmpty) {
@@ -108,13 +108,13 @@ class MyLanguageController extends GetxController {
               successList:
                   resJson['message'] ?? ["Language changed successfully"]);
         } catch (e) {
-          printx(e.toString());
+          printX(e.toString());
         }
       } else {
         CustomSnackBar.error(errorList: [response.message]);
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
 
     isChangeLangLoading = false;

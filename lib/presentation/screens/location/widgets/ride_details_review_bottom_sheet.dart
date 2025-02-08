@@ -150,8 +150,8 @@ class RideDetailsReviewBottomSheet extends StatelessWidget {
                   textColor: MyColor.colorWhite,
                   isLoading: controller.isReviewLoading,
                   press: () {
-                    printx(controller.rating);
-                    printx(controller.reviewMsgController.text);
+                    printX(controller.rating);
+                    printX(controller.reviewMsgController.text);
                     if (controller.rating > 0 &&
                         controller.reviewMsgController.text.isNotEmpty) {
                       controller.reviewRide(ride.id.toString());

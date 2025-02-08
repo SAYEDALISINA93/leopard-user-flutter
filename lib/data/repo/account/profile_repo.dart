@@ -26,7 +26,7 @@ class ProfileRepo {
 
       String url =
           '${UrlContainer.baseUrl}${isProfile ? UrlContainer.updateProfileEndPoint : UrlContainer.profileCompleteEndPoint}';
-      printx(url);
+      printX(url);
       var request = http.MultipartRequest('POST', Uri.parse(url));
       Map<String, String> finalMap = {
         'username': m.username,
@@ -42,7 +42,7 @@ class ProfileRepo {
         'city': m.city ?? '',
         'reference': m.refer ?? '',
       };
-      printx(m.image);
+      printX(m.image);
       request.headers.addAll(
         <String, String>{
           'Authorization': 'Bearer ${apiClient.token}',

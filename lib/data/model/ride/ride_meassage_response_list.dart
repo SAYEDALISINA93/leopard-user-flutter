@@ -45,7 +45,7 @@ class RideMessageListResponseModel {
 }
 
 class Data {
-  MessageMainData? messages;
+  List<RideMessage>? messages;
   String? imagePath;
   Data({
     this.messages,
@@ -55,10 +55,14 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
       messages: json["messages"] == null
           ? null
-          : MessageMainData.fromJson(json["messages"]),
+          : List<RideMessage>.from(
+              json["messages"]!.map((x) => RideMessage.fromJson(x))),
       imagePath: json["image_path"]);
 
-  Map<String, dynamic> toJson() => {"messages": messages?.toJson()};
+  Map<String, dynamic> toJson() => {
+        "messages": messages?.map((x) => x.toJson()).toList(),
+        "image_path": imagePath
+      };
 }
 
 class MessageMainData {

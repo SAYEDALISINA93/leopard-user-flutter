@@ -38,7 +38,7 @@ class LocationService {
         allPredictions.addAll(subscriptionResponse.predictions!);
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
   }
 }

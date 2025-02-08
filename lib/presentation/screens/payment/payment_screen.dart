@@ -45,7 +45,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final controller = Get.put(
         RidePaymentController(repo: Get.find(), couponController: Get.find()));
     super.initState();
-    printx(ride.id);
+    printX(ride.id);
     WidgetsBinding.instance.addPostFrameCallback((time) {
       controller.initialData(ride);
     });
@@ -102,7 +102,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           height: 32,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: MyColor.primaryColor.withOpacity(0.05)),
+                              color:
+                                  MyColor.primaryColor.withValues(alpha: 0.05)),
                           child: const Icon(Icons.add,
                               color: MyColor.primaryColor)),
                     )
@@ -145,10 +146,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     horizontal: Dimensions.space15,
                     vertical: Dimensions.space20),
                 decoration: BoxDecoration(
-                    color: MyColor.colorWhite,
-                    boxShadow: MyUtils.getShadow2(blurRadius: 10),
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.mediumRadius)),
+                  color: MyColor.colorWhite,
+                  boxShadow: MyUtils.getShadow2(blurRadius: 10),
+                  borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
+                ),
                 child: GetBuilder<CouponController>(
                   builder: (couponController) {
                     return Column(

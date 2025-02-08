@@ -134,7 +134,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 1,
-                          color: MyColor.primaryColor.withOpacity(0.08),
+                          color: MyColor.primaryColor.withValues(alpha: 0.08),
                         ),
                         borderRadius: BorderRadius.circular(widget.radius!),
                       ),
@@ -148,7 +148,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               width: 1,
-                              color: MyColor.primaryColor.withOpacity(0.08)),
+                              color:
+                                  MyColor.primaryColor.withValues(alpha: 0.08)),
                           borderRadius: BorderRadius.circular(widget.radius!)),
                       prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
                       prefixIcon: widget.prefixIcon,
@@ -339,7 +340,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           widget.hintText != null ? widget.hintText!.tr : '',
                       hintStyle: widget.hintTextStyle ??
                           regularLarge.copyWith(
-                            color: MyColor.getHintTextColor().withOpacity(0.7),
+                            color: MyColor.getHintTextColor()
+                                .withValues(alpha: 0.7),
                           ),
                       fillColor: widget.fillColor,
                       filled: true,
@@ -427,7 +429,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   border: InputBorder.none,
                   hintText: widget.hintText != null ? widget.hintText!.tr : '',
                   hintStyle: regularLarge.copyWith(
-                      color: MyColor.getHintTextColor().withOpacity(0.7)),
+                      color: MyColor.getHintTextColor().withValues(alpha: 0.7)),
                   prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
                   suffixIconConstraints: widget.suffixIconConstraints ??
                       BoxConstraints(

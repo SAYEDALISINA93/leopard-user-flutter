@@ -42,7 +42,7 @@ class RideCard extends StatelessWidget {
                         vertical: Dimensions.space2),
                     decoration: BoxDecoration(
                       color: MyUtils.getRideStatusColor(ride.status ?? '9')
-                          .withOpacity(0.01),
+                          .withValues(alpha: 0.01),
                       borderRadius:
                           BorderRadius.circular(Dimensions.defaultRadius),
                       border: Border.all(

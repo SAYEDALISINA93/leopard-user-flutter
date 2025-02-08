@@ -98,7 +98,7 @@ class MyColor {
   }
 
   static Color getGreyText() {
-    return MyColor.colorBlack.withOpacity(0.5);
+    return MyColor.colorBlack.withValues(alpha: 0.5);
   }
 
   static Color getAppBarColor() {

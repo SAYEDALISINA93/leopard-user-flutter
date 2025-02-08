@@ -60,7 +60,7 @@ class CompleteRideController extends GetxController {
         CompleteRideResponseModel model = CompleteRideResponseModel.fromJson(
             jsonDecode(responseModel.responseJson));
         if (model.status == MyStrings.success) {
-          printx(model.status);
+          printX(model.status);
           nextPageUrl = model.data?.completedRides?.nextPageUrl;
           completeRideList.addAll(model.data?.completedRides?.data ?? []);
           update();
@@ -72,7 +72,7 @@ class CompleteRideController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isLoading = false;
     update();
@@ -93,7 +93,7 @@ class CompleteRideController extends GetxController {
             jsonDecode(responseModel.responseJson));
 
         if (model.status == MyStrings.success) {
-          printx(model.status);
+          printX(model.status);
           reviewMsgController.text = '';
           rating = 0.0;
           page = 0;
@@ -109,7 +109,7 @@ class CompleteRideController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isReviewLoading = false;
     update();

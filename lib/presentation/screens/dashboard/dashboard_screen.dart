@@ -84,7 +84,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             selectedItemColor: MyColor.primaryColor,
             borderRadius: Dimensions.space50,
             itemBorderRadius: Dimensions.space50,
-            selectedBackgroundColor: MyColor.primaryColor.withOpacity(0.09),
+            selectedBackgroundColor:
+                MyColor.primaryColor.withValues(alpha: 0.09),
             onTap: (int val) {
               controller.repo.apiClient.storeCurrentTab(val.toString());
               changeScreen(val);

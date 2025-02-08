@@ -535,7 +535,7 @@ class MyStrings {
 
   static const String hint = "0.0";
 
-  static const String google = "Continue with Google";
+  static const String google = "Google";
 
   static const String regGoogle = "Continue with Google";
 
@@ -868,6 +868,8 @@ class MyStrings {
 
   static const String rideRulse = "Ride rules";
 
+  static const String carRules = "Car rules";
+
   static const String errorLocation =
       "Something went wrong while Taking Location";
 
@@ -1044,9 +1046,14 @@ class MyStrings {
 
   static const String yourAverageRatingIs = "Your average rating is";
 
-  static const String riderReviews = "Riders reviews";
+  static const String riderReviews = "Driver reviews";
   static const String driverReviews = "My reviews";
-
+  static const String driver = "Driver";
+  static const String vehicle = "Vehicle";
+  static const String driverInformation = "Driver Information";
+  static const String vehicleInformation = "Vehicle Information";
+  static const String carInfo = "Car Info";
+  static const String apple = "Apple";
   static List<MyLanguageModel> myLanguages = [
     MyLanguageModel(
         languageName: 'English', countryCode: 'US', languageCode: 'en'),

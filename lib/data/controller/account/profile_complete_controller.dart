@@ -55,7 +55,7 @@ class ProfileCompleteController extends GetxController {
     if (countryList.isNotEmpty) {
       selectCountryData(countryList.first);
     }
-    printx(selectedCountryData.toJson());
+    printX(selectedCountryData.toJson());
   }
 
   ProfileResponseModel profileResponseModel = ProfileResponseModel();
@@ -126,7 +126,7 @@ class ProfileCompleteController extends GetxController {
       lastName: lastName,
       mobile: mobileNoController.text,
       email: '',
-      username: "",
+      username: '',
       countryCode: selectedCountryData.countryCode.toString(),
       country: selectedCountryData.country.toString(),
       mobileCode: selectedCountryData.dialCode.toString(),

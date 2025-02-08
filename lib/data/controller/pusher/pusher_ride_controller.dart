@@ -58,9 +58,9 @@ class PusherRideController extends GetxController {
     rideId = rideId;
     update();
 
-    printx('appKey to json ${pusherConfig.toJson()}');
-    printx('appKey $appKey');
-    printx('appKey $cluster');
+    printX('appKey ${pusherConfig.toJson()}');
+    printX('appKey $appKey');
+    printX('appKey $cluster');
 
     configure("private-ride-$rideId");
     isPusherLoading = false;
@@ -97,6 +97,7 @@ class PusherRideController extends GetxController {
     try {
       String authUrl =
           "${UrlContainer.baseUrl}${UrlContainer.pusherAuthenticate}$socketId/$channelName";
+      loggerX("7787878778 ${authUrl}");
       http.Response result = await http.post(
         Uri.parse(authUrl),
         headers: {
@@ -107,27 +108,11 @@ class PusherRideController extends GetxController {
         },
       );
       if (result.statusCode == 200) {
-        printx("global pusher auth success");
-
-        var decodedResult = jsonDecode(result.body);
-
-        if (decodedResult is Map<String, dynamic> &&
-            decodedResult['success'] == true) {
-          if (decodedResult['auth'] is bool) {
-            decodedResult['auth'] = decodedResult['auth'].toString();
-          }
-          if (decodedResult['success'] is bool) {
-            decodedResult['success'] = decodedResult['success'].toString();
-          }
-          return decodedResult;
-        } else {
-          print(
-              "Error: 'success' field is not true or 'decodedResult' is not a Map");
-          return null;
-        }
+        Map<String, dynamic> json = jsonDecode(result.body);
+        loggerX(json);
+        return json;
       } else {
-        print("Error: HTTP status code is not 200");
-        return null;
+        return null; // or throw an exception
       }
     } catch (e) {
       return null; // or throw an exception
@@ -136,46 +121,47 @@ class PusherRideController extends GetxController {
 
   void onConnectionStateChange(
       dynamic currentState, dynamic previousState) async {
-    printx("on connection state change $previousState $currentState");
+    printX("on connection state change $previousState $currentState");
   }
 
   void onEvent(PusherEvent event) {
     try {
-      printx("ONEVENT before: ${event}");
-      event.userId ??= userId;
+      loggerX(event.eventName);
       PusherResponseModel model =
           PusherResponseModel.fromJson(jsonDecode(event.data));
-      loggerX("model: ${event.channelName}");
+      loggerX(event.channelName);
       final modify = PusherResponseModel(
           eventName: event.eventName,
           channelName: event.channelName,
           data: model.data);
-      loggerX("ONEVENT: ${modify}");
       if (event.data == null) return;
 
       updateEvent(modify);
     } catch (e) {
-      printx("Error on Pusher ride controller event: ${e}");
+      printX(e);
     }
   }
 
   void onError(String message, int? code, dynamic e) {
-    printx("onError: $message");
+    printX("onError: $message");
   }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {}
 
   void onSubscriptionError(String message, dynamic e) {
-    printx("onSubscriptionError: $message");
+    printX("onSubscriptionError: $message");
   }
 
 //   --------------------------------Pusher Response --------------------------------
 
   updateEvent(PusherResponseModel event) {
-    printx('event.eventName ${event.eventName}');
+    printX('event.eventName ${event.eventName}');
     if (event.eventName == "online-payment-received") {
       Get.offAllNamed(RouteHelper.dashboard);
     } else if (event.eventName == "message-received") {
+      if (Get.currentRoute == RouteHelper.rideDetailsScreen) {
+        MyUtils.vibrate();
+      }
       if (event.data?.message != null) {
         controller.addEventMessage(event.data!.message!);
       }
@@ -193,7 +179,7 @@ class PusherRideController extends GetxController {
       // }
     } else if (event.eventName == "new_bid") {
       if (event.data?.bid != null) {
-        printx(
+        printX(
             '${detailsController.driverImagePath}/${event.data?.bid?.driver?.avatar}');
         AudioUtils.playAudio(apiClient.getNotificationAudio());
         MyUtils.vibrate();
@@ -226,7 +212,7 @@ class PusherRideController extends GetxController {
         detailsController.updateRide(event.data!.ride!);
       }
       if (event.eventName == "pick_up") {
-        printx('from pusher ${event.data!.ride?.id ?? ''}');
+        printX('from pusher ${event.data!.ride?.id ?? ''}');
       }
     } else {
       if (event.data?.ride != null) {

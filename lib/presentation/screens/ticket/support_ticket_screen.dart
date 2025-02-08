@@ -162,7 +162,7 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
                                                           .ticketList[index]
                                                           .status ??
                                                       "0")
-                                                  .withOpacity(0.2),
+                                                  .withValues(alpha: 0.2),
                                               border: Border.all(
                                                   color: controller
                                                       .getStatusColor(controller
@@ -205,7 +205,7 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
                                                               .priority ??
                                                           "0",
                                                       isPriority: true)
-                                                  .withOpacity(0.2),
+                                                  .withValues(alpha: 0.2),
                                               border: Border.all(
                                                 color:
                                                     controller.getStatusColor(

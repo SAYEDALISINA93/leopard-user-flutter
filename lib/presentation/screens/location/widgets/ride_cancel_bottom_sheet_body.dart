@@ -24,7 +24,7 @@ class RideCancelBottomSheetBody extends StatelessWidget {
             labelTextStyle: boldDefault.copyWith(),
             animatedLabel: false,
             needOutlineBorder: true,
-            fillColor: MyColor.colorGrey.withOpacity(0.1),
+            fillColor: MyColor.colorGrey.withValues(alpha: 0.1),
             labelText: MyStrings.cancelReason.tr,
             hintText: MyStrings.cancelationReason,
             maxLines: 6,

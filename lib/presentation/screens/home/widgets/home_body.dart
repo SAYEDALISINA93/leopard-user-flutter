@@ -152,7 +152,7 @@ class _HomeBodyState extends State<HomeBody> {
                                         Dimensions.mediumRadius),
                                     border: Border.all(
                                         color: MyColor.primaryColor
-                                            .withOpacity(0.1),
+                                            .withValues(alpha: 0.1),
                                         width: 1.5)),
                                 child: CustomSvgPicture(
                                   image: MyIcons.message,

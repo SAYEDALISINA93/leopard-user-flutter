@@ -28,15 +28,16 @@ class _NewRideSectionState extends State<NewRideSection> {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
       if (Get.find<RideHistoryController>().hasNext()) {
-        Get.find<RideHistoryController>()
-            .getRideList(AppStatus.RIDE_PENDING.toString());
+        Get.find<RideHistoryController>().getRideList(
+            AppStatus.RIDE_PENDING.toString(),
+            shouldLoading: false);
       }
     }
   }
 
   @override
   void initState() {
-    printx(Get.arguments);
+    printX(Get.arguments);
     Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(RideRepo(apiClient: Get.find()));
     final controller = Get.put(RideHistoryController(repo: Get.find()));
@@ -55,11 +56,19 @@ class _NewRideSectionState extends State<NewRideSection> {
   }
 
   @override
+  void dispose() {
+    scrollController.removeListener(scrollListener);
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<RideHistoryController>(
       builder: (controller) {
         return RefreshIndicator(
           onRefresh: () async {
+            controller.clearData();
             controller.getRideList(AppStatus.RIDE_PENDING.toString());
           },
           backgroundColor: MyColor.primaryColor,

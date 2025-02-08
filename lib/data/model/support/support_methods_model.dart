@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-SupportMethods supportMethodsFromJson(String str) => SupportMethods.fromJson(json.decode(str));
+SupportMethods supportMethodsFromJson(String str) =>
+    SupportMethods.fromJson(json.decode(str));
 
 String supportMethodsToJson(SupportMethods data) => json.encode(data.toJson());
 
@@ -42,12 +43,17 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        methods: json["methods"] == null ? [] : List<SupportMethod>.from(json["methods"]!.map((x) => SupportMethod.fromJson(x))),
+        methods: json["methods"] == null
+            ? []
+            : List<SupportMethod>.from(
+                json["methods"]!.map((x) => SupportMethod.fromJson(x))),
         methodFilePath: json["method_file_path"],
       );
 
   Map<String, dynamic> toJson() => {
-        "methods": methods == null ? [] : List<dynamic>.from(methods!.map((x) => x.toJson())),
+        "methods": methods == null
+            ? []
+            : List<dynamic>.from(methods!.map((x) => x.toJson())),
         "method_file_path": methodFilePath,
       };
 }

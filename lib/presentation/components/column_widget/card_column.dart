@@ -51,7 +51,10 @@ class CardColumn extends StatelessWidget {
             children: [
               Text(
                 header.tr,
-                style: headerTextStyle ?? regularSmall.copyWith(color: MyColor.getGreyText(), fontWeight: FontWeight.w600),
+                style: headerTextStyle ??
+                    regularSmall.copyWith(
+                        color: MyColor.getGreyText(),
+                        fontWeight: FontWeight.w600),
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
@@ -68,7 +71,9 @@ class CardColumn extends StatelessWidget {
             children: [
               Text(
                 header.tr,
-                style: headerTextStyle ?? regularSmall.copyWith(color: MyColor.getTextColor().withOpacity(0.6)),
+                style: headerTextStyle ??
+                    regularSmall.copyWith(
+                        color: MyColor.getTextColor().withValues(alpha: 0.6)),
                 overflow: TextOverflow.ellipsis,
                 maxLines: maxLine,
               ),
@@ -76,13 +81,34 @@ class CardColumn extends StatelessWidget {
               Text(
                 body.tr,
                 maxLines: bodyMaxLine,
-                style: isDate ? regularDefault.copyWith(fontStyle: FontStyle.italic, color: textColor ?? MyColor.getTextColor(), fontSize: Dimensions.fontSmall) : bodyTextStyle ?? regularSmall.copyWith(color: textColor ?? MyColor.getTextColor(), fontWeight: FontWeight.w500),
+                style: isDate
+                    ? regularDefault.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: textColor ?? MyColor.getTextColor(),
+                        fontSize: Dimensions.fontSmall)
+                    : bodyTextStyle ??
+                        regularSmall.copyWith(
+                            color: textColor ?? MyColor.getTextColor(),
+                            fontWeight: FontWeight.w500),
                 overflow: TextOverflow.ellipsis,
                 textAlign: alignmentEnd ? TextAlign.end : TextAlign.start,
               ),
               const SizedBox(height: Dimensions.space5),
               subBody != null
-                  ? Text(subBody!.tr, maxLines: bodyMaxLine, style: isDate ? regularDefault.copyWith(fontStyle: FontStyle.italic, color: textColor ?? MyColor.getTextColor(), fontSize: Dimensions.fontSmall) : subBodyTextStyle ?? regularSmall.copyWith(color: textColor ?? MyColor.getTextColor().withOpacity(0.5), fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis)
+                  ? Text(subBody!.tr,
+                      maxLines: bodyMaxLine,
+                      style: isDate
+                          ? regularDefault.copyWith(
+                              fontStyle: FontStyle.italic,
+                              color: textColor ?? MyColor.getTextColor(),
+                              fontSize: Dimensions.fontSmall)
+                          : subBodyTextStyle ??
+                              regularSmall.copyWith(
+                                  color: textColor ??
+                                      MyColor.getTextColor()
+                                          .withValues(alpha: 0.5),
+                                  fontWeight: FontWeight.w500),
+                      overflow: TextOverflow.ellipsis)
                   : const SizedBox.shrink()
             ],
           );

@@ -81,7 +81,7 @@ class _HomeOfferRateWidgetState extends State<HomeOfferRateWidget> {
                 Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
-                      color: MyColor.primaryColor.withOpacity(0.05)),
+                      color: MyColor.primaryColor.withValues(alpha: 0.05)),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

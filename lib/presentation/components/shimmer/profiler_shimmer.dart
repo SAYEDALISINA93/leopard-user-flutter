@@ -26,7 +26,7 @@ class ProfilerShimmer extends StatelessWidget {
               width: Dimensions.space50 + 35,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: MyColor.colorGrey.withOpacity(0.3),
+                color: MyColor.colorGrey.withValues(alpha: 0.3),
               ),
             ),
           ),
@@ -39,7 +39,7 @@ class ProfilerShimmer extends StatelessWidget {
                   height: 5,
                   width: context.width / 3,
                   decoration: BoxDecoration(
-                    color: MyColor.colorGrey.withOpacity(0.3),
+                    color: MyColor.colorGrey.withValues(alpha: 0.3),
                   ),
                 ),
               ),
@@ -48,8 +48,8 @@ class ProfilerShimmer extends StatelessWidget {
                 child: Container(
                   height: 5,
                   width: context.width / 3 - 50,
-                  decoration:
-                      BoxDecoration(color: MyColor.colorGrey.withOpacity(0.3)),
+                  decoration: BoxDecoration(
+                      color: MyColor.colorGrey.withValues(alpha: 0.3)),
                 ),
               ),
               SizedBox(height: Dimensions.space5),
@@ -58,7 +58,7 @@ class ProfilerShimmer extends StatelessWidget {
                   height: 5,
                   width: context.width / 4,
                   decoration: BoxDecoration(
-                    color: MyColor.colorGrey.withOpacity(0.3),
+                    color: MyColor.colorGrey.withValues(alpha: 0.3),
                   ),
                 ),
               ),

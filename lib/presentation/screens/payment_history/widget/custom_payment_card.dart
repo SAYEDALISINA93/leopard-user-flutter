@@ -64,15 +64,15 @@ class CustomPaymentCard extends StatelessWidget {
                           vertical: Dimensions.space2),
                       decoration: BoxDecoration(
                           color: MyUtils.paymentStatusColor(
-                                  payment.paymentType ?? '0')
-                              .withOpacity(0.01),
+                                  payment.paymentType ?? '1')
+                              .withValues(alpha: 0.01),
                           borderRadius:
                               BorderRadius.circular(Dimensions.defaultRadius),
                           border: Border.all(
                               color: MyUtils.paymentStatusColor(
                                   payment.paymentType ?? '0'))),
                       child: Text(
-                          MyUtils.paymentStatus(payment.paymentType ?? '0'),
+                          MyUtils.paymentStatus(payment.paymentType ?? '1'),
                           style: regularDefault.copyWith(
                               fontSize: 16,
                               color: MyUtils.paymentStatusColor(
@@ -107,7 +107,8 @@ class CustomPaymentCard extends StatelessWidget {
                           headerTextStyle: regularDefault,
                           bodyTextStyle: regularSmall.copyWith(
                               fontWeight: FontWeight.w500,
-                              color: MyColor.getTextColor().withOpacity(0.6)),
+                              color: MyColor.getTextColor()
+                                  .withValues(alpha: 0.6)),
                         ),
                       ),
                       Expanded(
@@ -120,7 +121,8 @@ class CustomPaymentCard extends StatelessWidget {
                           headerTextStyle: regularDefault,
                           bodyTextStyle: regularSmall.copyWith(
                               fontWeight: FontWeight.w500,
-                              color: MyColor.getTextColor().withOpacity(0.6)),
+                              color: MyColor.getTextColor()
+                                  .withValues(alpha: 0.6)),
                         ),
                       ),
                     ],
@@ -136,7 +138,8 @@ class CustomPaymentCard extends StatelessWidget {
                           headerTextStyle: regularDefault,
                           bodyTextStyle: regularSmall.copyWith(
                               fontWeight: FontWeight.w500,
-                              color: MyColor.getTextColor().withOpacity(0.6)),
+                              color: MyColor.getTextColor()
+                                  .withValues(alpha: 0.6)),
                         ),
                       ),
                       Expanded(
@@ -147,7 +150,8 @@ class CustomPaymentCard extends StatelessWidget {
                           headerTextStyle: regularDefault,
                           bodyTextStyle: regularSmall.copyWith(
                               fontWeight: FontWeight.w500,
-                              color: MyColor.getTextColor().withOpacity(0.6)),
+                              color: MyColor.getTextColor()
+                                  .withValues(alpha: 0.6)),
                         ),
                       ),
                     ],

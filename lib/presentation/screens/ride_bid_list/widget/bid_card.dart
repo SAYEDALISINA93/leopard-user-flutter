@@ -1,4 +1,5 @@
 import 'package:leoparduser/core/helper/string_format_helper.dart';
+import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -45,19 +46,23 @@ class BidCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: MyColor.borderColor, width: .5),
-                          shape: BoxShape.circle),
-                      child: MyImageWidget(
-                          imageUrl:
-                              '${controller.driverImagePath}${bid.driver?.avatar}',
-                          isProfile: true,
-                          height: 40,
-                          width: 40,
-                          radius: 15),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(RouteHelper.driverReviewScreen,
+                          arguments: bid.driver?.id),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: MyColor.borderColor, width: .5),
+                            shape: BoxShape.circle),
+                        child: MyImageWidget(
+                            imageUrl:
+                                '${controller.driverImagePath}${bid.driver?.avatar}',
+                            isProfile: true,
+                            height: 40,
+                            width: 40,
+                            radius: 15),
+                      ),
                     ),
                     const SizedBox(width: Dimensions.space10),
                     Column(
@@ -102,15 +107,17 @@ class BidCard extends StatelessWidget {
               ],
             ),
             spaceDown(Dimensions.space20),
-            Text(MyStrings.rideRulse.tr, style: boldLarge.copyWith()),
-            spaceDown(Dimensions.space20),
-            Column(
-              children: List.generate(
-                (bid.driver?.rules?.length ?? 0),
-                (index) => rulseData(text: bid.driver?.rules?[index] ?? ""),
+            if (bid.driver?.rules?.isNotEmpty ?? false) ...[
+              Text(MyStrings.rideRulse.tr, style: boldLarge.copyWith()),
+              spaceDown(Dimensions.space20),
+              Column(
+                children: List.generate(
+                  (bid.driver?.rules?.length ?? 0),
+                  (index) => rulseData(text: bid.driver?.rules?[index] ?? ""),
+                ),
               ),
-            ),
-            spaceDown(Dimensions.space20),
+              spaceDown(Dimensions.space20),
+            ],
             Row(
               children: [
                 Expanded(

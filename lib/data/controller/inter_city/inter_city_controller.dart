@@ -112,7 +112,7 @@ class InterCityController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     } finally {
       isLoading = false;
       update();
@@ -150,7 +150,7 @@ class InterCityController extends GetxController {
         AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
             jsonDecode(responseModel.responseJson));
         if (model.status == MyStrings.success) {
-          printx(model.remark);
+          printX(model.remark);
         } else {
           CustomSnackBar.error(
               errorList: model.message ?? [MyStrings.somethingWentWrong]);
@@ -159,7 +159,7 @@ class InterCityController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     } finally {
       isSubmitLoading = false;
       update();
@@ -195,7 +195,7 @@ class InterCityController extends GetxController {
         RideFareResponseModel model = RideFareResponseModel.fromJson(
             jsonDecode(responseModel.responseJson));
         if (model.status == MyStrings.success) {
-          printx(model.remark);
+          printX(model.remark);
           rideFare = model.data ?? RideFareModel(status: '-1');
           mainAmount = double.tryParse(rideFare.minAmount.toString()) ?? 0.0;
           update();
@@ -207,7 +207,7 @@ class InterCityController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
   }
 
@@ -229,7 +229,7 @@ class InterCityController extends GetxController {
           "${placemarks[0].street} ${placemarks[0].subThoroughfare} ${placemarks[0].thoroughfare},${placemarks[0].subLocality},${placemarks[0].locality},${placemarks[0].country}";
       update();
     } catch (e) {
-      printx("Error>>>>>>>: $e");
+      printX("Error>>>>>>>: $e");
       CustomSnackBar.error(errorList: [MyStrings.errorLocation]);
     }
   }
@@ -253,7 +253,7 @@ class InterCityController extends GetxController {
 
   AppPaymentMethod selectedPaymentMethod = AppPaymentMethod(id: '-99');
   selectPaymentMethod(AppPaymentMethod method) {
-    printx(method.id);
+    printX(method.id);
     selectedPaymentMethod = method;
     update();
     Get.back();

@@ -163,7 +163,7 @@ class SelectLocationController extends GetxController {
       Placemark placemark = placeMark[0];
       loggerX(placemark.toJson());
       currentAddress.value =
-          '${placemark.name ?? ''}, ${placemark.thoroughfare ?? ''}, ${placemark.subThoroughfare ?? ''}, ${placemark.locality ?? ''}, ${placemark.subAdministrativeArea ?? ''}, ${placemark.administrativeArea ?? ''}, ${placemark.country ?? ''}';
+          '${placemark.locality ?? ''}, ${placemark.subAdministrativeArea ?? ''}, ${placemark.administrativeArea ?? ''}, ${placemark.country ?? ''}';
       update();
       if (index == 0) {
         pickUpController.text = selectedAddressFromSearch.isEmpty
@@ -183,7 +183,7 @@ class SelectLocationController extends GetxController {
                   : selectedAddressFromSearch),
           index);
     }).catchError((e) {
-      printx(e.toString());
+      printX(e.toString());
     });
   }
 
@@ -246,7 +246,7 @@ class SelectLocationController extends GetxController {
       isSearched = false;
       update();
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
   }
 
@@ -273,7 +273,7 @@ class SelectLocationController extends GetxController {
             double.parse(prediction.lat!), double.parse(prediction.lng!));
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
     return null;
   }

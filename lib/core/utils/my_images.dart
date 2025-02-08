@@ -1,5 +1,6 @@
 class MyImages {
-  static const String appLogoBanner = "assets/images/logo/logo_banner_white.png";
+  static const String appLogoBanner =
+      "assets/images/logo/logo_banner_white.png";
   static const String appLogoWhite = "assets/images/logo/app_logo_white.png";
   static const String appLogoIcon = "assets/images/logo/app_icon.png";
 
@@ -18,7 +19,8 @@ class MyImages {
   //IMAGES
   static const String headerBGImage = "assets/img/header_bg.svg";
 
-  static const String headerBackgroundIMAGE = "assets/img/header_background.png";
+  static const String headerBackgroundIMAGE =
+      "assets/img/header_background.png";
 
   static const String defaultAvatar = "assets/img/profile.png";
 
@@ -127,6 +129,7 @@ class MyImages {
   static const String mapDriver = "assets/img/map/driver.png";
   //social
   static const String google = "assets/images/social/google.png";
+  static const String apple = "assets/images/social/apple.png";
   static const String facebook = "assets/images/social/facebook.png";
   static const String linkedin = "assets/images/social/linkedin.png";
 }

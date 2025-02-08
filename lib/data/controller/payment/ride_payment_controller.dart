@@ -104,10 +104,10 @@ class RidePaymentController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isLoading = false;
-    printx(methodList.first.method?.name);
+    printX(methodList.first.method?.name);
     update();
   }
 
@@ -154,7 +154,7 @@ class RidePaymentController extends GetxController {
               PaymentInsertResponseModel.fromJson(
                   jsonDecode(responseModel.responseJson));
           if (model.status == "success") {
-            Get.offAndToNamed(RouteHelper.webViewScreen,
+            Get.toNamed(RouteHelper.webViewScreen,
                 arguments: model.data?.redirectUrl ?? "");
           } else {
             CustomSnackBar.error(
@@ -165,7 +165,7 @@ class RidePaymentController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isSubmitBtnLoading = false;
 

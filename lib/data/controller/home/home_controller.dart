@@ -100,7 +100,7 @@ class HomeController extends GetxController {
     try {
       ResponseModel responseModel = await homeRepo.getData();
       if (responseModel.statusCode == 200) {
-        printx(responseModel.responseJson);
+        printX(responseModel.responseJson);
         DashBoardResponseModel model = DashBoardResponseModel.fromJson(
             jsonDecode(responseModel.responseJson));
         if (model.status == MyStrings.success) {
@@ -115,7 +115,7 @@ class HomeController extends GetxController {
           gatewayImagePath = model.data?.gatewayImagePath ?? '';
           userImagePath = model.data?.userImagePath ?? '';
           update();
-          printx(userImagePath);
+          printX(userImagePath);
         } else {
           CustomSnackBar.error(
               errorList: model.message ?? [MyStrings.somethingWentWrong]);
@@ -124,7 +124,7 @@ class HomeController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     } finally {
       isLoading = false;
       update();
@@ -161,7 +161,7 @@ class HomeController extends GetxController {
         CreateRideResponseModel model = CreateRideResponseModel.fromJson(
             jsonDecode(responseModel.responseJson));
         if (model.status == MyStrings.success) {
-          printx(model.remark);
+          printX(model.remark);
           clearData();
           Get.toNamed(RouteHelper.rideDetailsScreen,
               arguments: model.data?.ride?.id);
@@ -174,7 +174,7 @@ class HomeController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     } finally {
       isSubmitLoading = false;
       update();
@@ -230,7 +230,7 @@ class HomeController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     update();
   }
@@ -282,15 +282,15 @@ class HomeController extends GetxController {
   updateMainAmount(double amount) {
     mainAmount = amount;
     amountController.text = amount.toString();
-    printx(amount);
-    printx(mainAmount);
-    printx(amountController.text);
+    printX(amount);
+    printX(mainAmount);
+    printX(amountController.text);
     update();
   }
 
   AppPaymentMethod selectedPaymentMethod = MyUtils.getDefaultPaymentMethod()[0];
   selectPaymentMethod(AppPaymentMethod method) {
-    printx(method.id);
+    printX(method.id);
     selectedPaymentMethod = method;
     update();
     Get.back();

@@ -23,7 +23,7 @@ class CardRow extends StatelessWidget {
         Text(
           header.tr,
           style: regularSmall.copyWith(
-              color: MyColor.getTextColor().withOpacity(0.6)),
+              color: MyColor.getTextColor().withValues(alpha: 0.6)),
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: Dimensions.space5),

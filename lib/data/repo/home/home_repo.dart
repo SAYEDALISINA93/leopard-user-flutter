@@ -22,7 +22,7 @@ class HomeRepo {
   Future<ResponseModel> createRide(
       {required CreateRideRequestModel data}) async {
     String url = "${UrlContainer.baseUrl}${UrlContainer.createRide}";
-    printx(data.toJson());
+    printX(data.toJson());
     ResponseModel responseModel = await apiClient
         .request(url, Method.postMethod, data.toMap(), passHeader: true);
     return responseModel;

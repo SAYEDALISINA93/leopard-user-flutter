@@ -16,13 +16,13 @@ class TransactionCardShimmer extends StatelessWidget {
         Row(
           children: [
             Shimmer.fromColors(
-                baseColor: MyColor.colorGrey.withOpacity(0.2),
-                highlightColor: MyColor.primaryColor.withOpacity(0.7),
+                baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+                highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
                 child: Container(
                     margin: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(
-                        color: MyColor.colorGrey.withOpacity(0.2),
+                        color: MyColor.colorGrey.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(50)),
                     height: 40,
                     width: 40)),
@@ -31,21 +31,21 @@ class TransactionCardShimmer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Shimmer.fromColors(
-                    baseColor: MyColor.colorGrey.withOpacity(0.2),
-                    highlightColor: MyColor.primaryColor.withOpacity(0.7),
+                    baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+                    highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
                     child: Container(
                         decoration: BoxDecoration(
-                            color: MyColor.colorGrey.withOpacity(0.2),
+                            color: MyColor.colorGrey.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(1)),
                         height: 10,
                         width: width * 1.5)),
                 const SizedBox(height: 5),
                 Shimmer.fromColors(
-                    baseColor: MyColor.colorGrey.withOpacity(0.2),
-                    highlightColor: MyColor.primaryColor.withOpacity(0.7),
+                    baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+                    highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
                     child: Container(
                         decoration: BoxDecoration(
-                            color: MyColor.colorGrey.withOpacity(0.2),
+                            color: MyColor.colorGrey.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(1)),
                         height: 7,
                         width: width * 1.5)),
@@ -57,22 +57,22 @@ class TransactionCardShimmer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Shimmer.fromColors(
-              baseColor: MyColor.colorGrey.withOpacity(0.2),
-              highlightColor: MyColor.primaryColor.withOpacity(0.7),
+              baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+              highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
               child: Container(
                   decoration: BoxDecoration(
-                      color: MyColor.colorGrey.withOpacity(0.2),
+                      color: MyColor.colorGrey.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(1)),
                   height: 7,
                   width: width * 1.5),
             ),
             const SizedBox(height: 5),
             Shimmer.fromColors(
-              baseColor: MyColor.colorGrey.withOpacity(0.2),
-              highlightColor: MyColor.primaryColor.withOpacity(0.7),
+              baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+              highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
               child: Container(
                   decoration: BoxDecoration(
-                      color: MyColor.colorGrey.withOpacity(0.2),
+                      color: MyColor.colorGrey.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(1)),
                   height: 7,
                   width: width * 1.5),

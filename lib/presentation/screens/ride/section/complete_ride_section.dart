@@ -27,8 +27,9 @@ class _CompleteRideSectionState extends State<CompleteRideSection> {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
       if (Get.find<RideHistoryController>().hasNext()) {
-        Get.find<RideHistoryController>()
-            .getRideList(AppStatus.RIDE_COMPLETED.toString());
+        Get.find<RideHistoryController>().getRideList(
+            AppStatus.RIDE_COMPLETED.toString(),
+            shouldLoading: false);
       }
     }
   }
@@ -36,8 +37,8 @@ class _CompleteRideSectionState extends State<CompleteRideSection> {
   //
   @override
   void initState() {
-    printx(Get.arguments);
-    printx(widget.isInterCity);
+    printX(Get.arguments);
+    printX(widget.isInterCity);
     Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(RideRepo(apiClient: Get.find()));
     final controller = Get.put(RideHistoryController(repo: Get.find()));
@@ -60,6 +61,7 @@ class _CompleteRideSectionState extends State<CompleteRideSection> {
     return GetBuilder<RideHistoryController>(builder: (controller) {
       return RefreshIndicator(
         onRefresh: () async {
+          controller.clearData();
           controller.getRideList(AppStatus.RIDE_COMPLETED.toString());
         },
         backgroundColor: MyColor.primaryColor,

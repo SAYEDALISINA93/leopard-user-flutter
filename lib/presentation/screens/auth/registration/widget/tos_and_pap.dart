@@ -26,7 +26,7 @@ class ClickableTermsText extends StatelessWidget {
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 // Replace this with your action when 'Terms of Service' is clicked
-                printx('Terms of Service clicked');
+                printX('Terms of Service clicked');
                 // You can navigate to a new page or perform any action here
               },
           ),
@@ -43,7 +43,7 @@ class ClickableTermsText extends StatelessWidget {
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 // Replace this with your action when 'Privacy Policy' is clicked
-                printx('Privacy Policy clicked');
+                printX('Privacy Policy clicked');
                 // You can navigate to a new page or perform any action here
               },
           ),

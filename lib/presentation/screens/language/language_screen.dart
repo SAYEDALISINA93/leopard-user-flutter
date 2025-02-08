@@ -43,8 +43,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    printx(MyStrings.language);
-    printx(MyStrings.language.tr);
+    printX(MyStrings.language);
+    printX(MyStrings.language.tr);
     return GetBuilder<MyLanguageController>(
       builder: (controller) => Scaffold(
         backgroundColor: MyColor.getScreenBgColor(),

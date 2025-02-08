@@ -34,7 +34,7 @@ class ServiceCard extends StatelessWidget {
                     horizontal: Dimensions.space5, vertical: Dimensions.space5),
                 decoration: BoxDecoration(
                   color: service.id == controller.selectedService.id
-                      ? MyColor.primaryColor.withOpacity(0.1)
+                      ? MyColor.primaryColor.withValues(alpha: 0.1)
                       : MyColor.colorWhite,
                   borderRadius: BorderRadius.circular(16),
                   border: service.id == controller.selectedService.id

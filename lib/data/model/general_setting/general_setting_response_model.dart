@@ -109,6 +109,7 @@ class GeneralSetting {
   String? createdAt;
   String? updatedAt;
   String? googleLogin;
+  String? appleLogin;
   List<Countries>? operatingCountry;
   String? notificationAudio;
 
@@ -152,6 +153,7 @@ class GeneralSetting {
     this.createdAt,
     this.updatedAt,
     this.googleLogin,
+    this.appleLogin,
     this.operatingCountry,
     this.notificationAudio,
   });
@@ -202,6 +204,7 @@ class GeneralSetting {
         createdAt: json["created_at"].toString(),
         updatedAt: json["updated_at"]?.toString(),
         googleLogin: json["google_login"].toString(),
+        appleLogin: json["apple_login"].toString(),
         operatingCountry: json["operating_country"] == null
             ? []
             : List<Countries>.from(
@@ -249,6 +252,7 @@ class GeneralSetting {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "google_login": googleLogin,
+        "apple_login": appleLogin,
         "operating_country": operatingCountry?.map((e) => e.toJson()).toList(),
         "notification_audio": notificationAudio,
       };

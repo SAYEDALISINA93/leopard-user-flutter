@@ -138,7 +138,7 @@ class RideDetailsController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isLoading = false;
     update();
@@ -160,7 +160,7 @@ class RideDetailsController extends GetxController {
       totalBids++;
     }
     update();
-    printx('update total bids $totalBids');
+    printX('update total bids $totalBids');
   }
 
   Future<void> acceptBid(String id) async {
@@ -181,7 +181,7 @@ class RideDetailsController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     update();
@@ -215,7 +215,7 @@ class RideDetailsController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     isSosLoading = false;
@@ -245,7 +245,7 @@ class RideDetailsController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isCancelLoading = false;
     update();
@@ -269,7 +269,7 @@ class RideDetailsController extends GetxController {
             jsonDecode(responseModel.responseJson));
 
         if (model.status == MyStrings.success) {
-          printx(model.status);
+          printX(model.status);
           reviewMsgController.text = '';
           rating = 0.0;
           update();
@@ -283,7 +283,7 @@ class RideDetailsController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isReviewLoading = false;
     update();

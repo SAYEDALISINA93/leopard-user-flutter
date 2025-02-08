@@ -23,8 +23,8 @@ class DriverProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    printx(driverImage);
-    printx(serviceImage);
+    printX(driverImage);
+    printX(serviceImage);
     return Row(
       children: [
         Expanded(
@@ -43,11 +43,10 @@ class DriverProfileWidget extends StatelessWidget {
                 height: 50,
                 width: 50,
                 child: ClipOval(
-                  child: MyImageWidget(
-                      imageUrl: driverImage,
-                      boxFit: BoxFit.cover,
-                      isProfile: true),
-                ),
+                    child: MyImageWidget(
+                        imageUrl: driverImage,
+                        boxFit: BoxFit.cover,
+                        isProfile: true)),
               ),
               imgHeight: 40,
               imgWidth: 40,
@@ -67,13 +66,15 @@ class DriverProfileWidget extends StatelessWidget {
                     width: 50),
                 const SizedBox(width: Dimensions.space10),
                 CardColumn(
-                    header: ride.service?.name ?? '',
-                    body: ride.driver?.brand?.name ?? '',
-                    headerTextStyle: regularMediumLarge.copyWith(
-                        color: MyColor.primaryColor),
-                    bodyTextStyle:
-                        regularMediumLarge.copyWith(color: MyColor.bodyText),
-                    alignmentCenter: true),
+                  header: ride.service?.name ?? '',
+                  body: ride.driver?.brand?.name ?? '',
+                  headerTextStyle:
+                      regularMediumLarge.copyWith(color: MyColor.primaryColor),
+                  bodyTextStyle:
+                      regularMediumLarge.copyWith(color: MyColor.bodyText),
+                  alignmentCenter: true,
+                  isOnlyHeader: ride.driver?.brand == null,
+                ),
               ],
             ),
           ),

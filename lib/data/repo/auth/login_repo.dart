@@ -123,6 +123,8 @@ class LoginRepo {
 
     final response = await http.post(url, body: map, headers: {
       "Accept": "application/json",
+      "dev-token":
+          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
     });
     EmailVerificationModel model =
         EmailVerificationModel.fromJson(jsonDecode(response.body));
@@ -154,12 +156,12 @@ class LoginRepo {
 
     if (deviceToken.isEmpty) {
       firebaseMessaging.getToken().then((fcmDeviceToken) async {
-        printx('------$fcmDeviceToken');
+        printX('------$fcmDeviceToken');
         success = await sendUpdatedToken(fcmDeviceToken ?? '');
       });
     } else {
       firebaseMessaging.onTokenRefresh.listen((fcmDeviceToken) async {
-        printx('------$fcmDeviceToken');
+        printX('------$fcmDeviceToken');
         if (deviceToken == fcmDeviceToken) {
           success = true;
         } else {

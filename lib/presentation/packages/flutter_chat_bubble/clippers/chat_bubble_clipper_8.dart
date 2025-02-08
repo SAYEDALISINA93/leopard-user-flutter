@@ -43,7 +43,8 @@ class ChatBubbleClipper8 extends CustomClipper<Path> {
       path2.arcToPoint(Offset(radius, radius / 6),
           radius: Radius.circular(radius), clockwise: false);
       path2.lineTo(radius / 1.5, radius / 1.5);
-      path2.arcToPoint(const Offset(0, 0), radius: Radius.circular(radius * 1.3));
+      path2.arcToPoint(const Offset(0, 0),
+          radius: Radius.circular(radius * 1.3));
 
       path.addPath(path2, const Offset(0, 0));
     }

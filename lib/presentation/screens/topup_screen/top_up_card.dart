@@ -25,7 +25,7 @@ class TopUpCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        printx('=> press');
+        printX('=> press');
       },
       child: Container(
         margin: const EdgeInsetsDirectional.only(top: 10),
@@ -36,7 +36,7 @@ class TopUpCard extends StatelessWidget {
             side: BorderSide(
               color: selected
                   ? MyColor.primaryColor
-                  : MyColor.rideBorderColor.withOpacity(.9),
+                  : MyColor.rideBorderColor.withValues(alpha: .9),
             ),
           ),
           color: Colors.white,

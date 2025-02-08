@@ -32,7 +32,7 @@ class ReviewController extends GetxController {
           driver = model.data?.driver;
           rider = model.data?.rider;
           driverImagePath =
-              "${UrlContainer.domainUrl}/${model.data?.userImagePath}";
+              "${UrlContainer.domainUrl}/${model.data?.driverImagePath}";
           userImagePath =
               "${UrlContainer.domainUrl}/${model.data?.userImagePath}";
         } else {

@@ -42,7 +42,7 @@ class BottomSheetRow extends StatelessWidget {
                   Text(
                     header.tr,
                     style: regularDefault.copyWith(
-                        color: MyColor.getTextColor().withOpacity(0.6)),
+                        color: MyColor.getTextColor().withValues(alpha: 0.6)),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
@@ -62,7 +62,7 @@ class BottomSheetRow extends StatelessWidget {
                   child: Text(
                     header.tr,
                     style: regularDefault.copyWith(
-                        color: MyColor.getTextColor().withOpacity(0.6)),
+                        color: MyColor.getTextColor().withValues(alpha: 0.6)),
                     overflow: TextOverflow.ellipsis,
                   )),
               Expanded(

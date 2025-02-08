@@ -40,7 +40,7 @@ class PassengerBottomSheet extends StatelessWidget {
                         horizontal: Dimensions.space25,
                         vertical: Dimensions.space5),
                     decoration: BoxDecoration(
-                      color: MyColor.borderColor.withOpacity(0.5),
+                      color: MyColor.borderColor.withValues(alpha: 0.5),
                       borderRadius:
                           BorderRadius.circular(Dimensions.largeRadius),
                     ),
@@ -63,7 +63,7 @@ class PassengerBottomSheet extends StatelessWidget {
                         horizontal: Dimensions.space25,
                         vertical: Dimensions.space5),
                     decoration: BoxDecoration(
-                        color: MyColor.borderColor.withOpacity(0.5),
+                        color: MyColor.borderColor.withValues(alpha: 0.5),
                         borderRadius:
                             BorderRadius.circular(Dimensions.largeRadius)),
                     child: Text(

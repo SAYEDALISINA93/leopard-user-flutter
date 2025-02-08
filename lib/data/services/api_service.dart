@@ -99,11 +99,11 @@ class ApiClient extends GetxService {
         }
       }
 
-      printx('url--------------${uri.toString()}');
-      printx('params-----------${params.toString()}');
-      printx('status-----------${response.statusCode}');
-      printx('body-------------${response.body.toString()}');
-      printx('token------------$token');
+      printX('url--------------${uri.toString()}');
+      printX('params-----------${params.toString()}');
+      printX('status-----------${response.statusCode}');
+      printX('body-------------${response.body.toString()}');
+      printX('token------------$token');
       if (response.statusCode == 200) {
         if (response.body.isEmpty) {
           Get.offAllNamed(RouteHelper.loginScreen);
@@ -230,6 +230,16 @@ class ApiClient extends GetxService {
     GeneralSettingResponseModel model =
         GeneralSettingResponseModel.fromJson(jsonDecode(pre));
     bool enable = model.data?.generalSetting?.googleLogin == '1' ? true : false;
+    return enable;
+  }
+
+  bool isAppleLoginEnable() {
+    String pre =
+        sharedPreferences.getString(SharedPreferenceHelper.generalSettingKey) ??
+            '';
+    GeneralSettingResponseModel model =
+        GeneralSettingResponseModel.fromJson(jsonDecode(pre));
+    bool enable = model.data?.generalSetting?.appleLogin == '1' ? true : false;
     return enable;
   }
 

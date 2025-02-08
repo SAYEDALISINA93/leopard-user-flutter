@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -77,8 +76,8 @@ class LoginController extends GetxController {
             : responseModel.data?.user?.profileComplete.toString() == 'null'
                 ? true
                 : false;
-    printx('responseModel.data?.user?.SmsV ${responseModel.data?.user?.sv}');
-    printx(
+    printX('responseModel.data?.user?.SmsV ${responseModel.data?.user?.sv}');
+    printX(
         'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.profileComplete}');
 
     if (needSmsVerification == false && needEmailVerification == false) {
@@ -243,7 +242,7 @@ class LoginController extends GetxController {
       await socialLoginUser(
           provider: 'google', accessToken: googleAuth.accessToken ?? '');
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
 
       CustomSnackBar.error(errorList: [e.toString()]);
     }
@@ -285,7 +284,7 @@ class LoginController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
 
     isGoogle = false;

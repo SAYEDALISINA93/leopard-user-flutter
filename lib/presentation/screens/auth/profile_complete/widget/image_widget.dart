@@ -33,7 +33,7 @@ class _CustomImageWidgetState extends State<CustomImageWidget> {
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-                width: .5, color: MyColor.primaryColor.withOpacity(.1))),
+                width: .5, color: MyColor.primaryColor.withValues(alpha: .1))),
         child: ClipOval(
           child: Image.asset(
             MyImages.profileImage,

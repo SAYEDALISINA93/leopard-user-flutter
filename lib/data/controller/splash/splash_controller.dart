@@ -132,7 +132,7 @@ class SplashController extends GetxController {
             ? {}
             : resJson['data']['file'];
         Map<String, String> json = {};
-        printx(value);
+        printX(value);
         value.forEach((key, value) {
           json[key] = value.toString();
         });

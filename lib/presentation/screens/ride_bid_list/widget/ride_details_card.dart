@@ -134,7 +134,7 @@ class RideDetailsCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: MyColor.colorGrey2.withOpacity(0.5),
+              color: MyColor.colorGrey2.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
             ),
             child: Row(
@@ -150,7 +150,7 @@ class RideDetailsCard extends StatelessWidget {
                       const SizedBox(width: Dimensions.space5),
                       InkWell(
                         onTap: () {
-                          printx(ride.otp);
+                          printX(ride.otp);
                         },
                         child: const CustomSvgPicture(
                             image: MyIcons.copy,

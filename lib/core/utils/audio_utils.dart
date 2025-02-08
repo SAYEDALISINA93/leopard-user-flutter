@@ -5,7 +5,7 @@ import 'package:leoparduser/data/services/api_service.dart';
 
 class AudioUtils {
   static Future<void> playAudio(String path) async {
-    printx('isNotificationAudioEnable: ${path}');
+    printX('isNotificationAudioEnable: ${path}');
     if (Get.find<ApiClient>().isNotificationAudioEnable() == true) {
       AudioPlayer player = AudioPlayer();
       try {
@@ -13,7 +13,7 @@ class AudioUtils {
         await player.setUrl(path);
         await player.play();
       } catch (e) {
-        printx(e);
+        printX(e);
       }
     }
   }

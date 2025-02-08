@@ -23,7 +23,7 @@ class BottomSheetHeaderRow extends StatelessWidget {
             width: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: MyColor.colorGrey.withOpacity(0.2),
+              color: MyColor.colorGrey.withValues(alpha: 0.2),
             ),
           ),
         ),

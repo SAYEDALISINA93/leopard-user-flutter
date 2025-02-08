@@ -98,7 +98,8 @@ class AccountUserCard extends StatelessWidget {
                             style: subtitleStyle ??
                                 regularDefault.copyWith(
                                     fontSize: Dimensions.fontSmall,
-                                    color: MyColor.bodyText.withOpacity(0.8)),
+                                    color: MyColor.bodyText
+                                        .withValues(alpha: 0.8)),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis),
                         const SizedBox(height: Dimensions.space5),
