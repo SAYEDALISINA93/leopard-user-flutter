@@ -74,6 +74,7 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
             }
           },
           child: Scaffold(
+            extendBody: true,
             body: Stack(
               children: [
                 controller.isLoading
@@ -126,10 +127,10 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
                       shouldCloseOnMinExtent: true,
                       expand: false,
                       initialChildSize:
-                          0.30, // initial height (percentage of screen height)
-                      minChildSize: 0.30, // minimum height when fully collapsed
-                      maxChildSize: 0.50, // maximum height when fully expanded
-                      snapSizes: [0.3, 0.4, 0.5],
+                          0.5, // initial height (percentage of screen height)
+                      minChildSize: 0.4, // minimum height when fully collapsed
+                      maxChildSize: 0.65, // maximum height when fully expanded
+                      snapSizes: [0.4, 0.5, 0.6],
                       snapAnimationDuration: Duration(milliseconds: 500),
                       builder: (context, scrollController) {
                         return LayoutBuilder(

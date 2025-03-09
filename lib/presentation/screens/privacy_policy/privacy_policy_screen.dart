@@ -45,7 +45,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
               : controller.list[controller.selectedIndex].dataValues?.title ??
                   '',
           bgColor: MyColor.primaryColor,
-          isTitleCenter: true,
+          isTitleCenter: false,
         ),
         body: controller.isLoading
             ? Padding(

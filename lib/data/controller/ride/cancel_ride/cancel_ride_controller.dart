@@ -50,7 +50,7 @@ class CancelRideController extends GetxController {
             CancelRideListResponseModel.fromJson(
                 jsonDecode(responseModel.responseJson));
         if (model.status == MyStrings.success) {
-          printx(model.status);
+          printX(model.status);
           nextPageUrl = model.data?.cancelRides?.nextPageUrl;
           cancelRideList.addAll(model.data?.cancelRides?.data ?? []);
           update();
@@ -62,7 +62,7 @@ class CancelRideController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isLoading = false;
     update();

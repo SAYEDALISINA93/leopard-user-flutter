@@ -7,9 +7,53 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:723926195144:android:9085b1de7ff80c9874befd",
+        "mobilesdk_app_id": "1:723926195144:android:e912b230d97c67e274befd",
         "android_client_info": {
-          "package_name": "com.leopard.rider"
+          "package_name": "app.theleopard.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723926195144-6ddfp9j22ivfeatnlqss1pddv0vmuc7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.theleopard.driver",
+            "certificate_hash": "fd9aae2876c4ecba2aaa6b1a9eb2f9ac84deb450"
+          }
+        },
+        {
+          "client_id": "723926195144-5nskc46mqvo83u33rg75fkpruaj992h3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSNEWOwQsQ8XgegBlFk4M0DJ_8opz5vik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723926195144-5nskc46mqvo83u33rg75fkpruaj992h3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "723926195144-7bgfdiu4bnrh7q7hpqi1904feejq1v7v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.leopard.user"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723926195144:android:53221f6f66c3a0f074befd",
+        "android_client_info": {
+          "package_name": "app.theleopard.rider"
         }
       },
       "oauth_client": [

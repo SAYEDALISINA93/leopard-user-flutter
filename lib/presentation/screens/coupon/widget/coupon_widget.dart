@@ -86,7 +86,7 @@ class MyCouponCard extends StatelessWidget {
                                 horizontal: Dimensions.space10,
                                 vertical: Dimensions.space5),
                             decoration: BoxDecoration(
-                              color: MyColor.colorGreen.withOpacity(0.08),
+                              color: MyColor.colorGreen.withValues(alpha: 0.08),
                               borderRadius: BorderRadius.circular(
                                   Dimensions.mediumRadius),
                             ),
@@ -119,7 +119,7 @@ class MyCouponCard extends StatelessWidget {
                             horizontal: Dimensions.space10,
                             vertical: Dimensions.space5),
                         decoration: BoxDecoration(
-                          color: MyColor.primaryColor.withOpacity(0.05),
+                          color: MyColor.primaryColor.withValues(alpha: 0.05),
                           borderRadius:
                               BorderRadius.circular(Dimensions.mediumRadius),
                         ),

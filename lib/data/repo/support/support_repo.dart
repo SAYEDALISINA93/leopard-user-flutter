@@ -43,8 +43,11 @@ class SupportRepo {
     };
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.headers
-        .addAll(<String, String>{'Authorization': 'Bearer ${apiClient.token}'});
+    request.headers.addAll(<String, String>{
+      'Authorization': 'Bearer ${apiClient.token}',
+      "dev-token":
+          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+    });
 
     if (model.list != null && model.list!.isNotEmpty) {
       for (var file in model.list!) {
@@ -92,11 +95,14 @@ class SupportRepo {
       Map<String, String> map = {
         'message': message.toString(),
       };
-      printx(fileList.map((e) => e.path));
+      printX(fileList.map((e) => e.path));
       var request = http.MultipartRequest('POST', Uri.parse(url));
 
-      request.headers.addAll(
-          <String, String>{'Authorization': 'Bearer ${apiClient.token}'});
+      request.headers.addAll(<String, String>{
+        'Authorization': 'Bearer ${apiClient.token}',
+        "dev-token":
+            "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+      });
 
       for (var file in fileList) {
         request.files.add(http.MultipartFile(
@@ -111,7 +117,7 @@ class SupportRepo {
       AuthorizationResponseModel model =
           AuthorizationResponseModel.fromJson(jsonDecode(jsonResponse));
 
-      printx("-=----------------------$jsonResponse");
+      printX("-=----------------------$jsonResponse");
 
       if (model.status?.toLowerCase() == MyStrings.success.toLowerCase()) {
         // CustomSnackBar.success(successList: model.message?.success ?? []);

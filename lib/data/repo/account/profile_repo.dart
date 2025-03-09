@@ -26,7 +26,7 @@ class ProfileRepo {
 
       String url =
           '${UrlContainer.baseUrl}${isProfile ? UrlContainer.updateProfileEndPoint : UrlContainer.profileCompleteEndPoint}';
-      printx(url);
+      printX(url);
       var request = http.MultipartRequest('POST', Uri.parse(url));
       Map<String, String> finalMap = {
         'username': m.username,
@@ -42,9 +42,14 @@ class ProfileRepo {
         'city': m.city ?? '',
         'reference': m.refer ?? '',
       };
-      printx(m.image);
+      printX(m.image);
       request.headers.addAll(
-          <String, String>{'Authorization': 'Bearer ${apiClient.token}'});
+        <String, String>{
+          'Authorization': 'Bearer ${apiClient.token}',
+          "dev-token":
+              "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+        },
+      );
       if (m.image != null) {
         request.files.add(http.MultipartFile(
             'image', m.image!.readAsBytes().asStream(), m.image!.lengthSync(),

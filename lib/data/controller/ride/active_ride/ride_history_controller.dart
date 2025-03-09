@@ -38,14 +38,14 @@ class RideHistoryController extends GetxController {
     username = repo.apiClient.getCurrencyOrUsername(isCurrency: false);
     rideList = [];
     isInterCity = isIntraCity;
-    page = 0;
+    clearData();
     update();
   }
 
   List<RideModel> rideList = [];
 
-  Future<void> getRideList(String status) async {
-    isLoading = true;
+  Future<void> getRideList(String status, {bool shouldLoading = true}) async {
+    isLoading = shouldLoading;
     page++;
     update();
 
@@ -59,6 +59,7 @@ class RideHistoryController extends GetxController {
             AllResponseModel.fromJson(jsonDecode(responseModel.responseJson));
         if (model.status == "success") {
           rideList = model.data?.rides?.data ?? [];
+          nextPageUrl = model.data?.rides?.nextPageUrl;
           update();
         } else {
           CustomSnackBar.error(
@@ -68,7 +69,7 @@ class RideHistoryController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     isLoading = false;
@@ -98,7 +99,7 @@ class RideHistoryController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isLoading = false;
     update();
@@ -132,7 +133,7 @@ class RideHistoryController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     isSosLoading = false;
@@ -141,6 +142,7 @@ class RideHistoryController extends GetxController {
   }
 
   bool hasNext() {
+    printX(nextPageUrl);
     return nextPageUrl != null &&
             nextPageUrl!.isNotEmpty &&
             nextPageUrl != 'null'
@@ -149,5 +151,10 @@ class RideHistoryController extends GetxController {
   }
 
 //
-  clearData() {}
+  clearData() {
+    rideList = [];
+    nextPageUrl = null;
+    page = 0;
+    update();
+  }
 }

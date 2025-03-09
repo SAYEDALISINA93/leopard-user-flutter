@@ -55,6 +55,7 @@ class RideModel {
 
   GlobalDriverInfo? driver;
   UserReview? userReview;
+  UserReview? driverReview;
   CouponModel? coupon;
 
   RideModel({
@@ -98,6 +99,7 @@ class RideModel {
     this.user,
     this.driver,
     this.userReview,
+    this.driverReview,
     this.coupon,
   });
 
@@ -150,6 +152,9 @@ class RideModel {
         userReview: json["user_review"] == null
             ? null
             : UserReview.fromJson(json["user_review"]),
+        driverReview: json["driver_review"] == null
+            ? null
+            : UserReview.fromJson(json["driver_review"]),
         user: json["user"] == null ? null : GlobalUser.fromJson(json["user"]),
         driver: json["driver"] == null
             ? null
@@ -196,6 +201,7 @@ class RideModel {
         "user": user,
         "service": service,
         "driver": driver,
+        "driver_review": driverReview,
       };
 
   RideModel copyWith({

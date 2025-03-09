@@ -9,6 +9,7 @@ class GlobalUser {
   String? balance;
   String? countryCode;
   String? mobile;
+  String? dialCode;
   String? refBy; //
   String? address;
   String? city;
@@ -59,6 +60,7 @@ class GlobalUser {
     this.updatedAt,
     this.balance,
     this.imageWithPath,
+    this.dialCode,
   });
 
   factory GlobalUser.fromJson(Map<String, dynamic> json) => GlobalUser(
@@ -71,6 +73,7 @@ class GlobalUser {
         image: json["image"].toString(),
         balance: json["balance"].toString(),
         countryCode: json["country_code"].toString(),
+        dialCode: json["dial_code"].toString(),
         mobile: json["mobile"].toString(),
         refBy: json["ref_by"].toString(),
         address: json["address"] ?? "",
@@ -102,6 +105,7 @@ class GlobalUser {
         "avatar": image,
         "balance": balance,
         "country_code": countryCode,
+        "dial_code": dialCode,
         "mobile": mobile,
         "ref_by": refBy,
         "address": address,

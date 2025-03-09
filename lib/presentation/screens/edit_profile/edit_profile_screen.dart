@@ -76,6 +76,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 controller: controller.firstNameController,
                                 labelText: MyStrings.firstName.tr,
                                 onChanged: (value) {},
+                                readOnly: true,
+                                fillColor: MyColor.colorGrey.withOpacity(0.1),
                                 focusNode: controller.firstNameFocusNode,
                                 nextFocus: controller.lastNameFocusNode,
                                 textInputType: TextInputType.text,
@@ -96,6 +98,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 controller: controller.lastNameController,
                                 labelText: MyStrings.lastName.tr,
                                 onChanged: (value) {},
+                                readOnly: true,
+                                fillColor: MyColor.colorGrey.withOpacity(0.1),
                                 focusNode: controller.lastNameFocusNode,
                                 nextFocus: controller.emailFocusNode,
                                 textInputType: TextInputType.text,
@@ -117,7 +121,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 onChanged: (value) {},
                                 focusNode: controller.emailFocusNode,
                                 readOnly: true,
-                                fillColor: MyColor.colorGrey.withOpacity(0.1),
+                                fillColor:
+                                    MyColor.colorGrey.withValues(alpha: 0.1),
                                 textInputType: TextInputType.emailAddress,
                                 inputAction: TextInputAction.next,
                                 validator: (value) {
@@ -137,7 +142,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 onChanged: (value) {},
                                 focusNode: controller.mobileNoFocusNode,
                                 readOnly: true,
-                                fillColor: MyColor.colorGrey.withOpacity(0.1),
+                                fillColor:
+                                    MyColor.colorGrey.withValues(alpha: 0.1),
                                 textInputType: TextInputType.phone,
                                 inputAction: TextInputAction.next,
                                 validator: (value) {

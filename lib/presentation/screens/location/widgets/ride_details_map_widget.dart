@@ -69,7 +69,8 @@ class RideDetailsMapWidget extends StatelessWidget {
                             width: 50,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: MyColor.colorGrey.withOpacity(0.2)),
+                                color:
+                                    MyColor.colorGrey.withValues(alpha: 0.2)),
                           ),
                         ),
                         const SizedBox(height: Dimensions.space20),
@@ -145,7 +146,7 @@ class RideDetailsMapWidget extends StatelessWidget {
                             horizontal: Dimensions.space10,
                             vertical: Dimensions.space15),
                         decoration: BoxDecoration(
-                            color: MyColor.primaryColor.withOpacity(0.1),
+                            color: MyColor.primaryColor.withValues(alpha: 0.1),
                             borderRadius:
                                 BorderRadius.circular(Dimensions.mediumRadius)),
                         child: SingleChildScrollView(
@@ -200,15 +201,15 @@ class RideDetailsMapWidget extends StatelessWidget {
                           color: MyColor.redCancelTextColor,
                         ),
                       ] else if (ride.paymentStatus == '1' &&
-                          ride.userReview == null) ...[
+                          ride.driverReview == null) ...[
                         RoundedButton(
                           text: MyStrings.review,
                           isOutlined: false,
                           press: () {
                             CustomBottomSheet(
-                                    child: RideDetailsReviewBottomSheet(
-                                        ride: controller.ride))
-                                .customBottomSheet(context);
+                              child: RideDetailsReviewBottomSheet(
+                                  ride: controller.ride),
+                            ).customBottomSheet(context);
                           },
                           textColor: MyColor.colorWhite,
                         ),
@@ -240,7 +241,7 @@ class RideDetailsMapWidget extends StatelessWidget {
                                         Dimensions.space15),
                                     decoration: BoxDecoration(
                                         color: MyColor.primaryColor
-                                            .withOpacity(0.1),
+                                            .withValues(alpha: 0.1),
                                         shape: BoxShape.circle)),
                               ),
                               const SizedBox(height: Dimensions.space20),
@@ -269,7 +270,8 @@ class RideDetailsMapWidget extends StatelessWidget {
                           width: context.width,
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                              color: MyColor.greenSuccessColor.withOpacity(0.1),
+                              color: MyColor.greenSuccessColor
+                                  .withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(
                                   Dimensions.mediumRadius)),
                           child: Center(
@@ -285,7 +287,7 @@ class RideDetailsMapWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: MyUtils.getRideStatusColor(
                                       AppStatus.RIDE_CANCELED)
-                                  .withOpacity(0.1),
+                                  .withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(
                                   Dimensions.mediumRadius),
                               border: Border.all(
@@ -310,7 +312,7 @@ class RideDetailsMapWidget extends StatelessWidget {
                 DriverSearchWidget(
                   bids: controller.totalBids.toString(),
                   onTap: () {
-                    printx(ride.id.toString());
+                    printX(ride.id.toString());
                     Get.toNamed(RouteHelper.rideBidScreen,
                         arguments: ride.id.toString());
                   },

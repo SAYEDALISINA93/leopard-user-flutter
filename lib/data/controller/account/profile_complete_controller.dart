@@ -50,7 +50,12 @@ class ProfileCompleteController extends GetxController {
 
   initialData() async {
     await loadProfileInfo();
-    //  await getCountryData();
+    countryList = profileRepo.apiClient.getOperatingCountry();
+    update();
+    if (countryList.isNotEmpty) {
+      selectCountryData(countryList.first);
+    }
+    printX(selectedCountryData.toJson());
   }
 
   ProfileResponseModel profileResponseModel = ProfileResponseModel();
@@ -96,37 +101,6 @@ class ProfileCompleteController extends GetxController {
   List<Countries> countryList = [];
   List<Countries> filteredCountries = [];
 
-  // GET Country Data first
-  Future<dynamic> getCountryData() async {
-    ResponseModel mainResponse = await profileRepo.getCountryList();
-
-    if (mainResponse.statusCode == 200) {
-      countryList.clear();
-      CountryModel model =
-          CountryModel.fromJson(jsonDecode(mainResponse.responseJson));
-      List<Countries>? tempList = model.data?.countries;
-
-      if (tempList != null && tempList.isNotEmpty) {
-        countryList.addAll(tempList);
-      }
-
-      var selectDefCountry = tempList!.firstWhere(
-          (country) =>
-              country.countryCode!.toLowerCase() ==
-              Environment.defaultCountryCode.toLowerCase(),
-          orElse: () => Countries());
-
-      if (selectDefCountry.dialCode != null) {
-        selectCountryData(selectDefCountry);
-      }
-    } else {
-      CustomSnackBar.error(errorList: [mainResponse.message]);
-    }
-
-    countryLoading = false;
-    update();
-  }
-
   Countries selectedCountryData = Countries();
   selectCountryData(Countries value) {
     selectedCountryData = value;
@@ -152,10 +126,10 @@ class ProfileCompleteController extends GetxController {
       lastName: lastName,
       mobile: mobileNoController.text,
       email: '',
-      username: userNameController.text,
-      countryCode: Environment.defaultCountryCode,
-      country: Environment.defaultCountry,
-      mobileCode: Environment.defaultDialCode,
+      username: '',
+      countryCode: selectedCountryData.countryCode.toString(),
+      country: selectedCountryData.country.toString(),
+      mobileCode: selectedCountryData.dialCode.toString(),
       address: address,
       state: state,
       zip: zip,

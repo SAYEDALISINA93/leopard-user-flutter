@@ -272,8 +272,8 @@ class _ReferralAFriendsScreenState extends State<ReferralAFriendsScreen> {
                                       horizontal: Dimensions.space10,
                                       vertical: Dimensions.space2),
                                   decoration: BoxDecoration(
-                                      color:
-                                          MyColor.primaryColor.withOpacity(0.2),
+                                      color: MyColor.primaryColor
+                                          .withValues(alpha: 0.2),
                                       borderRadius: BorderRadius.circular(
                                           Dimensions.defaultRadius)),
                                   child: Text(MyStrings.reFerred.tr,

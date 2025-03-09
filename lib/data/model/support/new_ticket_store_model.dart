@@ -8,5 +8,11 @@ class TicketStoreModel {
   String message;
   List<File>? list;
 
-  TicketStoreModel({required this.name, required this.email, required this.subject, required this.priority, required this.message, this.list});
+  TicketStoreModel(
+      {required this.name,
+      required this.email,
+      required this.subject,
+      required this.priority,
+      required this.message,
+      this.list});
 }

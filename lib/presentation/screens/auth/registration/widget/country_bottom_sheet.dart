@@ -103,7 +103,8 @@ class CountryBottomSheet {
                               color: MyColor.transparentColor,
                               border: Border(
                                 bottom: BorderSide(
-                                  color: MyColor.colorGrey.withOpacity(0.3),
+                                  color:
+                                      MyColor.colorGrey.withValues(alpha: 0.3),
                                   width: 0.5,
                                 ),
                               ),
@@ -165,7 +166,9 @@ class CountryBottomSheet {
           // Function to filter countries based on the search input.
           void filterCountries(String query) {
             if (query.isEmpty) {
-              controller.filteredCountries = controller.countryList;
+              setState(() {
+                controller.filteredCountries = controller.countryList;
+              });
             } else {
               setState(() {
                 controller.filteredCountries = controller.countryList
@@ -178,7 +181,7 @@ class CountryBottomSheet {
           }
 
           return Container(
-            height: MediaQuery.of(context).size.height * .8,
+            // height: MediaQuery.of(context).size.height * .8,
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             decoration: BoxDecoration(
               color: MyColor.getCardBgColor(),
@@ -188,6 +191,7 @@ class CountryBottomSheet {
               ),
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const BottomSheetHeaderRow(header: '', bottomSpace: 15),
                 const SizedBox(
@@ -199,10 +203,7 @@ class CountryBottomSheet {
                   onChanged: filterCountries,
                   decoration: InputDecoration(
                     hintText: MyStrings.searchCountry.tr,
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
+                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
                   ),
                   cursorColor: MyColor.primaryColor,
                 ),
@@ -219,7 +220,6 @@ class CountryBottomSheet {
 
                         return GestureDetector(
                           onTap: () {
-                            // controller.updateMobilecode(controller.filteredCountries[index].dialCode.toString());
                             controller.selectCountryData(
                                 controller.filteredCountries[index]);
                             FocusScopeNode currentFocus =
@@ -236,8 +236,13 @@ class CountryBottomSheet {
                               color: MyColor.transparentColor,
                               border: Border(
                                 bottom: BorderSide(
-                                  color: MyColor.colorGrey.withOpacity(0.3),
-                                  width: 0.5,
+                                  color:
+                                      MyColor.colorGrey.withValues(alpha: 0.3),
+                                  width: index ==
+                                          controller.filteredCountries.length -
+                                              1
+                                      ? 0
+                                      : 0.5,
                                 ),
                               ),
                             ),

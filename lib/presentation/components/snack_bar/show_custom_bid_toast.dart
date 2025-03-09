@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
+import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -27,24 +28,28 @@ class CustomBidToast {
             const AlwaysStoppedAnimation<Color>(Colors.transparent),
         messageText: Column(
           children: [
-            DrawerUserCard(
-              fullName: '${bid.driver?.firstname} ${bid.driver?.lastname}',
-              username: '${bid.driver?.username}',
-              subtitle: "",
-              rightWidget: Text(
-                "$currency${bid.bidAmount}",
-                style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
+            GestureDetector(
+              onTap: () => Get.toNamed(RouteHelper.driverReviewScreen,
+                  arguments: bid.driver?.id),
+              child: DrawerUserCard(
+                fullName: '${bid.driver?.firstname} ${bid.driver?.lastname}',
+                username: '${bid.driver?.username}',
+                subtitle: "",
+                rightWidget: Text(
+                  "$currency${bid.bidAmount}",
+                  style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
+                ),
+                imgWidget: MyImageWidget(
+                  imageUrl: imagePath,
+                  boxFit: BoxFit.cover,
+                  width: 40,
+                  height: 40,
+                  radius: 20,
+                  isProfile: true,
+                ),
+                imgHeight: 40,
+                imgWidth: 40,
               ),
-              imgWidget: MyImageWidget(
-                imageUrl: imagePath,
-                boxFit: BoxFit.cover,
-                width: 40,
-                height: 40,
-                radius: 20,
-                isProfile: true,
-              ),
-              imgHeight: 40,
-              imgWidth: 40,
             ),
             const SizedBox(height: Dimensions.space10),
             Row(
@@ -67,7 +72,7 @@ class CustomBidToast {
                     child: RoundedButton(
                   text: 'Accept',
                   press: () {
-                    printx('Accept from snackbar');
+                    printX('Accept from snackbar');
                     Get.back();
                     accepted();
                   },
@@ -100,24 +105,28 @@ class CustomBidToast {
       Flushbar(
         messageText: Column(
           children: [
-            DrawerUserCard(
-              fullName: '${bid.driver?.firstname} ${bid.driver?.lastname}',
-              username: '${bid.driver?.username}',
-              subtitle: "",
-              rightWidget: Text(
-                "$currency${bid.bidAmount}",
-                style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
+            GestureDetector(
+              onTap: () => Get.toNamed(RouteHelper.driverReviewScreen,
+                  arguments: bid.driver?.id),
+              child: DrawerUserCard(
+                fullName: '${bid.driver?.firstname} ${bid.driver?.lastname}',
+                username: '${bid.driver?.username}',
+                subtitle: "",
+                rightWidget: Text(
+                  "$currency${bid.bidAmount}",
+                  style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
+                ),
+                imgWidget: MyImageWidget(
+                  imageUrl: imagePath,
+                  boxFit: BoxFit.cover,
+                  width: 40,
+                  height: 40,
+                  radius: 20,
+                  isProfile: true,
+                ),
+                imgHeight: 40,
+                imgWidth: 40,
               ),
-              imgWidget: MyImageWidget(
-                imageUrl: imagePath,
-                boxFit: BoxFit.cover,
-                width: 40,
-                height: 40,
-                radius: 20,
-                isProfile: true,
-              ),
-              imgHeight: 40,
-              imgWidth: 40,
             ),
             const SizedBox(height: Dimensions.space10),
             Row(
@@ -126,7 +135,7 @@ class CustomBidToast {
                     child: RoundedButton(
                   text: MyStrings.decline.tr,
                   press: () {
-                    printx('Decline from snackbar');
+                    printX('Decline from snackbar');
                     if (reject != null) {
                       reject();
                     } else {
@@ -141,7 +150,7 @@ class CustomBidToast {
                     child: RoundedButton(
                   text: MyStrings.accept.tr,
                   press: () {
-                    printx('Accept from snackbar');
+                    printX('Accept from snackbar');
                     accepted();
                   },
                   color: MyColor.primaryColor,

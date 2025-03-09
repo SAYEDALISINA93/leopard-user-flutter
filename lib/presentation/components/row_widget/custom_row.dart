@@ -55,7 +55,7 @@ class CustomRow extends StatelessWidget {
                   child: Text(
                 firstText.tr,
                 style: regularDefault.copyWith(
-                    color: MyColor.colorBlack.withOpacity(0.6)),
+                    color: MyColor.colorBlack.withValues(alpha: 0.6)),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               )),

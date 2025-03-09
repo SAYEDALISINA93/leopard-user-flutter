@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 class ExpandedSection extends StatefulWidget {
-
   final Widget child;
   final bool expand;
   final int duration;
-  const ExpandedSection({super.key,this.expand = false, required this.child,this.duration = 500});
+  const ExpandedSection(
+      {super.key,
+      this.expand = false,
+      required this.child,
+      this.duration = 500});
 
   @override
   State<ExpandedSection> createState() => _ExpandedSectionState();
 }
 
-class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProviderStateMixin {
+class _ExpandedSectionState extends State<ExpandedSection>
+    with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<double> animation;
 
@@ -24,9 +28,7 @@ class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProv
 
   void prepareAnimations() {
     expandController = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds:widget.duration)
-    );
+        vsync: this, duration: Duration(milliseconds: widget.duration));
     animation = CurvedAnimation(
       parent: expandController,
       curve: Curves.fastOutSlowIn,
@@ -34,10 +36,9 @@ class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProv
   }
 
   void _runExpandCheck() {
-    if(widget.expand) {
+    if (widget.expand) {
       expandController.forward();
-    }
-    else {
+    } else {
       expandController.reverse();
     }
   }
@@ -57,9 +58,6 @@ class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-        axisAlignment: 1.0,
-        sizeFactor: animation,
-        child: widget.child
-    );
+        axisAlignment: 1.0, sizeFactor: animation, child: widget.child);
   }
 }

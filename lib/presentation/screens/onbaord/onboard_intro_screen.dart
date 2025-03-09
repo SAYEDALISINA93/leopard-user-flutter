@@ -152,7 +152,8 @@ class _OnBoardIntroScreenState extends State<OnBoardIntroScreen> {
                               press: () {
                                 Get.find<ApiClient>().sharedPreferences.setBool(
                                     SharedPreferenceHelper.onBoardKey, true);
-                                Get.offAllNamed(RouteHelper.registrationScreen);
+                                Get.offAllNamed(
+                                    RouteHelper.phoneRegistrationScreen);
                               },
                             ),
                             spaceDown(Dimensions.space15),

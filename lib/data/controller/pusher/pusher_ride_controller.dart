@@ -4,7 +4,9 @@ import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:leoparduser/core/route/route.dart';
+import 'package:leoparduser/core/utils/audio_utils.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
+import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/controller/ride/ride_details/ride_details_controller.dart';
 import 'package:leoparduser/data/model/general_setting/general_setting_response_model.dart';
 import 'package:leoparduser/data/model/global/pusher/pusher_event_response_model.dart';
@@ -56,9 +58,9 @@ class PusherRideController extends GetxController {
     rideId = rideId;
     update();
 
-    printx('appKey ${pusherConfig.toJson()}');
-    printx('appKey $appKey');
-    printx('appKey $cluster');
+    printX('appKey ${pusherConfig.toJson()}');
+    printX('appKey $appKey');
+    printX('appKey $cluster');
 
     configure("private-ride-$rideId");
     isPusherLoading = false;
@@ -95,11 +97,14 @@ class PusherRideController extends GetxController {
     try {
       String authUrl =
           "${UrlContainer.baseUrl}${UrlContainer.pusherAuthenticate}$socketId/$channelName";
+      loggerX("7787878778 ${authUrl}");
       http.Response result = await http.post(
         Uri.parse(authUrl),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $token',
+          "dev-token":
+              "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
         },
       );
       if (result.statusCode == 200) {
@@ -116,7 +121,7 @@ class PusherRideController extends GetxController {
 
   void onConnectionStateChange(
       dynamic currentState, dynamic previousState) async {
-    printx("on connection state change $previousState $currentState");
+    printX("on connection state change $previousState $currentState");
   }
 
   void onEvent(PusherEvent event) {
@@ -133,27 +138,30 @@ class PusherRideController extends GetxController {
 
       updateEvent(modify);
     } catch (e) {
-      printx(e);
+      printX(e);
     }
   }
 
   void onError(String message, int? code, dynamic e) {
-    printx("onError: $message");
+    printX("onError: $message");
   }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {}
 
   void onSubscriptionError(String message, dynamic e) {
-    printx("onSubscriptionError: $message");
+    printX("onSubscriptionError: $message");
   }
 
 //   --------------------------------Pusher Response --------------------------------
 
   updateEvent(PusherResponseModel event) {
-    printx('event.eventName ${event.eventName}');
+    printX('event.eventName ${event.eventName}');
     if (event.eventName == "online-payment-received") {
       Get.offAllNamed(RouteHelper.dashboard);
     } else if (event.eventName == "message-received") {
+      if (Get.currentRoute == RouteHelper.rideDetailsScreen) {
+        MyUtils.vibrate();
+      }
       if (event.data?.message != null) {
         controller.addEventMessage(event.data!.message!);
       }
@@ -171,8 +179,10 @@ class PusherRideController extends GetxController {
       // }
     } else if (event.eventName == "new_bid") {
       if (event.data?.bid != null) {
-        printx(
+        printX(
             '${detailsController.driverImagePath}/${event.data?.bid?.driver?.avatar}');
+        AudioUtils.playAudio(apiClient.getNotificationAudio());
+        MyUtils.vibrate();
         CustomBidToast.newBid(
           bid: event.data!.bid!,
           currency: detailsController.currencySym,
@@ -202,7 +212,7 @@ class PusherRideController extends GetxController {
         detailsController.updateRide(event.data!.ride!);
       }
       if (event.eventName == "pick_up") {
-        printx('from pusher ${event.data!.ride?.id ?? ''}');
+        printX('from pusher ${event.data!.ride?.id ?? ''}');
       }
     } else {
       if (event.data?.ride != null) {

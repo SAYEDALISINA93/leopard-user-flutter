@@ -78,7 +78,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                     .textTheme
                                     .titleLarge!
                                     .color!
-                                    .withOpacity(0.1),
+                                    .withValues(alpha: 0.1),
                                 width: 1,
                                 strokeAlign: BorderSide.strokeAlignOutside)),
                         child: Row(
@@ -99,7 +99,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                           .getStatusColor(controller.model.data
                                                   ?.myTickets?.status ??
                                               "0")
-                                          .withOpacity(0.2),
+                                          .withValues(alpha: 0.2),
                                       border: Border.all(
                                           color: controller.getStatusColor(
                                               controller.model.data?.myTickets
@@ -180,7 +180,8 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                             borderRadius: BorderRadius.circular(5),
                             color: MyColor.getCardBgColor(),
                             border: Border.all(
-                                color: MyColor.borderColor.withOpacity(0.8),
+                                color:
+                                    MyColor.borderColor.withValues(alpha: 0.8),
                                 width: 1,
                                 strokeAlign: BorderSide.strokeAlignOutside)),
                         child: Column(

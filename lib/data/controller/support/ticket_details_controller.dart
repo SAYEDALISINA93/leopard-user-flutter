@@ -289,6 +289,8 @@ class TicketDetailsController extends GetxController {
     final headers = {
       'Authorization': "Bearer ${repo.apiClient.token}",
       'content-type': "application/pdf",
+      "dev-token":
+          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
     };
 
     final response = await http.get(Uri.parse(url), headers: headers);

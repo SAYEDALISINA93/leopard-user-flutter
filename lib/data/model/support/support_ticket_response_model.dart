@@ -4,9 +4,13 @@
 
 import 'dart:convert';
 
-SupportTicketListResponseModel supportTicketListResponseModelFromJson(String str) => SupportTicketListResponseModel.fromJson(json.decode(str));
+SupportTicketListResponseModel supportTicketListResponseModelFromJson(
+        String str) =>
+    SupportTicketListResponseModel.fromJson(json.decode(str));
 
-String supportTicketListResponseModelToJson(SupportTicketListResponseModel data) => json.encode(data.toJson());
+String supportTicketListResponseModelToJson(
+        SupportTicketListResponseModel data) =>
+    json.encode(data.toJson());
 
 class SupportTicketListResponseModel {
   String? remark;
@@ -21,10 +25,13 @@ class SupportTicketListResponseModel {
     this.data,
   });
 
-  factory SupportTicketListResponseModel.fromJson(Map<String, dynamic> json) => SupportTicketListResponseModel(
+  factory SupportTicketListResponseModel.fromJson(Map<String, dynamic> json) =>
+      SupportTicketListResponseModel(
         remark: json["remark"],
         status: json["status"],
-        message: json["message"] == null ? [] : List<String>.from(json["message"]!.map((x) => x.toString())),
+        message: json["message"] == null
+            ? []
+            : List<String>.from(json["message"]!.map((x) => x.toString())),
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
@@ -44,7 +51,8 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        tickets: json["tickets"] == null ? null : Tickets.fromJson(json["tickets"]),
+        tickets:
+            json["tickets"] == null ? null : Tickets.fromJson(json["tickets"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -68,14 +76,19 @@ class Tickets {
 
   factory Tickets.fromJson(Map<String, dynamic> json) => Tickets(
         currentPage: json["current_page"],
-        data: json["data"] == null ? [] : List<TicketData>.from(json["data"]!.map((x) => TicketData.fromJson(x))),
+        data: json["data"] == null
+            ? []
+            : List<TicketData>.from(
+                json["data"]!.map((x) => TicketData.fromJson(x))),
         nextPageUrl: json["next_page_url"],
         path: json["path"],
       );
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "next_page_url": nextPageUrl,
         "path": path,
       };

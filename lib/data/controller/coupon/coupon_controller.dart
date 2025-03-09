@@ -47,7 +47,7 @@ class CouponController extends GetxController {
   Future<void> applyCoupon(CouponModel coupon) async {
     applyCouponId = coupon.id.toString();
     update();
-    printx(coupon.code);
+    printX(coupon.code);
     try {
       ResponseModel responseModel = await couponRepo.applyCoupon(
         code: coupon.code.toString(),
@@ -71,7 +71,7 @@ class CouponController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     isLoading = false;
@@ -105,7 +105,7 @@ class CouponController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     isLoading = false;
@@ -134,7 +134,7 @@ class CouponController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
   }
 

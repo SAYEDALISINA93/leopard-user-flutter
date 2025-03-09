@@ -63,7 +63,7 @@ class Prediction {
         ? StructuredFormatting.fromJson(json['structured_formatting'])
         : null;
     if (json['terms'] != null) {
-      terms =[];
+      terms = [];
       json['terms'].forEach((v) {
         terms!.add(Terms.fromJson(v));
       });

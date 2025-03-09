@@ -32,8 +32,15 @@ class _SmsVerificationScreenState extends State<SmsVerificationScreen> {
     Get.put(SmsEmailVerificationRepo(apiClient: Get.find()));
     final controller = Get.put(SmsVerificationController(repo: Get.find()));
     super.initState();
+
+    // print("controller ${Get.arguments}");
+    controller.userPhone = Get.arguments[1];
+    controller.verificationId = Get.arguments[0];
+    controller.countryCode = Get.arguments[2];
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.isProfileCompleteEnable = Get.arguments[0];
+      // controller.isProfileCompleteEnable = Get.arguments[0];
+      controller.isProfileCompleteEnable = false;
       controller.loadBefore();
     });
   }

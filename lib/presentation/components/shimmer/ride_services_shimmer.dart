@@ -25,7 +25,7 @@ class RideServiceShimmer extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(Dimensions.mediumRadius),
-                      color: MyColor.colorGrey.withOpacity(0.3)),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3)),
                 ),
               ),
               const SizedBox(height: Dimensions.space5),
@@ -36,7 +36,7 @@ class RideServiceShimmer extends StatelessWidget {
                   margin: const EdgeInsets.only(right: Dimensions.space10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(2),
-                      color: MyColor.colorGrey.withOpacity(0.3)),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3)),
                 ),
               ),
             ],

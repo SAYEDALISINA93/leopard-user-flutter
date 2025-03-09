@@ -535,7 +535,7 @@ class MyStrings {
 
   static const String hint = "0.0";
 
-  static const String google = "Continue with Google";
+  static const String google = "Google";
 
   static const String regGoogle = "Continue with Google";
 
@@ -601,6 +601,11 @@ class MyStrings {
   static const String kLastNameNullError = "Enter last name";
 
   static const String kShortUserNameError = "Username must be 6 character";
+
+  static const String kEmptyPhoneNumberError = "Please enter phone number";
+
+  static const String kInvalidPhoneNumberError =
+      "Please enter valid phone number";
 
   static const String passVerification = 'Password Verification';
 
@@ -740,6 +745,8 @@ class MyStrings {
   static RegExp emailValidatorRegExp =
       RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
+  static RegExp phoneValidatorRegExp = RegExp(r"^(0\d{9}|[1-9]\d{8})$");
+
   static const String successfullyCopiedToClipboard =
       "Successfully copied to clipboard";
 
@@ -867,6 +874,8 @@ class MyStrings {
   static const String youDontHaveAnyRideYet = "You don't have any ride yet.";
 
   static const String rideRulse = "Ride rules";
+
+  static const String carRules = "Car rules";
 
   static const String errorLocation =
       "Something went wrong while Taking Location";
@@ -1027,6 +1036,9 @@ class MyStrings {
   static const String hide = "Hide";
 
   static const String show = "Show";
+
+  static const String audioNotification = "Audio Notification";
+
   static const String regTerm = "I have read & agree to the";
 
   static const String maintenanceTitle = "We're Down For Maintenance";
@@ -1039,6 +1051,16 @@ class MyStrings {
   static const String deleteBottomSheetSubtitle =
       'You will lose all of your data by deleting your account. This action cannot be undone.';
 
+  static const String yourAverageRatingIs = "Your average rating is";
+
+  static const String riderReviews = "Driver reviews";
+  static const String driverReviews = "My reviews";
+  static const String driver = "Driver";
+  static const String vehicle = "Vehicle";
+  static const String driverInformation = "Driver Information";
+  static const String vehicleInformation = "Vehicle Information";
+  static const String carInfo = "Car Info";
+  static const String apple = "Apple";
   static List<MyLanguageModel> myLanguages = [
     MyLanguageModel(
         languageName: 'English', countryCode: 'US', languageCode: 'en'),

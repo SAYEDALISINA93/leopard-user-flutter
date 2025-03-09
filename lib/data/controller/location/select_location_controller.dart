@@ -183,7 +183,7 @@ class SelectLocationController extends GetxController {
                   : selectedAddressFromSearch),
           index);
     }).catchError((e) {
-      printx(e.toString());
+      printX(e.toString());
     });
   }
 
@@ -246,7 +246,7 @@ class SelectLocationController extends GetxController {
       isSearched = false;
       update();
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
   }
 
@@ -273,7 +273,7 @@ class SelectLocationController extends GetxController {
             double.parse(prediction.lat!), double.parse(prediction.lng!));
       }
     } catch (e) {
-      printx(e.toString());
+      printX(e.toString());
     }
     return null;
   }

@@ -19,7 +19,7 @@ class RideMapController extends GetxController {
   Map<PolylineId, Polyline> polyLines = {};
 
   updateDriverLocation({required LatLng latLng, required bool isRunning}) {
-    printx('ride map update $latLng, $isRunning');
+    printX('ride map update $latLng, $isRunning');
     driverLatLng = latLng;
     mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
@@ -85,7 +85,7 @@ class RideMapController extends GetxController {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
     } else {
-      printx(result.errorMessage);
+      printX(result.errorMessage);
     }
     return polylineCoordinates;
   }
@@ -111,8 +111,8 @@ class RideMapController extends GetxController {
           infoWindow: InfoWindow(title: driverAddress, onTap: () {}),
           onTap: () async {
             getCurrentDriverAddress();
-            printx('Driver current position $driverLatLng');
-            printx('Driver current address $driverAddress');
+            printX('Driver current position $driverLatLng');
+            printX('Driver current address $driverAddress');
           },
         )
       ],
@@ -148,9 +148,9 @@ class RideMapController extends GetxController {
       driverAddress =
           "${placeMark[0].street} ${placeMark[0].subThoroughfare} ${placeMark[0].thoroughfare},${placeMark[0].subLocality},${placeMark[0].locality},${placeMark[0].country}";
       update();
-      printx('appLocations position $driverAddress');
+      printX('appLocations position $driverAddress');
     } catch (e) {
-      printx('Error in getting  position');
+      printX('Error in getting  position');
     }
   }
 }

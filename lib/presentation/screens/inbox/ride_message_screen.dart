@@ -151,10 +151,8 @@ class _RideMessageScreenState extends State<RideMessageScreen> {
                     controller.getRideMessage(controller.rideId,
                         p: 1, shouldLoading: false);
                   },
-                  icon: const Icon(
-                    Icons.refresh_outlined,
-                    color: MyColor.colorWhite,
-                  ),
+                  icon: const Icon(Icons.refresh_outlined,
+                      color: MyColor.colorWhite),
                 )
               ],
             ),
@@ -180,7 +178,7 @@ class _RideMessageScreenState extends State<RideMessageScreen> {
                                 end: Dimensions.space20,
                                 bottom: Dimensions.space50 * 2),
                             itemCount: controller.meassage.length,
-                            reverse: false,
+                            reverse: true,
                             itemBuilder: (c, index) {
                               var previous = index > 0
                                   ? controller.meassage[index - 1]
@@ -197,7 +195,6 @@ class _RideMessageScreenState extends State<RideMessageScreen> {
                                   item.userId != "0") {
                                 if (next?.userId == item.userId &&
                                     item.userId != "0") {
-                                  printx(controller.meassage.last.toJson());
                                   return Padding(
                                     padding: EdgeInsetsDirectional.only(
                                         end: Dimensions.space6,
@@ -296,8 +293,8 @@ class _RideMessageScreenState extends State<RideMessageScreen> {
                             decoration: InputDecoration(
                               hintText: MyStrings.writeYourMessage.tr,
                               hintStyle: mediumDefault.copyWith(
-                                  color:
-                                      MyColor.bodyTextColor.withOpacity(0.7)),
+                                  color: MyColor.bodyTextColor
+                                      .withValues(alpha: 0.7)),
                               enabledBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,

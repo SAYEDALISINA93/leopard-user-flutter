@@ -71,7 +71,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   DefaultText(
                       text: MyStrings.resetPassContent.tr,
                       textStyle: regularDefault.copyWith(
-                          color: MyColor.getTextColor().withOpacity(0.8))),
+                          color:
+                              MyColor.getTextColor().withValues(alpha: 0.8))),
                   const SizedBox(height: Dimensions.space15),
                   Focus(
                     onFocusChange: (hasFocus) {

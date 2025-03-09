@@ -12,7 +12,15 @@ class CircleImageWidget extends StatelessWidget {
   final double border;
   final bool isProfile;
 
-  const CircleImageWidget({super.key, this.isProfile = false, this.border = 0, this.height = 30, this.width = 30, this.isAsset = true, required this.imagePath, this.press});
+  const CircleImageWidget(
+      {super.key,
+      this.isProfile = false,
+      this.border = 0,
+      this.height = 30,
+      this.width = 30,
+      this.isAsset = true,
+      required this.imagePath,
+      this.press});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +46,8 @@ class CircleImageWidget extends StatelessWidget {
                       height: width,
                     );
                   },
-                  placeholder: isProfile ? MyImages.profile : MyImages.placeHolderImage,
+                  placeholder:
+                      isProfile ? MyImages.profile : MyImages.placeHolderImage,
                 ),
               ),
             )
@@ -65,13 +74,17 @@ class CircleImageWidget extends StatelessWidget {
                             height: width,
                             imageErrorBuilder: (ctx, object, trx) {
                               return Image.asset(
-                                isProfile ? MyImages.profile : MyImages.placeHolderImage,
+                                isProfile
+                                    ? MyImages.profile
+                                    : MyImages.placeHolderImage,
                                 fit: BoxFit.cover,
                                 width: height,
                                 height: width,
                               );
                             },
-                            placeholder: isProfile ? MyImages.profile : MyImages.placeHolderImage,
+                            placeholder: isProfile
+                                ? MyImages.profile
+                                : MyImages.placeHolderImage,
                           ),
                         )),
     );

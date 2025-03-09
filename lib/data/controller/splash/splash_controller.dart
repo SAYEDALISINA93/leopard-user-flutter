@@ -6,6 +6,7 @@ import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/messages.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
+import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/controller/localization/localization_controller.dart';
 import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
 import 'package:leoparduser/data/model/general_setting/general_setting_response_model.dart';
@@ -51,6 +52,8 @@ class SplashController extends GetxController {
         repo.apiClient.storeGeneralSetting(model);
         repo.apiClient.storePushSetting(
             model.data?.generalSetting?.pushConfig ?? PusherConfig());
+        repo.apiClient.storeNotificationAudio(
+            "${UrlContainer.domainUrl}/${model.data?.notificationAudioPath}/${model.data?.generalSetting?.notificationAudio ?? ""}");
       } else {
         if (model.remark == "maintenance_mode") {
           Future.delayed(const Duration(seconds: 1), () {
@@ -129,7 +132,7 @@ class SplashController extends GetxController {
             ? {}
             : resJson['data']['file'];
         Map<String, String> json = {};
-        printx(value);
+        printX(value);
         value.forEach((key, value) {
           json[key] = value.toString();
         });

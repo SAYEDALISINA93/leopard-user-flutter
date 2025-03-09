@@ -77,7 +77,8 @@ class ChatBubble extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const ChatBubble(
-      {super.key, this.clipper,
+      {super.key,
+      this.clipper,
       this.child,
       this.margin,
       this.elevation,

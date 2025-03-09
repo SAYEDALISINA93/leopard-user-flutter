@@ -65,14 +65,14 @@ class PushNotificationService {
         String? payloadString = message.payload is String
             ? message.payload
             : jsonEncode(message.payload);
-        printx('remarkNotification $payloadString');
+        printX('remarkNotification $payloadString');
         if (payloadString != null && payloadString.isNotEmpty) {
           Map<dynamic, dynamic> payloadMap = jsonDecode(payloadString);
           Map<String, String> payload = payloadMap
               .map((key, value) => MapEntry(key.toString(), value.toString()));
 
-          printx('remarkNotification ${payload['for_app']}');
-          printx('remarkNotification ${payload['ride_id']}');
+          printX('remarkNotification ${payload['for_app']}');
+          printX('remarkNotification ${payload['ride_id']}');
           String? remark = payload['for_app'];
 
           if (remark != null && remark.isNotEmpty) {
@@ -84,7 +84,7 @@ class PushNotificationService {
         }
       } catch (e) {
         if (kDebugMode) {
-          printx(e.toString());
+          printX(e.toString());
         }
       }
     });
@@ -92,13 +92,18 @@ class PushNotificationService {
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) async {
       RemoteNotification? notification = message!.notification;
       AndroidNotification? android = message.notification?.android;
-      printx(">>>>>> ${message.notification?.toMap()}");
-      printx(">>>>>> ${android?.imageUrl}");
+      printX(">>>>>> ${message.notification?.toMap()}");
+      printX(">>>>>> ${android?.imageUrl}");
       if (notification != null && android != null) {
         late BigPictureStyleInformation bigPictureStyle;
         if (android.imageUrl != null) {
-          final http.Response response =
-              await http.get(Uri.parse(android.imageUrl!));
+          final http.Response response = await http.get(
+            Uri.parse(android.imageUrl!),
+            headers: {
+              "dev-token":
+                  "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+            },
+          );
           final String localImagePath =
               await _saveImageLocally(response.bodyBytes);
           bigPictureStyle = BigPictureStyleInformation(

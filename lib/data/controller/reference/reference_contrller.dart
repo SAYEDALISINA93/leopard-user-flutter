@@ -46,7 +46,7 @@ class ReferenceController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     isLoading = false;

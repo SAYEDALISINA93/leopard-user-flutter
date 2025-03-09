@@ -44,12 +44,15 @@ class AllRideController extends GetxController {
 
     try {
       ResponseModel responseModel = await repo.getRideList(
-          page: page.toString(), rideType: isCity ? "1" : "2", status: '');
+        page: page.toString(),
+        rideType: isCity ? "1" : "2",
+        status: '',
+      );
       if (responseModel.statusCode == 200) {
         AllResponseModel model =
             AllResponseModel.fromJson(jsonDecode(responseModel.responseJson));
         if (model.status == MyStrings.success) {
-          printx(model.status);
+          printX(model.status);
           nextPageUrl = model.data?.rides?.nextPageUrl;
           rideList.addAll(model.data?.rides?.data ?? []);
           update();
@@ -61,7 +64,7 @@ class AllRideController extends GetxController {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
     isLoading = false;
     update();

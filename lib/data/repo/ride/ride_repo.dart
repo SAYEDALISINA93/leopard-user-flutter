@@ -20,7 +20,7 @@ class RideRepo {
       required String status,
       String page = '1'}) async {
     String url =
-        "${UrlContainer.baseUrl}${UrlContainer.rideList}?ride_type=$rideType&status=$status";
+        "${UrlContainer.baseUrl}${UrlContainer.rideList}?ride_type=$rideType&status=$status&page=$page";
     ResponseModel responseModel =
         await apiClient.request(url, Method.getMethod, null, passHeader: true);
     return responseModel;

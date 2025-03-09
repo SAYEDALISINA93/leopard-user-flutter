@@ -8,7 +8,14 @@ class ReviewRepo {
   ReviewRepo({required this.apiClient});
 
   Future<ResponseModel> getReviews({required String id}) async {
-    String url = "${UrlContainer.baseUrl}${UrlContainer.reviewRide}/$id";
+    String url = "${UrlContainer.baseUrl}${UrlContainer.getDriverReview}/$id";
+    final response =
+        await apiClient.request(url, Method.getMethod, {}, passHeader: true);
+    return response;
+  }
+
+  Future<ResponseModel> getMyReviews() async {
+    String url = "${UrlContainer.baseUrl}${UrlContainer.reviewRide}";
     final response =
         await apiClient.request(url, Method.getMethod, {}, passHeader: true);
     return response;

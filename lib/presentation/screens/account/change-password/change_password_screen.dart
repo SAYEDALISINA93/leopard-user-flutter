@@ -56,7 +56,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  spaceDown(Dimensions.space30 * 3),
+                  // spaceDown(Dimensions.space30 * 3),
                   Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: Dimensions.space20,
@@ -89,7 +89,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 textAlign: TextAlign.center,
                                 style: regularDefault.copyWith(
                                     color: MyColor.getTextColor()
-                                        .withOpacity(0.8)))),
+                                        .withValues(alpha: 0.8)))),
                         spaceDown(Dimensions.space30),
                         const ChangePasswordForm()
                       ],

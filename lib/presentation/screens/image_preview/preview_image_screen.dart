@@ -70,6 +70,8 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     final headers = {
       'Authorization': "Bearer ${Get.find<ApiClient>().token}",
       'content-type': "application/pdf",
+      "dev-token":
+          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
     };
 
     final response = await http.get(Uri.parse(url), headers: headers);
@@ -152,7 +154,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                         BorderRadius.circular(Dimensions.mediumRadius),
                     child: Center(
                       child: SpinKitFadingCube(
-                        color: MyColor.getPrimaryColor().withOpacity(0.3),
+                        color: MyColor.getPrimaryColor().withValues(alpha: 0.3),
                         size: Dimensions.space20,
                       ),
                     ),
@@ -165,7 +167,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                     child: Center(
                       child: Icon(
                         Icons.image,
-                        color: MyColor.colorGrey.withOpacity(0.5),
+                        color: MyColor.colorGrey.withValues(alpha: 0.5),
                       ),
                     ),
                   ),
@@ -177,7 +179,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
             Container(
               height: context.height,
               width: context.width,
-              color: MyColor.primaryColor.withOpacity(0.1),
+              color: MyColor.primaryColor.withValues(alpha: 0.1),
               child: const SpinKitFadingCircle(
                 color: MyColor.primaryColor,
               ),

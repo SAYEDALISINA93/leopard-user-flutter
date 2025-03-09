@@ -34,7 +34,7 @@ class _AllRideSectionState extends State<AllRideSection> {
 
   @override
   void initState() {
-    printx(Get.arguments);
+    printX(Get.arguments);
     Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(RideRepo(apiClient: Get.find()));
     Get.put(RideHistoryController(repo: Get.find()));
@@ -44,7 +44,15 @@ class _AllRideSectionState extends State<AllRideSection> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((time) {
       controller.initialData();
+      scrollController.addListener(scrollListener);
     });
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(scrollListener);
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override

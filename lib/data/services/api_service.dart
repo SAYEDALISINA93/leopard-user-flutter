@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route_middleware.dart';
+import 'package:leoparduser/data/model/country_model/country_model.dart';
 import 'package:leoparduser/data/model/global/response_model/unverified_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
@@ -28,6 +29,12 @@ class ApiClient extends GetxService {
     Uri url = Uri.parse(uri);
     http.Response response;
 
+    print('url rewuest--------------${uri.toString()}');
+    print('params rewuest-----------${params.toString()}');
+    print('method rewuest-----------$method');
+    print('passHeader rewuest--------$passHeader');
+    print('isOnlyAcceptType rewuest--$isOnlyAcceptType');
+
     try {
       if (method == Method.postMethod) {
         if (passHeader) {
@@ -35,25 +42,37 @@ class ApiClient extends GetxService {
           if (isOnlyAcceptType) {
             response = await http.post(url, body: params, headers: {
               "Accept": "application/json",
+              "dev-token":
+                  "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
             });
           } else {
             response = await http.post(url, body: params, headers: {
               "Accept": "application/json",
-              "Authorization": "$tokenType $token"
+              "Authorization": "$tokenType $token",
+              "dev-token":
+                  "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
             });
           }
         } else {
-          response = await http.post(url, body: params);
+          response = await http.post(url, body: params, headers: {
+            "dev-token":
+                "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+          });
         }
       } else if (method == Method.postMethod) {
         if (passHeader) {
           initToken();
           response = await http.post(url, body: params, headers: {
             "Accept": "application/json",
-            "Authorization": "$tokenType $token"
+            "Authorization": "$tokenType $token",
+            "dev-token":
+                "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
           });
         } else {
-          response = await http.post(url, body: params);
+          response = await http.post(url, body: params, headers: {
+            "dev-token":
+                "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+          });
         }
       } else if (method == Method.deleteMethod) {
         response = await http.delete(url);
@@ -64,20 +83,27 @@ class ApiClient extends GetxService {
           initToken();
           response = await http.get(url, headers: {
             "Accept": "application/json",
-            "Authorization": "$tokenType $token"
+            "Authorization": "$tokenType $token",
+            "dev-token":
+                "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
           });
         } else {
           response = await http.get(
             url,
+            headers: {
+              "Accept": "application/json",
+              "dev-token":
+                  "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+            },
           );
         }
       }
 
-      printx('url--------------${uri.toString()}');
-      printx('params-----------${params.toString()}');
-      printx('status-----------${response.statusCode}');
-      printx('body-------------${response.body.toString()}');
-      printx('token------------$token');
+      printX('url--------------${uri.toString()}');
+      printX('params-----------${params.toString()}');
+      printX('status-----------${response.statusCode}');
+      printX('body-------------${response.body.toString()}');
+      printX('token------------$token');
       if (response.statusCode == 200) {
         if (response.body.isEmpty) {
           Get.offAllNamed(RouteHelper.loginScreen);
@@ -176,6 +202,18 @@ class ApiClient extends GetxService {
     getGSData();
   }
 
+  storeNotificationAudio(String notificationAudioPath) {
+    sharedPreferences.setString(
+        SharedPreferenceHelper.notificationAudioKey, notificationAudioPath);
+  }
+
+  String getNotificationAudio() {
+    String pre = sharedPreferences
+            .getString(SharedPreferenceHelper.notificationAudioKey) ??
+        '';
+    return pre;
+  }
+
   GeneralSettingResponseModel getGSData() {
     String pre =
         sharedPreferences.getString(SharedPreferenceHelper.generalSettingKey) ??
@@ -195,6 +233,16 @@ class ApiClient extends GetxService {
     return enable;
   }
 
+  bool isAppleLoginEnable() {
+    String pre =
+        sharedPreferences.getString(SharedPreferenceHelper.generalSettingKey) ??
+            '';
+    GeneralSettingResponseModel model =
+        GeneralSettingResponseModel.fromJson(jsonDecode(pre));
+    bool enable = model.data?.generalSetting?.appleLogin == '1' ? true : false;
+    return enable;
+  }
+
   bool isReferEnable() {
     String pre =
         sharedPreferences.getString(SharedPreferenceHelper.generalSettingKey) ??
@@ -202,6 +250,19 @@ class ApiClient extends GetxService {
     GeneralSettingResponseModel model =
         GeneralSettingResponseModel.fromJson(jsonDecode(pre));
     return model.data?.generalSetting?.riderReferral == '1' ? true : false;
+  }
+
+  bool isNotificationAudioEnable() {
+    String pre = sharedPreferences
+            .getString(SharedPreferenceHelper.notificationAudioEnableKey) ??
+        '';
+    return pre == '1' ? true : false;
+  }
+
+  storeNotificationAudioEnable(bool isEnable) {
+    sharedPreferences.setString(
+        SharedPreferenceHelper.notificationAudioEnableKey,
+        isEnable ? '1' : '0');
   }
 
   String getSocialCredentialsRedirectUrl() {
@@ -241,6 +302,17 @@ class ApiClient extends GetxService {
         GeneralSettingResponseModel.fromJson(jsonDecode(pre));
     String currency = model.data?.generalSetting?.minDistance ?? '';
     return currency;
+  }
+
+  List<Countries> getOperatingCountry() {
+    String pre =
+        sharedPreferences.getString(SharedPreferenceHelper.generalSettingKey) ??
+            '';
+    GeneralSettingResponseModel model =
+        GeneralSettingResponseModel.fromJson(jsonDecode(pre));
+    List<Countries> country =
+        model.data?.generalSetting?.operatingCountry ?? [];
+    return country;
   }
 
   String getUserEmail() {

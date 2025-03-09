@@ -98,7 +98,7 @@ class ProfileController extends GetxController {
         city: city,
         refer: '',
       );
-      printx(model.image);
+      printX(model.image);
 
       AuthorizationResponseModel b =
           await profileRepo.updateProfile(model, true);
@@ -135,7 +135,7 @@ class ProfileController extends GetxController {
     imageUrl =
         model?.data?.user?.image == null ? '' : '${model?.data?.user?.image}';
     imagePath = model?.data?.imagePath.toString() ?? '';
-    printx(model?.data?.imagePath);
+    printX(model?.data?.imagePath);
     if (imageUrl.isNotEmpty && imageUrl != 'null') {
       imageUrl = '${UrlContainer.domainUrl}/$imagePath/$imageUrl';
     }
@@ -186,7 +186,7 @@ class ProfileController extends GetxController {
         loggerX(model.message);
       }
     } else {
-      printx(response.message);
+      printX(response.message);
     }
   }
 }

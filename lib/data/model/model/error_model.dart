@@ -1,9 +1,6 @@
+class ErrorModel {
+  String text;
+  bool hasError;
 
-class ErrorModel{
-
- String text;
- bool hasError;
-
- ErrorModel({required this.text,required this.hasError});
-
+  ErrorModel({required this.text, required this.hasError});
 }

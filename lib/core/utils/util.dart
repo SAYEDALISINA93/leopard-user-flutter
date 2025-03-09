@@ -12,6 +12,7 @@ import 'package:leoparduser/data/model/global/app/app_service_model.dart';
 import 'package:leoparduser/data/model/location/selected_location_info.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vibration/vibration.dart';
 import 'dart:math' as math;
 import 'dart:math';
 import '../../data/model/location/route_info_model.dart';
@@ -40,14 +41,16 @@ class MyUtils {
       BoxShadow(
           blurRadius: 15.0,
           offset: const Offset(0, 25),
-          color: Colors.grey.shade500.withOpacity(0.6),
+          color: Colors.grey.shade500.withValues(alpha: 0.6),
           spreadRadius: -35.0),
     ];
   }
 
   static void vibrate() async {
+    print('vibrate');
     // if (await Vibration.hasVibrator() ?? false) {
-    //   Vibration.vibrate(duration: 3000); // Duration in milliseconds
+    Vibration.vibrate(duration: 1000);
+    HapticFeedback.heavyImpact();
     // }
   }
 
@@ -61,7 +64,7 @@ class MyUtils {
   static dynamic getBottomSheetShadow() {
     return [
       BoxShadow(
-        color: Colors.grey.shade400.withOpacity(0.08),
+        color: Colors.grey.shade400.withValues(alpha: 0.08),
         spreadRadius: 3,
         blurRadius: 4,
         offset: const Offset(0, 3),
@@ -72,13 +75,13 @@ class MyUtils {
   static dynamic getShadow2({double blurRadius = 8}) {
     return [
       BoxShadow(
-        color: MyColor.getShadowColor().withOpacity(0.3),
+        color: MyColor.getShadowColor().withValues(alpha: 0.3),
         blurRadius: blurRadius,
         spreadRadius: 3,
         offset: const Offset(0, 10),
       ),
       BoxShadow(
-        color: MyColor.getShadowColor().withOpacity(0.3),
+        color: MyColor.getShadowColor().withValues(alpha: 0.3),
         spreadRadius: 1,
         blurRadius: blurRadius,
         offset: const Offset(0, 1),
@@ -89,7 +92,7 @@ class MyUtils {
   static dynamic getCardShadow() {
     return [
       BoxShadow(
-        color: Colors.grey.shade400.withOpacity(0.05),
+        color: Colors.grey.shade400.withValues(alpha: 0.05),
         spreadRadius: 2,
         blurRadius: 2,
         offset: const Offset(0, 3),
@@ -100,7 +103,7 @@ class MyUtils {
   static dynamic getCardTopShadow() {
     return [
       BoxShadow(
-        color: Colors.grey.shade400.withOpacity(0.05),
+        color: Colors.grey.shade400.withValues(alpha: 0.05),
         offset: const Offset(0, 0),
         blurRadius: 20,
         spreadRadius: 0,
@@ -111,7 +114,7 @@ class MyUtils {
   static dynamic getBottomNavShadow() {
     return [
       BoxShadow(
-        color: Colors.black.withOpacity(0.15),
+        color: Colors.black.withValues(alpha: 0.15),
         blurRadius: 20,
         spreadRadius: 0,
         offset: const Offset(0, 0),
@@ -279,37 +282,45 @@ class MyUtils {
   }
 
   static String maskSensitiveInformation(String input) {
-    if (input.isEmpty) {
-      return '';
+    try {
+      if (input.isEmpty) {
+        return '';
+      }
+
+      final int maskLength = input.length ~/ 2; // Mask half of the characters.
+
+      final String mask = '*' * maskLength;
+
+      final String maskedInput = maskLength > 4
+          ? input.replaceRange(5, maskLength, mask)
+          : input.replaceRange(0, maskLength, mask);
+
+      return maskedInput;
+    } catch (e) {
+      return input;
     }
-
-    final int maskLength = input.length ~/ 2; // Mask half of the characters.
-
-    final String mask = '*' * maskLength;
-
-    final String maskedInput = maskLength > 4
-        ? input.replaceRange(5, maskLength, mask)
-        : input.replaceRange(0, maskLength, mask);
-
-    return maskedInput;
   }
 
   static String maskEmail(String email) {
-    if (email.isEmpty) {
-      return '';
-    }
+    try {
+      if (email.isEmpty) {
+        return '';
+      }
 
-    // Split the email address into parts before and after '@' symbol
-    List<String> parts = email.split('@');
-    String maskedPart = maskString(parts[0]);
+      // Split the email address into parts before and after '@' symbol
+      List<String> parts = email.split('@');
+      String maskedPart = maskString(parts[0]);
 
-    // Check if there are more than one '@' symbols
-    if (parts.length > 2) {
-      // If there are, reconstruct the email address with only the first part masked
-      return "$maskedPart@${parts[1]}";
-    } else {
-      // Otherwise, just mask the first part and keep the domain intact
-      return "$maskedPart@${parts[1]}";
+      // Check if there are more than one '@' symbols
+      if (parts.length > 2) {
+        // If there are, reconstruct the email address with only the first part masked
+        return "$maskedPart@${parts[1]}";
+      } else {
+        // Otherwise, just mask the first part and keep the domain intact
+        return "$maskedPart@${parts[1]}";
+      }
+    } catch (e) {
+      return email;
     }
   }
 

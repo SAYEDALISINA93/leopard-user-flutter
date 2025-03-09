@@ -88,7 +88,7 @@ class NewTicketController extends GetxController {
 
   bool isImage(String path) {
     if (path.contains('.jpg')) {
-      printx("its image");
+      printX("its image");
       return true;
     }
     if (path.contains('.png')) {
@@ -160,14 +160,14 @@ class NewTicketController extends GetxController {
       if (isSuccess) {
         Get.find<SupportController>().loadData();
         // Get.back();
-        printx(Get.previousRoute);
+        printX(Get.previousRoute);
         Get.back();
         CustomSnackBar.success(
             successList: [MyStrings.ticketCreateSuccessfully]);
         clearSelectedData();
       }
     } catch (e) {
-      printx(e);
+      printX(e);
     }
 
     submitLoading = false;

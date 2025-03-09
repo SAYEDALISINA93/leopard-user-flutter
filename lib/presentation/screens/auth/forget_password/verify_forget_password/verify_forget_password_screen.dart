@@ -59,7 +59,7 @@ class _VerifyForgetPassScreenState extends State<VerifyForgetPassScreen> {
                         width: 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: MyColor.primaryColor.withOpacity(.07),
+                            color: MyColor.primaryColor.withValues(alpha: .07),
                             shape: BoxShape.circle),
                         child: Icon(Icons.email_outlined,
                             size: 50, color: MyColor.getPrimaryColor()),
@@ -131,7 +131,7 @@ class _VerifyForgetPassScreenState extends State<VerifyForgetPassScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: Dimensions.space30),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             DefaultText(
                                 text: MyStrings.didNotReceiveCode.tr,

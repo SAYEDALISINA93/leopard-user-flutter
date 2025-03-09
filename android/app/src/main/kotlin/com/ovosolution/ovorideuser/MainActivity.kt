@@ -1,4 +1,4 @@
-package com.leopard.rider
+package app.theleopard.rider
 
 import io.flutter.embedding.android.FlutterActivity
 

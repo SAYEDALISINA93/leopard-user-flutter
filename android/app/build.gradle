@@ -9,9 +9,33 @@ plugins {
     id "com.google.secrets_gradle_plugin" version "0.5"
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def flutterVersionCode = project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode') : '1'
+def flutterVersionName = project.hasProperty('flutter.versionName') ? project.property('flutter.versionName') : '1.0.0'
+
+
+def getSecretPropertiesFile() {
+    return rootProject.file("secret.properties")
+}
+
+def getSecretProperties() {
+    Properties properties = new Properties()
+    if (getSecretPropertiesFile().exists()) {
+        properties.load(new FileInputStream(getSecretPropertiesFile()))
+    }
+    return properties
+}
+
+def secretProperties = getSecretProperties()
+
 android {
-    namespace = "com.leopard.rider"
-    compileSdk = 34
+    namespace = "app.theleopard.rider"
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -22,33 +46,40 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
+        freeCompilerArgs += ["-Xlint:-options"]
     }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.leopard.rider"
+        applicationId = "app.theleopard.rider"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
         targetSdk = 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders = [
+            MAPS_API_KEY: "${secretProperties['MAPS_API_KEY']}"
+        ]
     }
 
     signingConfigs {
-        release {
-            keyAlias 'upload'
-            keyPassword 'Main@124563'
-            storeFile file('upload-keystore.jks')
-            storePassword 'Main@124563'
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword = keystoreProperties["storePassword"] as String
         }
     }
 
     buildTypes {
         release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.release
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

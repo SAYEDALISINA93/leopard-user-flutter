@@ -20,6 +20,7 @@ class GlobalDriverInfo {
   String? licenseExpire;
   String? licensePhoto;
   String? dv; //
+  String? vv; //
   List<String>? riderRuleId;
   String? ev; //
   String? sv; //
@@ -32,6 +33,9 @@ class GlobalDriverInfo {
   String? imageWithPath;
   List<String>? rules;
   Brand? brand;
+  List<KycPendingData>? driverData;
+  List<KycPendingData>? vehicleData;
+
   GlobalDriverInfo({
     this.id,
     this.firstname,
@@ -50,6 +54,7 @@ class GlobalDriverInfo {
     this.licenseExpire,
     this.licensePhoto,
     this.dv,
+    this.vv,
     this.riderRuleId,
     this.ev,
     this.sv,
@@ -62,6 +67,8 @@ class GlobalDriverInfo {
     this.imageWithPath,
     this.rules,
     this.brand,
+    this.driverData,
+    this.vehicleData,
   });
 
   factory GlobalDriverInfo.fromJson(Map<String, dynamic> json) {
@@ -86,6 +93,7 @@ class GlobalDriverInfo {
           : json["license_expire"].toString().toString(),
       licensePhoto: json["license_photo"].toString(),
       dv: json["dv"].toString(),
+      vv: json["vv"].toString(),
       riderRuleId: json["rider_rule_id"] == null
           ? []
           : List<String>.from(json["rider_rule_id"]!.map((x) => x)),
@@ -105,6 +113,14 @@ class GlobalDriverInfo {
       rules: json["rules"] == null
           ? []
           : List<String>.from(json["rules"]!.map((x) => x)),
+      driverData: json["driver_data"] == null
+          ? []
+          : List<KycPendingData>.from(
+              json["driver_data"]!.map((x) => KycPendingData.fromJson(x))),
+      vehicleData: json["vehicle_data"] == null
+          ? []
+          : List<KycPendingData>.from(
+              json["vehicle_data"]!.map((x) => KycPendingData.fromJson(x))),
     );
   }
 
@@ -126,6 +142,7 @@ class GlobalDriverInfo {
         "license_expire": licenseExpire,
         "license_photo": licensePhoto,
         "dv": dv,
+        "vv": vv,
         "rider_rule_id": riderRuleId == null
             ? []
             : List<dynamic>.from(riderRuleId!.map((x) => x)),
@@ -139,38 +156,6 @@ class GlobalDriverInfo {
         "updated_at": updatedAt,
         "image_with_path": imageWithPath,
         "rules": rules,
-      };
-}
-
-class Address {
-  String? address;
-  String? city;
-  String? state;
-  String? zip;
-  String? country;
-
-  Address({
-    this.address,
-    this.city,
-    this.state,
-    this.zip,
-    this.country,
-  });
-
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-        address: json["address"],
-        city: json["city"],
-        state: json["state"],
-        zip: json["zip"],
-        country: json["country"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "address": address,
-        "city": city,
-        "state": state,
-        "zip": zip,
-        "country": country,
       };
 }
 
@@ -205,5 +190,29 @@ class Rule {
         "status": status,
         "created_at": createdAt,
         "updated_at": updatedAt,
+      };
+}
+
+class KycPendingData {
+  String? name;
+  String? type;
+  String? value;
+
+  KycPendingData({
+    this.name,
+    this.type,
+    this.value,
+  });
+
+  factory KycPendingData.fromJson(Map<String, dynamic> json) => KycPendingData(
+        name: json["name"],
+        type: json["type"],
+        value: json["value"] != null ? json["value"].toString() : "",
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "type": type,
+        "value": value,
       };
 }

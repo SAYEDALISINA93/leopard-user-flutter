@@ -3,7 +3,8 @@ class ResponseModel {
   final int _statusCode;
   final String _message;
   final String _responseJson;
-  ResponseModel(this._isSuccess, this._message, this._statusCode, this._responseJson);
+  ResponseModel(
+      this._isSuccess, this._message, this._statusCode, this._responseJson);
 
   String get message => _message;
   String get responseJson => _responseJson;

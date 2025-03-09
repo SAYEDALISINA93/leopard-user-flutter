@@ -98,7 +98,7 @@ class _DeleteAccountBottomSheetBodyState
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 17),
                   decoration: BoxDecoration(
-                    color: MyColor.getTextColor().withOpacity(.1),
+                    color: MyColor.getTextColor().withValues(alpha: .1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(

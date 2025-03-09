@@ -49,7 +49,7 @@ class DriverSearchWidget extends StatelessWidget {
                   children: [
                     Container(
                         decoration: BoxDecoration(
-                            color: MyColor.primaryColor.withOpacity(0.1),
+                            color: MyColor.primaryColor.withValues(alpha: 0.1),
                             borderRadius:
                                 BorderRadius.circular(Dimensions.mediumRadius)),
                         padding: const EdgeInsets.all(Dimensions.space5),

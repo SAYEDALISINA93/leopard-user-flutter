@@ -12,35 +12,22 @@ class AppLocationController extends GetxController {
   String currentAddress = "Loading...";
 
   Future<bool> checkPermission() async {
-    var status = await Permission.location.status;
-    if (!status.isGranted) {
-      await Permission.location.request().then((value) async {
-        if (value.isGranted) {
-          return true;
-        } else {
-          return false;
-        }
-      }).onError((error, stackTrace) {
-        CustomSnackBar.error(
-            errorList: [MyStrings.locationPermissionPermanentDenied]);
-        Future.delayed(
-          const Duration(seconds: 2),
-          () {
-            openAppSettings();
-          },
-        );
-        return false;
-      });
-    } else if (status.isPermanentlyDenied) {
-      CustomSnackBar.error(
-          errorList: [MyStrings.locationPermissionPermanentDenied]);
-      Future.delayed(
-        const Duration(seconds: 2),
-        () {
-          openAppSettings();
-        },
-      );
-      return false;
+    var status = await Geolocator.requestPermission();
+    if (status == LocationPermission.denied) {
+      var requestStatus = await Geolocator.requestPermission();
+      if (requestStatus == LocationPermission.whileInUse ||
+          requestStatus == LocationPermission.always) {
+        getCurrentPosition();
+      } else {
+        CustomSnackBar.error(errorList: ["Please enable location permission"]);
+      }
+    } else if (status == LocationPermission.deniedForever) {
+      CustomSnackBar.error(errorList: [
+        "Location permission is permanently denied. Please enable it from settings."
+      ]);
+      await openAppSettings(); // Opens device settings
+    } else if (status == LocationPermission.whileInUse) {
+      getCurrentPosition();
     }
     // CustomSnackBar.error(errorList: [MyStrings.locationPermissionPermanentDenied]);
     return true;
@@ -62,7 +49,7 @@ class AppLocationController extends GetxController {
       currentAddress =
           "${placemarks[0].street} ${placemarks[0].subThoroughfare} ${placemarks[0].thoroughfare},${placemarks[0].subLocality},${placemarks[0].locality},${placemarks[0].country}";
       update();
-      printx('appLocations possition $currentAddress');
+      printX('appLocations possition $currentAddress');
       return currentPosition;
     } catch (e) {
       CustomSnackBar.error(

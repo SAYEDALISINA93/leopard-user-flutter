@@ -1,8 +1,9 @@
 class UrlContainer {
-  static const String domainUrl =
-      'https://www.theleopard.app'; //YOUR WEBSITE DOMAIN URL HERE
-//   static const String domainUrl =
-  //   'http://localhost/index.php'; //YOUR WEBSITE DOMAIN URL HERE
+  static const String domainUrl = 'https://theleopard.app'; //online
+  // static const String domainUrl =
+  // 'https://www.demo.theleopard.app'; //YOUR WEBSITE DOMAIN URL HERE
+  // static const String domainUrl =
+  // 'http://localhost/index.php'; //YOUR WEBSITE DOMAIN URL HERE
 
   static const String baseUrl = '$domainUrl/api/';
   static const String dashBoardEndPoint = 'dashboard';
@@ -10,10 +11,15 @@ class UrlContainer {
   static const String depositMethodUrl = 'deposit/methods';
   static const String addMoneyUrl = 'add-money';
 
-  static const String registrationEndPoint = 'register';
+  static const String checkUserHasAccount = 'check-phone-number';
+  static const String loginWithPhone = 'login-with-phone';
+
+  // static const String registrationEndPoint = 'register';
+  static const String registrationEndPoint = 'phoneRegister';
   static const String loginEndPoint = 'login';
   static const String socialLoginEndPoint = 'social-login';
   static const String logoutUrl = 'logout';
+
   static const String forgetPasswordEndPoint = 'password/email';
   static const String passwordVerifyEndPoint = 'password/verify-code';
   static const String resetPasswordEndPoint = 'password/reset';
@@ -26,7 +32,6 @@ class UrlContainer {
   static const String verifySmsEndPoint = 'verify-mobile';
   static const String resendVerifyCodeEndPoint = 'resend-verify/';
   static const String authorizationCodeEndPoint = 'authorization';
-
   static const String dashBoardUrl = 'dashboard';
   static const String paymentHistoryEndpoint = 'payment/history';
 
@@ -60,6 +65,7 @@ class UrlContainer {
 
   static const String sosRide = '$ride/sos';
   static const String reviewRide = 'review';
+  static const String getDriverReview = 'get-driver-review';
   static const String rideList = '$ride/list';
 
   static const String activeRide = '$ride/active';

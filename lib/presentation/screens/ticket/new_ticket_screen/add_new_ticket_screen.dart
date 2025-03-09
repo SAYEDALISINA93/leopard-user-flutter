@@ -208,7 +208,8 @@ class DropDownTextFieldContainer extends StatelessWidget {
       decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(Dimensions.cardRadius),
-          border: Border.all(color: Colors.black.withOpacity(0.3), width: .5)),
+          border: Border.all(
+              color: Colors.black.withValues(alpha: 0.3), width: .5)),
       child: child,
     );
   }

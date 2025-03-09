@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:leoparduser/core/utils/my_icons.dart';
 import 'package:leoparduser/data/controller/account/profile_controller.dart';
 import 'package:leoparduser/data/controller/menu/my_menu_controller.dart';
 import 'package:leoparduser/data/repo/account/profile_repo.dart';
 import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/bottom-sheet/custom_bottom_sheet.dart';
-import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
 import 'package:leoparduser/presentation/components/divider/custom_spacer.dart';
 import 'package:leoparduser/presentation/components/shimmer/profiler_shimmer.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
@@ -65,6 +65,8 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
       ),
       body: GetBuilder<ProfileController>(builder: (controller) {
         return RefreshIndicator(
+          color: MyColor.colorWhite,
+          backgroundColor: MyColor.primaryColor,
           onRefresh: () async {
             controller.loadProfileInfo();
           },
@@ -98,7 +100,9 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                               fullName:
                                   '${controller.firstNameController.text} ${controller.lastNameController.text}',
                               username: controller.user.username,
-                              subtitle: "+${controller.user.mobile}",
+                              subtitle:
+                                  "+${controller.user.dialCode}${controller.user.mobile}",
+                              rating: controller.user.avgRating,
                               imgWidget: Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
@@ -140,11 +144,19 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                                 Get.toNamed(RouteHelper.profileScreen)),
                         const CustomDivider(space: Dimensions.space15),
                         MenuRowWidget(
-                            image: MyImages.changePassword,
-                            label: MyStrings.changePassword,
-                            onPressed: () =>
-                                Get.toNamed(RouteHelper.changePasswordScreen)),
-                        spaceDown(Dimensions.space10),
+                          image: MyImages.review,
+                          label: MyStrings.review,
+                          onPressed: () => Get.toNamed(
+                              RouteHelper.myReviewScreen,
+                              arguments: '${controller.user.avgRating}'),
+                        ),
+                        // const CustomDivider(space: Dimensions.space15),
+                        // MenuRowWidget(
+                        //     image: MyImages.changePassword,
+                        //     label: MyStrings.changePassword,
+                        //     onPressed: () =>
+                        //         Get.toNamed(RouteHelper.changePasswordScreen)),
+                        // spaceDown(Dimensions.space10),
                       ],
                     ),
                   ),
@@ -215,7 +227,52 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                             label: MyStrings.supportTicket,
                             onPressed: () =>
                                 Get.toNamed(RouteHelper.supportTicketScreen)),
-                        spaceDown(Dimensions.space10),
+                        const CustomDivider(space: Dimensions.space15),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              vertical: Dimensions.space5,
+                              horizontal: Dimensions.space12),
+                          color: MyColor.transparentColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                      controller.repo.apiClient
+                                              .isNotificationAudioEnable()
+                                          ? CupertinoIcons.speaker
+                                          : CupertinoIcons.speaker_slash,
+                                      color: MyColor.getRideSubTitleColor(),
+                                      size: 24),
+                                  const SizedBox(width: Dimensions.space15),
+                                  Text(
+                                    MyStrings.audioNotification.tr,
+                                    style: regularDefault.copyWith(
+                                        color: MyColor.getTextColor()),
+                                  ),
+                                ],
+                              ),
+                              Switch(
+                                activeTrackColor: MyColor.greenSuccessColor,
+                                activeColor: MyColor.colorWhite,
+                                inactiveTrackColor: MyColor.redCancelTextColor,
+                                inactiveThumbColor: MyColor.colorWhite,
+                                trackOutlineColor:
+                                    WidgetStateProperty.all(MyColor.colorWhite),
+                                value: controller.repo.apiClient
+                                    .isNotificationAudioEnable(),
+                                onChanged: (value) {
+                                  controller.repo.apiClient
+                                      .storeNotificationAudioEnable(value);
+                                  controller.update();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

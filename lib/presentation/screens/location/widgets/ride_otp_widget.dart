@@ -22,7 +22,7 @@ class RideOtpWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: MyColor.colorGrey2.withOpacity(0.5),
+        color: MyColor.colorGrey2.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
       ),
       child: Row(

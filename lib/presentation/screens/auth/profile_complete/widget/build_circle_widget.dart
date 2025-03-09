@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BuildCircleWidget extends StatelessWidget {
-
   final Widget child;
   final double padding;
   final Color color;
-
 
   const BuildCircleWidget({
     super.key,

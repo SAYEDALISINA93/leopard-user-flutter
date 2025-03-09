@@ -36,7 +36,7 @@ class _FaqScreenState extends State<FaqScreen> {
       backgroundColor: MyColor.screenBgColor,
       appBar: CustomAppBar(
         title: MyStrings.faq,
-        isTitleCenter: true,
+        isTitleCenter: false,
         elevation: 0.01,
       ),
       body: GetBuilder<FaqController>(

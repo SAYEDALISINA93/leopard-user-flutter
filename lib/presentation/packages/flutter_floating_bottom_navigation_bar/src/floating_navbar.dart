@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'floating_navbar_item.dart';
 
-typedef ItemBuilder = Widget Function(BuildContext context, int index, FloatingNavbarItem items);
+typedef ItemBuilder = Widget Function(
+    BuildContext context, int index, FloatingNavbarItem items);
 
 class FloatingNavbar extends StatefulWidget {
   final List<FloatingNavbarItem> items;
@@ -86,10 +87,12 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
             color: widget.backgroundColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5), // Choose your shadow color
+                color: Colors.grey
+                    .withValues(alpha: 0.5), // Choose your shadow color
                 spreadRadius: 0.3,
                 blurRadius: 3,
-                offset: const Offset(0, 3), // Changes the position of the shadow
+                offset:
+                    const Offset(0, 3), // Changes the position of the shadow
               ),
             ],
           ),
@@ -137,7 +140,11 @@ ItemBuilder _defaultItemBuilder({
           children: <Widget>[
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
-              decoration: BoxDecoration(color: currentIndex == index ? selectedBackgroundColor : Colors.transparent, borderRadius: BorderRadius.circular(itemBorderRadius!)),
+              decoration: BoxDecoration(
+                  color: currentIndex == index
+                      ? selectedBackgroundColor
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(itemBorderRadius!)),
               child: InkWell(
                 onTap: () {
                   onTap!(index);
@@ -146,7 +153,8 @@ ItemBuilder _defaultItemBuilder({
                 child: IntrinsicWidth(
                   child: Container(
                     // width: 30,
-                    width: MediaQuery.of(context).size.width / items.length - 24,
+                    width:
+                        MediaQuery.of(context).size.width / items.length - 24,
                     // width: width.isFinite ? (width / items.length - 8) : MediaQuery.of(context).size.width / items.length - 24,
                     padding: EdgeInsets.symmetric(
                         horizontal: 4,
@@ -155,7 +163,7 @@ ItemBuilder _defaultItemBuilder({
                                 ? 8
                                 : 4
                             : 8),
-                  
+
                     child: inLine == true
                         ? Row(
                             mainAxisSize: MainAxisSize.max,
@@ -165,7 +173,9 @@ ItemBuilder _defaultItemBuilder({
                               item.customWidget == null
                                   ? Icon(
                                       item.icon,
-                                      color: currentIndex == index ? selectedItemColor : unselectedItemColor,
+                                      color: currentIndex == index
+                                          ? selectedItemColor
+                                          : unselectedItemColor,
                                       size: iconSize,
                                     )
                                   : item.customWidget!,
@@ -179,7 +189,9 @@ ItemBuilder _defaultItemBuilder({
                                     '${item.title}',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: currentIndex == index ? selectedItemColor : unselectedItemColor,
+                                      color: currentIndex == index
+                                          ? selectedItemColor
+                                          : unselectedItemColor,
                                       fontSize: fontSize,
                                     ),
                                   ),
@@ -194,7 +206,9 @@ ItemBuilder _defaultItemBuilder({
                               item.customWidget == null
                                   ? Icon(
                                       item.icon,
-                                      color: currentIndex == index ? selectedItemColor : unselectedItemColor,
+                                      color: currentIndex == index
+                                          ? selectedItemColor
+                                          : unselectedItemColor,
                                       size: iconSize,
                                     )
                                   : item.customWidget!,
@@ -206,7 +220,9 @@ ItemBuilder _defaultItemBuilder({
                                   '${item.title}',
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: currentIndex == index ? selectedItemColor : unselectedItemColor,
+                                    color: currentIndex == index
+                                        ? selectedItemColor
+                                        : unselectedItemColor,
                                     fontSize: fontSize,
                                   ),
                                 ),

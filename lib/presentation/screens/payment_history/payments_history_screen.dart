@@ -63,7 +63,7 @@ class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
         builder: (controller) => Scaffold(
           backgroundColor: MyColor.screenBgColor,
           appBar: CustomAppBar(
-            isTitleCenter: true,
+            isTitleCenter: false,
             elevation: 1,
             title: MyStrings.payment,
             actionsWidget: [
