@@ -602,6 +602,11 @@ class MyStrings {
 
   static const String kShortUserNameError = "Username must be 6 character";
 
+  static const String kEmptyPhoneNumberError = "Please enter phone number";
+
+  static const String kInvalidPhoneNumberError =
+      "Please enter valid phone number";
+
   static const String passVerification = 'Password Verification';
 
   static const String successfullyCodeResend = 'Resend the code successfully';
@@ -739,6 +744,8 @@ class MyStrings {
 
   static RegExp emailValidatorRegExp =
       RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+  static RegExp phoneValidatorRegExp = RegExp(r"^(0\d{9}|[1-9]\d{8})$");
 
   static const String successfullyCopiedToClipboard =
       "Successfully copied to clipboard";

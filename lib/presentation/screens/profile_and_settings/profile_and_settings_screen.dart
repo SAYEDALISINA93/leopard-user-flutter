@@ -150,13 +150,13 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                               RouteHelper.myReviewScreen,
                               arguments: '${controller.user.avgRating}'),
                         ),
-                        const CustomDivider(space: Dimensions.space15),
-                        MenuRowWidget(
-                            image: MyImages.changePassword,
-                            label: MyStrings.changePassword,
-                            onPressed: () =>
-                                Get.toNamed(RouteHelper.changePasswordScreen)),
-                        spaceDown(Dimensions.space10),
+                        // const CustomDivider(space: Dimensions.space15),
+                        // MenuRowWidget(
+                        //     image: MyImages.changePassword,
+                        //     label: MyStrings.changePassword,
+                        //     onPressed: () =>
+                        //         Get.toNamed(RouteHelper.changePasswordScreen)),
+                        // spaceDown(Dimensions.space10),
                       ],
                     ),
                   ),

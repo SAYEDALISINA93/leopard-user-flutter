@@ -248,8 +248,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const SizedBox(width: Dimensions.space5),
                                     InkWell(
                                       onTap: () {
-                                        Get.offAndToNamed(
-                                            RouteHelper.registrationScreen);
+                                        Get.offAndToNamed(RouteHelper
+                                            .phoneRegistrationScreen);
                                       },
                                       child: Text(MyStrings.signUp.tr,
                                           maxLines: 2,

@@ -13,8 +13,10 @@ import 'package:leoparduser/presentation/screens/auth/forget_password/verify_for
 import 'package:leoparduser/presentation/screens/auth/login/login_screen.dart';
 
 import 'package:leoparduser/presentation/screens/auth/profile_complete/profile_complete_screen.dart';
+import 'package:leoparduser/presentation/screens/auth/registration/phone_registration_screen.dart';
 
 import 'package:leoparduser/presentation/screens/auth/registration/registration_screen.dart';
+import 'package:leoparduser/presentation/screens/auth/sms_verification_page/otp_verification_screen.dart';
 
 import 'package:leoparduser/presentation/screens/auth/sms_verification_page/sms_verification_screen.dart';
 import 'package:leoparduser/presentation/screens/dashboard/dashboard_screen.dart';
@@ -79,6 +81,8 @@ class RouteHelper {
 
   static const String registrationScreen = "/registration_screen";
 
+  static const String phoneRegistrationScreen = "/phone_registration_screen";
+
   static const String addMoneyHistoryScreen = "/add_money_history_screen";
 
   static const String profileCompleteScreen = "/profile_complete_screen";
@@ -86,6 +90,8 @@ class RouteHelper {
   static const String emailVerificationScreen = "/verify_email_screen";
 
   static const String smsVerificationScreen = "/verify_sms_screen";
+
+  static const otpVerificationScreen = "/otp_verification_screen";
 
   static const String verifyPassCodeScreen = "/verify_pass_code_screen";
 
@@ -159,6 +165,18 @@ class RouteHelper {
         name: changePasswordScreen, page: () => const ChangePasswordScreen()),
 
     GetPage(name: registrationScreen, page: () => const RegistrationScreen()),
+
+    GetPage(
+        name: phoneRegistrationScreen,
+        page: () => const PhoneRegistrationScreen()),
+
+    GetPage(
+        name: otpVerificationScreen,
+        page: () => OTPVerificationScreen(
+              phoneNumber: Get.arguments['phoneNumber'],
+              countryCode: Get.arguments['countryCode'],
+              verificationId: Get.arguments['verificationId'],
+            )),
 
     GetPage(
         name: profileCompleteScreen, page: () => const ProfileCompleteScreen()),

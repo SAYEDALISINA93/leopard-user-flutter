@@ -1,7 +1,8 @@
 class UrlContainer {
+  // static const String domainUrl = 'https://theleopard.app'; //online
+  // static const String domainUrl =
+  // 'https://www.demo.theleopard.app'; //YOUR WEBSITE DOMAIN URL HERE
   static const String domainUrl =
-      // 'https://www.demo.theleopard.app'; //YOUR WEBSITE DOMAIN URL HERE
-      // static const String domainUrl =
       'http://localhost/index.php'; //YOUR WEBSITE DOMAIN URL HERE
 
   static const String baseUrl = '$domainUrl/api/';
@@ -13,7 +14,8 @@ class UrlContainer {
   static const String checkUserHasAccount = 'check-phone-number';
   static const String loginWithPhone = 'login-with-phone';
 
-  static const String registrationEndPoint = 'register';
+  // static const String registrationEndPoint = 'register';
+  static const String registrationEndPoint = 'phoneRegister';
   static const String loginEndPoint = 'login';
   static const String socialLoginEndPoint = 'social-login';
   static const String logoutUrl = 'logout';

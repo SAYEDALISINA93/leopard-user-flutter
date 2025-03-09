@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:leoparduser/core/utils/method.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
@@ -23,6 +24,45 @@ class SmsEmailVerificationRepo {
     ResponseModel responseModel =
         await apiClient.request(url, Method.postMethod, map, passHeader: true);
     return responseModel;
+  }
+
+  Future<ResponseModel> verifyFirebase(
+      String code, String verificationId) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: code,
+      );
+
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        return ResponseModel(
+          true,
+          'Verification successful',
+          200,
+          jsonEncode({
+            'message': 'Verification successful',
+            'token': await userCredential.user!.getIdToken(),
+          }),
+        );
+      } else {
+        return ResponseModel(
+          false,
+          'Verification failed',
+          400,
+          jsonEncode({'message': 'Verification failed'}),
+        );
+      }
+    } catch (e) {
+      return ResponseModel(
+        false,
+        e.toString(),
+        400,
+        jsonEncode({'message': e.toString()}),
+      );
+    }
   }
 
   Future<bool> sendAuthorizationRequest() async {
