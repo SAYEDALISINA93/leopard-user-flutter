@@ -34,6 +34,7 @@ class PhoneRegistrationRepo {
       'mobile': model.mobile,
       'country_code': '93',
       'agree': model.agree.toString() == 'true' ? 'true' : '',
+      'firebase_uid': model.firebaseToken,
       'password_confirmation': model.password,
     };
     if (model.referName != null && model.referName!.isNotEmpty) {
