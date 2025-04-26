@@ -1061,6 +1061,7 @@ class MyStrings {
   static const String vehicleInformation = "Vehicle Information";
   static const String carInfo = "Car Info";
   static const String apple = "Apple";
+  static const String afgCode = "+93";
   static List<MyLanguageModel> myLanguages = [
     MyLanguageModel(
         languageName: 'English', countryCode: 'US', languageCode: 'en'),
