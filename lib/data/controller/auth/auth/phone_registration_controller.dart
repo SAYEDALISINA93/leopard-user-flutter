@@ -77,8 +77,11 @@ class PhoneRegistrationController extends GetxController {
     update();
 
     SignUpModel model = getUserData();
+    model.firebaseToken = _token;
+
     print(
-        "TOKKKKKKKKKKEN: ${model.mobile}, ${model.countryCode}, ${model.mobileCode}");
+        "TOKKKKKKKKKKEN: ${model.firebaseToken} ${model.mobile}, ${model.countryCode}, ${model.mobileCode}");
+
     final responseModel = await registrationRepo.registerUser(model);
 
     if (responseModel.status?.toLowerCase() ==
