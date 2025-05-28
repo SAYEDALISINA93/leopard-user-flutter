@@ -89,7 +89,8 @@ class RideDetailsReviewBottomSheet extends StatelessWidget {
                             border: Border.all(
                                 color: MyColor.colorGrey, width: .5))),
                     GestureDetector(
-                      onTap: () => MyUtils.launchPhone(ride.driver?.mobile),
+                      onTap: () => MyUtils.launchPhone(
+                          "+${ride.driver?.dialCode}${ride.driver?.mobile}"),
                       child: Row(
                         children: [
                           const CustomSvgPicture(
@@ -98,7 +99,8 @@ class RideDetailsReviewBottomSheet extends StatelessWidget {
                               height: 15,
                               width: 15),
                           const SizedBox(width: Dimensions.space5 - 1),
-                          Text("+${ride.driver?.mobile}",
+                          Text(
+                              "+${ride.driver?.dialCode}${ride.driver?.mobile}",
                               style: boldDefault.copyWith(
                                   color: MyColor.colorGrey,
                                   fontSize: Dimensions.fontDefault,
