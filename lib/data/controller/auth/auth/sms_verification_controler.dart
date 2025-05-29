@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route_middleware.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/auth/login/login_response_model.dart';
-import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/repo/auth/login_repo.dart';
 import 'package:leoparduser/data/repo/auth/sms_email_verification_repo.dart';
@@ -47,6 +45,8 @@ class SmsVerificationController extends GetxController {
   }
 
   bool submitLoading = false;
+  SmsEmailVerificationRepo smsRepo = Get.find();
+
   verifyYourSms(String currentText) async {
     if (currentText.isEmpty) {
       CustomSnackBar.error(errorList: [MyStrings.otpFieldEmptyMsg.tr]);
@@ -56,57 +56,24 @@ class SmsVerificationController extends GetxController {
     submitLoading = true;
     update();
 
-    // ResponseModel responseModel =
-    //     await repo.verify(currentText, isEmail: false, isTFA: false);
+    try {
+      ResponseModel responseModel =
+          await smsRepo.verifyFirebase(currentText, verificationId);
 
-    // if (responseModel.statusCode == 200) {
-    //   AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-    //       jsonDecode(responseModel.responseJson));
-
-    //   if (model.status == MyStrings.success) {
-    //     CustomSnackBar.success(
-    //         successList: model.message ??
-    //             ['${MyStrings.sms.tr} ${MyStrings.verificationSuccess.tr}']);
-    //     RouteMiddleware.checkNGotoNext(user: model.data?.user);
-    //     // Get.offAndToNamed(isProfileCompleteEnable ? RouteHelper.profileCompleteScreen : RouteHelper.dashboard);
-    //   } else {
-    //     CustomSnackBar.error(
-    //         errorList: model.message ??
-    //             ['${MyStrings.sms.tr} ${MyStrings.verificationFailed}']);
-    //   }
-    // } else {
-    //   CustomSnackBar.error(errorList: [responseModel.message]);
-    // }
-
-    // Verify Firebase OTP
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: userCompletePhone,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        CustomSnackBar.success(successList: [
-          '${MyStrings.sms.tr} ${MyStrings.verificationSuccess.tr}'
+      if (responseModel.statusCode == 200) {
+        CustomSnackBar.success(successList: [responseModel.message]);
+        verificationToken = jsonDecode(responseModel.responseJson)['token'];
+        await callLoginApi();
+      } else {
+        CustomSnackBar.error(errorList: [
+          '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: Please check the code and try again.'
         ]);
-        // RouteMiddleware.checkNGotoNext();
-        callLoginApi();
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        CustomSnackBar.error(
-            errorList: ['${MyStrings.sms.tr} ${MyStrings.verificationFailed}']);
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-            verificationId: verificationId, smsCode: currentText);
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithCredential(phoneAuthCredential);
-        verificationToken = await userCredential.user?.getIdToken() ?? '';
-        CustomSnackBar.success(successList: [
-          '${MyStrings.sms.tr} ${MyStrings.verificationSuccess.tr}'
-        ]);
-        // RouteMiddleware.checkNGotoNext();
-        callLoginApi();
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+      }
+    } catch (e) {
+      CustomSnackBar.error(errorList: [
+        '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: An unexpected error occurred. Please try again later.'
+      ]);
+    }
 
     submitLoading = false;
     update();

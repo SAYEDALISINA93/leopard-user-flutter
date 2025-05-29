@@ -152,35 +152,7 @@ class LoginController extends GetxController {
       print('formattedPhoneNumber: $formattedPhoneNumber');
 
       try {
-        await FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: formattedPhoneNumber,
-          verificationCompleted: (PhoneAuthCredential credential) async {
-            // Auto-retrieval or instant verification
-            isSubmitLoading = false;
-            update();
-          },
-          verificationFailed: (FirebaseAuthException e) {
-            isSubmitLoading = false;
-            update();
-            CustomSnackBar.error(
-                errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
-          },
-          codeSent: (String verificationId, int? resendToken) {
-            // Handle code sent - keep loading until navigation completes
-            isSubmitLoading = false;
-            update();
-            Get.toNamed(RouteHelper.smsVerificationScreen, arguments: [
-              verificationId,
-              mobileNumberController.text.toString(),
-              countryCode
-            ]);
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {
-            // Handle timeout
-            isSubmitLoading = false;
-            update();
-          },
-        );
+        await verifyPhoneNumber(formattedPhoneNumber);
       } catch (e) {
         isSubmitLoading = false;
         update();
@@ -216,6 +188,38 @@ class LoginController extends GetxController {
     // } else {
     //   CustomSnackBar.error(errorList: [model.message]);
     // }
+  }
+
+  Future<void> verifyPhoneNumber(String formattedPhoneNumber) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: formattedPhoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        // Auto-retrieval or instant verification
+        isSubmitLoading = false;
+        update();
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        isSubmitLoading = false;
+        update();
+        CustomSnackBar.error(
+            errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        // Handle code sent - keep loading until navigation completes
+        isSubmitLoading = false;
+        update();
+        Get.toNamed(RouteHelper.smsVerificationScreen, arguments: [
+          verificationId,
+          mobileNumberController.text.toString(),
+          countryCode
+        ]);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Handle timeout
+        isSubmitLoading = false;
+        update();
+      },
+    );
   }
 
   changeRememberMe() {
