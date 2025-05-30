@@ -91,6 +91,37 @@ class OtpVerificationController extends GetxController {
   }
 
   bool resendLoading = false;
+  var resendOtpTimer = 60.obs; // Observable countdown timer
+  Timer? _resendOtpCountdownTimer;
+
+  void startResendOtpTimer() {
+    resendOtpTimer.value = 60; // Reset the timer
+    _resendOtpCountdownTimer?.cancel(); // Cancel any existing timer
+    _resendOtpCountdownTimer =
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (resendOtpTimer.value > 0) {
+        resendOtpTimer.value--; // Decrement the timer value
+        resendOtpTimer.refresh(); // Ensure observable triggers UI updates
+      } else {
+        timer.cancel(); // Stop the timer when it reaches 0
+        resendOtpTimer.refresh(); // Ensure UI reflects the final state
+      }
+    });
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    startResendOtpTimer(); // Automatically start the countdown timer when the controller is initialized
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    _resendOtpCountdownTimer
+        ?.cancel(); // Cancel the timer when the controller is disposed
+  }
+
   Future<void> sendCodeAgain() async {
     // resendLoading = true;
     // update();
