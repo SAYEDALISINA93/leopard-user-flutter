@@ -15,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
-def flutterVersionCode = project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode') : '3'
+def flutterVersionCode = project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode') : '4'
 def flutterVersionName = project.hasProperty('flutter.versionName') ? project.property('flutter.versionName') : '1.0.0'
 
 
