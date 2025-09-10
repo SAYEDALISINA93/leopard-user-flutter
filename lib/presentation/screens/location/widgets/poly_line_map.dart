@@ -6,9 +6,7 @@ import 'package:leoparduser/data/controller/map/ride_map_controller.dart';
 import '../../../../../environment.dart';
 
 class PolyLineMapScreen extends StatefulWidget {
-  const PolyLineMapScreen({
-    super.key,
-  });
+  const PolyLineMapScreen({super.key});
 
   @override
   State<PolyLineMapScreen> createState() => _PolyLineMapScreenState();
@@ -27,9 +25,11 @@ class _PolyLineMapScreenState extends State<PolyLineMapScreen> {
             zoomGesturesEnabled: true,
             myLocationEnabled: true,
             compassEnabled: false,
+            myLocationButtonEnabled: false,
             initialCameraPosition: CameraPosition(
-                target: controller.pickupLatLng,
-                zoom: Environment.mapDefaultZoom + 6),
+              target: controller.pickupLatLng,
+              zoom: Environment.mapDefaultZoom + 6,
+            ),
             onMapCreated: (googleMapController) {
               controller.mapController = googleMapController;
               double southWestLat;
@@ -59,8 +59,9 @@ class _PolyLineMapScreenState extends State<PolyLineMapScreen> {
                 southwest: LatLng(southWestLat, southWestLong),
               );
 
-              controller.mapController
-                  ?.animateCamera(CameraUpdate.newLatLngBounds(bounds, 15.0));
+              controller.mapController?.animateCamera(
+                CameraUpdate.newLatLngBounds(bounds, 15.0),
+              );
             },
             markers: controller.getMarkers(
               pickup: controller.pickupLatLng,

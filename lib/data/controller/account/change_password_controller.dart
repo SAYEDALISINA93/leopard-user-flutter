@@ -19,14 +19,14 @@ class ChangePasswordController extends GetxController {
   FocusNode passwordFocusNode = FocusNode();
   FocusNode confirmPassFocusNode = FocusNode();
 
-  addError({required String error}) {
+  void addError({required String error}) {
     if (!errors.contains(error)) {
       errors.add(error);
       update();
     }
   }
 
-  removeError({required String error}) {
+  void removeError({required String error}) {
     if (errors.contains(error)) {
       errors.remove(error);
       update();
@@ -34,7 +34,7 @@ class ChangePasswordController extends GetxController {
   }
 
   bool submitLoading = false;
-  changePassword() async {
+  Future<void> changePassword() async {
     String currentPass = currentPassController.text.toString();
     String password = passController.text.toString();
 

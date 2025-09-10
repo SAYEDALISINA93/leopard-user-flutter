@@ -21,7 +21,6 @@ class SharedPreferenceHelper {
   static const String needTwoFactorVerification = 'need-tfa';
 
   static const String userIdKey = 'user_id';
-  static const String hasNewNotificationKey = 'new-notification-key';
 
   static const String theme = 'theme';
   static const String token = 'token';

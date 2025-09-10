@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/style.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/app-bar/action_button_icon_widget.dart';
 import 'package:leoparduser/presentation/components/dialog/exit_dialog.dart';
 
@@ -58,7 +57,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
   bool hasNotification = false;
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     super.initState();
   }
 
@@ -85,14 +83,19 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           Navigator.maybePop(context);
                         }
                       },
-                      icon: Icon(Icons.arrow_back_ios_new_rounded,
-                          color: MyColor.getAppBarContentColor(), size: 20),
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: MyColor.getAppBarContentColor(),
+                        size: 20,
+                      ),
                     )
                 : const SizedBox.shrink(),
             backgroundColor: widget.bgColor,
-            title: Text(widget.title.tr,
-                style: boldDefault.copyWith(
-                    color: MyColor.getAppBarContentColor())),
+            title: Text(
+              widget.title.tr,
+              style:
+                  boldDefault.copyWith(color: MyColor.getAppBarContentColor()),
+            ),
             centerTitle: widget.isTitleCenter,
             actions: [
               ...?widget.actionsWidget,
@@ -107,13 +110,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       imageSrc: widget.isActionImage ? widget.actionIcon : '',
                     )
                   : const SizedBox.shrink(),
-              const SizedBox(width: 5)
+              const SizedBox(width: 5),
             ],
             systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: widget.bgColor,
-                statusBarIconBrightness: Brightness.dark,
-                systemNavigationBarColor: MyColor.colorWhite,
-                systemNavigationBarIconBrightness: Brightness.dark),
+              statusBarColor: widget.bgColor,
+              statusBarIconBrightness: Brightness.dark,
+              systemNavigationBarColor: MyColor.colorWhite,
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ),
             scrolledUnderElevation: 0,
             surfaceTintColor: MyColor.transparentColor,
           )
@@ -121,9 +125,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
             titleSpacing: 0,
             elevation: widget.elevation,
             backgroundColor: widget.bgColor,
-            title: Text(widget.title.tr,
-                style: regularLarge.copyWith(
-                    color: MyColor.getAppBarContentColor())),
+            title: Text(
+              widget.title.tr,
+              style:
+                  boldDefault.copyWith(color: MyColor.getAppBarContentColor()),
+            ),
             centerTitle: widget.isTitleCenter,
             actions: [
               ...?widget.actionsWidget,
@@ -137,15 +143,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           });
                         });
                       },
-                      child: const SizedBox.shrink())
-                  : const SizedBox()
+                      child: const SizedBox.shrink(),
+                    )
+                  : const SizedBox(),
             ],
             automaticallyImplyLeading: false,
             systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: widget.bgColor,
-                statusBarIconBrightness: Brightness.dark,
-                systemNavigationBarColor: MyColor.colorWhite,
-                systemNavigationBarIconBrightness: Brightness.dark),
+              statusBarColor: widget.bgColor,
+              statusBarIconBrightness: Brightness.dark,
+              systemNavigationBarColor: MyColor.colorWhite,
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ),
             scrolledUnderElevation: 0,
             surfaceTintColor: MyColor.transparentColor,
           );

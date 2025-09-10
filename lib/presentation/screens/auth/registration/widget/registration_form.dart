@@ -84,8 +84,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 validator: (value) {
                   if (value != null && value.isEmpty) {
                     return MyStrings.enterYourEmail.tr;
-                  } else if (!MyStrings.emailValidatorRegExp
-                      .hasMatch(value ?? '')) {
+                  } else if (!MyStrings.emailValidatorRegExp.hasMatch(
+                    value ?? '',
+                  )) {
                     return MyStrings.invalidEmailMsg.tr;
                   } else {
                     return null;
@@ -97,33 +98,35 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               const SizedBox(height: Dimensions.space20),
               Focus(
-                  onFocusChange: (hasFocus) {
-                    controller.changePasswordFocus(hasFocus);
+                onFocusChange: (hasFocus) {
+                  controller.changePasswordFocus(hasFocus);
+                },
+                child: CustomTextField(
+                  animatedLabel: true,
+                  needOutlineBorder: true,
+                  isShowSuffixIcon: true,
+                  isPassword: true,
+                  labelText: MyStrings.password.tr,
+                  controller: controller.passwordController,
+                  focusNode: controller.passwordFocusNode,
+                  nextFocus: controller.confirmPasswordFocusNode,
+                  textInputType: TextInputType.text,
+                  onChanged: (value) {
+                    if (controller.checkPasswordStrength) {
+                      controller.updateValidationList(value);
+                    }
                   },
-                  child: CustomTextField(
-                    animatedLabel: true,
-                    needOutlineBorder: true,
-                    isShowSuffixIcon: true,
-                    isPassword: true,
-                    labelText: MyStrings.password.tr,
-                    controller: controller.passwordController,
-                    focusNode: controller.passwordFocusNode,
-                    nextFocus: controller.confirmPasswordFocusNode,
-                    textInputType: TextInputType.text,
-                    onChanged: (value) {
-                      if (controller.checkPasswordStrength) {
-                        controller.updateValidationList(value);
-                      }
-                    },
-                    validator: (value) {
-                      return controller.validatePassword(value ?? '');
-                    },
-                  )),
+                  validator: (value) {
+                    return controller.validatePassword(value ?? '');
+                  },
+                ),
+              ),
               Visibility(
                 visible: controller.hasPasswordFocus &&
                     controller.checkPasswordStrength,
-                child:
-                    ValidationWidget(list: controller.passwordValidationRules),
+                child: ValidationWidget(
+                  list: controller.passwordValidationRules,
+                ),
               ),
               const SizedBox(height: Dimensions.space20),
               CustomTextField(
@@ -156,24 +159,28 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       height: 25,
                       child: Checkbox(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.defaultRadius)),
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.defaultRadius,
+                          ),
+                        ),
                         activeColor: MyColor.primaryColor,
                         checkColor: MyColor.colorWhite,
                         value: controller.agreeTC,
-                        side: WidgetStateBorderSide.resolveWith((states) =>
-                            BorderSide(
-                                width: 1.0,
-                                color: controller.agreeTC
-                                    ? MyColor.getTextFieldEnableBorder()
-                                    : MyColor.getTextFieldDisableBorder())),
+                        side: WidgetStateBorderSide.resolveWith(
+                          (states) => BorderSide(
+                            width: 1.0,
+                            color: controller.agreeTC
+                                ? MyColor.getTextFieldEnableBorder()
+                                : MyColor.getTextFieldDisableBorder(),
+                          ),
+                        ),
                         onChanged: (bool? value) {
                           controller.updateAgreeTC();
                         },
                       ),
                     ),
                     if (controller.generalSettingRepo.apiClient
-                        .isAgreePolicyEnable()) ...[
+                        .isAgreePolicyEnabled()) ...[
                       const SizedBox(width: Dimensions.space8),
                       Expanded(
                         child: GestureDetector(
@@ -184,18 +191,23 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             text: TextSpan(
                               text: MyStrings.regTerm.tr,
                               style: lightDefault.copyWith(
-                                  color: MyColor.colorGrey, fontSize: 14),
+                                color: MyColor.colorGrey,
+                                fontSize: 14,
+                              ),
                               children: [
                                 TextSpan(
                                   text: " ${MyStrings.privacyPolicy.tr}",
                                   style: boldDefault.copyWith(
-                                      color: MyColor.colorGrey,
-                                      fontWeight: FontWeight.w600,
-                                      height: 1.7,
-                                      fontSize: 14),
+                                    color: MyColor.colorGrey,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.7,
+                                    fontSize: 14,
+                                  ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      Get.toNamed(RouteHelper.privacyScreen);
+                                      Get.toNamed(
+                                        RouteHelper.privacyScreen,
+                                      );
                                     },
                                 ),
                               ],
@@ -222,23 +234,29 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(MyStrings.alreadyAccount.tr,
-                      overflow: TextOverflow.ellipsis,
-                      style: lightLarge.copyWith(
-                          color: MyColor.getBodyTextColor(),
-                          fontWeight: FontWeight.normal)),
+                  Text(
+                    MyStrings.alreadyAccount.tr,
+                    overflow: TextOverflow.ellipsis,
+                    style: lightLarge.copyWith(
+                      color: MyColor.getBodyTextColor(),
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                   const SizedBox(width: Dimensions.space5),
                   InkWell(
                     onTap: () {
                       Get.offAllNamed(RouteHelper.loginScreen);
                       loggerX('tap');
                     },
-                    child: Text(MyStrings.signIn.tr,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: boldLarge.copyWith(
-                            color: MyColor.getPrimaryColor())),
-                  )
+                    child: Text(
+                      MyStrings.signIn.tr,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: boldLarge.copyWith(
+                        color: MyColor.getPrimaryColor(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

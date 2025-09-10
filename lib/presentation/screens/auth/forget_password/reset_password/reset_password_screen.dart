@@ -7,7 +7,6 @@ import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/data/controller/auth/forget_password/reset_password_controller.dart';
 import 'package:leoparduser/data/repo/auth/login_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/text-form-field/custom_text_field.dart';
 import 'package:leoparduser/presentation/components/text/default_text.dart';
@@ -29,7 +28,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(LoginRepo(apiClient: Get.find()));
     final controller = Get.put(ResetPasswordController(loginRepo: Get.find()));
 
@@ -53,9 +51,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       child: Scaffold(
         backgroundColor: MyColor.getScreenBgColor(),
         appBar: CustomAppBar(
-            title: MyStrings.resetPassword.tr,
-            fromAuth: true,
-            bgColor: MyColor.getAppBarColor()),
+          title: MyStrings.resetPassword.tr,
+          fromAuth: true,
+          bgColor: MyColor.getAppBarColor(),
+        ),
         body: GetBuilder<ResetPasswordController>(
           builder: (controller) => SingleChildScrollView(
             padding: Dimensions.screenPaddingHV,
@@ -69,42 +68,45 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   HeaderText(text: MyStrings.resetPassword.tr),
                   const SizedBox(height: Dimensions.space15),
                   DefaultText(
-                      text: MyStrings.resetPassContent.tr,
-                      textStyle: regularDefault.copyWith(
-                          color:
-                              MyColor.getTextColor().withValues(alpha: 0.8))),
+                    text: MyStrings.resetPassContent.tr,
+                    textStyle: regularDefault.copyWith(
+                      color: MyColor.getTextColor().withValues(alpha: 0.8),
+                    ),
+                  ),
                   const SizedBox(height: Dimensions.space15),
                   Focus(
                     onFocusChange: (hasFocus) {
                       controller.changePasswordFocus(hasFocus);
                     },
                     child: CustomTextField(
-                        animatedLabel: true,
-                        needOutlineBorder: true,
-                        focusNode: controller.passwordFocusNode,
-                        nextFocus: controller.confirmPasswordFocusNode,
-                        labelText: MyStrings.password,
-                        isShowSuffixIcon: true,
-                        isPassword: true,
-                        textInputType: TextInputType.text,
-                        controller: controller.passController,
-                        validator: (value) {
-                          return controller.validatePassword(value);
-                        },
-                        onChanged: (value) {
-                          if (controller.checkPasswordStrength) {
-                            controller.updateValidationList(value);
-                          }
-                          return;
-                        }),
+                      animatedLabel: true,
+                      needOutlineBorder: true,
+                      focusNode: controller.passwordFocusNode,
+                      nextFocus: controller.confirmPasswordFocusNode,
+                      labelText: MyStrings.password,
+                      isShowSuffixIcon: true,
+                      isPassword: true,
+                      textInputType: TextInputType.text,
+                      controller: controller.passController,
+                      validator: (value) {
+                        return controller.validatePassword(value);
+                      },
+                      onChanged: (value) {
+                        if (controller.checkPasswordStrength) {
+                          controller.updateValidationList(value);
+                        }
+                        return;
+                      },
+                    ),
                   ),
                   Visibility(
-                      visible: controller.hasPasswordFocus &&
-                          controller.checkPasswordStrength,
-                      child: ValidationWidget(
-                        list: controller.passwordValidationRules,
-                        fromReset: true,
-                      )),
+                    visible: controller.hasPasswordFocus &&
+                        controller.checkPasswordStrength,
+                    child: ValidationWidget(
+                      list: controller.passwordValidationRules,
+                      fromReset: true,
+                    ),
+                  ),
                   const SizedBox(height: Dimensions.space15),
                   CustomTextField(
                     animatedLabel: true,

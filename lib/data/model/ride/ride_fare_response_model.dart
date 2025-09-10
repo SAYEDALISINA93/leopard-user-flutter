@@ -16,12 +16,7 @@ class RideFareResponseModel {
   List<String>? message;
   RideFareModel? data;
 
-  RideFareResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  RideFareResponseModel({this.remark, this.status, this.message, this.data});
 
   factory RideFareResponseModel.fromJson(Map<String, dynamic> json) =>
       RideFareResponseModel(

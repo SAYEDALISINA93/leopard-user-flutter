@@ -5,7 +5,6 @@ import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/controller/faq/faq_controller.dart';
 import 'package:leoparduser/data/repo/faq/faq_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/app-bar/custom_appbar.dart';
 import 'package:leoparduser/presentation/components/no_data.dart';
 import 'package:leoparduser/presentation/components/shimmer/faq_shimmer.dart';
@@ -21,7 +20,6 @@ class FaqScreen extends StatefulWidget {
 class _FaqScreenState extends State<FaqScreen> {
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(FaqRepo(apiClient: Get.find()));
     final controller = Get.put(FaqController(faqRepo: Get.find()));
     super.initState();

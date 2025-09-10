@@ -12,9 +12,6 @@ import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/controller/account/profile_complete_controller.dart';
 import 'package:leoparduser/data/repo/account/profile_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
-import 'package:leoparduser/environment.dart';
-import 'package:leoparduser/presentation/components/bottom-sheet/custom_bottom_sheet.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
 import 'package:leoparduser/presentation/components/divider/custom_spacer.dart';
@@ -37,12 +34,10 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
 
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
-    Get.put(ProfileRepo(
-      apiClient: Get.find(),
-    ));
-    final controller =
-        Get.put(ProfileCompleteController(profileRepo: Get.find()));
+    Get.put(ProfileRepo(apiClient: Get.find()));
+    final controller = Get.put(
+      ProfileCompleteController(profileRepo: Get.find()),
+    );
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.initialData();
@@ -77,21 +72,27 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                     Image.asset(MyImages.appLogoWhite,
                         width: MediaQuery.of(context).size.width / 3),
                     Align(
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(MyIcons.bg,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            height: 200)),
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        MyIcons.bg,
+                        width: double.infinity,
+                        fit: BoxFit.contain,
+                        height: 200,
+                      ),
+                    ),
                     Container(
                       padding: const EdgeInsetsDirectional.only(
-                          top: Dimensions.space20,
-                          bottom: Dimensions.space20,
-                          start: Dimensions.space20,
-                          end: Dimensions.space20),
+                        top: Dimensions.space20,
+                        bottom: Dimensions.space20,
+                        start: Dimensions.space20,
+                        end: Dimensions.space20,
+                      ),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.cardRadius)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.cardRadius,
+                        ),
+                      ),
                       child: controller.isLoading
                           ? const CustomLoader()
                           : Form(
@@ -100,23 +101,28 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                          MyStrings.profileCompleteTitle.tr,
-                                          style: boldExtraLarge.copyWith(
-                                              fontSize:
-                                                  Dimensions.fontExtraLarge +
-                                                      5))),
-                                  const SizedBox(height: Dimensions.space5),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      MyStrings.profileCompleteTitle.tr,
+                                      style: boldExtraLarge.copyWith(
+                                        fontSize: Dimensions.fontExtraLarge + 5,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: Dimensions.space5,
+                                  ),
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                        MyStrings.profileCompleteSubTitle.tr
-                                            .toTitleCase(),
-                                        textAlign: TextAlign.center,
-                                        style: regularDefault.copyWith(
-                                            color: MyColor.getBodyTextColor(),
-                                            fontSize: Dimensions.fontLarge)),
+                                      MyStrings.profileCompleteSubTitle.tr
+                                          .toTitleCase(),
+                                      textAlign: TextAlign.center,
+                                      style: regularDefault.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                        fontSize: Dimensions.fontLarge,
+                                      ),
+                                    ),
                                   ),
                                   SizedBox(
                                       height:
@@ -375,7 +381,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       return;
                                     },
                                   ),
-                                  const SizedBox(height: Dimensions.space20),
+                                  const SizedBox(
+                                    height: Dimensions.space20,
+                                  ),
                                   CustomTextField(
                                     animatedLabel: false,
                                     needOutlineBorder: true,
@@ -391,7 +399,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       return;
                                     },
                                   ),
-                                  const SizedBox(height: Dimensions.space20),
+                                  const SizedBox(
+                                    height: Dimensions.space20,
+                                  ),
                                   CustomTextField(
                                     animatedLabel: false,
                                     needOutlineBorder: true,
@@ -407,7 +417,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       return;
                                     },
                                   ),
-                                  const SizedBox(height: Dimensions.space20),
+                                  const SizedBox(
+                                    height: Dimensions.space20,
+                                  ),
                                   CustomTextField(
                                     animatedLabel: false,
                                     needOutlineBorder: true,
@@ -423,7 +435,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                     },
                                   ),
                                   if (controller.loginType == "google") ...[
-                                    const SizedBox(height: Dimensions.space20),
+                                    const SizedBox(
+                                      height: Dimensions.space20,
+                                    ),
                                     CustomTextField(
                                       animatedLabel: false,
                                       needOutlineBorder: true,
@@ -438,7 +452,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       },
                                     ),
                                   ],
-                                  const SizedBox(height: Dimensions.space35),
+                                  const SizedBox(
+                                    height: Dimensions.space35,
+                                  ),
                                   RoundedButton(
                                     isLoading: controller.submitLoading,
                                     text: MyStrings.completeProfile.tr,
@@ -447,7 +463,7 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                         controller.updateProfile();
                                       }
                                     },
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

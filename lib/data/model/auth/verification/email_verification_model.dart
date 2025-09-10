@@ -1,10 +1,11 @@
 class EmailVerificationModel {
-  EmailVerificationModel(
-      {required int code,
-      required String status,
-      required String colorRedirectUrl,
-      List<String>? message,
-      Data? data}) {
+  EmailVerificationModel({
+    required int code,
+    required String status,
+    required String colorRedirectUrl,
+    List<String>? message,
+    Data? data,
+  }) {
     _status = status;
     _message = message;
     _colorRedirectUrl = colorRedirectUrl;

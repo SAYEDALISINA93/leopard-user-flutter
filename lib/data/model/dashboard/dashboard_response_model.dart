@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:leoparduser/data/model/global/app/app_payment_method.dart';
 import 'package:leoparduser/data/model/global/app/app_service_model.dart';
+import 'package:leoparduser/data/model/global/app/ride_model.dart';
 import 'package:leoparduser/data/model/global/user/global_user_model.dart';
 
 DashBoardResponseModel dashBoardResponseModelFromJson(String str) =>
@@ -44,6 +45,7 @@ class Data {
   List<AppPaymentMethod>? paymentMethod;
   List<AppService>? services;
   GlobalUser? userInfo;
+  RideModel? runningRide;
   String? serviceImagePath;
   String? gatewayImagePath;
   String? userImagePath;
@@ -52,6 +54,7 @@ class Data {
     this.paymentMethod,
     this.services,
     this.userInfo,
+    this.runningRide,
     this.serviceImagePath,
     this.gatewayImagePath,
     this.userImagePath,
@@ -60,14 +63,20 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         paymentMethod: json["payment_method"] == null
             ? []
-            : List<AppPaymentMethod>.from(json["payment_method"]!
-                .map((x) => AppPaymentMethod.fromJson(x))),
+            : List<AppPaymentMethod>.from(
+                json["payment_method"]!
+                    .map((x) => AppPaymentMethod.fromJson(x)),
+              ),
         services: json["services"] == null
             ? []
             : List<AppService>.from(
-                json["services"]!.map((x) => AppService.fromJson(x))),
+                json["services"]!.map((x) => AppService.fromJson(x)),
+              ),
         userInfo:
             json["user"] == null ? null : GlobalUser.fromJson(json["user"]),
+        runningRide: json["running_ride"] == null
+            ? null
+            : RideModel.fromJson(json["running_ride"]),
         gatewayImagePath: json["gateway_image_path"].toString(),
         serviceImagePath: json["service_image_path"].toString(),
         userImagePath: json["user_image_path"].toString(),

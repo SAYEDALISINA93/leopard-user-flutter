@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/app_status.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
@@ -20,44 +23,52 @@ import 'my_strings.dart';
 //import 'package:vibration/vibration.dart';
 
 class MyUtils {
-  static splashScreen() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  static void splashScreen() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
         statusBarColor: MyColor.getPrimaryColor(),
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: MyColor.getPrimaryColor(),
-        systemNavigationBarIconBrightness: Brightness.light));
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+    );
   }
 
-  static allScreen() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  static void allScreen() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
         statusBarColor: MyColor.getPrimaryColor(),
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: MyColor.colorWhite,
-        systemNavigationBarIconBrightness: Brightness.dark));
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+    );
   }
 
   static dynamic getShadow() {
     return [
       BoxShadow(
-          blurRadius: 15.0,
-          offset: const Offset(0, 25),
-          color: Colors.grey.shade500.withValues(alpha: 0.6),
-          spreadRadius: -35.0),
+        blurRadius: 15.0,
+        offset: const Offset(0, 25),
+        color: Colors.grey.shade500.withValues(alpha: 0.6),
+        spreadRadius: -35.0,
+      ),
     ];
   }
 
   static void vibrate() async {
-    print('vibrate');
-    // if (await Vibration.hasVibrator() ?? false) {
-    Vibration.vibrate(duration: 1000);
-    HapticFeedback.heavyImpact();
-    // }
+    printX('vibrate');
+    if (await Vibration.hasVibrator()) {
+      Vibration.vibrate(duration: 1000);
+      HapticFeedback.heavyImpact();
+    }
   }
 
-  static copy({required String text}) {
+  static void copy({required String text}) {
     Clipboard.setData(ClipboardData(text: text)).then((value) {
       CustomSnackBar.success(
-          successList: [MyStrings.successfullyCopiedToClipboard]);
+        successList: [MyStrings.successfullyCopiedToClipboard],
+      );
     });
   }
 
@@ -122,7 +133,7 @@ class MyUtils {
     ];
   }
 
-  static getOperationTitle(String value) {
+  static String getOperationTitle(String value) {
     String number = value;
     RegExp regExp = RegExp(r'^(\d+)(\w+)$');
     Match? match = regExp.firstMatch(number);
@@ -170,7 +181,11 @@ class MyUtils {
   }
 
   double calculateDistance(
-      double startLat, double startLong, double endLat, double endLong) {
+    double startLat,
+    double startLong,
+    double endLat,
+    double endLong,
+  ) {
     const int radiusOfEarth = 6371;
     double dLat = _degreesToRadians(endLat - startLat);
     double dLon = _degreesToRadians(endLong - startLong);
@@ -190,8 +205,10 @@ class MyUtils {
 
   void stopLandscape() {
     //normally ride sharing app doesn't have landscape mode
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   static Future<bool> handleLocationPermission() async {
@@ -211,9 +228,12 @@ class MyUtils {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      await Geolocator.openAppSettings();
+      if (Platform.isAndroid) {
+        await Geolocator.openAppSettings();
+      }
       CustomSnackBar.error(
-          errorList: [MyStrings.locationPermissionPermanentDenied]);
+        errorList: [MyStrings.locationPermissionPermanentDenied],
+      );
       return false;
     }
 
@@ -226,16 +246,17 @@ class MyUtils {
 
   static Position getDefaultPosition() {
     return Position(
-        longitude: 0.0,
-        latitude: 0.0,
-        timestamp: DateTime.now(),
-        accuracy: 0.0,
-        altitude: 0.0,
-        altitudeAccuracy: 0.0,
-        heading: 0.0,
-        headingAccuracy: 0.0,
-        speed: 0.0,
-        speedAccuracy: 0.0);
+      longitude: 0.0,
+      latitude: 0.0,
+      timestamp: DateTime.now(),
+      accuracy: 0.0,
+      altitude: 0.0,
+      altitudeAccuracy: 0.0,
+      heading: 0.0,
+      headingAccuracy: 0.0,
+      speed: 0.0,
+      speedAccuracy: 0.0,
+    );
   }
 
   static List<SelectedLocationInfo> getDefaultLocationInfo() {
@@ -244,17 +265,22 @@ class MyUtils {
 
   static Future<Position> getCurrentPosition() async {
     Position position = await Geolocator.getCurrentPosition(
-        locationSettings: AndroidSettings(accuracy: LocationAccuracy.high));
+      locationSettings: AndroidSettings(accuracy: LocationAccuracy.high),
+    );
     return position;
   }
 
   static List<AppPaymentMethod> getDefaultPaymentMethod() {
     return [
       AppPaymentMethod(
-          id: '-9',
-          method: AppService(
-              id: "2", image: MyImages.payable, name: MyStrings.cashPayment.tr),
-          name: MyStrings.cashPayment),
+        id: '-9',
+        method: AppService(
+          id: "2",
+          image: MyImages.payable,
+          name: MyStrings.cashPayment.tr,
+        ),
+        name: MyStrings.cashPayment,
+      ),
       //  AppPaymentMethod(id: '-99', method: AppService(code: "3", imageWithPath: MyImages.wallet, name: MyStrings.payFromWallet), name: MyStrings.payFromWallet),
     ];
   }
@@ -271,14 +297,29 @@ class MyUtils {
           (i + 1 < widgets.length) ? widgets[i + 1] : const SizedBox();
 
       pairs.add(
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Expanded(child: first),
-          const SizedBox(width: Dimensions.space15),
-          Expanded(child: second)
-        ]),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(child: first),
+            const SizedBox(width: Dimensions.space15),
+            Expanded(child: second),
+          ],
+        ),
       );
     }
     return pairs;
+  }
+
+  static String getFormatMaskMail(String email) {
+    try {
+      List<String> tempList = email.split('@');
+      int maskLength = tempList[0].length;
+      String maskValue = tempList[0][0].padRight(maskLength, '*');
+      String value = '$maskValue@${tempList[1]}';
+      return value;
+    } catch (e) {
+      return email;
+    }
   }
 
   static String maskSensitiveInformation(String input) {
@@ -339,7 +380,8 @@ class MyUtils {
 
   static Future<Position> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
-        locationSettings: AndroidSettings(accuracy: LocationAccuracy.high));
+      locationSettings: AndroidSettings(accuracy: LocationAccuracy.high),
+    );
     return position;
   }
 
@@ -435,4 +477,5 @@ class MyUtils {
     return false;
   }
 }
+
 //\bMyStrings\.\w+(?!\.tr)\b

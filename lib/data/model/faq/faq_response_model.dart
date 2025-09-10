@@ -12,12 +12,7 @@ class FaqResponseModel {
   List<String>? message;
   Data? data;
 
-  FaqResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  FaqResponseModel({this.remark, this.status, this.message, this.data});
 
   factory FaqResponseModel.fromJson(Map<String, dynamic> json) =>
       FaqResponseModel(
@@ -40,9 +35,7 @@ class FaqResponseModel {
 class Data {
   List<Faq>? faq;
 
-  Data({
-    this.faq,
-  });
+  Data({this.faq});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         faq: json["faq"] == null
@@ -98,18 +91,10 @@ class DataValues {
   String? question;
   String? answer;
 
-  DataValues({
-    this.question,
-    this.answer,
-  });
+  DataValues({this.question, this.answer});
 
-  factory DataValues.fromJson(Map<String, dynamic> json) => DataValues(
-        question: json["question"],
-        answer: json["answer"],
-      );
+  factory DataValues.fromJson(Map<String, dynamic> json) =>
+      DataValues(question: json["question"], answer: json["answer"]);
 
-  Map<String, dynamic> toJson() => {
-        "question": question,
-        "answer": answer,
-      };
+  Map<String, dynamic> toJson() => {"question": question, "answer": answer};
 }

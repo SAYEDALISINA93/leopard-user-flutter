@@ -4,19 +4,21 @@ import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:leoparduser/data/model/global/bid/bid_model.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/image/my_network_image_widget.dart';
-import 'package:leoparduser/presentation/screens/drawer/widget/drawer_user_info_card.dart';
+import 'package:leoparduser/presentation/components/snack_bar/bid_profile_widget.dart';
 
 class CustomBidToast {
-  static newBid({
+  static void newBid({
     required BidModel bid,
     required String currency,
-    required String imagePath,
+    required String driverImagePath,
+    required String serviceImagePath,
+    required String totalRideCompleted,
     required VoidCallback accepted,
     VoidCallback? reject,
     int duration = 15,
@@ -24,64 +26,17 @@ class CustomBidToast {
     if (Get.context == null) {
       Get.rawSnackbar(
         progressIndicatorBackgroundColor: MyColor.transparentColor,
-        progressIndicatorValueColor:
-            const AlwaysStoppedAnimation<Color>(Colors.transparent),
-        messageText: Column(
-          children: [
-            GestureDetector(
-              onTap: () => Get.toNamed(RouteHelper.driverReviewScreen,
-                  arguments: bid.driver?.id),
-              child: DrawerUserCard(
-                fullName: '${bid.driver?.firstname} ${bid.driver?.lastname}',
-                username: '${bid.driver?.username}',
-                subtitle: "",
-                rightWidget: Text(
-                  "$currency${bid.bidAmount}",
-                  style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
-                ),
-                imgWidget: MyImageWidget(
-                  imageUrl: imagePath,
-                  boxFit: BoxFit.cover,
-                  width: 40,
-                  height: 40,
-                  radius: 20,
-                  isProfile: true,
-                ),
-                imgHeight: 40,
-                imgWidth: 40,
-              ),
-            ),
-            const SizedBox(height: Dimensions.space10),
-            Row(
-              children: [
-                Expanded(
-                    child: RoundedButton(
-                  text: 'Decline',
-                  press: () {
-                    if (reject != null) {
-                      reject();
-                    } else {
-                      Get.back();
-                    }
-                  },
-                  color: MyColor.colorGrey,
-                  isColorChange: true,
-                )),
-                const SizedBox(width: Dimensions.space10),
-                Expanded(
-                    child: RoundedButton(
-                  text: 'Accept',
-                  press: () {
-                    printX('Accept from snackbar');
-                    Get.back();
-                    accepted();
-                  },
-                  color: MyColor.primaryColor,
-                  isColorChange: true,
-                )),
-              ],
-            ),
-          ],
+        progressIndicatorValueColor: const AlwaysStoppedAnimation<Color>(
+          Colors.transparent,
+        ),
+        messageText: messageText(
+          bid: bid,
+          currency: currency,
+          driverImagePath: driverImagePath,
+          accepted: accepted,
+          reject: reject,
+          serviceImagePath: serviceImagePath,
+          totalRideCompleted: totalRideCompleted,
         ),
         dismissDirection: DismissDirection.horizontal,
         snackPosition: SnackPosition.TOP,
@@ -97,68 +52,20 @@ class CustomBidToast {
         showProgressIndicator: true,
         leftBarIndicatorColor: MyColor.transparentColor,
         animationDuration: const Duration(seconds: 1),
-        borderColor: MyColor.transparentColor,
         reverseAnimationCurve: Curves.easeOut,
-        borderWidth: 2,
+        borderColor: MyColor.primaryColor.withValues(alpha: 0.5),
+        borderWidth: .5,
       );
     } else {
       Flushbar(
-        messageText: Column(
-          children: [
-            GestureDetector(
-              onTap: () => Get.toNamed(RouteHelper.driverReviewScreen,
-                  arguments: bid.driver?.id),
-              child: DrawerUserCard(
-                fullName: '${bid.driver?.firstname} ${bid.driver?.lastname}',
-                username: '${bid.driver?.username}',
-                subtitle: "",
-                rightWidget: Text(
-                  "$currency${bid.bidAmount}",
-                  style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
-                ),
-                imgWidget: MyImageWidget(
-                  imageUrl: imagePath,
-                  boxFit: BoxFit.cover,
-                  width: 40,
-                  height: 40,
-                  radius: 20,
-                  isProfile: true,
-                ),
-                imgHeight: 40,
-                imgWidth: 40,
-              ),
-            ),
-            const SizedBox(height: Dimensions.space10),
-            Row(
-              children: [
-                Expanded(
-                    child: RoundedButton(
-                  text: MyStrings.decline.tr,
-                  press: () {
-                    printX('Decline from snackbar');
-                    if (reject != null) {
-                      reject();
-                    } else {
-                      Get.back();
-                    }
-                  },
-                  color: MyColor.colorGrey,
-                  isColorChange: true,
-                )),
-                const SizedBox(width: Dimensions.space10),
-                Expanded(
-                    child: RoundedButton(
-                  text: MyStrings.accept.tr,
-                  press: () {
-                    printX('Accept from snackbar');
-                    accepted();
-                  },
-                  color: MyColor.primaryColor,
-                  isColorChange: true,
-                )),
-              ],
-            ),
-          ],
+        messageText: messageText(
+          bid: bid,
+          currency: currency,
+          driverImagePath: driverImagePath,
+          accepted: accepted,
+          reject: reject,
+          serviceImagePath: serviceImagePath,
+          totalRideCompleted: totalRideCompleted,
         ),
         showProgressIndicator: true,
         margin: Get.isSnackbarOpen
@@ -171,7 +78,137 @@ class CustomBidToast {
         forwardAnimationCurve: Curves.fastEaseInToSlowEaseOut,
         isDismissible: true,
         flushbarPosition: FlushbarPosition.TOP,
+        borderColor: MyColor.primaryColor.withValues(alpha: 0.5),
+        borderWidth: .5,
       ).show(Get.context!);
     }
+  }
+
+  static Widget messageText({
+    required BidModel bid,
+    required String currency,
+    required String driverImagePath,
+    required String serviceImagePath,
+    required String totalRideCompleted,
+    required VoidCallback accepted,
+    VoidCallback? reject,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Text(
+                      '${bid.driver?.firstname} ${bid.driver?.lastname}'
+                          .toCapitalized(),
+                      style: boldDefault.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: Dimensions.fontLarge + 3,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(height: Dimensions.space3),
+                  Text(
+                    "@${bid.driver?.username}",
+                    style: regularDefault.copyWith(
+                      fontSize: Dimensions.fontSmall,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              "$currency${bid.bidAmount}",
+              style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
+            ),
+          ],
+        ),
+        BidProfileWidget(
+          driverImage: driverImagePath,
+          serviceImage: serviceImagePath,
+          totalCompletedRide: totalRideCompleted,
+          driver: bid.driver,
+        ),
+        const SizedBox(height: Dimensions.space20),
+        Row(
+          children: [
+            Expanded(
+              child: RoundedButton(
+                text: MyStrings.decline,
+                press: () {
+                  if (reject != null) {
+                    reject();
+                  } else {
+                    Get.back();
+                  }
+                },
+                color: MyColor.colorGrey,
+                isColorChange: true,
+              ),
+            ),
+            const SizedBox(width: Dimensions.space20),
+            Expanded(
+              child: RoundedButton(
+                text: MyStrings.accept,
+                press: () {
+                  Get.back();
+                  accepted();
+                },
+                color: MyColor.primaryColor,
+                isColorChange: true,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  static Widget driverProfile({
+    required String id,
+    required String driverImage,
+    required String serviceImage,
+    required String serviceName,
+  }) {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          Get.toNamed(RouteHelper.driverReviewScreen, arguments: id);
+        },
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: 30,
+              top: -10,
+              child: MyImageWidget(
+                imageUrl: serviceImage,
+                height: 80,
+                width: 80,
+                boxFit: BoxFit.fitWidth,
+                radius: 20,
+              ),
+            ),
+            MyImageWidget(
+              imageUrl: driverImage,
+              height: 50,
+              width: 50,
+              radius: 25,
+              boxFit: BoxFit.fitWidth,
+              isProfile: true,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

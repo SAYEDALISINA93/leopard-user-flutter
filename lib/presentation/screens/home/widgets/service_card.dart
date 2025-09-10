@@ -31,7 +31,9 @@ class ServiceCard extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.space5, vertical: Dimensions.space5),
+                  horizontal: Dimensions.space5,
+                  vertical: Dimensions.space5,
+                ),
                 decoration: BoxDecoration(
                   color: service.id == controller.selectedService.id
                       ? MyColor.primaryColor.withValues(alpha: 0.1)
@@ -42,19 +44,24 @@ class ServiceCard extends StatelessWidget {
                       : Border.all(color: MyColor.colorGrey2, width: 1.2),
                 ),
                 child: MyImageWidget(
-                    imageUrl:
-                        '${UrlContainer.domainUrl}/${controller.serviceImagePath}/${service.image}',
-                    height: 60,
-                    width: 60,
-                    radius: 10),
+                  imageUrl:
+                      '${UrlContainer.domainUrl}/${controller.serviceImagePath}/${service.image}',
+                  height: 60,
+                  width: 60,
+                  radius: 10,
+                ),
               ),
               spaceDown(Dimensions.space5),
               FittedBox(
-                  child: Text((service.name ?? '').tr,
-                      style: regularDefault.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF475569)))),
+                child: Text(
+                  (service.name ?? '').tr,
+                  style: regularDefault.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF475569),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

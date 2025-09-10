@@ -1,4 +1,4 @@
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 
 class SplashRepo {
   ApiClient apiClient;

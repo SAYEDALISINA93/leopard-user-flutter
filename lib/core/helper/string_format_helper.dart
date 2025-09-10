@@ -1,11 +1,14 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import '../utils/my_strings.dart';
 
-class Converter {
+class StringConverter {
   static double formatDouble(String value, {int precision = 2}) {
-    return (double.tryParse(value) ?? 0.0).toPrecision(precision);
+    if (precision != -1) {
+      return double.tryParse(value) ?? 0.0;
+    } else {
+      return (double.tryParse(value) ?? 0.0).toPrecision(precision);
+    }
   }
 
   static String toCapitalized(String value) {
@@ -34,8 +37,7 @@ class Converter {
 
   static String removeQuotationAndSpecialCharacterFromString(String value) {
     try {
-      String formatedString =
-          value.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '');
+      String formatedString = value.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '');
       return formatedString;
     } catch (e) {
       return value;
@@ -45,8 +47,7 @@ class Converter {
   static String replaceUnderscoreWithSpace(String value) {
     try {
       String formatedString = value.replaceAll('_', ' ');
-      String v =
-          formatedString.split(" ").map((str) => str.capitalize).join(" ");
+      String v = formatedString.split(" ").map((str) => str.capitalize).join(" ");
       return v;
     } catch (e) {
       return value;
@@ -104,7 +105,7 @@ class Converter {
       'th',
       'th',
       'th',
-      'th'
+      'th',
     ];
     if (((number % 100) >= 11) && ((number % 100) <= 13)) {
       return '${number}th';
@@ -125,8 +126,12 @@ class Converter {
     return formatNumber(result.toString(), precision: precision);
   }
 
-  static String calculateDiscount(String price, String discount,
-      {int precision = 2, bool isPercentageCalculation = false}) {
+  static String calculateDiscount(
+    String price,
+    String discount, {
+    int precision = 2,
+    bool isPercentageCalculation = false,
+  }) {
     double p = formatDouble(price);
     double d = formatDouble(discount);
     double result = 0;
@@ -149,27 +154,24 @@ class Converter {
     }
   }
 
-  static mul(String first, String second) {
-    double result =
-        (double.tryParse(first) ?? 0) * (double.tryParse(second) ?? 0);
-    return Converter.formatNumber(result.toString());
+  static String mul(String first, String second) {
+    double result = (double.tryParse(first) ?? 0) * (double.tryParse(second) ?? 0);
+    return StringConverter.formatNumber(result.toString());
   }
 
-  static calculateRate(String amount, String rate, {int precision = 2}) {
-    double result =
-        (double.tryParse(amount) ?? 0) / (double.tryParse(rate) ?? 0);
-    return Converter.formatNumber(result.toString(), precision: precision);
+  static String calculateRate(String amount, String rate, {int precision = 2}) {
+    double result = (double.tryParse(amount) ?? 0) / (double.tryParse(rate) ?? 0);
+    return StringConverter.formatNumber(result.toString(), precision: precision);
   }
 }
 
 extension StringCasingExtension on String {
-  String toCapitalized() =>
-      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toCapitalized() => length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
 
-  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
-      .split(' ')
-      .map((str) => str.toCapitalized())
-      .join(' ');
+  String toTitleCase() => replaceAll(
+        RegExp(' +'),
+        ' ',
+      ).split(' ').map((str) => str.toCapitalized()).join(' ');
 }
 
 //Custom
@@ -191,13 +193,13 @@ extension StringExtension on String {
     String result = text.contains('null') ? text.replaceAll('null', '') : text;
     return result;
   }
+
   //
 }
 
 void printX(Object? object) {
-  if (kDebugMode) {
-    print(object);
-  }
+  final log = Logger();
+  log.i(object);
 }
 
 void loggerX(Object? object) {
@@ -208,4 +210,9 @@ void loggerX(Object? object) {
 void loggerI(Object? object) {
   final log = Logger();
   log.i(object);
+}
+
+void printE(Object? object) {
+  final log = Logger();
+  log.e(object);
 }

@@ -8,12 +8,13 @@ class SmallText extends StatelessWidget {
   final TextStyle textStyle;
   final int maxLine;
 
-  const SmallText(
-      {super.key,
-      required this.text,
-      this.textAlign,
-      this.maxLine = 1,
-      this.textStyle = regularSmall});
+  const SmallText({
+    super.key,
+    required this.text,
+    this.textAlign,
+    this.maxLine = 1,
+    this.textStyle = regularSmall,
+  });
 
   @override
   Widget build(BuildContext context) {

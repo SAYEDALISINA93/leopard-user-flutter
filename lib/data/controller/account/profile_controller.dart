@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -52,7 +51,7 @@ class ProfileController extends GetxController {
   File? imageFile;
   GlobalUser user = GlobalUser();
 
-  loadProfileInfo() async {
+  Future<void> loadProfileInfo() async {
     await getGSData();
 
     model = await profileRepo.loadProfileInfo();
@@ -66,7 +65,7 @@ class ProfileController extends GetxController {
   }
 
   bool isSubmitLoading = false;
-  updateProfile() async {
+  Future<void> updateProfile() async {
     isSubmitLoading = true;
     update();
 
@@ -90,7 +89,7 @@ class ProfileController extends GetxController {
         username: user?.username ?? '',
         countryCode: user?.countryCode ?? '',
         country: user?.country ?? '',
-        mobileCode: '880',
+        mobileCode: '',
         image: imageFile,
         address: address,
         state: state,
@@ -98,7 +97,6 @@ class ProfileController extends GetxController {
         city: city,
         refer: '',
       );
-      printX(model.image);
 
       AuthorizationResponseModel b =
           await profileRepo.updateProfile(model, true);
@@ -122,7 +120,9 @@ class ProfileController extends GetxController {
   void loadData(ProfileResponseModel? model) {
     user = model?.data?.user ?? GlobalUser();
     profileRepo.apiClient.sharedPreferences.setString(
-        SharedPreferenceHelper.userNameKey, '${model?.data?.user?.username}');
+      SharedPreferenceHelper.userNameKey,
+      '${model?.data?.user?.username}',
+    );
 
     firstNameController.text = model?.data?.user?.firstname ?? '';
     lastNameController.text = model?.data?.user?.lastname ?? '';
@@ -135,27 +135,30 @@ class ProfileController extends GetxController {
     imageUrl =
         model?.data?.user?.image == null ? '' : '${model?.data?.user?.image}';
     imagePath = model?.data?.imagePath.toString() ?? '';
-    printX(model?.data?.imagePath);
     if (imageUrl.isNotEmpty && imageUrl != 'null') {
       imageUrl = '${UrlContainer.domainUrl}/$imagePath/$imageUrl';
     }
-    profileRepo.apiClient.sharedPreferences
-        .setString(SharedPreferenceHelper.userProfileKey, imageUrl);
+    profileRepo.apiClient.sharedPreferences.setString(
+      SharedPreferenceHelper.userProfileKey,
+      imageUrl,
+    );
 
     isLoading = false;
     update();
   }
 
   void openGallery(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(allowMultiple: false, type: FileType.image);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+    );
     if (result != null) {
       imageFile = File(result.files.single.path!);
     }
     update();
   }
 
-// review
+  // review
   final InAppReview inAppReview = InAppReview.instance;
   // logout
   bool logoutLoading = false;
@@ -170,18 +173,19 @@ class ProfileController extends GetxController {
     update();
     Get.offAllNamed(RouteHelper.loginScreen);
   }
-//
+  //
 
   Future<void> getGSData() async {
     ResponseModel response = await repo.getGeneralSetting();
 
     if (response.statusCode == 200) {
-      GeneralSettingResponseModel model = GeneralSettingResponseModel.fromJson(
-          jsonDecode(response.responseJson));
+      GeneralSettingResponseModel model =
+          GeneralSettingResponseModel.fromJson((response.responseJson));
       if (model.status?.toLowerCase() == MyStrings.success) {
         repo.apiClient.storeGeneralSetting(model);
         repo.apiClient.storePushSetting(
-            model.data?.generalSetting?.pushConfig ?? PusherConfig());
+          model.data?.generalSetting?.pushConfig ?? PusherConfig(),
+        );
       } else {
         loggerX(model.message);
       }

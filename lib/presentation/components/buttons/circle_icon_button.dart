@@ -19,8 +19,7 @@ class CircleIconButton extends StatefulWidget {
   State<CircleIconButton> createState() => _CircleIconButtonState();
 }
 
-class _CircleIconButtonState extends State<CircleIconButton>
-    with SingleTickerProviderStateMixin {
+class _CircleIconButtonState extends State<CircleIconButton> with SingleTickerProviderStateMixin {
   late double _scale;
   late AnimationController _controller;
 
@@ -28,9 +27,7 @@ class _CircleIconButtonState extends State<CircleIconButton>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(
-        milliseconds: 500,
-      ),
+      duration: const Duration(milliseconds: 500),
       lowerBound: 0.0,
       upperBound: 0.1,
     )..addListener(() {
@@ -61,7 +58,9 @@ class _CircleIconButtonState extends State<CircleIconButton>
             width: widget.width,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: widget.backgroundColor, shape: BoxShape.circle),
+              color: widget.backgroundColor,
+              shape: BoxShape.circle,
+            ),
             child: widget.child,
           ),
         ),

@@ -44,12 +44,15 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget buttonChild = child ??
-        Text(text.tr,
-            style: textStyle ??
-                regularDefault.copyWith(
-                    color: textColor ?? MyColor.getPrimaryButtonTextColor(),
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold));
+        Text(
+          text.tr,
+          style: textStyle ??
+              regularDefault.copyWith(
+                color: textColor ?? MyColor.getPrimaryButtonTextColor(),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+        );
 
     return SizedBox(
       width: double.infinity,
@@ -67,18 +70,21 @@ class RoundedButton extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   elevation: 0,
                   side: BorderSide(
-                      color: borderColor), // Border color for outlined button
+                    color: borderColor,
+                  ), // Border color for outlined button
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(cornerRadius),
                   ),
                   padding: EdgeInsets.symmetric(
-                      horizontal: horizontalPadding,
-                      vertical:
-                          isLoading ? verticalPadding + 2 : verticalPadding),
+                    horizontal: horizontalPadding,
+                    vertical: isLoading ? verticalPadding + 2 : verticalPadding,
+                  ),
                 ),
                 child: isLoading
-                    ? const SpinKitThreeBounce(
-                        color: MyColor.primaryColor, size: 20)
+                    ? const SpinKitFadingCircle(
+                        color: MyColor.primaryColor,
+                        size: 20,
+                      )
                     : buttonChild,
               )
             : ElevatedButton(
@@ -94,13 +100,15 @@ class RoundedButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(cornerRadius),
                   ),
                   padding: EdgeInsets.symmetric(
-                      horizontal: horizontalPadding,
-                      vertical:
-                          isLoading ? verticalPadding + 2 : verticalPadding),
+                    horizontal: horizontalPadding,
+                    vertical: isLoading ? verticalPadding + 2 : verticalPadding,
+                  ),
                 ),
                 child: isLoading
-                    ? const SpinKitThreeBounce(
-                        color: MyColor.colorWhite, size: 20)
+                    ? const SpinKitFadingCircle(
+                        color: MyColor.colorWhite,
+                        size: 20,
+                      )
                     : buttonChild,
               ),
       ),

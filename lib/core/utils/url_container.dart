@@ -98,6 +98,9 @@ class UrlContainer {
   static const String supportCloseEndPoint = 'ticket/close';
   static const String supportDownloadEndPoint = 'ticket/download';
 
+  //
+  static const String rideReceipt = "${baseUrl}ride/receipt";
+  //
   static const String supportImagePath = '$domainUrl/assets/support/';
 
   static const String userImagePath = '$domainUrl/assets/support/';

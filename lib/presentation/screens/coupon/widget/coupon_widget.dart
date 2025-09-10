@@ -41,8 +41,10 @@ class MyCouponCard extends StatelessWidget {
               MyIcons.discount,
               height: Dimensions.space10,
               width: Dimensions.space10,
-              colorFilter:
-                  const ColorFilter.mode(MyColor.primaryColor, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(
+                MyColor.primaryColor,
+                BlendMode.srcIn,
+              ),
             ),
           ),
           secondChild: Container(
@@ -56,7 +58,7 @@ class MyCouponCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "${MyStrings.missYouHeres.tr} ${coupon.discountType == AppStatus.DISCOUNT_FIXED ? currencySym : ''}${Converter.formatNumber(coupon.amount.toString(), precision: coupon.discountType == AppStatus.DISCOUNT_PERCENT ? 0 : 2)}${coupon.discountType == AppStatus.DISCOUNT_PERCENT ? '%' : ''} ${MyStrings.off.tr}",
+                        "${MyStrings.missYouHeres.tr} ${coupon.discountType == AppStatus.DISCOUNT_FIXED ? currencySym : ''}${StringConverter.formatNumber(coupon.amount.toString(), precision: coupon.discountType == AppStatus.DISCOUNT_PERCENT ? 0 : 2)}${coupon.discountType == AppStatus.DISCOUNT_PERCENT ? '%' : ''} ${MyStrings.off.tr}",
                         style: regularDefault.copyWith(),
                         maxLines: 2,
                       ),
@@ -65,15 +67,18 @@ class MyCouponCard extends StatelessWidget {
                         ? const SizedBox.shrink()
                         : InkWell(
                             onTap: apply,
-                            child: Text(MyStrings.apply.tr,
-                                style: mediumDefault.copyWith(
-                                    color: MyColor.primaryColor)),
+                            child: Text(
+                              MyStrings.apply.tr,
+                              style: mediumDefault.copyWith(
+                                color: MyColor.primaryColor,
+                              ),
+                            ),
                           ),
                   ],
                 ),
                 spaceDown(Dimensions.space8),
                 Text(
-                  "${coupon.discountType == AppStatus.DISCOUNT_FIXED ? currencySym : ''}${Converter.formatNumber(coupon.amount.toString(), precision: coupon.discountType == AppStatus.DISCOUNT_PERCENT ? 0 : 2)}${coupon.discountType == AppStatus.DISCOUNT_PERCENT ? '%' : ''}",
+                  "${coupon.discountType == AppStatus.DISCOUNT_FIXED ? currencySym : ''}${StringConverter.formatNumber(coupon.amount.toString(), precision: coupon.discountType == AppStatus.DISCOUNT_PERCENT ? 0 : 2)}${coupon.discountType == AppStatus.DISCOUNT_PERCENT ? '%' : ''}",
                   style: boldExtraLarge.copyWith(color: MyColor.primaryColor),
                 ),
                 spaceDown(Dimensions.space8),
@@ -83,24 +88,33 @@ class MyCouponCard extends StatelessWidget {
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: Dimensions.space10,
-                                vertical: Dimensions.space5),
+                              horizontal: Dimensions.space10,
+                              vertical: Dimensions.space5,
+                            ),
                             decoration: BoxDecoration(
                               color: MyColor.colorGreen.withValues(alpha: 0.08),
                               borderRadius: BorderRadius.circular(
-                                  Dimensions.mediumRadius),
+                                Dimensions.mediumRadius,
+                              ),
                             ),
                             child: Row(
                               children: [
-                                SvgPicture.asset(MyIcons.tickMark,
-                                    colorFilter: const ColorFilter.mode(
-                                        MyColor.colorGreen, BlendMode.srcIn),
-                                    height: Dimensions.fontSmall),
+                                SvgPicture.asset(
+                                  MyIcons.tickMark,
+                                  colorFilter: const ColorFilter.mode(
+                                    MyColor.colorGreen,
+                                    BlendMode.srcIn,
+                                  ),
+                                  height: Dimensions.fontSmall,
+                                ),
                                 const SizedBox(width: Dimensions.space5),
-                                Text(MyStrings.codeApplied.tr,
-                                    style: boldLarge.copyWith(
-                                        color: MyColor.colorGreen,
-                                        fontSize: Dimensions.fontSmall)),
+                                Text(
+                                  MyStrings.codeApplied.tr,
+                                  style: boldLarge.copyWith(
+                                    color: MyColor.colorGreen,
+                                    fontSize: Dimensions.fontSmall,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -109,19 +123,22 @@ class MyCouponCard extends StatelessWidget {
                             child: Text(
                               MyStrings.removed.tr,
                               style: boldLarge.copyWith(
-                                  color: MyColor.primaryColor),
+                                color: MyColor.primaryColor,
+                              ),
                             ),
                           ),
                         ],
                       )
                     : Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: Dimensions.space10,
-                            vertical: Dimensions.space5),
+                          horizontal: Dimensions.space10,
+                          vertical: Dimensions.space5,
+                        ),
                         decoration: BoxDecoration(
                           color: MyColor.primaryColor.withValues(alpha: 0.05),
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.mediumRadius),
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.mediumRadius,
+                          ),
                         ),
                         child: FittedBox(
                           child: Row(
@@ -129,18 +146,20 @@ class MyCouponCard extends StatelessWidget {
                             children: [
                               coupon.minimumAmount != 'null'
                                   ? Text(
-                                      "${MyStrings.minSpend.tr} $currencySym${Converter.formatNumber(coupon.minimumAmount.toString())}",
+                                      "${MyStrings.minSpend.tr} $currencySym${StringConverter.formatNumber(coupon.minimumAmount.toString())}",
                                       style: regularDefault.copyWith(
-                                          color: MyColor.rideTitle,
-                                          fontSize: Dimensions.fontSmall),
+                                        color: MyColor.rideTitle,
+                                        fontSize: Dimensions.fontSmall,
+                                      ),
                                     )
                                   : const SizedBox.shrink(),
                               spaceSide(Dimensions.space10),
                               Text(
                                 "${MyStrings.exOn.tr} ${coupon.endAt.toString()}",
                                 style: regularDefault.copyWith(
-                                    color: MyColor.rideTitle,
-                                    fontSize: Dimensions.fontSmall),
+                                  color: MyColor.rideTitle,
+                                  fontSize: Dimensions.fontSmall,
+                                ),
                               ),
                             ],
                           ),

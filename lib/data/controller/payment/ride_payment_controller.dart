@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
@@ -7,13 +6,15 @@ import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/controller/coupon/coupon_controller.dart';
-import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
+import 'package:leoparduser/data/controller/ride/ride_details/ride_details_controller.dart';
 import 'package:leoparduser/data/model/payment/payment_insert_response_model.dart';
 import 'package:leoparduser/data/model/gateways/gateway_list_response_model.dart';
 import 'package:leoparduser/data/model/global/app/app_payment_method.dart';
 import 'package:leoparduser/data/model/global/app/ride_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
+import 'package:leoparduser/data/model/ride/ride_details_response_model.dart';
 import 'package:leoparduser/data/model/ride/ride_payment_response_model.dart';
+import 'package:leoparduser/data/model/webview/webview_model.dart';
 import 'package:leoparduser/data/repo/payment/payment_repo.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 
@@ -22,8 +23,7 @@ class RidePaymentController extends GetxController {
   CouponController couponController;
   RidePaymentController({required this.repo, required this.couponController});
 
-  ///
-  ///
+  //
   bool isLoading = false;
   String imagePath = "";
   String driverImagePath = "";
@@ -34,15 +34,23 @@ class RidePaymentController extends GetxController {
   RideModel ride = RideModel(id: "-1");
   List<AppPaymentMethod> methodList = [];
   AppPaymentMethod selectedMethod = AppPaymentMethod(id: '-1');
+  List<String> tipsList = [];
+  TextEditingController tipsController = TextEditingController();
+
+  void updateTips(String amount) {
+    tipsController.text = amount;
+    update();
+  }
 
   Future<void> initialData(RideModel data) async {
-    defaultCurrency = repo.apiClient.getCurrencyOrUsername();
-    defaultCurrencySymbol =
-        repo.apiClient.getCurrencyOrUsername(isSymbol: true);
-    username = repo.apiClient.getCurrencyOrUsername(isCurrency: false);
+    defaultCurrency = repo.apiClient.getCurrency();
+    defaultCurrencySymbol = repo.apiClient.getCurrency(isSymbol: true);
+    username = repo.apiClient.getUserName();
     ride = data;
     rideId = ride.id.toString();
     methodList = [];
+    tipsController.text = '';
+    tipsList = repo.apiClient.getTipsList();
     update();
     await getRideDetails();
     if (ride.id != '-1') {
@@ -58,8 +66,8 @@ class RidePaymentController extends GetxController {
     update();
     ResponseModel responseModel = await repo.getRidePaymentDetails(rideId);
     if (responseModel.statusCode == 200) {
-      RidePaymentResponseModel model = RidePaymentResponseModel.fromJson(
-          jsonDecode(responseModel.responseJson));
+      RidePaymentResponseModel model =
+          RidePaymentResponseModel.fromJson((responseModel.responseJson));
       if (model.status == MyStrings.success) {
         driverImagePath =
             '${UrlContainer.domainUrl}/${model.data?.driverImage}';
@@ -75,7 +83,8 @@ class RidePaymentController extends GetxController {
       } else {
         //   Get.back();
         CustomSnackBar.error(
-            errorList: model.message ?? [MyStrings.somethingWentWrong]);
+          errorList: model.message ?? [MyStrings.somethingWentWrong],
+        );
       }
     } else {
       CustomSnackBar.error(errorList: [responseModel.message]);
@@ -90,15 +99,16 @@ class RidePaymentController extends GetxController {
     try {
       ResponseModel responseModel = await repo.getPaymentList();
       if (responseModel.statusCode == 200) {
-        GatewayListResponseModel model = GatewayListResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        GatewayListResponseModel model =
+            GatewayListResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           methodList.addAll(model.data?.gatewayCurrency ?? []);
           methodList.insertAll(0, MyUtils.getDefaultPaymentMethod());
           update();
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -136,29 +146,36 @@ class RidePaymentController extends GetxController {
         type: selectedMethod.id == "-9" ? "2" : '1',
         methodCode: selectedMethod.methodCode.toString(),
         rideId: rideId,
+        tips: tipsController.text.isEmpty ? '0' : tipsController.text,
       );
       if (responseModel.statusCode == 200) {
         if (selectedMethod.id == "-9") {
-          AuthorizationResponseModel model =
-              AuthorizationResponseModel.fromJson(
-                  jsonDecode(responseModel.responseJson));
+          RideDetailsResponseModel model =
+              RideDetailsResponseModel.fromJson((responseModel.responseJson));
           if (model.status == "success") {
+            Get.find<RideDetailsController>().updatePaymentRequested();
             Get.back();
             CustomSnackBar.success(successList: model.message ?? ['']);
           } else {
             CustomSnackBar.error(
-                errorList: model.message ?? [MyStrings.somethingWentWrong]);
+              errorList: model.message ?? [MyStrings.somethingWentWrong],
+            );
           }
         } else {
           PaymentInsertResponseModel model =
-              PaymentInsertResponseModel.fromJson(
-                  jsonDecode(responseModel.responseJson));
+              PaymentInsertResponseModel.fromJson((responseModel.responseJson));
           if (model.status == "success") {
-            Get.toNamed(RouteHelper.webViewScreen,
-                arguments: model.data?.redirectUrl ?? "");
+            Get.toNamed(
+              RouteHelper.webViewScreen,
+              arguments: WebviewModel(
+                url: model.data?.redirectUrl ?? "",
+                rideId: rideId,
+              ),
+            );
           } else {
             CustomSnackBar.error(
-                errorList: model.message ?? [MyStrings.somethingWentWrong]);
+              errorList: model.message ?? [MyStrings.somethingWentWrong],
+            );
           }
         }
       } else {
@@ -171,5 +188,6 @@ class RidePaymentController extends GetxController {
 
     update();
   }
-//
+
+  //
 }

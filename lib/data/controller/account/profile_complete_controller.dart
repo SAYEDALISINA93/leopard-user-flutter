@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -10,11 +9,9 @@ import 'package:leoparduser/core/route/route_middleware.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
 import 'package:leoparduser/data/model/country_model/country_model.dart';
-import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/model/profile/profile_response_model.dart';
 import 'package:leoparduser/data/model/user_post_model/user_post_model.dart';
 import 'package:leoparduser/data/repo/account/profile_repo.dart';
-import 'package:leoparduser/environment.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 
 class ProfileCompleteController extends GetxController {
@@ -48,9 +45,9 @@ class ProfileCompleteController extends GetxController {
 
   bool isLoading = false;
 
-  initialData() async {
-    await loadProfileInfo();
-    countryList = profileRepo.apiClient.getOperatingCountry();
+  Future<void> initialData() async {
+    //    await loadProfileInfo();
+    countryList = profileRepo.apiClient.getOperatingCountries();
     update();
     if (countryList.isNotEmpty) {
       selectCountryData(countryList.first);
@@ -102,13 +99,13 @@ class ProfileCompleteController extends GetxController {
   List<Countries> filteredCountries = [];
 
   Countries selectedCountryData = Countries();
-  selectCountryData(Countries value) {
+  void selectCountryData(Countries value) {
     selectedCountryData = value;
     update();
   }
 
   bool submitLoading = false;
-  updateProfile() async {
+  Future<void> updateProfile() async {
     String firstName = firstNameController.text;
     String lastName = lastNameController.text.toString();
     String address = addressController.text.toString();
@@ -126,7 +123,7 @@ class ProfileCompleteController extends GetxController {
       lastName: lastName,
       mobile: mobileNoController.text,
       email: '',
-      username: '',
+      username: userNameController.text,
       countryCode: selectedCountryData.countryCode.toString(),
       country: selectedCountryData.country.toString(),
       mobileCode: selectedCountryData.dialCode.toString(),
@@ -137,16 +134,21 @@ class ProfileCompleteController extends GetxController {
       refer: referController.text,
     );
 
-    AuthorizationResponseModel b =
-        await profileRepo.updateProfile(model, false);
+    AuthorizationResponseModel b = await profileRepo.updateProfile(
+      model,
+      false,
+    );
 
     if (b.status == "success") {
       await profileRepo.apiClient.sharedPreferences.setString(
-          SharedPreferenceHelper.userFullNameKey, '$firstName $lastName');
+        SharedPreferenceHelper.userFullNameKey,
+        '$firstName $lastName',
+      );
       RouteMiddleware.checkNGotoNext(user: b.data?.user);
     } else {
       CustomSnackBar.error(
-          errorList: b.message ?? [MyStrings.somethingWentWrong]);
+        errorList: b.message ?? [MyStrings.somethingWentWrong],
+      );
     }
 
     submitLoading = false;

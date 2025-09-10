@@ -38,13 +38,16 @@ class VerifyPasswordController extends GetxController {
       verifyLoading = true;
       update();
 
-      EmailVerificationModel model =
-          await loginRepo.verifyForgetPassCode(value);
+      EmailVerificationModel model = await loginRepo.verifyForgetPassCode(
+        value,
+      );
 
       if (model.code == 200) {
         verifyLoading = false;
-        Get.offAndToNamed(RouteHelper.resetPasswordScreen,
-            arguments: [email, value]);
+        Get.offAndToNamed(
+          RouteHelper.resetPasswordScreen,
+          arguments: [email, value],
+        );
       } else {
         verifyLoading = false;
         update();

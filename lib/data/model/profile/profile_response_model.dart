@@ -1,8 +1,12 @@
 import 'package:leoparduser/data/model/global/user/global_user_model.dart';
 
 class ProfileResponseModel {
-  ProfileResponseModel(
-      {String? remark, String? status, List<String>? message, Data? data}) {
+  ProfileResponseModel({
+    String? remark,
+    String? status,
+    List<String>? message,
+    Data? data,
+  }) {
     _remark = remark;
     _status = status;
     _message = message;

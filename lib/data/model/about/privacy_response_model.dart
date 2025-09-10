@@ -47,9 +47,7 @@ class PrivacyResponseModel {
 }
 
 class Data {
-  Data({
-    List<PolicyPages>? policyPages,
-  }) {
+  Data({List<PolicyPages>? policyPages}) {
     _policyPages = policyPages;
   }
 
@@ -75,12 +73,13 @@ class Data {
 }
 
 class PolicyPages {
-  PolicyPages(
-      {int? id,
-      String? dataKeys,
-      DataValues? dataValues,
-      String? createdAt,
-      String? updatedAt}) {
+  PolicyPages({
+    int? id,
+    String? dataKeys,
+    DataValues? dataValues,
+    String? createdAt,
+    String? updatedAt,
+  }) {
     _id = id;
     _dataKeys = dataKeys;
     _dataValues = dataValues;
@@ -123,10 +122,7 @@ class PolicyPages {
 }
 
 class DataValues {
-  DataValues({
-    String? title,
-    String? details,
-  }) {
+  DataValues({String? title, String? details}) {
     _title = title;
     _details = details;
   }

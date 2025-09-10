@@ -16,12 +16,10 @@ class CustomCircleAnimatedButton extends StatefulWidget {
   });
 
   @override
-  State<CustomCircleAnimatedButton> createState() =>
-      _CustomCircleAnimatedButtonState();
+  State<CustomCircleAnimatedButton> createState() => _CustomCircleAnimatedButtonState();
 }
 
-class _CustomCircleAnimatedButtonState extends State<CustomCircleAnimatedButton>
-    with SingleTickerProviderStateMixin {
+class _CustomCircleAnimatedButtonState extends State<CustomCircleAnimatedButton> with SingleTickerProviderStateMixin {
   late double _scale;
   late AnimationController _controller;
 
@@ -29,9 +27,7 @@ class _CustomCircleAnimatedButtonState extends State<CustomCircleAnimatedButton>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(
-        milliseconds: 500,
-      ),
+      duration: const Duration(milliseconds: 500),
       lowerBound: 0.0,
       upperBound: 0.1,
     )..addListener(() {
@@ -55,22 +51,22 @@ class _CustomCircleAnimatedButtonState extends State<CustomCircleAnimatedButton>
         onTap: widget.onTap,
         onTapDown: _tapDown,
         onTapUp: _tapUp,
-        child: Transform.scale(
-          scale: _scale,
-          child: _animatedButton(),
-        ),
+        child: Transform.scale(scale: _scale, child: _animatedButton()),
       ),
     );
   }
 
   Widget _animatedButton() {
     return Container(
-        height: widget.height,
-        width: widget.width,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: widget.backgroundColor, shape: BoxShape.circle),
-        child: widget.child);
+      height: widget.height,
+      width: widget.width,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: widget.backgroundColor,
+        shape: BoxShape.circle,
+      ),
+      child: widget.child,
+    );
   }
 
   void _tapDown(TapDownDetails details) {

@@ -12,11 +12,14 @@ class FaqCardShimmer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-          color: MyColor.colorWhite,
-          borderRadius: BorderRadius.circular(Dimensions.mediumRadius)),
+        color: MyColor.colorWhite,
+        borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
+      ),
       width: context.width,
       padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.space15, vertical: Dimensions.space15),
+        horizontal: Dimensions.space15,
+        vertical: Dimensions.space15,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -62,7 +65,9 @@ class FaqCardShimmer extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: const BoxDecoration(
-                  color: MyColor.colorGrey2, shape: BoxShape.circle),
+                color: MyColor.colorGrey2,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
         ],

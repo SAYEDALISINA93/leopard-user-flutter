@@ -4,7 +4,6 @@ import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/data/controller/coupon/coupon_controller.dart';
 import 'package:leoparduser/data/repo/coupon/coupon_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/app-bar/custom_appbar.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
@@ -23,7 +22,6 @@ class CouponScreen extends StatefulWidget {
 class _CouponScreenState extends State<CouponScreen> {
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(CouponRepo(apiClient: Get.find()));
     Get.put(CouponController(couponRepo: Get.find(), rideId: Get.arguments));
     super.initState();
@@ -43,12 +41,14 @@ class _CouponScreenState extends State<CouponScreen> {
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: Dimensions.space15 + 1,
-                      vertical: Dimensions.space25 - 1),
+                    horizontal: Dimensions.space15 + 1,
+                    vertical: Dimensions.space25 - 1,
+                  ),
                   decoration: BoxDecoration(
                     color: MyColor.colorWhite,
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.mediumRadius),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.mediumRadius,
+                    ),
                   ),
                   child: Column(
                     children: [
@@ -69,7 +69,8 @@ class _CouponScreenState extends State<CouponScreen> {
                             controller.apply();
                           } else {
                             CustomSnackBar.error(
-                                errorList: [MyStrings.enterCouponCode.tr]);
+                              errorList: [MyStrings.enterCouponCode.tr],
+                            );
                           }
                         },
                         color: MyColor.colorBlack,
@@ -81,12 +82,14 @@ class _CouponScreenState extends State<CouponScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
-                      horizontal: Dimensions.space15 + 1,
-                      vertical: Dimensions.space25 - 1),
+                    horizontal: Dimensions.space15 + 1,
+                    vertical: Dimensions.space25 - 1,
+                  ),
                   decoration: BoxDecoration(
                     color: MyColor.colorWhite,
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.mediumRadius),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.mediumRadius,
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,10 +106,16 @@ class _CouponScreenState extends State<CouponScreen> {
                             coupon: controller.couponList[index],
                             currencySym: controller.defaultCurrencySymbol,
                             apply: () {
-                              controller
-                                  .applyCoupon(controller.couponList[index]);
+                              controller.applyCoupon(
+                                controller.couponList[index],
+                              );
                             },
-                            remove: () {},
+                            remove: () {
+                              if (controller.isRemoveLoading) return;
+                              controller.removeCoupon(
+                                controller.selectedCoupon,
+                              );
+                            },
                           ),
                         ),
                       ),

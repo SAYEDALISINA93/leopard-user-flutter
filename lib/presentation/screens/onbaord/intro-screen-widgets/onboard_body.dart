@@ -12,12 +12,13 @@ class OnboardingPage extends StatelessWidget {
   final String description;
   final int index;
 
-  const OnboardingPage(
-      {super.key,
-      this.imagePath,
-      required this.title,
-      required this.description,
-      required this.index});
+  const OnboardingPage({
+    super.key,
+    this.imagePath,
+    required this.title,
+    required this.description,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +60,9 @@ class OnboardingPage extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: boldExtraLarge.copyWith(
-                        fontSize: Dimensions.fontOverLarge,
-                        fontWeight: FontWeight.w600),
+                      fontSize: Dimensions.fontOverLarge,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ).animate(effects: [FadeEffect()]),
                   const SizedBox(height: 12),
                   Text(
@@ -69,7 +71,9 @@ class OnboardingPage extends StatelessWidget {
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: regularDefault.copyWith(
-                        fontSize: 16, color: Color(0xFF475569)),
+                      fontSize: 16,
+                      color: Color(0xFF475569),
+                    ),
                   ).animate().shimmer(),
                 ],
               ),

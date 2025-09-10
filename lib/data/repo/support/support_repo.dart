@@ -1,14 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/method.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/model/support/new_ticket_store_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 
 class SupportRepo {
@@ -18,16 +15,24 @@ class SupportRepo {
   Future<ResponseModel> getSupportMethodsList() async {
     String url =
         "${UrlContainer.baseUrl}${UrlContainer.supportMethodsEndPoint}";
-    final response =
-        await apiClient.request(url, Method.getMethod, null, passHeader: true);
+    final response = await apiClient.request(
+      url,
+      Method.getMethod,
+      null,
+      passHeader: true,
+    );
     return response;
   }
 
   Future<ResponseModel> getSupportTicketList(String page) async {
     String url =
         "${UrlContainer.baseUrl}${UrlContainer.supportListEndPoint}?page=$page";
-    final response =
-        await apiClient.request(url, Method.getMethod, null, passHeader: true);
+    final response = await apiClient.request(
+      url,
+      Method.getMethod,
+      null,
+      passHeader: true,
+    );
     return response;
   }
 
@@ -36,40 +41,34 @@ class SupportRepo {
 
     String url = "${UrlContainer.baseUrl}${UrlContainer.storeSupportEndPoint}";
 
-    Map<String, String> map = {
+    Map<String, String> finalMap = {
       'subject': model.subject,
       'message': model.message,
-      'priority': model.priority
+      'priority': model.priority,
     };
 
-    var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.headers.addAll(<String, String>{
-      'Authorization': 'Bearer ${apiClient.token}',
-      "dev-token":
-          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
-    });
-
-    if (model.list != null && model.list!.isNotEmpty) {
-      for (var file in model.list!) {
-        request.files.add(http.MultipartFile(
-            'attachments[]', file.readAsBytes().asStream(), file.lengthSync(),
-            filename: file.path.split('/').last));
-      }
-    }
-
-    request.fields.addAll(map);
-    http.StreamedResponse response = await request.send();
-
-    String jsonResponse = await response.stream.bytesToString();
+    Map<String, File> attachmentFiles = model.fileList?.isEmpty == true
+        ? {}
+        : model.fileList!.asMap().map(
+              (index, value) => MapEntry("attachments[$index]", value),
+            );
+    ResponseModel responseModel = await apiClient.multipartRequest(
+      url,
+      Method.postMethod,
+      finalMap,
+      files: attachmentFiles,
+      passHeader: true,
+    );
     AuthorizationResponseModel authorization =
-        AuthorizationResponseModel.fromJson(jsonDecode(jsonResponse));
+        AuthorizationResponseModel.fromJson((responseModel.responseJson));
 
     if (authorization.status?.toLowerCase() ==
         MyStrings.success.toLowerCase()) {
       return true;
     } else {
       CustomSnackBar.error(
-          errorList: authorization.message ?? [MyStrings.error]);
+        errorList: authorization.message ?? [MyStrings.error],
+      );
       return false;
     }
   }
@@ -77,8 +76,12 @@ class SupportRepo {
   Future<dynamic> getSingleTicket(String ticketId) async {
     String url =
         '${UrlContainer.baseUrl}${UrlContainer.supportViewEndPoint}/$ticketId';
-    ResponseModel response =
-        await apiClient.request(url, Method.getMethod, null, passHeader: true);
+    ResponseModel response = await apiClient.request(
+      url,
+      Method.getMethod,
+      null,
+      passHeader: true,
+    );
     return response;
   }
 
@@ -92,35 +95,23 @@ class SupportRepo {
     try {
       String url =
           "${UrlContainer.baseUrl}${UrlContainer.supportReplyEndPoint}/$ticketId";
-      Map<String, String> map = {
-        'message': message.toString(),
-      };
-      printX(fileList.map((e) => e.path));
-      var request = http.MultipartRequest('POST', Uri.parse(url));
+      Map<String, String> map = {'message': message.toString()};
 
-      request.headers.addAll(<String, String>{
-        'Authorization': 'Bearer ${apiClient.token}',
-        "dev-token":
-            "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
-      });
+      Map<String, File> attachmentFiles = fileList.asMap().map(
+            (index, value) => MapEntry("attachments[$index]", value),
+          );
 
-      for (var file in fileList) {
-        request.files.add(http.MultipartFile(
-            'attachments[]', file.readAsBytes().asStream(), file.lengthSync(),
-            filename: file.path.split('/').last));
-      }
-
-      request.fields.addAll(map);
-      http.StreamedResponse response = await request.send();
-
-      String jsonResponse = await response.stream.bytesToString();
+      ResponseModel responseModel = await apiClient.multipartRequest(
+        url,
+        Method.postMethod,
+        map,
+        files: attachmentFiles,
+        passHeader: true,
+      );
       AuthorizationResponseModel model =
-          AuthorizationResponseModel.fromJson(jsonDecode(jsonResponse));
-
-      printX("-=----------------------$jsonResponse");
+          AuthorizationResponseModel.fromJson((responseModel.responseJson));
 
       if (model.status?.toLowerCase() == MyStrings.success.toLowerCase()) {
-        // CustomSnackBar.success(successList: model.message?.success ?? []);
         return true;
       } else {
         CustomSnackBar.error(errorList: model.message ?? [MyStrings.error]);
@@ -134,8 +125,12 @@ class SupportRepo {
   Future<dynamic> closeTicket(String ticketId) async {
     String url =
         '${UrlContainer.baseUrl}${UrlContainer.supportCloseEndPoint}/$ticketId';
-    ResponseModel response =
-        await apiClient.request(url, Method.postMethod, null, passHeader: true);
+    ResponseModel response = await apiClient.request(
+      url,
+      Method.postMethod,
+      null,
+      passHeader: true,
+    );
     return response;
   }
 }

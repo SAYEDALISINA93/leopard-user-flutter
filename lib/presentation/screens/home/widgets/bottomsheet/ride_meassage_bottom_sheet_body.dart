@@ -14,45 +14,49 @@ class RideMassageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(builder: (controller) {
-      return AnimatedContainer(
-        duration: const Duration(microseconds: 300),
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(
-            horizontal: Dimensions.space15, vertical: Dimensions.space10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const MyBottomSheetBar(),
-            const SizedBox(height: Dimensions.space10),
-            Text(
-              MyStrings.additionalInformation.tr,
-              style: boldExtraLarge.copyWith(),
-            ),
-            const SizedBox(height: Dimensions.space30),
-            CustomTextField(
-              onChanged: (val) {},
-              controller: controller.noteController,
-              animatedLabel: false,
-              needOutlineBorder: true,
-              hintText: MyStrings.additionalInformationHint.tr,
-              labelText: MyStrings.commentOptional.tr,
-              radius: Dimensions.mediumRadius,
-              maxLines: 4,
-            ),
-            const SizedBox(height: Dimensions.space40),
-            RoundedButton(
-              text: MyStrings.done.toTitleCase(),
-              press: () {
-                Get.back();
-              },
-            )
-          ],
-        ),
-      );
-    });
+    return GetBuilder<HomeController>(
+      builder: (controller) {
+        return AnimatedContainer(
+          duration: const Duration(microseconds: 300),
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(
+            horizontal: Dimensions.space15,
+            vertical: Dimensions.space10,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const MyBottomSheetBar(),
+              const SizedBox(height: Dimensions.space10),
+              Text(
+                MyStrings.additionalInformation.tr,
+                style: boldExtraLarge.copyWith(),
+              ),
+              const SizedBox(height: Dimensions.space30),
+              CustomTextField(
+                onChanged: (val) {},
+                controller: controller.noteController,
+                animatedLabel: false,
+                needOutlineBorder: true,
+                hintText: MyStrings.additionalInformationHint.tr,
+                labelText: MyStrings.commentOptional.tr,
+                radius: Dimensions.mediumRadius,
+                maxLines: 4,
+              ),
+              const SizedBox(height: Dimensions.space40),
+              RoundedButton(
+                text: MyStrings.done.toTitleCase(),
+                press: () {
+                  Get.back();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

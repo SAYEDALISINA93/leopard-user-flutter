@@ -9,12 +9,13 @@ class CustomDivider extends StatelessWidget {
   final bool? onlyTop;
   final bool? onlyBottom;
 
-  const CustomDivider(
-      {super.key,
-      this.space = Dimensions.space20,
-      this.color = MyColor.bodyText,
-      this.onlyTop = true,
-      this.onlyBottom = true});
+  const CustomDivider({
+    super.key,
+    this.space = Dimensions.space20,
+    this.color = MyColor.bodyText,
+    this.onlyTop = true,
+    this.onlyBottom = true,
+  });
 
   @override
   Widget build(BuildContext context) {

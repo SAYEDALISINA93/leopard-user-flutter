@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/utils/method.dart';
@@ -6,7 +5,7 @@ import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/registration_response_model.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/sign_up_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 
 class RegistrationRepo {
   ApiClient apiClient;
@@ -16,11 +15,16 @@ class RegistrationRepo {
   Future<RegistrationResponseModel> registerUser(SignUpModel model) async {
     final map = modelToMap(model);
     String url = '${UrlContainer.baseUrl}${UrlContainer.registrationEndPoint}';
-    final res = await apiClient.request(url, Method.postMethod, map,
-        passHeader: true, isOnlyAcceptType: true);
-    final json = jsonDecode(res.responseJson);
+    final res = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      passHeader: true,
+      isOnlyAcceptType: true,
+    );
+
     RegistrationResponseModel responseModel =
-        RegistrationResponseModel.fromJson(json);
+        RegistrationResponseModel.fromJson(res.responseJson);
     return responseModel;
   }
 
@@ -47,10 +51,12 @@ class RegistrationRepo {
 
   Future<bool> sendUserToken() async {
     String deviceToken;
-    if (apiClient.sharedPreferences
-        .containsKey(SharedPreferenceHelper.fcmDeviceKey)) {
-      deviceToken = apiClient.sharedPreferences
-              .getString(SharedPreferenceHelper.fcmDeviceKey) ??
+    if (apiClient.sharedPreferences.containsKey(
+      SharedPreferenceHelper.fcmDeviceKey,
+    )) {
+      deviceToken = apiClient.sharedPreferences.getString(
+            SharedPreferenceHelper.fcmDeviceKey,
+          ) ??
           '';
     } else {
       deviceToken = '';
@@ -67,8 +73,10 @@ class RegistrationRepo {
         if (deviceToken == fcmDeviceToken) {
           success = true;
         } else {
-          apiClient.sharedPreferences
-              .setString(SharedPreferenceHelper.fcmDeviceKey, fcmDeviceToken);
+          apiClient.sharedPreferences.setString(
+            SharedPreferenceHelper.fcmDeviceKey,
+            fcmDeviceToken,
+          );
           success = await sendUpdatedToken(fcmDeviceToken);
         }
       });
@@ -101,8 +109,12 @@ class RegistrationRepo {
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.socialLoginEndPoint}';
 
-    ResponseModel model =
-        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+    ResponseModel model = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      passHeader: false,
+    );
 
     return model;
   }

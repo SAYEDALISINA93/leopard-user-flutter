@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -55,14 +54,14 @@ class MyMenuController extends GetxController {
   bool isWithdrawEnable = true;
   bool isInvoiceEnable = true;
 
-  configureMenuItem() async {
+  Future<void> configureMenuItem() async {
     update();
 
     ResponseModel response = await repo.getGeneralSetting();
 
     if (response.statusCode == 200) {
-      GeneralSettingResponseModel model = GeneralSettingResponseModel.fromJson(
-          jsonDecode(response.responseJson));
+      GeneralSettingResponseModel model =
+          GeneralSettingResponseModel.fromJson((response.responseJson));
       if (model.status?.toLowerCase() == MyStrings.success.toLowerCase()) {
         bool langStatus =
             model.data?.generalSetting?.multiLanguage == '0' ? false : true;
@@ -83,5 +82,6 @@ class MyMenuController extends GetxController {
       return;
     }
   }
-//
+
+  //
 }

@@ -49,9 +49,7 @@ class PaymentHistoryResponseModel {
 class Data {
   PaymentHistory? payments;
 
-  Data({
-    this.payments,
-  });
+  Data({this.payments});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         payments: json["payments"] == null
@@ -59,9 +57,7 @@ class Data {
             : PaymentHistory.fromJson(json["payments"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "payments": payments?.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"payments": payments?.toJson()};
 }
 
 class PaymentHistory {
@@ -69,16 +65,14 @@ class PaymentHistory {
 
   dynamic nextPageUrl;
 
-  PaymentHistory({
-    this.data,
-    this.nextPageUrl,
-  });
+  PaymentHistory({this.data, this.nextPageUrl});
 
   factory PaymentHistory.fromJson(Map<String, dynamic> json) => PaymentHistory(
         data: json["data"] == null
             ? []
             : List<PaymentHistoryData>.from(
-                json["data"]!.map((x) => PaymentHistoryData.fromJson(x))),
+                json["data"]!.map((x) => PaymentHistoryData.fromJson(x)),
+              ),
         nextPageUrl: json["next_page_url"],
       );
 

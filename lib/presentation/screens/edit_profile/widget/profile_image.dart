@@ -37,13 +37,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             !widget.isEdit
                 ? const ClipOval(
                     child: Material(
-                        color: MyColor.transparentColor,
-                        child: CircleImageWidget(
-                          imagePath: MyImages.profile,
-                          width: 90,
-                          height: 90,
-                          isAsset: true,
-                        )),
+                      color: MyColor.transparentColor,
+                      child: CircleImageWidget(
+                        imagePath: MyImages.profile,
+                        width: 90,
+                        height: 90,
+                        isAsset: true,
+                      ),
+                    ),
                   )
                 : buildImage(),
             widget.isEdit
@@ -51,22 +52,23 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                     bottom: 0,
                     right: -4,
                     child: GestureDetector(
-                        onTap: () {
-                          _openGallery(context);
-                        },
+                      onTap: () {
+                        _openGallery(context);
+                      },
+                      child: BuildCircleWidget(
+                        padding: 3,
+                        color: Colors.white,
                         child: BuildCircleWidget(
-                            padding: 3,
+                          padding: 8,
+                          color: MyColor.primaryColor,
+                          child: Icon(
+                            widget.isEdit ? Icons.add_a_photo : Icons.edit,
                             color: Colors.white,
-                            child: BuildCircleWidget(
-                                padding: 8,
-                                color: MyColor.primaryColor,
-                                child: Icon(
-                                  widget.isEdit
-                                      ? Icons.add_a_photo
-                                      : Icons.edit,
-                                  color: Colors.white,
-                                  size: 20,
-                                )))),
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 : const SizedBox(),
           ],
@@ -102,9 +104,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   fit: BoxFit.cover,
                   width: 90,
                   height: 90,
-                  child: InkWell(
-                    onTap: widget.onClicked,
-                  ),
+                  child: InkWell(onTap: widget.onClicked),
                 )
               : CircleImageWidget(
                   press: () {},
@@ -120,12 +120,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   void _openGallery(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: ['png', 'jpg', 'jpeg']);
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['png', 'jpg', 'jpeg'],
+    );
     setState(() {
-      Get.find<ProfileController>().imageFile =
-          File(result!.files.single.path!);
+      Get.find<ProfileController>().imageFile = File(
+        result!.files.single.path!,
+      );
       imageFile = XFile(result.files.single.path!);
     });
   }

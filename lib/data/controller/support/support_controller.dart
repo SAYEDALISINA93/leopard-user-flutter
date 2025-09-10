@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +13,7 @@ class SupportController extends GetxController {
   SupportController({required this.repo});
 
   List<FileChooserModel> attachmentList = [
-    FileChooserModel(fileName: MyStrings.noFileChosen)
+    FileChooserModel(fileName: MyStrings.noFileChosen),
   ];
 
   String noFileChosen = MyStrings.noFileChosen;
@@ -30,7 +29,7 @@ class SupportController extends GetxController {
   String? nextPageUrl;
   List<TicketData> ticketList = [];
   String imagePath = '';
-  loadData() async {
+  Future<void> loadData() async {
     ticketList.clear();
     page = 0;
     messageList.clear();
@@ -51,22 +50,23 @@ class SupportController extends GetxController {
     isLoading = true;
     update();
 
-    ResponseModel responseModel =
-        await repo.getSupportTicketList(page.toString());
+    ResponseModel responseModel = await repo.getSupportTicketList(
+      page.toString(),
+    );
     if (responseModel.statusCode == 200) {
       SupportTicketListResponseModel model =
-          SupportTicketListResponseModel.fromJson(
-              jsonDecode(responseModel.responseJson));
+          SupportTicketListResponseModel.fromJson((responseModel.responseJson));
       if (model.status == MyStrings.success) {
         nextPageUrl = model.data?.tickets?.nextPageUrl;
-        List<TicketData>? tempList = model.data?.tickets?.data;
+        List<TicketData>? tempList = model.data?.tickets?.data ?? [];
         imagePath = model.data?.tickets?.path.toString() ?? '';
-        if (tempList != null && tempList.isNotEmpty) {
+        if (tempList.isNotEmpty) {
           ticketList.addAll(tempList);
         }
       } else {
         CustomSnackBar.error(
-            errorList: model.message ?? [MyStrings.somethingWentWrong]);
+          errorList: model.message ?? [MyStrings.somethingWentWrong],
+        );
       }
     } else {
       CustomSnackBar.error(errorList: [responseModel.message]);
@@ -120,8 +120,11 @@ class SupportController extends GetxController {
     return output;
   }
 
-  String getStatusText(String priority,
-      {bool isPriority = false, bool isStatus = false}) {
+  String getStatusText(
+    String priority, {
+    bool isPriority = false,
+    bool isStatus = false,
+  }) {
     String text = '';
     text = priority == '0'
         ? MyStrings.open.tr

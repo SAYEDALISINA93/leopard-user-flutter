@@ -1,21 +1,40 @@
 import 'package:leoparduser/core/helper/string_format_helper.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 
 import '../../../core/utils/method.dart';
 import '../../../environment.dart';
 import '../../model/location/prediction.dart';
-import '../../services/api_service.dart';
 
 class LocationSearchRepo {
   ApiClient apiClient;
   LocationSearchRepo({required this.apiClient});
 
-  Future<dynamic> searchAddressByLocationName(
-      {String text = '', List<String>? countries}) async {
-    loggerX(apiClient.getOperatingCountry());
+  Future<String?> getFormattedAddress(double lat, double lng) async {
+    const apiKey = Environment.mapKey;
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey';
+
+    final response = await apiClient.request(url, Method.getMethod, null);
+
+    if (response.statusCode == 200) {
+      final data = response.responseJson;
+      if (data['results'] != null && data['results'].length > 0) {
+        return data['results'][0]['formatted_address'];
+      }
+    }
+    return null;
+  }
+
+  Future<dynamic> searchAddressByLocationName({
+    String text = '',
+    List<String>? countries,
+  }) async {
+    loggerX(apiClient.getOperatingCountries());
     List<String> codes = apiClient
-        .getOperatingCountry()
+        .getOperatingCountries()
         .map(
-            (e) => 'country:${e.countryCode ?? Environment.defaultCountryCode}')
+          (e) => 'country:${e.countryCode ?? Environment.defaultCountryCode}',
+        )
         .toList();
     loggerX(codes);
 

@@ -44,9 +44,7 @@ class CountryModel {
 }
 
 class Data {
-  Data({
-    List<Countries>? countries,
-  }) {
+  Data({List<Countries>? countries}) {
     _countries = countries;
   }
 
@@ -72,11 +70,7 @@ class Data {
 }
 
 class Countries {
-  Countries({
-    String? country,
-    String? dialCode,
-    String? countryCode,
-  }) {
+  Countries({String? country, String? dialCode, String? countryCode}) {
     _country = country;
     _dialCode = dialCode;
     _countryCode = countryCode;

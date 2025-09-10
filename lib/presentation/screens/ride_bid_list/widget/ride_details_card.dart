@@ -21,11 +21,12 @@ class RideDetailsCard extends StatelessWidget {
   String currency;
   VoidCallback callback;
 
-  RideDetailsCard(
-      {super.key,
-      required this.ride,
-      required this.currency,
-      required this.callback});
+  RideDetailsCard({
+    super.key,
+    required this.ride,
+    required this.currency,
+    required this.callback,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +45,18 @@ class RideDetailsCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(MyStrings.ridePlace.tr,
-                  style: regularDefault.copyWith(fontSize: 16)),
               Text(
-                  "$currency${Converter.formatNumber(ride.offerAmount.toString())}",
-                  style: boldLarge.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: MyColor.rideTitle)),
+                MyStrings.ridePlace.tr,
+                style: regularDefault.copyWith(fontSize: 16),
+              ),
+              Text(
+                "$currency${StringConverter.formatNumber(ride.offerAmount.toString())}",
+                style: boldLarge.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: MyColor.rideTitle,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: Dimensions.space20),
@@ -72,9 +77,10 @@ class RideDetailsCard extends StatelessWidget {
                         child: Text(
                           MyStrings.pickUpLocation.tr,
                           style: boldLarge.copyWith(
-                              color: MyColor.rideTitle,
-                              fontSize: Dimensions.fontLarge - 1,
-                              fontWeight: FontWeight.w700),
+                            color: MyColor.rideTitle,
+                            fontSize: Dimensions.fontLarge - 1,
+                            fontWeight: FontWeight.w700,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -83,9 +89,10 @@ class RideDetailsCard extends StatelessWidget {
                       Text(
                         ride.pickupLocation ?? '',
                         style: regularDefault.copyWith(
-                            color: MyColor.getRideSubTitleColor(),
-                            fontSize: Dimensions.fontSmall,
-                            fontWeight: FontWeight.w600),
+                          color: MyColor.getRideSubTitleColor(),
+                          fontSize: Dimensions.fontSmall,
+                          fontWeight: FontWeight.w600,
+                        ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -94,9 +101,7 @@ class RideDetailsCard extends StatelessWidget {
                   ),
                 ),
                 secondWidget: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8.0,
-                  ),
+                  padding: const EdgeInsets.only(left: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -105,22 +110,22 @@ class RideDetailsCard extends StatelessWidget {
                         child: Text(
                           MyStrings.destination.tr,
                           style: boldLarge.copyWith(
-                              color: MyColor.rideTitle,
-                              fontSize: Dimensions.fontLarge - 1,
-                              fontWeight: FontWeight.w700),
+                            color: MyColor.rideTitle,
+                            fontSize: Dimensions.fontLarge - 1,
+                            fontWeight: FontWeight.w700,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(
-                        height: Dimensions.space5 - 1,
-                      ),
+                      const SizedBox(height: Dimensions.space5 - 1),
                       Text(
                         ride.destination ?? '',
                         style: regularDefault.copyWith(
-                            color: MyColor.getRideSubTitleColor(),
-                            fontSize: Dimensions.fontSmall,
-                            fontWeight: FontWeight.w600),
+                          color: MyColor.getRideSubTitleColor(),
+                          fontSize: Dimensions.fontSmall,
+                          fontWeight: FontWeight.w600,
+                        ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -130,7 +135,7 @@ class RideDetailsCard extends StatelessWidget {
               ),
             ),
           ),
-          spaceDown(Dimensions.space10),
+          spaceDown(Dimensions.space15),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -153,22 +158,24 @@ class RideDetailsCard extends StatelessWidget {
                           printX(ride.otp);
                         },
                         child: const CustomSvgPicture(
-                            image: MyIcons.copy,
-                            color: MyColor.bodyText,
-                            height: 14,
-                            width: 12),
-                      )
+                          image: MyIcons.copy,
+                          color: MyColor.bodyText,
+                          height: 14,
+                          width: 12,
+                        ),
+                      ),
                     ],
                   ),
                 ] else ...[
                   Text(
-                    "${MyStrings.rideCreated.tr}: ",
+                    "${MyStrings.createdTime.tr} ",
                     style: boldDefault.copyWith(color: MyColor.bodyText),
                   ),
                 ],
                 Text(
                   DateConverter.estimatedDate(
-                      DateTime.tryParse('${ride.createdAt}') ?? DateTime.now()),
+                    DateTime.tryParse('${ride.createdAt}') ?? DateTime.now(),
+                  ),
                   style: boldDefault.copyWith(color: MyColor.colorGrey),
                 ),
               ],

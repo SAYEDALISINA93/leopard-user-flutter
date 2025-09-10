@@ -8,28 +8,30 @@ class CustomSvgPicture extends StatelessWidget {
   final Color color;
   final BoxFit? fit;
 
-  const CustomSvgPicture(
-      {super.key,
-      this.fit,
-      required this.image,
-      this.height = 20,
-      this.width = 20,
-      this.color = MyColor.primaryColor});
+  const CustomSvgPicture({
+    super.key,
+    this.fit,
+    required this.image,
+    this.height = 20,
+    this.width = 20,
+    this.color = MyColor.primaryColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return fit != null
-        ? SvgPicture.asset(image,
+        ? SvgPicture.asset(
+            image,
             fit: fit!,
             colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
             height: height,
-            width: width)
-        : SvgPicture.asset(image,
-            colorFilter: ColorFilter.mode(
-              color,
-              BlendMode.srcIn,
-            ),
+            width: width,
+          )
+        : SvgPicture.asset(
+            image,
+            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
             height: height,
-            width: width);
+            width: width,
+          );
   }
 }

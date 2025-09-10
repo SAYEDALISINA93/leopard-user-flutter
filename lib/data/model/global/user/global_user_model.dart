@@ -126,4 +126,7 @@ class GlobalUser {
         "updated_at": updatedAt,
         "image_with_path": imageWithPath,
       };
+  String getFullName() {
+    return "${firstname ?? ""} ${lastname ?? ""}".trim();
+  }
 }

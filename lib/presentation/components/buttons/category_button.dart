@@ -26,24 +26,29 @@ class CategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: color,
+      color: color,
+      borderRadius: BorderRadius.circular(4),
+      child: InkWell(
+        onTap: press,
         borderRadius: BorderRadius.circular(4),
-        child: InkWell(
-          onTap: press,
-          borderRadius: BorderRadius.circular(4),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: horizontalPadding, vertical: verticalPadding),
-            decoration: BoxDecoration(
-              color: MyColor.transparentColor,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              text.tr,
-              style:
-                  regularDefault.copyWith(color: textColor, fontSize: textSize),
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
+          ),
+          decoration: BoxDecoration(
+            color: MyColor.transparentColor,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            text.tr,
+            style: regularDefault.copyWith(
+              color: textColor,
+              fontSize: textSize,
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

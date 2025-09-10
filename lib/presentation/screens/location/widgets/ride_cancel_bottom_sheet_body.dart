@@ -15,24 +15,25 @@ class RideCancelBottomSheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RideDetailsController>(builder: (controller) {
-      return Column(
-        children: [
-          const BottomSheetHeaderRow(),
-          const SizedBox(height: Dimensions.space10),
-          CustomTextField(
-            labelTextStyle: boldDefault.copyWith(),
-            animatedLabel: false,
-            needOutlineBorder: true,
-            fillColor: MyColor.colorGrey.withValues(alpha: 0.1),
-            labelText: MyStrings.cancelReason.tr,
-            hintText: MyStrings.cancelationReason,
-            maxLines: 6,
-            controller: controller.cancelReasonController,
-            onChanged: (c) {},
-          ),
-          const SizedBox(height: Dimensions.space20),
-          RoundedButton(
+    return GetBuilder<RideDetailsController>(
+      builder: (controller) {
+        return Column(
+          children: [
+            const BottomSheetHeaderRow(),
+            const SizedBox(height: Dimensions.space10),
+            CustomTextField(
+              labelTextStyle: boldDefault.copyWith(),
+              animatedLabel: false,
+              needOutlineBorder: true,
+              fillColor: MyColor.colorGrey.withValues(alpha: 0.1),
+              labelText: MyStrings.cancelReason.tr,
+              hintText: MyStrings.cancelationReason,
+              maxLines: 6,
+              controller: controller.cancelReasonController,
+              onChanged: (c) {},
+            ),
+            const SizedBox(height: Dimensions.space20),
+            RoundedButton(
               text: MyStrings.cancel,
               isLoading: controller.isCancelLoading,
               press: () {
@@ -40,12 +41,15 @@ class RideCancelBottomSheetBody extends StatelessWidget {
                   controller.cancelRide();
                 } else {
                   CustomSnackBar.error(
-                      errorList: ['Please Write your cancel reason']);
+                    errorList: ['Please Write your cancel reason'],
+                  );
                 }
-              }),
-          const SizedBox(height: Dimensions.space10),
-        ],
-      );
-    });
+              },
+            ),
+            const SizedBox(height: Dimensions.space10),
+          ],
+        );
+      },
+    );
   }
 }

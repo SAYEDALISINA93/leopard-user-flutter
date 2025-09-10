@@ -12,37 +12,41 @@ class RideServiceShimmer extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-          children: List.generate(10, (index) {
-        return Container(
-          margin: const EdgeInsets.only(right: 5),
-          child: Column(
-            children: [
-              MyShimmerWidget(
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  margin: const EdgeInsets.only(right: Dimensions.space10),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.mediumRadius),
-                      color: MyColor.colorGrey.withValues(alpha: 0.3)),
+        children: List.generate(10, (index) {
+          return Container(
+            margin: const EdgeInsets.only(right: 5),
+            child: Column(
+              children: [
+                MyShimmerWidget(
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    margin: const EdgeInsets.only(right: Dimensions.space10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: Dimensions.space5),
-              MyShimmerWidget(
-                child: Container(
-                  height: 10,
-                  width: 60,
-                  margin: const EdgeInsets.only(right: Dimensions.space10),
-                  decoration: BoxDecoration(
+                const SizedBox(height: Dimensions.space5),
+                MyShimmerWidget(
+                  child: Container(
+                    height: 10,
+                    width: 60,
+                    margin: const EdgeInsets.only(right: Dimensions.space10),
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(2),
-                      color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      })),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

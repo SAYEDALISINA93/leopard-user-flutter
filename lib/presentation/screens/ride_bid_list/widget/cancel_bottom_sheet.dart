@@ -14,34 +14,37 @@ class CancelBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RideBidListController>(builder: (controller) {
-      return Column(
-        children: [
-          const BottomSheetHeaderRow(),
-          const SizedBox(height: Dimensions.space10),
-          CustomTextField(
-            labelTextStyle: boldDefault.copyWith(),
-            animatedLabel: false,
-            needOutlineBorder: true,
-            fillColor: MyColor.colorGrey.withValues(alpha: 0.1),
-            labelText: MyStrings.cancelReason.tr,
-            hintText: MyStrings.cancelationReason,
-            maxLines: 6,
-            controller: controller.cancelReasonController,
-            onChanged: (c) {},
-          ),
-          const SizedBox(height: Dimensions.space20),
-          RoundedButton(
+    return GetBuilder<RideBidListController>(
+      builder: (controller) {
+        return Column(
+          children: [
+            const BottomSheetHeaderRow(),
+            const SizedBox(height: Dimensions.space10),
+            CustomTextField(
+              labelTextStyle: boldDefault.copyWith(),
+              animatedLabel: false,
+              needOutlineBorder: true,
+              fillColor: MyColor.colorGrey.withValues(alpha: 0.1),
+              labelText: MyStrings.cancelReason.tr,
+              hintText: MyStrings.cancelationReason,
+              maxLines: 6,
+              controller: controller.cancelReasonController,
+              onChanged: (c) {},
+            ),
+            const SizedBox(height: Dimensions.space20),
+            RoundedButton(
               text: MyStrings.cancel,
               isLoading: controller.isCancelLoading,
               press: () {
                 if (controller.cancelReasonController.text.isNotEmpty) {
                   controller.cancelRide();
                 }
-              }),
-          const SizedBox(height: Dimensions.space10),
-        ],
-      );
-    });
+              },
+            ),
+            const SizedBox(height: Dimensions.space10),
+          ],
+        );
+      },
+    );
   }
 }

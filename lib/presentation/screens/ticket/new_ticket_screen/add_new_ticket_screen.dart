@@ -7,7 +7,6 @@ import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/controller/support/new_ticket_controller.dart';
 import 'package:leoparduser/data/repo/support/support_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/app-bar/custom_appbar.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
@@ -27,7 +26,6 @@ class AddNewTicketScreen extends StatefulWidget {
 class _AddNewTicketScreenState extends State<AddNewTicketScreen> {
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(SupportRepo(apiClient: Get.find()));
     Get.put(NewTicketController(repo: Get.find()));
 
@@ -45,8 +43,10 @@ class _AddNewTicketScreenState extends State<AddNewTicketScreen> {
     return GetBuilder<NewTicketController>(
       builder: (controller) => Scaffold(
         backgroundColor: MyColor.colorWhite,
-        appBar:
-            CustomAppBar(title: MyStrings.addNewTicket.tr, isTitleCenter: true),
+        appBar: CustomAppBar(
+          title: MyStrings.addNewTicket.tr,
+          isTitleCenter: true,
+        ),
         body: controller.isLoading
             ? const CustomLoader(isFullScreen: true)
             : SingleChildScrollView(
@@ -76,7 +76,10 @@ class _AddNewTicketScreenState extends State<AddNewTicketScreen> {
                       DropDownTextFieldContainer(
                         color: MyColor.colorWhite,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 10),
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 10,
+                          ),
                           child: DropdownButton<String>(
                             dropdownColor: MyColor.colorWhite,
                             value: controller.selectedPriority,
@@ -86,20 +89,26 @@ class _AddNewTicketScreenState extends State<AddNewTicketScreen> {
                             iconEnabledColor: MyColor.primaryColor,
                             isExpanded: true,
                             underline: Container(
-                                height: 0, color: Colors.deepPurpleAccent),
+                              height: 0,
+                              color: Colors.deepPurpleAccent,
+                            ),
                             onChanged: (String? newValue) {
                               controller.setPriority(newValue);
                             },
                             padding: const EdgeInsets.symmetric(
-                                vertical: Dimensions.space2),
+                              vertical: Dimensions.space2,
+                            ),
                             borderRadius: BorderRadius.circular(0),
                             items: controller.priorityList
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value,
-                                    style: regularDefault.copyWith(
-                                        fontSize: Dimensions.fontDefault)),
+                                child: Text(
+                                  value,
+                                  style: regularDefault.copyWith(
+                                    fontSize: Dimensions.fontDefault,
+                                  ),
+                                ),
                               );
                             }).toList(),
                           ),
@@ -127,36 +136,52 @@ class _AddNewTicketScreenState extends State<AddNewTicketScreen> {
                             controller.pickFile();
                           } else {
                             CustomSnackBar.error(
-                                errorList: [MyStrings.maxAttachmentError]);
+                              errorList: [MyStrings.maxAttachmentError],
+                            );
                           }
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: Dimensions.space20,
-                              vertical: Dimensions.space30),
-                          margin: const EdgeInsets.only(top: Dimensions.space5),
+                            horizontal: Dimensions.space20,
+                            vertical: Dimensions.space30,
+                          ),
+                          margin: const EdgeInsets.only(
+                            top: Dimensions.space5,
+                          ),
                           width: context.width,
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: MyColor.borderColor, width: .5),
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.mediumRadius),
-                              color: MyColor.colorWhite),
+                            border: Border.all(
+                              color: MyColor.borderColor,
+                              width: .5,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.mediumRadius,
+                            ),
+                            color: MyColor.colorWhite,
+                          ),
                           child: Column(
                             children: [
-                              const Icon(Icons.attachment_rounded,
-                                  color: MyColor.colorGrey),
-                              Text(MyStrings.chooseFile.tr,
-                                  style: lightDefault.copyWith(
-                                      color: MyColor.colorGrey)),
+                              const Icon(
+                                Icons.attachment_rounded,
+                                color: MyColor.colorGrey,
+                              ),
+                              Text(
+                                MyStrings.chooseFile.tr,
+                                style: lightDefault.copyWith(
+                                  color: MyColor.colorGrey,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(height: Dimensions.space5 - 3),
-                      Text(MyStrings.supportedFileHint,
-                          style: regularDefault.copyWith(
-                              color: MyColor.highPriorityPurpleColor)),
+                      Text(
+                        MyStrings.supportedFileHint,
+                        style: regularDefault.copyWith(
+                          color: MyColor.highPriorityPurpleColor,
+                        ),
+                      ),
                       const SizedBox(height: Dimensions.space10),
                       if (controller.attachmentList.isNotEmpty) ...[
                         SingleChildScrollView(
@@ -171,11 +196,12 @@ class _AddNewTicketScreenState extends State<AddNewTicketScreen> {
                                 file: controller.attachmentList[index],
                                 isShowCloseButton: true,
                                 isFileImg: MyUtils.isImage(
-                                    controller.attachmentList[index].path),
+                                  controller.attachmentList[index].path,
+                                ),
                               ),
                             ),
                           ),
-                        )
+                        ),
                       ],
                       const SizedBox(height: 30),
                       Center(
@@ -199,17 +225,23 @@ class _AddNewTicketScreenState extends State<AddNewTicketScreen> {
 class DropDownTextFieldContainer extends StatelessWidget {
   final Widget child;
   final Color color;
-  const DropDownTextFieldContainer(
-      {super.key, required this.child, this.color = MyColor.primaryColor});
+  const DropDownTextFieldContainer({
+    super.key,
+    required this.child,
+    this.color = MyColor.primaryColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(Dimensions.cardRadius),
-          border: Border.all(
-              color: Colors.black.withValues(alpha: 0.3), width: .5)),
+        color: color,
+        borderRadius: BorderRadius.circular(Dimensions.cardRadius),
+        border: Border.all(
+          color: Colors.black.withValues(alpha: 0.3),
+          width: .5,
+        ),
+      ),
       child: child,
     );
   }

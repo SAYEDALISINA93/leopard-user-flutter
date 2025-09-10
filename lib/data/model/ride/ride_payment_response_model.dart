@@ -20,12 +20,7 @@ class RidePaymentResponseModel {
   List<String>? message;
   Data? data;
 
-  RidePaymentResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  RidePaymentResponseModel({this.remark, this.status, this.message, this.data});
 
   factory RidePaymentResponseModel.fromJson(Map<String, dynamic> json) =>
       RidePaymentResponseModel(
@@ -65,11 +60,13 @@ class Data {
         coupons: json["coupons"] == null
             ? []
             : List<CouponModel>.from(
-                json["coupons"]!.map((x) => CouponModel.fromJson(x))),
+                json["coupons"]!.map((x) => CouponModel.fromJson(x)),
+              ),
         gatewayCurrency: json["gateways"] == null
             ? []
             : List<AppPaymentMethod>.from(
-                json["gateways"]!.map((x) => AppPaymentMethod.fromJson(x))),
+                json["gateways"]!.map((x) => AppPaymentMethod.fromJson(x)),
+              ),
         gatewayImage: json["image_path"].toString(),
         driverImage: json["driver_image_path"].toString(),
       );

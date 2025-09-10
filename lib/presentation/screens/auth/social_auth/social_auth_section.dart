@@ -31,119 +31,149 @@ class _SocialAuthSectionState extends State<SocialAuthSection> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SocialAuthController>(builder: (controller) {
-      return Column(
-        children: [
-          Row(
-            children: [
-              if (controller.authRepo.apiClient.isGoogleLoginEnable() ==
-                  true) ...[
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      if (!controller.isGoogleSignInLoading) {
-                        controller.signInWithGoogle();
-                      }
-                    },
-                    customBorder: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.mediumRadius)),
-                    splashColor: MyColor.primaryColor.withValues(alpha: 0.1),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.mediumRadius),
-                        border:
-                            Border.all(color: MyColor.borderColor, width: .5),
+    return GetBuilder<SocialAuthController>(
+      builder: (controller) {
+        return Column(
+          children: [
+            Row(
+              children: [
+                if (controller.authRepo.apiClient.isGoogleLoginEnabled() ==
+                    true) ...[
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        if (!controller.isGoogleSignInLoading) {
+                          controller.signInWithGoogle();
+                        }
+                      },
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.mediumRadius,
+                        ),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      splashColor: MyColor.primaryColor.withValues(alpha: 0.1),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.mediumRadius,
+                          ),
+                          border: Border.all(
+                            color: MyColor.borderColor,
+                            width: .5,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
                           horizontal: Dimensions.space10,
-                          vertical: Dimensions.space15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          controller.isGoogleSignInLoading
-                              ? SizedBox(
-                                  height: 15,
-                                  width: 15,
-                                  child: CircularProgressIndicator(
-                                      color: MyColor.primaryColor))
-                              : MyLocalImageWidget(
-                                  imagePath: MyImages.google,
-                                  height: 25,
-                                  width: 25,
-                                  boxFit: BoxFit.contain),
-                          SizedBox(width: Dimensions.space10),
-                          Text((widget.googleAuthTitle).tr,
+                          vertical: Dimensions.space15,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            controller.isGoogleSignInLoading
+                                ? SizedBox(
+                                    height: 15,
+                                    width: 15,
+                                    child: CircularProgressIndicator(
+                                      color: MyColor.primaryColor,
+                                    ),
+                                  )
+                                : MyLocalImageWidget(
+                                    imagePath: MyImages.google,
+                                    height: 25,
+                                    width: 25,
+                                    boxFit: BoxFit.contain,
+                                  ),
+                            SizedBox(width: Dimensions.space10),
+                            Text(
+                              (widget.googleAuthTitle).tr,
                               style: regularDefault.copyWith(
-                                  fontWeight: FontWeight.w500, fontSize: 16)),
-                        ],
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
+                if (controller.authRepo.apiClient.isAppleLoginEnabled() ==
+                        true &&
+                    Platform.isIOS) ...[
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        if (!controller.isAppleSignInLoading) {
+                          controller.signInWithApple();
+                        }
+                      },
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.mediumRadius,
+                        ),
+                      ),
+                      splashColor: MyColor.primaryColor.withValues(alpha: 0.1),
+                      child: Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(left: Dimensions.space10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.mediumRadius,
+                          ),
+                          border: Border.all(
+                            color: MyColor.borderColor,
+                            width: .5,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.space10,
+                          vertical: Dimensions.space15,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            controller.isAppleSignInLoading
+                                ? SizedBox(
+                                    height: 15,
+                                    width: 15,
+                                    child: CircularProgressIndicator(
+                                      color: MyColor.primaryColor,
+                                    ),
+                                  )
+                                : MyLocalImageWidget(
+                                    imagePath: MyImages.apple,
+                                    height: 25,
+                                    width: 25,
+                                    boxFit: BoxFit.contain,
+                                  ),
+                            SizedBox(width: Dimensions.space10),
+                            Text(
+                              MyStrings.apple.tr,
+                              style: regularDefault.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ],
-              if (controller.authRepo.apiClient.isAppleLoginEnable() == true &&
-                  Platform.isIOS) ...[
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      if (!controller.isAppleSignInLoading) {
-                        controller.signInWithApple();
-                      }
-                    },
-                    customBorder: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.mediumRadius)),
-                    splashColor: MyColor.primaryColor.withValues(alpha: 0.1),
-                    child: Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(left: Dimensions.space10),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.mediumRadius),
-                        border:
-                            Border.all(color: MyColor.borderColor, width: .5),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.space10,
-                          vertical: Dimensions.space15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          controller.isAppleSignInLoading
-                              ? SizedBox(
-                                  height: 15,
-                                  width: 15,
-                                  child: CircularProgressIndicator(
-                                      color: MyColor.primaryColor))
-                              : MyLocalImageWidget(
-                                  imagePath: MyImages.apple,
-                                  height: 25,
-                                  width: 25,
-                                  boxFit: BoxFit.contain),
-                          SizedBox(width: Dimensions.space10),
-                          Text(MyStrings.apple.tr,
-                              style: regularDefault.copyWith(
-                                  fontWeight: FontWeight.w500, fontSize: 16)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ]
+            ),
+            if (controller.authRepo.apiClient.isGoogleLoginEnabled() == true ||
+                controller.authRepo.apiClient.isAppleLoginEnabled() ==
+                    true) ...[
+              spaceDown(Dimensions.space20),
+              const LoginOrBar(stock: 0.8),
             ],
-          ),
-          if (controller.authRepo.apiClient.isGoogleLoginEnable() == true ||
-              controller.authRepo.apiClient.isAppleLoginEnable() == true) ...[
-            spaceDown(Dimensions.space20),
-            const LoginOrBar(stock: 0.8),
-          ]
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 }

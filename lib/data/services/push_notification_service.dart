@@ -1,24 +1,29 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart' as getX;
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/method.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/firebase_options.dart';
 import 'package:path_provider/path_provider.dart';
+
+Future<void> _messageHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+}
 
 class PushNotificationService {
   ApiClient apiClient;
   PushNotificationService({required this.apiClient});
 
   Future<void> setupInteractedMessage() async {
+    FirebaseMessaging.onBackgroundMessage(_messageHandler);
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -35,15 +40,19 @@ class PushNotificationService {
       sound: true,
     );
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      printX('onMessageOpenedApp ${message.toMap()}');
+    });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage event) {});
+    FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+      printX('onMessage ${event.toMap()}');
+    });
 
     await enableIOSNotifications();
     await registerNotificationListeners();
   }
 
-  registerNotificationListeners() async {
+  Future<void> registerNotificationListeners() async {
     AndroidNotificationChannel channel = androidNotificationChannel();
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -51,43 +60,50 @@ class PushNotificationService {
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
-    var androidSettings =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var androidSettings = const AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
     var iOSSettings = const DarwinInitializationSettings(
-        requestSoundPermission: true,
-        requestBadgePermission: true,
-        requestAlertPermission: true);
-    var initSettings =
-        InitializationSettings(android: androidSettings, iOS: iOSSettings);
-    flutterLocalNotificationsPlugin.initialize(initSettings,
-        onDidReceiveNotificationResponse: (message) async {
-      try {
-        String? payloadString = message.payload is String
-            ? message.payload
-            : jsonEncode(message.payload);
-        printX('remarkNotification $payloadString');
-        if (payloadString != null && payloadString.isNotEmpty) {
-          Map<dynamic, dynamic> payloadMap = jsonDecode(payloadString);
-          Map<String, String> payload = payloadMap
-              .map((key, value) => MapEntry(key.toString(), value.toString()));
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+      requestAlertPermission: true,
+    );
+    var initSettings = InitializationSettings(
+      android: androidSettings,
+      iOS: iOSSettings,
+    );
+    flutterLocalNotificationsPlugin.initialize(
+      initSettings,
+      onDidReceiveNotificationResponse: (message) async {
+        try {
+          String? payloadString = message.payload is String
+              ? message.payload
+              : jsonEncode(message.payload);
+          printX('remarkNotification $payloadString');
+          if (payloadString != null && payloadString.isNotEmpty) {
+            Map<dynamic, dynamic> payloadMap = jsonDecode(payloadString);
+            Map<String, String> payload = payloadMap.map(
+              (key, value) => MapEntry(key.toString(), value.toString()),
+            );
 
-          printX('remarkNotification ${payload['for_app']}');
-          printX('remarkNotification ${payload['ride_id']}');
-          String? remark = payload['for_app'];
+            printX('remarkNotification ${payload['for_app']}');
+            printX('remarkNotification ${payload['ride_id']}');
+            String? remark = payload['for_app'];
 
-          if (remark != null && remark.isNotEmpty) {
-            String route = remark.split('-')[0];
-            String id = remark.split('-')[1];
-            //redirect any specific page
-            Get.toNamed(route, arguments: id);
+            if (remark != null && remark.isNotEmpty) {
+              String route = remark.split('-')[0];
+              String id = remark.split('-')[1];
+              //redirect any specific page
+              getX.Get.toNamed(route, arguments: id);
+            }
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            printX(e.toString());
           }
         }
-      } catch (e) {
-        if (kDebugMode) {
-          printX(e.toString());
-        }
-      }
-    });
+      },
+    );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) async {
       RemoteNotification? notification = message!.notification;
@@ -97,15 +113,17 @@ class PushNotificationService {
       if (notification != null && android != null) {
         late BigPictureStyleInformation bigPictureStyle;
         if (android.imageUrl != null) {
-          final http.Response response = await http.get(
-            Uri.parse(android.imageUrl!),
-            headers: {
-              "dev-token":
-                  "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
-            },
+          Dio dio = Dio();
+          Response<List<int>> response = await dio.get<List<int>>(
+            android.imageUrl!,
+            options: Options(
+              responseType: ResponseType.bytes,
+            ),
           );
-          final String localImagePath =
-              await _saveImageLocally(response.bodyBytes);
+          Uint8List bytes = Uint8List.fromList(response.data!);
+          final String localImagePath = await _saveImageLocally(
+            bytes,
+          );
           bigPictureStyle = BigPictureStyleInformation(
             FilePathAndroidBitmap(localImagePath),
             contentTitle: notification.title,
@@ -113,32 +131,33 @@ class PushNotificationService {
           );
         }
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                icon: '@mipmap/ic_launcher',
-                playSound: true,
-                enableVibration: true,
-                enableLights: true,
-                fullScreenIntent: true,
-                priority: Priority.high,
-                styleInformation: android.imageUrl != null
-                    ? bigPictureStyle
-                    : const BigTextStyleInformation(''),
-                importance: Importance.high,
-              ),
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              icon: '@mipmap/ic_launcher',
+              playSound: true,
+              enableVibration: true,
+              enableLights: true,
+              fullScreenIntent: true,
+              priority: Priority.high,
+              styleInformation: android.imageUrl != null
+                  ? bigPictureStyle
+                  : const BigTextStyleInformation(''),
+              importance: Importance.high,
             ),
-            payload: jsonEncode(message.data));
+          ),
+          payload: jsonEncode(message.data),
+        );
       }
     });
   }
 
-  enableIOSNotifications() async {
+  Future<void> enableIOSNotifications() async {
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
@@ -147,7 +166,8 @@ class PushNotificationService {
     );
   }
 
-  androidNotificationChannel() => const AndroidNotificationChannel(
+  AndroidNotificationChannel androidNotificationChannel() =>
+      const AndroidNotificationChannel(
         'high_importance_channel', // id
         'High Importance Notifications', // title
         description: 'This channel is used for important notifications.',
@@ -165,19 +185,11 @@ class PushNotificationService {
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
+          ?.requestPermissions(alert: true, badge: true, sound: true);
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
+          ?.requestPermissions(alert: true, badge: true, sound: true);
     } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
@@ -198,10 +210,12 @@ class PushNotificationService {
   //
   Future<bool> sendUserToken() async {
     String deviceToken;
-    if (apiClient.sharedPreferences
-        .containsKey(SharedPreferenceHelper.fcmDeviceKey)) {
-      deviceToken = apiClient.sharedPreferences
-              .getString(SharedPreferenceHelper.fcmDeviceKey) ??
+    if (apiClient.sharedPreferences.containsKey(
+      SharedPreferenceHelper.fcmDeviceKey,
+    )) {
+      deviceToken = apiClient.sharedPreferences.getString(
+            SharedPreferenceHelper.fcmDeviceKey,
+          ) ??
           '';
     } else {
       deviceToken = '';
@@ -219,8 +233,10 @@ class PushNotificationService {
         if (deviceToken == fcmDeviceToken) {
           success = true;
         } else {
-          apiClient.sharedPreferences
-              .setString(SharedPreferenceHelper.fcmDeviceKey, fcmDeviceToken);
+          apiClient.sharedPreferences.setString(
+            SharedPreferenceHelper.fcmDeviceKey,
+            fcmDeviceToken,
+          );
           success = await sendUpdatedToken(fcmDeviceToken);
         }
       });

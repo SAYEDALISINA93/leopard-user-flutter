@@ -19,8 +19,10 @@ import '../localization/localization_controller.dart';
 class MyLanguageController extends GetxController {
   GeneralSettingRepo repo;
   LocalizationController localizationController;
-  MyLanguageController(
-      {required this.repo, required this.localizationController});
+  MyLanguageController({
+    required this.repo,
+    required this.localizationController,
+  });
 
   bool isLoading = true;
   List<MyLanguageModel> langList = [];
@@ -34,17 +36,19 @@ class MyLanguageController extends GetxController {
     String languageString =
         pref.getString(SharedPreferenceHelper.languageListKey) ?? '';
     var language = jsonDecode(languageString);
-    MainLanguageResponseModel model =
-        MainLanguageResponseModel.fromJson(language);
+    MainLanguageResponseModel model = MainLanguageResponseModel.fromJson(
+      language,
+    );
     languageImagePath =
         "${UrlContainer.domainUrl}/${model.data?.imagePath ?? ''}";
     if (model.data?.languages != null && model.data!.languages!.isNotEmpty) {
       for (var listItem in model.data!.languages!) {
         MyLanguageModel model = MyLanguageModel(
-            languageCode: listItem.code ?? '',
-            countryCode: listItem.name ?? '',
-            languageName: listItem.name ?? '',
-            imageUrl: listItem.image ?? '');
+          languageCode: listItem.code ?? '',
+          countryCode: listItem.name ?? '',
+          languageName: listItem.name ?? '',
+          imageUrl: listItem.image ?? '',
+        );
         langList.add(model);
       }
     }
@@ -57,8 +61,10 @@ class MyLanguageController extends GetxController {
     }
 
     if (langList.isNotEmpty) {
-      int index = langList.indexWhere((element) =>
-          element.languageCode.toLowerCase() == languageCode.toLowerCase());
+      int index = langList.indexWhere(
+        (element) =>
+            element.languageCode.toLowerCase() == languageCode.toLowerCase(),
+      );
 
       changeSelectedIndex(index);
     }
@@ -83,11 +89,15 @@ class MyLanguageController extends GetxController {
         try {
           var resJson = jsonDecode(response.responseJson);
           await repo.apiClient.sharedPreferences.setString(
-              SharedPreferenceHelper.languageListKey, response.responseJson);
+            SharedPreferenceHelper.languageListKey,
+            response.responseJson,
+          );
 
           Locale local = Locale(selectedLangModel.languageCode, 'US');
           localizationController.setLanguage(
-              local, "$languageImagePath/${langList[index].imageUrl}");
+            local,
+            "$languageImagePath/${langList[index].imageUrl}",
+          );
 
           var value = resJson['data']['file'].toString() == '[]'
               ? {}
@@ -105,8 +115,9 @@ class MyLanguageController extends GetxController {
           Get.addTranslations(Messages(languages: language).keys);
           Get.back();
           CustomSnackBar.success(
-              successList:
-                  resJson['message'] ?? ["Language changed successfully"]);
+            successList:
+                resJson['message'] ?? ["Language changed successfully"],
+          );
         } catch (e) {
           printX(e.toString());
         }

@@ -13,13 +13,14 @@ class NavBarItem extends StatelessWidget {
   final VoidCallback press;
   final bool isSelected;
 
-  const NavBarItem(
-      {super.key,
-      required this.imagePath,
-      required this.index,
-      required this.label,
-      required this.isSelected,
-      required this.press});
+  const NavBarItem({
+    super.key,
+    required this.imagePath,
+    required this.index,
+    required this.label,
+    required this.isSelected,
+    required this.press,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +34,9 @@ class NavBarItem extends StatelessWidget {
             padding: const EdgeInsets.all(Dimensions.space10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: isSelected
-                    ? MyColor.screenBgColor
-                    : Colors.grey.withValues(alpha: 0.2),
-                shape: BoxShape.circle),
+              color: isSelected ? MyColor.screenBgColor : Colors.grey.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+            ),
             child: imagePath.contains('svg')
                 ? SvgPicture.asset(
                     imagePath,
@@ -49,19 +49,19 @@ class NavBarItem extends StatelessWidget {
                   )
                 : Image.asset(
                     imagePath,
-                    color:
-                        isSelected ? MyColor.primaryColor : MyColor.iconColor,
+                    color: isSelected ? MyColor.primaryColor : MyColor.iconColor,
                     width: 16,
                     height: 16,
                   ),
           ),
           const SizedBox(height: Dimensions.space10 / 2),
-          Text(label.tr,
-              textAlign: TextAlign.center,
-              style: regularSmall.copyWith(
-                  color: isSelected
-                      ? MyColor.primaryColor
-                      : MyColor.primaryTextColor))
+          Text(
+            label.tr,
+            textAlign: TextAlign.center,
+            style: regularSmall.copyWith(
+              color: isSelected ? MyColor.primaryColor : MyColor.primaryTextColor,
+            ),
+          ),
         ],
       ),
     );

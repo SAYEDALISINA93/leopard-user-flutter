@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/route/route_middleware.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -23,7 +22,7 @@ class EmailVerificationController extends GetxController {
   bool isLoading = true;
   bool resendLoading = false;
 
-  loadData() async {
+  Future<void> loadData() async {
     isLoading = true;
     userEmail = repo.apiClient.getUserEmail();
     update();
@@ -44,17 +43,18 @@ class EmailVerificationController extends GetxController {
     ResponseModel responseModel = await repo.verify(text);
 
     if (responseModel.statusCode == 200) {
-      AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-          jsonDecode(responseModel.responseJson));
+      AuthorizationResponseModel model =
+          AuthorizationResponseModel.fromJson((responseModel.responseJson));
 
       if (model.status == MyStrings.success) {
         CustomSnackBar.success(
-            successList:
-                model.message ?? [(MyStrings.emailVerificationSuccess)]);
+          successList: model.message ?? [(MyStrings.emailVerificationSuccess)],
+        );
         RouteMiddleware.checkNGotoNext(user: model.data?.user);
       } else {
         CustomSnackBar.error(
-            errorList: model.message ?? [(MyStrings.emailVerificationFailed)]);
+          errorList: model.message ?? [(MyStrings.emailVerificationFailed)],
+        );
       }
     } else {
       CustomSnackBar.error(errorList: [responseModel.message]);

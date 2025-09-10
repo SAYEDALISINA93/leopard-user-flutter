@@ -70,23 +70,33 @@ class Dimensions {
 
   static const double screenPaddingV = 15;
 
-  static const EdgeInsets screenPaddingHV =
-      EdgeInsets.symmetric(horizontal: space15, vertical: space20);
+  static const EdgeInsets screenPaddingHV = EdgeInsets.symmetric(
+    horizontal: space15,
+    vertical: space20,
+  );
 
-  static const EdgeInsets defaultPaddingHV =
-      EdgeInsets.symmetric(vertical: space20, horizontal: space15);
+  static const EdgeInsets defaultPaddingHV = EdgeInsets.symmetric(
+    vertical: space20,
+    horizontal: space15,
+  );
 
   static const EdgeInsets paddingInset = EdgeInsets.symmetric(
-      vertical: Dimensions.screenPaddingV * 4,
-      horizontal: Dimensions.screenPaddingH);
+    vertical: Dimensions.screenPaddingV * 4,
+    horizontal: Dimensions.screenPaddingH,
+  );
 
-  static const EdgeInsets screenPaddingHV1 =
-      EdgeInsets.symmetric(vertical: 20, horizontal: 17);
+  static const EdgeInsets screenPaddingHV1 = EdgeInsets.symmetric(
+    vertical: 20,
+    horizontal: 17,
+  );
 
   static const EdgeInsets previewPaddingHV = EdgeInsets.symmetric(
-      vertical: Dimensions.space10, horizontal: Dimensions.space15);
-  static const EdgeInsets sectionPadding =
-      EdgeInsets.symmetric(vertical: Dimensions.space10);
+    vertical: Dimensions.space10,
+    horizontal: Dimensions.space15,
+  );
+  static const EdgeInsets sectionPadding = EdgeInsets.symmetric(
+    vertical: Dimensions.space10,
+  );
 
   //
 

@@ -22,18 +22,15 @@ class LabelText extends StatelessWidget {
     return isRequired
         ? Row(
             children: [
-              Text(text.tr,
-                  textAlign: textAlign,
-                  style: style ??
-                      regularDefault.copyWith(
-                          color: MyColor.getLabelTextColor())),
-              const SizedBox(
-                width: 2,
-              ),
               Text(
-                '*',
-                style: semiBoldDefault.copyWith(color: MyColor.colorRed),
-              )
+                text.tr,
+                textAlign: textAlign,
+                style: style ??
+                    regularDefault.copyWith(color: MyColor.getLabelTextColor()),
+              ),
+              const SizedBox(width: 2),
+              Text('*',
+                  style: semiBoldDefault.copyWith(color: MyColor.colorRed)),
             ],
           )
         : Text(

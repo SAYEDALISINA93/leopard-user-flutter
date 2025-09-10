@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
@@ -28,10 +26,9 @@ class RideBidListController extends GetxController {
   String rideId = "";
 
   Future<void> initialData(String id) async {
-    defaultCurrency = repo.apiClient.getCurrencyOrUsername();
-    defaultCurrencySymbol =
-        repo.apiClient.getCurrencyOrUsername(isSymbol: true);
-    username = repo.apiClient.getCurrencyOrUsername(isCurrency: false);
+    defaultCurrency = repo.apiClient.getCurrency();
+    defaultCurrencySymbol = repo.apiClient.getCurrency(isSymbol: true);
+    username = repo.apiClient.getUserName();
     rideId = id;
     update();
     getRideBidList(id);
@@ -45,8 +42,8 @@ class RideBidListController extends GetxController {
     try {
       ResponseModel responseModel = await repo.getRideBidList(id: id);
       if (responseModel.statusCode == 200) {
-        BidListResponseModel model = BidListResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        BidListResponseModel model =
+            BidListResponseModel.fromJson((responseModel.responseJson));
         userImagePath =
             '${UrlContainer.domainUrl}/${model.data?.userImagePath}/';
         driverImagePath =
@@ -57,7 +54,8 @@ class RideBidListController extends GetxController {
           update();
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -78,13 +76,14 @@ class RideBidListController extends GetxController {
     try {
       ResponseModel responseModel = await repo.acceptBid(bidId: id);
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           Get.toNamed(RouteHelper.rideDetailsScreen, arguments: rideId);
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -106,8 +105,8 @@ class RideBidListController extends GetxController {
     try {
       ResponseModel responseModel = await repo.rejectBid(id: id);
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           bids = [];
           update();
@@ -115,7 +114,8 @@ class RideBidListController extends GetxController {
           CustomSnackBar.success(successList: model.message ?? ["Success"]);
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -134,10 +134,12 @@ class RideBidListController extends GetxController {
     update();
     try {
       ResponseModel responseModel = await repo.cancelRide(
-          id: ride.id ?? "-1", reason: cancelReasonController.text);
+        id: ride.id ?? "-1",
+        reason: cancelReasonController.text,
+      );
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           Get.offAllNamed(RouteHelper.dashboard);
           CustomSnackBar.success(successList: model.message ?? ["Success"]);

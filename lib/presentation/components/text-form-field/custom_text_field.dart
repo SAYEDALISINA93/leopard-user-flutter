@@ -36,7 +36,7 @@ class CustomTextField extends StatefulWidget {
   final Color fillColor;
   Color? focusColor = MyColor.getTextFieldEnableBorder();
   final bool isRequired;
-// edited /20-7-23
+  // edited /20-7-23
   final Widget? prefixIcon;
   final Widget? suffixWidget;
   final BoxConstraints? suffixIconConstraints;
@@ -97,7 +97,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   bool obscureText = true;
 
-// build the state
+  // build the state
   @override
   Widget build(BuildContext context) {
     return widget.needOutlineBorder
@@ -121,11 +121,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     inputFormatters: widget.inputFormatters,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsetsDirectional.only(
-                          top: 5, start: 15, end: 15, bottom: 5),
+                        top: 5,
+                        start: 15,
+                        end: 15,
+                        bottom: 5,
+                      ),
                       labelText: widget.labelText?.tr ?? '',
                       labelStyle: widget.labelTextStyle ??
                           regularDefault.copyWith(
-                              color: MyColor.getRideSubTitleColor()),
+                            color: MyColor.getRideSubTitleColor(),
+                          ),
                       fillColor: widget.fillColor,
                       filled: true,
                       hintText: widget.hintText?.tr ?? '',
@@ -140,25 +145,28 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                            width: 0.5,
-                            color: widget.focusColor ??
-                                MyColor.getTextFieldEnableBorder()),
+                          width: 0.5,
+                          color: widget.focusColor ??
+                              MyColor.getTextFieldEnableBorder(),
+                        ),
                         borderRadius: BorderRadius.circular(widget.radius!),
                       ),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              width: 1,
-                              color:
-                                  MyColor.primaryColor.withValues(alpha: 0.08)),
-                          borderRadius: BorderRadius.circular(widget.radius!)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: MyColor.primaryColor.withValues(alpha: 0.08),
+                        ),
+                        borderRadius: BorderRadius.circular(widget.radius!),
+                      ),
                       prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
                       prefixIcon: widget.prefixIcon,
                       suffixIconConstraints: widget.suffixIconConstraints ??
                           BoxConstraints(
-                              maxHeight: 50,
-                              maxWidth: 70,
-                              minHeight: 40,
-                              minWidth: 50),
+                            maxHeight: 50,
+                            maxWidth: 70,
+                            minHeight: 40,
+                            minWidth: 50,
+                          ),
                       suffixIcon: widget.isShowSuffixIcon
                           ? widget.isPassword
                               ? GestureDetector(
@@ -196,7 +204,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           : null,
                     ),
                     onFieldSubmitted: (text) => widget.nextFocus != null
-                        ? FocusScope.of(context).requestFocus(widget.nextFocus)
+                        ? FocusScope.of(
+                            context,
+                          ).requestFocus(widget.nextFocus)
                         : null,
                     onChanged: (text) => widget.onChanged!(text),
                   )
@@ -206,15 +216,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         height: 47,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            color: MyColor.getCardBgColor(),
-                            borderRadius: BorderRadius.circular(widget.radius!),
-                            boxShadow: MyUtils.getShadow2(blurRadius: 5)),
+                          color: MyColor.getCardBgColor(),
+                          borderRadius: BorderRadius.circular(widget.radius!),
+                          boxShadow: MyUtils.getShadow2(blurRadius: 5),
+                        ),
                       ),
                       TextFormField(
                         maxLines: widget.maxLines,
                         readOnly: widget.readOnly,
                         style: regularDefault.copyWith(
-                            color: MyColor.getTextColor()),
+                          color: MyColor.getTextColor(),
+                        ),
                         textAlign: TextAlign.left,
                         cursorColor: MyColor.colorBlack,
                         controller: widget.controller,
@@ -228,51 +240,65 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         onTap: widget.onTap,
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(
-                              top: 5, left: 15, right: 15, bottom: 5),
+                            top: 5,
+                            left: 15,
+                            right: 15,
+                            bottom: 5,
+                          ),
                           labelText: widget.labelText,
                           labelStyle: regularDefault.copyWith(
-                              color: MyColor.getLabelTextColor()),
+                            color: MyColor.getLabelTextColor(),
+                          ),
                           fillColor: widget.fillColor,
                           filled: true,
                           hintStyle: widget.hintTextStyle ??
                               TextStyle(color: MyColor.getRideSubTitleColor()),
                           border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: MyColor.textFieldDisableBorderColor,
-                                  width: .5),
-                              borderRadius:
-                                  BorderRadius.circular(widget.radius!)),
+                            borderSide: const BorderSide(
+                              color: MyColor.textFieldDisableBorderColor,
+                              width: .5,
+                            ),
+                            borderRadius: BorderRadius.circular(widget.radius!),
+                          ),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: MyColor.textFieldEnableBorderColor,
-                                  width: .5),
-                              borderRadius:
-                                  BorderRadius.circular(widget.radius!)),
+                            borderSide: const BorderSide(
+                              color: MyColor.textFieldEnableBorderColor,
+                              width: .5,
+                            ),
+                            borderRadius: BorderRadius.circular(widget.radius!),
+                          ),
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: MyColor.getTextFieldDisableBorder(),
-                                  width: 0.5),
-                              borderRadius:
-                                  BorderRadius.circular(widget.radius!)),
+                            borderSide: BorderSide(
+                              color: MyColor.getTextFieldDisableBorder(),
+                              width: 0.5,
+                            ),
+                            borderRadius: BorderRadius.circular(widget.radius!),
+                          ),
                           focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: MyColor.colorRed, width: .5),
-                              borderRadius:
-                                  BorderRadius.circular(widget.radius!)),
+                            borderSide: const BorderSide(
+                              color: MyColor.colorRed,
+                              width: .5,
+                            ),
+                            borderRadius: BorderRadius.circular(widget.radius!),
+                          ),
                           errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: MyColor.colorRed, width: .5),
-                              borderRadius:
-                                  BorderRadius.circular(widget.radius!)),
-                          prefixIconConstraints:
-                              BoxConstraints.loose(Size(40, 40)),
+                            borderSide: const BorderSide(
+                              color: MyColor.colorRed,
+                              width: .5,
+                            ),
+                            borderRadius: BorderRadius.circular(widget.radius!),
+                          ),
+                          prefixIconConstraints: BoxConstraints.loose(
+                            Size(40, 40),
+                          ),
                           suffixIcon: widget.isShowSuffixIcon
                               ? widget.isPassword
                                   ? GestureDetector(
                                       onTap: _toggle,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 4.0),
+                                        padding: const EdgeInsets.only(
+                                          right: 4.0,
+                                        ),
                                         child: Text(
                                           (obscureText ? "Show" : "Hide").tr,
                                           style: boldDefault.copyWith(
@@ -301,8 +327,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                               : null,
                         ),
                         onFieldSubmitted: (text) => widget.nextFocus != null
-                            ? FocusScope.of(context)
-                                .requestFocus(widget.nextFocus)
+                            ? FocusScope.of(
+                                context,
+                              ).requestFocus(widget.nextFocus)
                             : null,
                         onChanged: (text) => widget.onChanged!(text),
                       ),
@@ -335,21 +362,28 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     onTap: widget.onTap,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsetsDirectional.only(
-                          top: 5, start: 15, end: 15, bottom: 5),
+                        top: 5,
+                        start: 15,
+                        end: 15,
+                        bottom: 5,
+                      ),
                       hintText:
                           widget.hintText != null ? widget.hintText!.tr : '',
                       hintStyle: widget.hintTextStyle ??
                           regularLarge.copyWith(
-                            color: MyColor.getHintTextColor()
-                                .withValues(alpha: 0.7),
+                            color: MyColor.getHintTextColor().withValues(
+                              alpha: 0.7,
+                            ),
                           ),
                       fillColor: widget.fillColor,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              width: 0.5,
-                              color: MyColor.getTextFieldDisableBorder()),
-                          borderRadius: BorderRadius.circular(widget.radius!)),
+                        borderSide: BorderSide(
+                          width: 0.5,
+                          color: MyColor.getTextFieldDisableBorder(),
+                        ),
+                        borderRadius: BorderRadius.circular(widget.radius!),
+                      ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 0.5,
@@ -359,19 +393,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         borderRadius: BorderRadius.circular(widget.radius!),
                       ),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              width: 0.5,
-                              color: MyColor.getTextFieldDisableBorder()),
-                          borderRadius: BorderRadius.circular(widget.radius!)),
+                        borderSide: BorderSide(
+                          width: 0.5,
+                          color: MyColor.getTextFieldDisableBorder(),
+                        ),
+                        borderRadius: BorderRadius.circular(widget.radius!),
+                      ),
                       prefixIcon: widget.prefixIcon,
                       prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
                       isDense: widget.isDense,
                       suffixIconConstraints: widget.suffixIconConstraints ??
                           BoxConstraints(
-                              maxHeight: 50,
-                              maxWidth: 70,
-                              minHeight: 40,
-                              minWidth: 50),
+                            maxHeight: 50,
+                            maxWidth: 70,
+                            minHeight: 40,
+                            minWidth: 50,
+                          ),
                       suffixIcon: widget.isShowSuffixIcon
                           ? widget.isPassword
                               ? const SizedBox.shrink()
@@ -392,12 +429,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           : null,
                     ),
                     onFieldSubmitted: (text) => widget.nextFocus != null
-                        ? FocusScope.of(context).requestFocus(widget.nextFocus)
+                        ? FocusScope.of(
+                            context,
+                          ).requestFocus(widget.nextFocus)
                         : widget.onSubmit != null
                             ? widget.onSubmit!()
                             : null,
                     onChanged: (text) => widget.onChanged!(text),
-                  )
+                  ),
                 ],
               )
         : widget.isborderNone
@@ -420,23 +459,30 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 decoration: InputDecoration(
                   isDense: widget.isDense,
                   contentPadding: const EdgeInsetsDirectional.only(
-                      top: 5, start: 0, end: 0, bottom: 0),
+                    top: 5,
+                    start: 0,
+                    end: 0,
+                    bottom: 0,
+                  ),
                   labelText: widget.labelText?.tr,
                   labelStyle: regularDefault.copyWith(
-                      color: MyColor.getLabelTextColor()),
+                    color: MyColor.getLabelTextColor(),
+                  ),
                   fillColor: widget.fillColor,
                   filled: true,
                   border: InputBorder.none,
                   hintText: widget.hintText != null ? widget.hintText!.tr : '',
                   hintStyle: regularLarge.copyWith(
-                      color: MyColor.getHintTextColor().withValues(alpha: 0.7)),
+                    color: MyColor.getHintTextColor().withValues(alpha: 0.7),
+                  ),
                   prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
                   suffixIconConstraints: widget.suffixIconConstraints ??
                       BoxConstraints(
-                          maxHeight: 50,
-                          maxWidth: 70,
-                          minHeight: 40,
-                          minWidth: 50),
+                        maxHeight: 50,
+                        maxWidth: 70,
+                        minHeight: 40,
+                        minWidth: 50,
+                      ),
                   suffixIcon: widget.isShowSuffixIcon
                       ? widget.isPassword
                           ? GestureDetector(
@@ -494,15 +540,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 decoration: InputDecoration(
                   isDense: widget.isDense,
                   contentPadding: const EdgeInsetsDirectional.only(
-                      top: 5, start: 0, end: 0, bottom: 5),
+                    top: 5,
+                    start: 0,
+                    end: 0,
+                    bottom: 5,
+                  ),
                   labelText: widget.labelText?.tr,
                   labelStyle: regularDefault.copyWith(
-                      color: MyColor.getLabelTextColor()),
+                    color: MyColor.getLabelTextColor(),
+                  ),
                   fillColor: widget.fillColor,
                   filled: true,
                   border: UnderlineInputBorder(
                     borderSide: BorderSide(
-                        width: 0.5, color: MyColor.getTextFieldDisableBorder()),
+                      width: 0.5,
+                      color: MyColor.getTextFieldDisableBorder(),
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -513,9 +566,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     borderRadius: BorderRadius.circular(widget.radius!),
                   ),
                   enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 0.5,
-                          color: MyColor.getTextFieldDisableBorder())),
+                    borderSide: BorderSide(
+                      width: 0.5,
+                      color: MyColor.getTextFieldDisableBorder(),
+                    ),
+                  ),
                   prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
                   suffixIcon: widget.isShowSuffixIcon
                       ? widget.isPassword

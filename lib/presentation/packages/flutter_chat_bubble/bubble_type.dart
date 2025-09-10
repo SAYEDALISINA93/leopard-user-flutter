@@ -4,5 +4,5 @@ enum BubbleType {
   sendBubble,
 
   /// Represents a receiver's bubble displayed on the right side.
-  receiverBubble
+  receiverBubble,
 }

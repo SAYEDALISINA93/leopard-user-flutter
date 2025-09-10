@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -23,10 +21,11 @@ class AllRideController extends GetxController {
 
   Future<void> initialData() async {
     page = 0;
-    defaultCurrency = repo.apiClient.getCurrencyOrUsername();
-    defaultCurrencySymbol =
-        repo.apiClient.getCurrencyOrUsername(isSymbol: true);
-    username = repo.apiClient.getCurrencyOrUsername(isCurrency: false);
+    defaultCurrency = repo.apiClient.getCurrency();
+    defaultCurrencySymbol = repo.apiClient.getCurrency(
+      isSymbol: true,
+    );
+    username = repo.apiClient.getUserName();
     rideList = [];
     update();
     await getAllRide();
@@ -50,15 +49,15 @@ class AllRideController extends GetxController {
       );
       if (responseModel.statusCode == 200) {
         AllResponseModel model =
-            AllResponseModel.fromJson(jsonDecode(responseModel.responseJson));
+            AllResponseModel.fromJson((responseModel.responseJson));
         if (model.status == MyStrings.success) {
-          printX(model.status);
           nextPageUrl = model.data?.rides?.nextPageUrl;
           rideList.addAll(model.data?.rides?.data ?? []);
           update();
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);

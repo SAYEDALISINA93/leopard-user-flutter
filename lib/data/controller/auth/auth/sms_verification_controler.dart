@@ -33,6 +33,7 @@ class SmsVerificationController extends GetxController {
 
     print("User Phone: $userPhone ");
     update();
+    // await repo.sendAuthorizationRequest();
     isLoading = false;
     update();
     return;
@@ -41,7 +42,7 @@ class SmsVerificationController extends GetxController {
   bool submitLoading = false;
   SmsEmailVerificationRepo smsRepo = Get.find();
 
-  verifyYourSms(String currentText) async {
+  Future<void> verifyYourSms(String currentText) async {
     if (currentText.isEmpty) {
       CustomSnackBar.error(errorList: [MyStrings.otpFieldEmptyMsg.tr]);
       return;

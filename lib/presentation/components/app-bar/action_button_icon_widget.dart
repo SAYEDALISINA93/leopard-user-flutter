@@ -35,17 +35,25 @@ class ActionButtonIconWidget extends StatelessWidget {
         alignment: Alignment.center,
         padding: EdgeInsets.all(isLoading ? 5 : 0),
         margin: EdgeInsets.only(right: spacing),
-        decoration:
-            BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          shape: BoxShape.circle,
+        ),
         child: isLoading
             ? SizedBox(
                 height: size / 2,
                 width: size / 2,
                 child: const CircularProgressIndicator(
-                    color: MyColor.primaryColor))
+                  color: MyColor.primaryColor,
+                ),
+              )
             : isImage
-                ? Image.asset(imageSrc!,
-                    color: iconColor, height: size / 2, width: size / 2)
+                ? Image.asset(
+                    imageSrc!,
+                    color: iconColor,
+                    height: size / 2,
+                    width: size / 2,
+                  )
                 : Icon(icon, color: iconColor, size: size / 2),
       ),
     );

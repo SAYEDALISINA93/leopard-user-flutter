@@ -7,7 +7,7 @@ import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/controller/localization/localization_controller.dart';
 import 'package:leoparduser/data/controller/my_language_controller/my_language_controller.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/presentation/components/annotated_region/annotated_region_widget.dart';
 import 'package:leoparduser/presentation/components/app-bar/custom_appbar.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
@@ -26,11 +26,14 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(GeneralSettingRepo(apiClient: Get.find()));
     Get.put(LocalizationController(sharedPreferences: Get.find()));
-    final controller = Get.put(MyLanguageController(
-        repo: Get.find(), localizationController: Get.find()));
+    final controller = Get.put(
+      MyLanguageController(
+        repo: Get.find(),
+        localizationController: Get.find(),
+      ),
+    );
 
     comeFrom = Get.arguments ?? '';
 
@@ -46,61 +49,66 @@ class _LanguageScreenState extends State<LanguageScreen> {
     printX(MyStrings.language);
     printX(MyStrings.language.tr);
     return GetBuilder<MyLanguageController>(
-      builder: (controller) => Scaffold(
-        backgroundColor: MyColor.getScreenBgColor(),
-        appBar: CustomAppBar(
-          isShowBackBtn: true,
-          title: MyStrings.language.tr,
-        ),
-        body: controller.isLoading
-            ? const CustomLoader()
-            : controller.langList.isEmpty
-                ? const NoDataWidget()
-                : SingleChildScrollView(
-                    padding: Dimensions.screenPaddingHV,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      addAutomaticKeepAlives: true,
-                      padding: EdgeInsets.zero,
-                      scrollDirection: Axis.vertical,
-                      itemCount: controller.langList.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          controller.changeSelectedIndex(index);
-                        },
-                        child: LanguageCard(
-                          index: index,
-                          selectedIndex: controller.selectedIndex,
-                          langName: controller.langList[index].languageName,
-                          flag:
-                              '${controller.languageImagePath}/${controller.langList[index].imageUrl}',
+      builder: (controller) => AnnotatedRegionWidget(
+        child: Scaffold(
+          backgroundColor: MyColor.getScreenBgColor(),
+          appBar: CustomAppBar(
+            isShowBackBtn: true,
+            title: MyStrings.language.tr,
+          ),
+          body: controller.isLoading
+              ? const CustomLoader()
+              : controller.langList.isEmpty
+                  ? const NoDataWidget()
+                  : SingleChildScrollView(
+                      padding: Dimensions.screenPaddingHV,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        addAutomaticKeepAlives: true,
+                        padding: EdgeInsets.zero,
+                        scrollDirection: Axis.vertical,
+                        itemCount: controller.langList.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            controller.changeSelectedIndex(index);
+                          },
+                          child: LanguageCard(
+                            index: index,
+                            selectedIndex: controller.selectedIndex,
+                            langName: controller.langList[index].languageName,
+                            flag:
+                                '${controller.languageImagePath}/${controller.langList[index].imageUrl}',
+                          ),
                         ),
                       ),
                     ),
-                  ),
-        bottomNavigationBar: controller.langList.isEmpty
-            ? SizedBox.shrink()
-            : LayoutBuilder(
-                builder: (context, constraints) {
-                  return Padding(
-                    padding: const EdgeInsetsDirectional.symmetric(
+          bottomNavigationBar: controller.langList.isEmpty
+              ? SizedBox.shrink()
+              : LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
                         vertical: Dimensions.space15,
-                        horizontal: Dimensions.space15),
-                    child: SizedBox(
-                      height: 60,
-                      child: RoundedButton(
-                        text: MyStrings.confirm.tr,
-                        isLoading: controller.isChangeLangLoading,
-                        press: () {
-                          controller.changeLanguage(controller.selectedIndex,
-                              isComeFromSplashScreen: comeFrom.isNotEmpty);
-                        },
+                        horizontal: Dimensions.space15,
                       ),
-                    ),
-                  );
-                },
-              ),
+                      child: SizedBox(
+                        height: 60,
+                        child: RoundedButton(
+                          text: MyStrings.confirm.tr,
+                          isLoading: controller.isChangeLangLoading,
+                          press: () {
+                            controller.changeLanguage(
+                              controller.selectedIndex,
+                              isComeFromSplashScreen: comeFrom.isNotEmpty,
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+        ),
       ),
     );
   }

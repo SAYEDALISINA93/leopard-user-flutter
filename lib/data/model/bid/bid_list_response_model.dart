@@ -19,12 +19,7 @@ class BidListResponseModel {
   List<String>? message;
   Data? data;
 
-  BidListResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  BidListResponseModel({this.remark, this.status, this.message, this.data});
 
   factory BidListResponseModel.fromJson(Map<String, dynamic> json) =>
       BidListResponseModel(
@@ -49,18 +44,14 @@ class Data {
   RideModel? ride;
   String? userImagePath;
   String? driverImagePath;
-  Data({
-    this.bids,
-    this.ride,
-    this.userImagePath,
-    this.driverImagePath,
-  });
+  Data({this.bids, this.ride, this.userImagePath, this.driverImagePath});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         bids: json["bids"] == null
             ? []
             : List<BidModel>.from(
-                json["bids"]!.map((x) => BidModel.fromJson(x))),
+                json["bids"]!.map((x) => BidModel.fromJson(x)),
+              ),
         ride: json["ride"] == null ? null : RideModel.fromJson(json["ride"]),
         userImagePath: json["user_image_path"],
         driverImagePath: json["driver_image_path"],

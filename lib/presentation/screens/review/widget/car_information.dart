@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
-import 'package:leoparduser/core/utils/my_images.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/core/utils/util.dart';
@@ -38,19 +37,23 @@ class _CarInformationState extends State<CarInformation> {
                     duration: const Duration(milliseconds: 500),
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.space10,
-                        vertical: Dimensions.space10),
+                      horizontal: Dimensions.space10,
+                      vertical: Dimensions.space10,
+                    ),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.mediumRadius),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
                       color: MyColor.colorWhite,
                       boxShadow: MyUtils.getCardShadow(),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(MyStrings.driverInformation.tr,
-                            style: boldDefault.copyWith()),
+                        Text(
+                          MyStrings.driverInformation.tr,
+                          style: boldDefault.copyWith(),
+                        ),
                         spaceDown(Dimensions.space10),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
@@ -58,17 +61,21 @@ class _CarInformationState extends State<CarInformation> {
                             spacing: 10,
                             children: [
                               verifiedChip(
-                                  text: MyStrings.email.tr,
-                                  isVerified: controller.driver?.ev == "1"),
+                                text: MyStrings.email.tr,
+                                isVerified: controller.driver?.ev == "1",
+                              ),
                               verifiedChip(
-                                  text: MyStrings.phone.tr,
-                                  isVerified: controller.driver?.sv == "1"),
+                                text: MyStrings.phone.tr,
+                                isVerified: controller.driver?.sv == "1",
+                              ),
                               verifiedChip(
-                                  text: MyStrings.driver.tr,
-                                  isVerified: controller.driver?.dv == "1"),
+                                text: MyStrings.driver.tr,
+                                isVerified: controller.driver?.dv == "1",
+                              ),
                               verifiedChip(
-                                  text: MyStrings.vehicle.tr,
-                                  isVerified: controller.driver?.vv == "1"),
+                                text: MyStrings.vehicle.tr,
+                                isVerified: controller.driver?.vv == "1",
+                              ),
                             ],
                           ),
                         ),
@@ -78,8 +85,9 @@ class _CarInformationState extends State<CarInformation> {
                           children: List.generate(
                             controller.driver?.driverData?.length ?? 0,
                             (index) => vehicleData(
-                                data: controller.driver?.driverData?[index] ??
-                                    KycPendingData()),
+                              data: controller.driver?.driverData?[index] ??
+                                  KycPendingData(),
+                            ),
                           ),
                         ),
                       ],
@@ -90,29 +98,24 @@ class _CarInformationState extends State<CarInformation> {
                     duration: const Duration(milliseconds: 500),
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.space10,
-                        vertical: Dimensions.space10),
+                      horizontal: Dimensions.space10,
+                      vertical: Dimensions.space10,
+                    ),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.mediumRadius),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
                       color: MyColor.colorWhite,
                       boxShadow: MyUtils.getCardShadow(),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(MyStrings.additionalInformation.tr,
-                            style: boldDefault.copyWith()),
+                        Text(
+                          MyStrings.additionalInformation.tr,
+                          style: boldDefault.copyWith(),
+                        ),
                         spaceDown(Dimensions.space10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(
-                            controller.driver?.vehicleData?.length ?? 0,
-                            (index) => vehicleData(
-                                data: controller.driver?.vehicleData?[index] ??
-                                    KycPendingData()),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -121,25 +124,30 @@ class _CarInformationState extends State<CarInformation> {
                     duration: const Duration(milliseconds: 500),
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.space10,
-                        vertical: Dimensions.space10),
+                      horizontal: Dimensions.space10,
+                      vertical: Dimensions.space10,
+                    ),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.mediumRadius),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
                       color: MyColor.colorWhite,
                       boxShadow: MyUtils.getCardShadow(),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(MyStrings.carRules.tr,
-                            style: boldDefault.copyWith()),
+                        Text(
+                          MyStrings.carRules.tr,
+                          style: boldDefault.copyWith(),
+                        ),
                         spaceDown(Dimensions.space10),
                         Column(
                           children: List.generate(
                             (controller.driver?.rules?.length ?? 0),
                             (index) => rulesData(
-                                text: controller.driver?.rules?[index] ?? ""),
+                              text: controller.driver?.rules?[index] ?? "",
+                            ),
                           ),
                         ),
                       ],
@@ -164,22 +172,26 @@ class _CarInformationState extends State<CarInformation> {
             : MyColor.redCancelTextColor.withValues(alpha: 0.1),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(
-            color: isVerified
-                ? MyColor.greenSuccessColor
-                : MyColor.redCancelTextColor),
+          color: isVerified
+              ? MyColor.greenSuccessColor
+              : MyColor.redCancelTextColor,
+        ),
         label: Row(
           children: [
-            Icon(isVerified ? Icons.check_circle_outline : Icons.close_outlined,
-                color: isVerified
-                    ? MyColor.greenSuccessColor
-                    : MyColor.redCancelTextColor),
+            Icon(
+              isVerified ? Icons.check_circle_outline : Icons.close_outlined,
+              color: isVerified
+                  ? MyColor.greenSuccessColor
+                  : MyColor.redCancelTextColor,
+            ),
             const SizedBox(width: Dimensions.space5),
             Text(
               text.tr,
               style: boldDefault.copyWith(
-                  color: isVerified
-                      ? MyColor.greenSuccessColor
-                      : MyColor.redCancelTextColor),
+                color: isVerified
+                    ? MyColor.greenSuccessColor
+                    : MyColor.redCancelTextColor,
+              ),
             ),
           ],
         ),
@@ -200,13 +212,11 @@ class _CarInformationState extends State<CarInformation> {
               shape: BoxShape.circle,
             ),
           ),
-          const SizedBox(
-            width: Dimensions.space8,
-          ),
+          const SizedBox(width: Dimensions.space8),
           Text(
             text.tr.toTitleCase(),
             style: regularDefault.copyWith(color: MyColor.bodyTextColor),
-          )
+          ),
         ],
       ),
     );

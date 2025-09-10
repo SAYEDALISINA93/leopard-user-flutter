@@ -11,7 +11,9 @@ class ProfilerShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.space10, vertical: Dimensions.space5),
+        horizontal: Dimensions.space10,
+        vertical: Dimensions.space5,
+      ),
       decoration: BoxDecoration(
         border: Border.all(color: MyColor.borderColor, width: .5),
         borderRadius: BorderRadius.circular(Dimensions.space10),
@@ -49,7 +51,8 @@ class ProfilerShimmer extends StatelessWidget {
                   height: 5,
                   width: context.width / 3 - 50,
                   decoration: BoxDecoration(
-                      color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                    color: MyColor.colorGrey.withValues(alpha: 0.3),
+                  ),
                 ),
               ),
               SizedBox(height: Dimensions.space5),

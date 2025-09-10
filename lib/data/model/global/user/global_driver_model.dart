@@ -35,7 +35,7 @@ class GlobalDriverInfo {
   List<String>? rules;
   Brand? brand;
   List<KycPendingData>? driverData;
-  List<KycPendingData>? vehicleData;
+  VehicleInfo? vehicleData;
 
   GlobalDriverInfo({
     this.id,
@@ -119,11 +119,11 @@ class GlobalDriverInfo {
       driverData: json["driver_data"] == null
           ? []
           : List<KycPendingData>.from(
-              json["driver_data"]!.map((x) => KycPendingData.fromJson(x))),
-      vehicleData: json["vehicle_data"] == null
-          ? []
-          : List<KycPendingData>.from(
-              json["vehicle_data"]!.map((x) => KycPendingData.fromJson(x))),
+              json["driver_data"]!.map((x) => KycPendingData.fromJson(x)),
+            ),
+      vehicleData: json["vehicle"] == null
+          ? null
+          : VehicleInfo.fromJson(json["vehicle"]),
     );
   }
 
@@ -160,7 +160,12 @@ class GlobalDriverInfo {
         "updated_at": updatedAt,
         "image_with_path": imageWithPath,
         "rules": rules,
+        "brand": brand?.toJson(),
+        "vehicle": vehicleData?.toJson(),
       };
+  String getFullName() {
+    return "${firstname ?? ""} ${lastname ?? ""}".trim();
+  }
 }
 
 class Rule {
@@ -170,13 +175,7 @@ class Rule {
   String? createdAt;
   String? updatedAt;
 
-  Rule({
-    this.id,
-    this.name,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-  });
+  Rule({this.id, this.name, this.status, this.createdAt, this.updatedAt});
 
   factory Rule.fromJson(Map<String, dynamic> json) => Rule(
         id: json["id"].toString(),
@@ -202,11 +201,7 @@ class KycPendingData {
   String? type;
   String? value;
 
-  KycPendingData({
-    this.name,
-    this.type,
-    this.value,
-  });
+  KycPendingData({this.name, this.type, this.value});
 
   factory KycPendingData.fromJson(Map<String, dynamic> json) => KycPendingData(
         name: json["name"],
@@ -214,9 +209,132 @@ class KycPendingData {
         value: json["value"] != null ? json["value"].toString() : "",
       );
 
+  Map<String, dynamic> toJson() => {"name": name, "type": type, "value": value};
+}
+
+class VehicleInfo {
+  final String? id;
+  final String? driverId;
+  final String? serviceId;
+  final String? brandId;
+  final String? colorId;
+  final String? yearId;
+  final String? modelId;
+  final String? image;
+  final String? vehicleNumber;
+  final List<KycPendingData>? formData;
+  final String? createdAt;
+  final String? updatedAt;
+  final String? imageSrc;
+  final VerifyElement? model;
+  final VerifyElement? color;
+  final VerifyElement? year;
+
+  VehicleInfo({
+    this.id,
+    this.driverId,
+    this.serviceId,
+    this.brandId,
+    this.colorId,
+    this.yearId,
+    this.modelId,
+    this.image,
+    this.vehicleNumber,
+    this.formData,
+    this.createdAt,
+    this.updatedAt,
+    this.imageSrc,
+    this.model,
+    this.color,
+    this.year,
+  });
+
+  factory VehicleInfo.fromJson(Map<String, dynamic> json) => VehicleInfo(
+        id: json["id"].toString(),
+        driverId: json["driver_id"].toString(),
+        serviceId: json["service_id"].toString(),
+        brandId: json["brand_id"].toString(),
+        colorId: json["color_id"].toString(),
+        yearId: json["year_id"].toString(),
+        modelId: json["model_id"].toString(),
+        image: json["image"].toString(),
+        vehicleNumber: json["vehicle_number"].toString(),
+        formData: json["form_data"] == null
+            ? []
+            : List<KycPendingData>.from(
+                json["form_data"]!.map((x) => KycPendingData.fromJson(x)),
+              ),
+        createdAt:
+            json["created_at"] == null ? null : json["created_at"].toString(),
+        updatedAt:
+            json["updated_at"] == null ? null : json["updated_at"].toString(),
+        imageSrc: json["image_src"].toString(),
+        model: json["model"] == null
+            ? null
+            : VerifyElement.fromJson(json["model"]),
+        color: json["color"] == null
+            ? null
+            : VerifyElement.fromJson(json["color"]),
+        year:
+            json["year"] == null ? null : VerifyElement.fromJson(json["year"]),
+      );
+
   Map<String, dynamic> toJson() => {
+        "id": id,
+        "driver_id": driverId,
+        "service_id": serviceId,
+        "brand_id": brandId,
+        "color_id": colorId,
+        "year_id": yearId,
+        "model_id": modelId,
+        "image": image,
+        "vehicle_number": vehicleNumber,
+        "form_data": formData == null
+            ? []
+            : List<dynamic>.from(formData!.map((x) => x.toJson())),
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+        "image_src": imageSrc,
+        "model": model?.toJson(),
+        "color": color?.toJson(),
+        "year": year?.toJson(),
+      };
+}
+
+class VerifyElement {
+  final String? id;
+  final String? name;
+  final String? status;
+  final String? brandId;
+  final String? createdAt;
+  final String? updatedAt;
+
+  VerifyElement({
+    this.id,
+    this.name,
+    this.status,
+    this.brandId,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory VerifyElement.fromJson(Map<String, dynamic> json) => VerifyElement(
+        id: json["id"].toString(),
+        name: json["name"].toString(),
+        status: json["status"].toString(),
+        brandId: json["brand_id"].toString(),
+        createdAt:
+            json["created_at"] == null ? null : json["created_at"].toString(),
+        updatedAt:
+            json["updated_at"] == null ? null : json["updated_at"].toString(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
-        "type": type,
-        "value": value,
+        "status": status,
+        "brand_id": brandId,
+        "created_at": createdAt?.toString(),
+        "updated_at": updatedAt?.toString(),
       };
 }

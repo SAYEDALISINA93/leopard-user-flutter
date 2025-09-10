@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -30,12 +28,15 @@ class RideHistoryController extends GetxController {
   bool isInterCity = false;
   String? nextPageUrl;
   int page = 0;
-  Future<void> initialData(
-      {required bool isIntraCity, required String status}) async {
-    defaultCurrency = repo.apiClient.getCurrencyOrUsername();
-    defaultCurrencySymbol =
-        repo.apiClient.getCurrencyOrUsername(isSymbol: true);
-    username = repo.apiClient.getCurrencyOrUsername(isCurrency: false);
+  Future<void> initialData({
+    required bool isIntraCity,
+    required String status,
+  }) async {
+    defaultCurrency = repo.apiClient.getCurrency();
+    defaultCurrencySymbol = repo.apiClient.getCurrency(
+      isSymbol: true,
+    );
+    username = repo.apiClient.getUserName();
     rideList = [];
     isInterCity = isIntraCity;
     clearData();
@@ -51,19 +52,21 @@ class RideHistoryController extends GetxController {
 
     try {
       ResponseModel responseModel = await repo.getRideList(
-          rideType: isInterCity ? '1' : '2',
-          status: status,
-          page: page.toString());
+        rideType: isInterCity ? '1' : '2',
+        status: status,
+        page: page.toString(),
+      );
       if (responseModel.statusCode == 200) {
         AllResponseModel model =
-            AllResponseModel.fromJson(jsonDecode(responseModel.responseJson));
+            AllResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           rideList = model.data?.rides?.data ?? [];
           nextPageUrl = model.data?.rides?.nextPageUrl;
           update();
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -76,7 +79,7 @@ class RideHistoryController extends GetxController {
     update();
   }
 
-//
+  //
   List<BidModel> bids = [];
   RideModel ride = RideModel(id: "-1");
   Future<void> getRideBidList(String id) async {
@@ -85,8 +88,8 @@ class RideHistoryController extends GetxController {
     try {
       ResponseModel responseModel = await repo.getRideBidList(id: id);
       if (responseModel.statusCode == 200) {
-        BidListResponseModel model = BidListResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        BidListResponseModel model =
+            BidListResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           bids = model.data?.bids ?? [];
           ride = model.data?.ride ?? RideModel(id: "-1");
@@ -116,12 +119,13 @@ class RideHistoryController extends GetxController {
     Position position = await MyUtils.getCurrentPosition();
     try {
       ResponseModel responseModel = await repo.sos(
-          id: sosId,
-          msg: sosMsgController.text,
-          latLng: LatLng(position.latitude, position.longitude));
+        id: sosId,
+        msg: sosMsgController.text,
+        latLng: LatLng(position.latitude, position.longitude),
+      );
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           sosMsgController.text = '';
           update();
@@ -150,8 +154,8 @@ class RideHistoryController extends GetxController {
         : false;
   }
 
-//
-  clearData() {
+  //
+  void clearData() {
     rideList = [];
     nextPageUrl = null;
     page = 0;

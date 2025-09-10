@@ -49,12 +49,7 @@ class Data {
   String? mobileVerified;
   GlobalUser? user;
 
-  Data({
-    this.isBan,
-    this.emailVerified,
-    this.mobileVerified,
-    this.user,
-  });
+  Data({this.isBan, this.emailVerified, this.mobileVerified, this.user});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         isBan: json["is_ban"].toString(),

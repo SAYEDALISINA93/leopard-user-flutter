@@ -5,10 +5,9 @@ import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/controller/ride/active_ride/ride_history_controller.dart';
 import 'package:leoparduser/data/repo/ride/ride_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/no_data.dart';
 import 'package:leoparduser/presentation/components/shimmer/ride_shimmer.dart';
-import 'package:leoparduser/presentation/screens/ride/widget/activeride_card.dart';
+import 'package:leoparduser/presentation/screens/ride/widget/active_ride_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/dimensions.dart';
@@ -29,8 +28,9 @@ class _NewRideSectionState extends State<NewRideSection> {
         scrollController.position.maxScrollExtent) {
       if (Get.find<RideHistoryController>().hasNext()) {
         Get.find<RideHistoryController>().getRideList(
-            AppStatus.RIDE_PENDING.toString(),
-            shouldLoading: false);
+          AppStatus.RIDE_PENDING.toString(),
+          shouldLoading: false,
+        );
       }
     }
   }
@@ -38,7 +38,7 @@ class _NewRideSectionState extends State<NewRideSection> {
   @override
   void initState() {
     printX(Get.arguments);
-    Get.put(ApiClient(sharedPreferences: Get.find()));
+
     Get.put(RideRepo(apiClient: Get.find()));
     final controller = Get.put(RideHistoryController(repo: Get.find()));
 
@@ -46,8 +46,9 @@ class _NewRideSectionState extends State<NewRideSection> {
     WidgetsBinding.instance.addPostFrameCallback((time) {
       controller
           .initialData(
-              isIntraCity: widget.isInterCity,
-              status: AppStatus.RIDE_PENDING.toString())
+        isIntraCity: widget.isInterCity,
+        status: AppStatus.RIDE_PENDING.toString(),
+      )
           .then((v) {
         controller.getRideList(AppStatus.RIDE_PENDING.toString());
       });
@@ -79,11 +80,17 @@ class _NewRideSectionState extends State<NewRideSection> {
                 ? SingleChildScrollView(
                     padding: Dimensions.sectionPadding,
                     child: Column(
-                        children:
-                            List.generate(10, (index) => const RideShimmer())))
+                      children: List.generate(
+                        10,
+                        (index) => const RideShimmer(),
+                      ),
+                    ),
+                  )
                 : controller.isLoading == false && controller.rideList.isEmpty
                     ? const NoDataWidget(
-                        text: MyStrings.noRideFound, fromRide: true)
+                        text: MyStrings.noRideFound,
+                        fromRide: true,
+                      )
                     : ListView.builder(
                         controller: scrollController,
                         itemCount: controller.rideList.length + 1,
@@ -92,7 +99,8 @@ class _NewRideSectionState extends State<NewRideSection> {
                             return controller.hasNext()
                                 ? SizedBox(
                                     width: MediaQuery.of(context).size.width,
-                                    child: const RideShimmer())
+                                    child: const RideShimmer(),
+                                  )
                                 : const SizedBox();
                           }
                           return ActiveRideCard(

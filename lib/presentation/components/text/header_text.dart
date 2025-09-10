@@ -7,18 +7,15 @@ class HeaderText extends StatelessWidget {
   final TextAlign? textAlign;
   final TextStyle textStyle;
 
-  const HeaderText(
-      {super.key,
-      required this.text,
-      this.textAlign,
-      this.textStyle = semiBoldOverLarge});
+  const HeaderText({
+    super.key,
+    required this.text,
+    this.textAlign,
+    this.textStyle = semiBoldOverLarge,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text.tr,
-      textAlign: textAlign,
-      style: textStyle,
-    );
+    return Text(text.tr, textAlign: textAlign, style: textStyle);
   }
 }

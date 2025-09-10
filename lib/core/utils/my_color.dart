@@ -192,7 +192,7 @@ class MyColor {
     const Color(0xff9FE2BF),
   ];
 
-  static getSymbolColor(int index) {
+  static Color getSymbolColor(int index) {
     int colorIndex = index > 10 ? index % 10 : index;
     return symbolPlate[colorIndex];
   }

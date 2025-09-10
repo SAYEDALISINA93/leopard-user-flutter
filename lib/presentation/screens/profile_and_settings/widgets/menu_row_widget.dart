@@ -37,7 +37,9 @@ class MenuRowWidget extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsetsDirectional.symmetric(
-            vertical: Dimensions.space5, horizontal: Dimensions.space12),
+          vertical: Dimensions.space5,
+          horizontal: Dimensions.space12,
+        ),
         color: MyColor.transparentColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -50,8 +52,9 @@ class MenuRowWidget extends StatelessWidget {
                       ? SvgPicture.asset(
                           image,
                           colorFilter: ColorFilter.mode(
-                              imgColor ?? MyColor.getRideSubTitleColor(),
-                              BlendMode.srcIn),
+                            imgColor ?? MyColor.getRideSubTitleColor(),
+                            BlendMode.srcIn,
+                          ),
                           height: imageSize,
                           width: imageSize,
                           fit: BoxFit.contain,
@@ -68,7 +71,8 @@ class MenuRowWidget extends StatelessWidget {
                     child: Text(
                       label.tr,
                       style: regularDefault.copyWith(
-                          color: textColor ?? MyColor.getTextColor()),
+                        color: textColor ?? MyColor.getTextColor(),
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -79,21 +83,24 @@ class MenuRowWidget extends StatelessWidget {
             if (counterEnabled == true && counter != '0')
               Container(
                 decoration: BoxDecoration(
-                    color: MyColor.colorRed,
-                    borderRadius: BorderRadius.circular(Dimensions.space2)),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: Dimensions.space5),
+                  color: MyColor.colorRed,
+                  borderRadius: BorderRadius.circular(Dimensions.space2),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Dimensions.space5,
+                ),
                 child: Text(
                   "$counter",
-                  style: regularDefault.copyWith(
-                    color: MyColor.colorWhite,
-                  ),
+                  style: regularDefault.copyWith(color: MyColor.colorWhite),
                 ),
               )
             else
               endWidget ??
-                  Icon(Icons.arrow_forward_ios_rounded,
-                      color: MyColor.getIconColor(), size: 12.5)
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: MyColor.getIconColor(),
+                    size: 12.5,
+                  ),
           ],
         ),
       ),

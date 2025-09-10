@@ -26,17 +26,22 @@ class DriverSearchWidget extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Positioned.fill(
-              top: -40,
-              child: Align(
-                  alignment: Alignment.center,
-                  child: LottieBuilder.asset(MyAnimation.searching))),
+            top: -40,
+            child: Align(
+              alignment: Alignment.center,
+              child: LottieBuilder.asset(MyAnimation.searching),
+            ),
+          ),
           Positioned.fill(
-              top: 30,
-              child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Text(MyStrings.searching.tr,
-                      style:
-                          regularOverSmall.copyWith(color: MyColor.bodyText)))),
+            top: 30,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                MyStrings.searching.tr,
+                style: regularOverSmall.copyWith(color: MyColor.bodyText),
+              ),
+            ),
+          ),
           Positioned(
             right: 5,
             top: 10,
@@ -48,28 +53,39 @@ class DriverSearchWidget extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     Container(
-                        decoration: BoxDecoration(
-                            color: MyColor.primaryColor.withValues(alpha: 0.1),
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.mediumRadius)),
-                        padding: const EdgeInsets.all(Dimensions.space5),
-                        child: const MyLocalImageWidget(
-                            imagePath: MyImages.mapDriver,
-                            height: 40,
-                            width: 40)),
+                      decoration: BoxDecoration(
+                        color: MyColor.primaryColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.mediumRadius,
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(Dimensions.space5),
+                      child: const MyLocalImageWidget(
+                        imagePath: MyImages.mapDriver,
+                        height: 40,
+                        width: 40,
+                      ),
+                    ),
                     Positioned(
                       bottom: -5,
                       left: -10,
                       child: Container(
-                          decoration: BoxDecoration(
-                              color: MyColor.greenSuccessColor,
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.mediumRadius)),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimensions.space5),
-                          child: Text(bids,
-                              style: boldDefault.copyWith(
-                                  color: MyColor.colorWhite))),
+                        decoration: BoxDecoration(
+                          color: MyColor.greenSuccessColor,
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.mediumRadius,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Dimensions.space5,
+                        ),
+                        child: Text(
+                          bids,
+                          style: boldDefault.copyWith(
+                            color: MyColor.colorWhite,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

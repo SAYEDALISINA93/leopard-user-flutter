@@ -13,9 +13,10 @@ class LoginOrBar extends StatelessWidget {
     return Stack(
       children: [
         Container(
-            width: double.infinity,
-            height: 20,
-            color: MyColor.transparentColor),
+          width: double.infinity,
+          height: 20,
+          color: MyColor.transparentColor,
+        ),
         Positioned.fill(
           child: Align(
             alignment: Alignment.center,
@@ -35,8 +36,10 @@ class LoginOrBar extends StatelessWidget {
               height: 40,
               color: MyColor.colorWhite,
               child: Center(
-                child: Text(MyStrings.or.tr,
-                    style: regularLarge.copyWith(color: MyColor.bodyTextColor)),
+                child: Text(
+                  MyStrings.or.tr,
+                  style: regularLarge.copyWith(color: MyColor.bodyTextColor),
+                ),
               ),
             ),
           ),

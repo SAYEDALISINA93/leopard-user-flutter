@@ -11,14 +11,15 @@ class DefaultText extends StatelessWidget {
   final Color? textColor;
   final double fontSize;
 
-  const DefaultText(
-      {super.key,
-      required this.text,
-      this.textAlign,
-      this.textStyle = regularDefault,
-      this.maxLines = 3,
-      this.textColor,
-      this.fontSize = Dimensions.fontDefault});
+  const DefaultText({
+    super.key,
+    required this.text,
+    this.textAlign,
+    this.textStyle = regularDefault,
+    this.maxLines = 3,
+    this.textColor,
+    this.fontSize = Dimensions.fontDefault,
+  });
 
   @override
   Widget build(BuildContext context) {

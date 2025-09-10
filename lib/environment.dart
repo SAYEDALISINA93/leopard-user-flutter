@@ -13,7 +13,11 @@ class Environment {
   static const String defaultCountry = 'Afghanistan'; //Default Country Code
 
   //MAP CONFIG
+  static const bool addressPickerFromMapApi =
+      true; //If true, use Google Map API for formate address picker from lat , long, else use free service reverse geocode
   static const String mapKey =
       "AIzaSyAPYIt3VRbHgQaMT9Dt28HMZqQZOvF7mrQ"; //Enter Your Map Api Key
   static const double mapDefaultZoom = 20;
+  static const String devToken =
+      "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG";
 }

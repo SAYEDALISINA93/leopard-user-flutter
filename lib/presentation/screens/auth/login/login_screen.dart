@@ -1,5 +1,4 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:leoparduser/core/utils/audio_utils.dart';
 import 'package:leoparduser/core/utils/my_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +12,6 @@ import 'package:leoparduser/data/controller/auth/login_controller.dart';
 import 'package:leoparduser/data/controller/auth/social_auth_controller.dart';
 import 'package:leoparduser/data/repo/auth/login_repo.dart';
 import 'package:leoparduser/data/repo/auth/socail_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/image/custom_svg_picture.dart';
 import 'package:leoparduser/presentation/components/text-form-field/custom_text_field.dart';
@@ -36,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(LoginRepo(apiClient: Get.find()));
     Get.put(LoginController(loginRepo: Get.find()));
     Get.put(SocialAuthRepo(apiClient: Get.find()));
@@ -74,18 +71,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(MyImages.appLogoWhite,
-                        width: MediaQuery.of(context).size.width / 3),
+                    Image.asset(
+                      MyImages.appLogoWhite,
+                      width: MediaQuery.of(context).size.width / 3,
+                    ),
                     Align(
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(MyIcons.bg,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            height: 200)),
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        MyIcons.bg,
+                        width: double.infinity,
+                        fit: BoxFit.contain,
+                        height: 200,
+                      ),
+                    ),
                     Container(
                       padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: Dimensions.space15,
-                          vertical: Dimensions.space10),
+                        horizontal: Dimensions.space15,
+                        vertical: Dimensions.space10,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -94,14 +97,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             MyStrings.loginScreenTitle.tr,
                             style: boldExtraLarge.copyWith(
-                                fontSize: 32, fontWeight: FontWeight.w700),
+                              fontSize: 32,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                           const SizedBox(height: Dimensions.space5),
                           Text(
                             MyStrings.loginScreenSubTitle.tr,
                             style: lightDefault.copyWith(
-                                color: MyColor.bodyText,
-                                fontSize: Dimensions.fontLarge),
+                              color: MyColor.bodyText,
+                              fontSize: Dimensions.fontLarge,
+                            ),
                           ),
                           spaceDown(Dimensions.space20),
                           SocialAuthSection(),
@@ -250,30 +256,37 @@ class _LoginScreenState extends State<LoginScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(MyStrings.doNotHaveAccount.tr,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: regularLarge.copyWith(
-                                            color: MyColor.getBodyTextColor(),
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14)),
-                                    const SizedBox(width: Dimensions.space5),
+                                    Text(
+                                      MyStrings.doNotHaveAccount.tr,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: regularLarge.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: Dimensions.space5,
+                                    ),
                                     InkWell(
                                       onTap: () {
                                         Get.offAndToNamed(RouteHelper
                                             .phoneRegistrationScreen);
                                       },
-                                      child: Text(MyStrings.signUp.tr,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: boldLarge.copyWith(
-                                              color:
-                                                  MyColor.getPrimaryColor())),
-                                    )
+                                      child: Text(
+                                        MyStrings.signUp.tr,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: boldLarge.copyWith(
+                                          color: MyColor.getPrimaryColor(),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

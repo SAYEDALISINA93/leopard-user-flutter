@@ -65,9 +65,7 @@ class _NoDataOrInternetScreenState extends State<NoDataOrInternetScreen> {
               ? const NeverScrollableScrollPhysics()
               : const BouncingScrollPhysics(),
           children: [
-            const SizedBox(
-              height: 30,
-            ),
+            const SizedBox(height: 30),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -92,58 +90,59 @@ class _NoDataOrInternetScreenState extends State<NoDataOrInternetScreen> {
                         ),
                 ),
                 Center(
-                    child: Padding(
-                  padding: const EdgeInsets.only(top: 6, left: 30, right: 30),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.isNoInternet
-                            ? MyStrings.noInternet.tr
-                            : widget.message.tr,
-                        textAlign: TextAlign.center,
-                        style: semiBoldDefault.copyWith(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 6, left: 30, right: 30),
+                    child: Column(
+                      children: [
+                        Text(
+                          widget.isNoInternet
+                              ? MyStrings.noInternet.tr
+                              : widget.message.tr,
+                          textAlign: TextAlign.center,
+                          style: semiBoldDefault.copyWith(
                             color: widget.isNoInternet
                                 ? MyColor.colorRed
                                 : MyColor.getTextColor(),
-                            fontSize: Dimensions.fontExtraLarge),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      widget.isNoInternet
-                          ? const SizedBox()
-                          : Text(
-                              widget.message2,
-                              style: regularDefault.copyWith(
+                            fontSize: Dimensions.fontExtraLarge,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        widget.isNoInternet
+                            ? const SizedBox()
+                            : Text(
+                                widget.message2,
+                                style: regularDefault.copyWith(
                                   color: MyColor.getContentTextColor(),
-                                  fontSize: Dimensions.fontMedium),
-                              textAlign: TextAlign.center,
-                            ),
-                      widget.isNoInternet
-                          ? const SizedBox(
-                              height: 15,
-                            )
-                          : const SizedBox(),
-                      widget.isNoInternet
-                          ? InkWell(
-                              onTap: () async {
-                                if (await Connectivity().checkConnectivity() !=
-                                    ConnectivityResult.none) {
-                                  widget.onChanged!();
-                                }
-                              },
-                              child: RoundedBorderContainer(
-                                text: MyStrings.retry.tr,
-                                bgColor: MyColor.colorRed,
-                                borderColor: MyColor.colorRed,
-                                textColor: MyColor.colorWhite,
-                              ))
-                          : const SizedBox()
-                    ],
+                                  fontSize: Dimensions.fontMedium,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                        widget.isNoInternet
+                            ? const SizedBox(height: 15)
+                            : const SizedBox(),
+                        widget.isNoInternet
+                            ? InkWell(
+                                onTap: () async {
+                                  if (await Connectivity()
+                                          .checkConnectivity() !=
+                                      ConnectivityResult.none) {
+                                    widget.onChanged!();
+                                  }
+                                },
+                                child: RoundedBorderContainer(
+                                  text: MyStrings.retry.tr,
+                                  bgColor: MyColor.colorRed,
+                                  borderColor: MyColor.colorRed,
+                                  textColor: MyColor.colorWhite,
+                                ),
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
                   ),
-                )),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

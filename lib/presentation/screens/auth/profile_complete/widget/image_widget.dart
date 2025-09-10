@@ -9,12 +9,13 @@ class CustomImageWidget extends StatefulWidget {
   final bool isEdit;
   final int listIndex;
 
-  const CustomImageWidget(
-      {super.key,
-      required this.imagePath,
-      this.listIndex = 0,
-      required this.onClicked,
-      this.isEdit = false});
+  const CustomImageWidget({
+    super.key,
+    required this.imagePath,
+    this.listIndex = 0,
+    required this.onClicked,
+    this.isEdit = false,
+  });
 
   @override
   State<CustomImageWidget> createState() => _CustomImageWidgetState();
@@ -31,9 +32,12 @@ class _CustomImageWidgetState extends State<CustomImageWidget> {
         width: 90,
         height: 90,
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-                width: .5, color: MyColor.primaryColor.withValues(alpha: .1))),
+          shape: BoxShape.circle,
+          border: Border.all(
+            width: .5,
+            color: MyColor.primaryColor.withValues(alpha: .1),
+          ),
+        ),
         child: ClipOval(
           child: Image.asset(
             MyImages.profileImage,

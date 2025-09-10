@@ -17,13 +17,14 @@ class AttachmentPreviewWidget extends StatelessWidget {
   final bool isShowCloseButton;
   final bool isFileImg;
 
-  const AttachmentPreviewWidget(
-      {super.key,
-      required this.path,
-      required this.onTap,
-      required this.file,
-      this.isShowCloseButton = false,
-      this.isFileImg = false});
+  const AttachmentPreviewWidget({
+    super.key,
+    required this.path,
+    required this.onTap,
+    required this.file,
+    this.isShowCloseButton = false,
+    this.isFileImg = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +36,21 @@ class AttachmentPreviewWidget extends StatelessWidget {
           child: isFileImg
               ? Container(
                   decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.mediumRadius),
-                      border: Border.all(color: MyColor.borderColor, width: 1)),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.mediumRadius,
+                    ),
+                    border: Border.all(color: MyColor.borderColor, width: 1),
+                  ),
                   child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.mediumRadius),
-                    child: Image.file(file!,
-                        width: context.width / 5,
-                        height: context.width / 5,
-                        fit: BoxFit.cover),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.mediumRadius,
+                    ),
+                    child: Image.file(
+                      file!,
+                      width: context.width / 5,
+                      height: context.width / 5,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 )
               : MyUtils.isImage(path)
@@ -54,40 +60,59 @@ class AttachmentPreviewWidget extends StatelessWidget {
                           width: context.width / 5,
                           height: context.width / 5,
                           decoration: BoxDecoration(
-                              color: MyColor.colorWhite,
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.mediumRadius),
-                              border: Border.all(
-                                  color: MyColor.borderColor, width: 1)),
+                            color: MyColor.colorWhite,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.mediumRadius,
+                            ),
+                            border: Border.all(
+                                color: MyColor.borderColor, width: 1),
+                          ),
                           child: Center(
-                              child: SvgPicture.asset(MyIcons.xlsx,
-                                  height: 45, width: 45)))
+                            child: SvgPicture.asset(
+                              MyIcons.xlsx,
+                              height: 45,
+                              width: 45,
+                            ),
+                          ),
+                        )
                       : MyUtils.isDoc(path)
                           ? Container(
                               width: context.width / 5,
                               height: context.width / 5,
                               decoration: BoxDecoration(
-                                  color: MyColor.colorWhite,
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.mediumRadius),
-                                  border: Border.all(
-                                      color: MyColor.borderColor, width: 1)),
+                                color: MyColor.colorWhite,
+                                borderRadius: BorderRadius.circular(
+                                  Dimensions.mediumRadius,
+                                ),
+                                border: Border.all(
+                                    color: MyColor.borderColor, width: 1),
+                              ),
                               child: Center(
-                                  child: SvgPicture.asset(MyIcons.doc,
-                                      height: 45, width: 45)),
+                                child: SvgPicture.asset(
+                                  MyIcons.doc,
+                                  height: 45,
+                                  width: 45,
+                                ),
+                              ),
                             )
                           : Container(
                               width: context.width / 5,
                               height: context.width / 5,
                               decoration: BoxDecoration(
-                                  color: MyColor.colorWhite,
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.mediumRadius),
-                                  border: Border.all(
-                                      color: MyColor.borderColor, width: 1)),
+                                color: MyColor.colorWhite,
+                                borderRadius: BorderRadius.circular(
+                                  Dimensions.mediumRadius,
+                                ),
+                                border: Border.all(
+                                    color: MyColor.borderColor, width: 1),
+                              ),
                               child: Center(
-                                  child: SvgPicture.asset(MyIcons.pdfFile,
-                                      height: 45, width: 45)),
+                                child: SvgPicture.asset(
+                                  MyIcons.pdfFile,
+                                  height: 45,
+                                  width: 45,
+                                ),
+                              ),
                             ),
         ),
         isShowCloseButton
@@ -98,8 +123,11 @@ class AttachmentPreviewWidget extends StatelessWidget {
                   height: Dimensions.space20 + 5,
                   width: Dimensions.space20 + 5,
                   backgroundColor: MyColor.redCancelTextColor,
-                  child: const Icon(Icons.close,
-                      color: MyColor.colorWhite, size: Dimensions.space15),
+                  child: const Icon(
+                    Icons.close,
+                    color: MyColor.colorWhite,
+                    size: Dimensions.space15,
+                  ),
                 ),
               )
             : const SizedBox(),

@@ -6,7 +6,6 @@ import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/controller/localization/localization_controller.dart';
 import 'package:leoparduser/data/controller/splash/splash_controller.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/custom_no_data_found_class.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,11 +20,12 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     MyUtils.splashScreen();
-    Get.put(ApiClient(sharedPreferences: Get.find()));
+
     Get.put(GeneralSettingRepo(apiClient: Get.find()));
     Get.put(LocalizationController(sharedPreferences: Get.find()));
     final controller = Get.put(
-        SplashController(repo: Get.find(), localizationController: Get.find()));
+      SplashController(repo: Get.find(), localizationController: Get.find()),
+    );
 
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

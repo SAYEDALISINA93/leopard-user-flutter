@@ -110,8 +110,10 @@ class GeneralSetting {
   String? updatedAt;
   String? googleLogin;
   String? appleLogin;
+  String? timezone;
   List<Countries>? operatingCountry;
   String? notificationAudio;
+  List<String>? tipsSuggestAmount;
 
   GeneralSetting({
     this.id,
@@ -154,8 +156,10 @@ class GeneralSetting {
     this.updatedAt,
     this.googleLogin,
     this.appleLogin,
+    this.timezone,
     this.operatingCountry,
     this.notificationAudio,
+    this.tipsSuggestAmount,
   });
 
   factory GeneralSetting.fromJson(Map<String, dynamic> json) => GeneralSetting(
@@ -205,11 +209,18 @@ class GeneralSetting {
         updatedAt: json["updated_at"]?.toString(),
         googleLogin: json["google_login"].toString(),
         appleLogin: json["apple_login"].toString(),
+        timezone: json["timezone"].toString(),
         operatingCountry: json["operating_country"] == null
             ? []
             : List<Countries>.from(
-                json["operating_country"]!.map((x) => Countries.fromJson(x))),
+                json["operating_country"]!.map((x) => Countries.fromJson(x)),
+              ),
         notificationAudio: json["notification_audio"].toString(),
+        tipsSuggestAmount: json["tips_suggest_amount"] == null
+            ? []
+            : List<String>.from(
+                json["tips_suggest_amount"]!.map((x) => x.toString()),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -253,8 +264,10 @@ class GeneralSetting {
         "updated_at": updatedAt,
         "google_login": googleLogin,
         "apple_login": appleLogin,
+        "timezone": timezone,
         "operating_country": operatingCountry?.map((e) => e.toJson()).toList(),
         "notification_audio": notificationAudio,
+        "tips_suggest_amount": tipsSuggestAmount,
       };
 }
 
@@ -263,11 +276,7 @@ class GlobalShortCodes {
   String? siteCurrency;
   String? currencySymbol;
 
-  GlobalShortCodes({
-    this.siteName,
-    this.siteCurrency,
-    this.currencySymbol,
-  });
+  GlobalShortCodes({this.siteName, this.siteCurrency, this.currencySymbol});
 
   factory GlobalShortCodes.fromJson(Map<String, dynamic> json) =>
       GlobalShortCodes(
@@ -289,12 +298,7 @@ class PusherConfig {
   String? appSecret;
   String? cluster;
 
-  PusherConfig({
-    this.appKey,
-    this.appId,
-    this.appSecret,
-    this.cluster,
-  });
+  PusherConfig({this.appKey, this.appId, this.appSecret, this.cluster});
 
   factory PusherConfig.fromJson(Map<String, dynamic> json) => PusherConfig(
         appKey: json["app_key"],
@@ -317,11 +321,7 @@ class SocialiteCredentials {
   SocialCredential? facebook;
   SocialCredential? linkedin;
 
-  SocialiteCredentials({
-    this.google,
-    this.facebook,
-    this.linkedin,
-  });
+  SocialiteCredentials({this.google, this.facebook, this.linkedin});
 
   factory SocialiteCredentials.fromJson(Map<String, dynamic> json) =>
       SocialiteCredentials(
@@ -349,12 +349,7 @@ class SocialCredential {
   String? status;
   String? info;
 
-  SocialCredential({
-    this.clientId,
-    this.clientSecret,
-    this.status,
-    this.info,
-  });
+  SocialCredential({this.clientId, this.clientSecret, this.status, this.info});
 
   factory SocialCredential.fromJson(Map<String, dynamic> json) =>
       SocialCredential(

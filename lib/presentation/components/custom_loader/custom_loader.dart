@@ -24,22 +24,16 @@ class CustomLoader extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Center(
-                child: SpinKitThreeBounce(
-              color: loaderColor,
-              size: 20.0,
-            )),
+              child: SpinKitThreeBounce(color: loaderColor, size: 20.0),
+            ),
           )
         : isPagination
             ? Center(
                 child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: LoadingIndicator(
-                      strokeWidth: strokeWidth,
-                    )))
-            : Center(
-                child: SpinKitThreeBounce(
-                color: loaderColor,
-                size: 20.0,
-              ));
+                  padding: const EdgeInsets.all(10),
+                  child: LoadingIndicator(strokeWidth: strokeWidth),
+                ),
+              )
+            : Center(child: SpinKitThreeBounce(color: loaderColor, size: 20.0));
   }
 }

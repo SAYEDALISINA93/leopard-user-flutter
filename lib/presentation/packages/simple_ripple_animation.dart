@@ -51,10 +51,7 @@ class RippleAnimationState extends State<RippleAnimation>
 
   @override
   void initState() {
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     Timer? animationTimer;
 
@@ -139,8 +136,10 @@ class CirclePainter extends CustomPainter {
     Color color = circleColor;
     double r;
     if (wave != 0) {
-      final double opacity =
-          (1 - ((wave - 1) / length!) - value).clamp(0.0, 1.0);
+      final double opacity = (1 - ((wave - 1) / length!) - value).clamp(
+        0.0,
+        1.0,
+      );
       color = color.withValues(alpha: opacity);
 
       r = minRadius! * (1 + (wave * value)) * value;

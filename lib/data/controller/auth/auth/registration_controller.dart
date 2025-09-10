@@ -1,30 +1,28 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route_middleware.dart';
-import 'package:leoparduser/environment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/registration_response_model.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/sign_up_model.dart';
-import 'package:leoparduser/data/model/country_model/country_model.dart';
 import 'package:leoparduser/data/model/general_setting/general_setting_response_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/model/model/error_model.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
 import 'package:leoparduser/data/repo/auth/signup_repo.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class RegistrationController extends GetxController {
   RegistrationRepo registrationRepo;
   GeneralSettingRepo generalSettingRepo;
 
-  RegistrationController(
-      {required this.registrationRepo, required this.generalSettingRepo});
+  RegistrationController({
+    required this.registrationRepo,
+    required this.generalSettingRepo,
+  });
 
   bool isLoading = true;
   bool agreeTC = false;
@@ -33,7 +31,6 @@ class RegistrationController extends GetxController {
   GeneralSettingResponseModel generalSettingMainModel =
       GeneralSettingResponseModel();
 
-  final GoogleSignIn googleSignIn = GoogleSignIn();
   bool checkPasswordStrength = false;
   bool needAgree = true;
 
@@ -42,7 +39,6 @@ class RegistrationController extends GetxController {
   final FocusNode confirmPasswordFocusNode = FocusNode();
   final FocusNode firstNameFocusNode = FocusNode();
   final FocusNode lastNameFocusNode = FocusNode();
-  final FocusNode countryNameFocusNode = FocusNode();
   final FocusNode mobileFocusNode = FocusNode();
   final FocusNode userNameFocusNode = FocusNode();
   final FocusNode companyNameFocusNode = FocusNode();
@@ -54,7 +50,6 @@ class RegistrationController extends GetxController {
   final TextEditingController fNameController = TextEditingController();
   final TextEditingController lNameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController companyNameController = TextEditingController();
   final TextEditingController referNameController = TextEditingController();
@@ -73,11 +68,9 @@ class RegistrationController extends GetxController {
   RegExp regex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
   bool submitLoading = false;
 
-  signUpUser() async {
+  Future<void> signUpUser() async {
     if (needAgree && !agreeTC) {
-      CustomSnackBar.error(
-        errorList: [MyStrings.agreePolicyMessage],
-      );
+      CustomSnackBar.error(errorList: [MyStrings.agreePolicyMessage]);
       return;
     }
 
@@ -107,14 +100,15 @@ class RegistrationController extends GetxController {
     update();
   }
 
-  setCountryNameAndCode(String cName, String countryCode, String mobileCode) {
+  void setCountryNameAndCode(
+      String cName, String countryCode, String mobileCode) {
     countryName = cName;
     this.countryCode = countryCode;
     this.mobileCode = mobileCode;
     update();
   }
 
-  updateAgreeTC() {
+  void updateAgreeTC() {
     agreeTC = !agreeTC;
     update();
   }
@@ -124,7 +118,7 @@ class RegistrationController extends GetxController {
       referName: referNameController.text.toString(),
       mobile: mobileController.text.toString(),
       email: emailController.text.toString(),
-      agree: generalSettingRepo.apiClient.isAgreePolicyEnable()
+      agree: generalSettingRepo.apiClient.isAgreePolicyEnabled()
           ? agreeTC
               ? true
               : false
@@ -150,18 +144,30 @@ class RegistrationController extends GetxController {
     SharedPreferences preferences =
         registrationRepo.apiClient.sharedPreferences;
 
-    await preferences.setString(SharedPreferenceHelper.userIdKey,
-        responseModel.data?.user?.id.toString() ?? '-1');
-    await preferences.setString(SharedPreferenceHelper.accessTokenKey,
-        responseModel.data?.accessToken ?? '');
-    await preferences.setString(SharedPreferenceHelper.accessTokenType,
-        responseModel.data?.tokenType ?? '');
-    await preferences.setString(SharedPreferenceHelper.userEmailKey,
-        responseModel.data?.user?.email ?? '');
-    await preferences.setString(SharedPreferenceHelper.userNameKey,
-        responseModel.data?.user?.username ?? '');
-    await preferences.setString(SharedPreferenceHelper.userPhoneNumberKey,
-        responseModel.data?.user?.mobile ?? '');
+    await preferences.setString(
+      SharedPreferenceHelper.userIdKey,
+      responseModel.data?.user?.id.toString() ?? '-1',
+    );
+    await preferences.setString(
+      SharedPreferenceHelper.accessTokenKey,
+      responseModel.data?.accessToken ?? '',
+    );
+    await preferences.setString(
+      SharedPreferenceHelper.accessTokenType,
+      responseModel.data?.tokenType ?? '',
+    );
+    await preferences.setString(
+      SharedPreferenceHelper.userEmailKey,
+      responseModel.data?.user?.email ?? '',
+    );
+    await preferences.setString(
+      SharedPreferenceHelper.userNameKey,
+      responseModel.data?.user?.username ?? '',
+    );
+    await preferences.setString(
+      SharedPreferenceHelper.userPhoneNumberKey,
+      responseModel.data?.user?.mobile ?? '',
+    );
 
     //attention: await registrationRepo.sendUserToken();
 
@@ -172,9 +178,11 @@ class RegistrationController extends GetxController {
                 ? true
                 : false;
     printX(
-        'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.loginBy}');
+      'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.loginBy}',
+    );
     printX(
-        'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.profileComplete}');
+      'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.profileComplete}',
+    );
     bool isTwoFactorEnable = false;
 
     if (needEmailVerification == false && needSmsVerification == false) {
@@ -184,14 +192,20 @@ class RegistrationController extends GetxController {
         Get.offAndToNamed(RouteHelper.dashboard);
       }
     } else if (needEmailVerification == true && needSmsVerification == true) {
-      Get.offAndToNamed(RouteHelper.emailVerificationScreen,
-          arguments: [true, isProfileCompleteEnable, isTwoFactorEnable]);
+      Get.offAndToNamed(
+        RouteHelper.emailVerificationScreen,
+        arguments: [true, isProfileCompleteEnable, isTwoFactorEnable],
+      );
     } else if (needEmailVerification) {
-      Get.offAndToNamed(RouteHelper.emailVerificationScreen,
-          arguments: [false, isProfileCompleteEnable, isTwoFactorEnable]);
+      Get.offAndToNamed(
+        RouteHelper.emailVerificationScreen,
+        arguments: [false, isProfileCompleteEnable, isTwoFactorEnable],
+      );
     } else if (needSmsVerification) {
-      Get.offAndToNamed(RouteHelper.smsVerificationScreen,
-          arguments: [isProfileCompleteEnable, isTwoFactorEnable]);
+      Get.offAndToNamed(
+        RouteHelper.smsVerificationScreen,
+        arguments: [isProfileCompleteEnable, isTwoFactorEnable],
+      );
     }
   }
 
@@ -203,12 +217,11 @@ class RegistrationController extends GetxController {
     fNameController.text = '';
     lNameController.text = '';
     mobileController.text = '';
-    countryController.text = '';
     userNameController.text = '';
     companyNameController.text = '';
   }
 
-  clearAllData() {
+  void clearAllData() {
     closeAllController();
   }
 
@@ -228,8 +241,8 @@ class RegistrationController extends GetxController {
 
     ResponseModel response = await generalSettingRepo.getGeneralSetting();
     if (response.statusCode == 200) {
-      GeneralSettingResponseModel model = GeneralSettingResponseModel.fromJson(
-          jsonDecode(response.responseJson));
+      GeneralSettingResponseModel model =
+          GeneralSettingResponseModel.fromJson((response.responseJson));
       if (model.status?.toLowerCase() == 'success') {
         generalSettingMainModel = model;
         isReferralEnable =
@@ -264,58 +277,6 @@ class RegistrationController extends GetxController {
 
     isLoading = false;
     update();
-  }
-
-  bool countryLoading = true;
-  List<Countries> countryList = [];
-  List<Countries> filteredCountries = [];
-
-  TextEditingController searchController = TextEditingController();
-  Countries selectedCountryData = Countries(countryCode: '-1');
-
-  selectCountryData(Countries value) {
-    selectedCountryData = value;
-    printX('value.country ${value.country}');
-    printX('value.dialCode ${value.countryCode}');
-    printX('value.dialCode ${value.dialCode}');
-    update();
-  }
-
-  Future<dynamic> getCountryData() async {
-    ResponseModel mainResponse = await registrationRepo.getCountryList();
-
-    if (mainResponse.statusCode == 200) {
-      CountryModel model =
-          CountryModel.fromJson(jsonDecode(mainResponse.responseJson));
-      List<Countries>? tempList = model.data?.countries;
-
-      if (tempList != null && tempList.isNotEmpty) {
-        countryList.addAll(tempList);
-        filteredCountries.addAll(tempList);
-      }
-      var selectDefCountry = tempList!.firstWhere(
-        (country) =>
-            country.countryCode!.toLowerCase() ==
-            Environment.defaultCountryCode.toLowerCase(),
-        orElse: () => Countries(),
-      );
-      if (selectDefCountry.dialCode != null) {
-        selectCountryData(selectDefCountry);
-        setCountryNameAndCode(
-            selectDefCountry.country.toString(),
-            selectDefCountry.countryCode.toString(),
-            selectDefCountry.dialCode.toString());
-      }
-      countryLoading = false;
-      update();
-      return;
-    } else {
-      CustomSnackBar.error(errorList: [mainResponse.message]);
-
-      countryLoading = false;
-      update();
-      return;
-    }
   }
 
   String? validatePassword(String value) {
@@ -359,83 +320,5 @@ class RegistrationController extends GetxController {
   void changePasswordFocus(bool hasFocus) {
     hasPasswordFocus = hasFocus;
     update();
-  }
-
-  //SIGN IN With Google
-  bool isSocialSubmitLoading = false;
-  bool isGoogle = false;
-  bool remember = false;
-
-  Future<void> signInWithGoogle() async {
-    try {
-      isGoogle = true;
-      update();
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) {
-        isGoogle = false;
-        update();
-        return;
-      }
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      await socialLoginUser(
-          provider: 'google', accessToken: googleAuth.accessToken ?? '');
-    } catch (e) {
-      printX(e.toString());
-
-      CustomSnackBar.error(errorList: [e.toString()]);
-    }
-  }
-
-  //Social Login API PART
-
-  Future socialLoginUser({
-    String accessToken = '',
-    String? provider,
-  }) async {
-    isSocialSubmitLoading = true;
-
-    update();
-
-    try {
-      ResponseModel responseModel = await registrationRepo.socialLoginUser(
-        accessToken: accessToken,
-        provider: provider,
-      );
-      if (responseModel.statusCode == 200) {
-        RegistrationResponseModel regModel = RegistrationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
-        if (regModel.status.toString().toLowerCase() ==
-            MyStrings.success.toLowerCase()) {
-          remember = true;
-          update();
-          checkAndGotoNextStep(regModel);
-        } else {
-          isSocialSubmitLoading = false;
-          update();
-          CustomSnackBar.error(
-              errorList:
-                  regModel.message ?? [MyStrings.loginFailedTryAgain.tr]);
-        }
-      } else {
-        isSocialSubmitLoading = false;
-        update();
-        CustomSnackBar.error(errorList: [responseModel.message]);
-      }
-    } catch (e) {
-      printX(e.toString());
-    }
-
-    isGoogle = false;
-    isSocialSubmitLoading = false;
-    update();
-  }
-
-  bool checkUserAccessTokeSaved() {
-    String token = registrationRepo.apiClient.sharedPreferences
-            .getString(SharedPreferenceHelper.accessTokenKey) ??
-        '';
-
-    return !((token == '' || token == 'null'));
   }
 }

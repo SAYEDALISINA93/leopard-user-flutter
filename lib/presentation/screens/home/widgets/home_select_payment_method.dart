@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/controller/home/home_controller.dart';
+import 'package:leoparduser/presentation/components/annotated_region/annotated_region_widget.dart';
 import 'package:leoparduser/presentation/components/bottom-sheet/my_bottom_sheet_bar.dart';
 
 import '../../../../core/utils/dimensions.dart';
@@ -17,44 +18,51 @@ class HomeSelectPaymentMethod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(builder: (controller) {
-      return Container(
-        height: context.height / 1.6,
-        color: MyColor.colorWhite,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const MyBottomSheetBar(),
-            HeaderText(
-                text: MyStrings.selectPaymentMethod,
-                textStyle: mediumOverLarge.copyWith(
+    return GetBuilder<HomeController>(
+      builder: (controller) {
+        return AnnotatedRegionWidget(
+          child: Container(
+            height: context.height / 1.6,
+            color: MyColor.colorWhite,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MyBottomSheetBar(),
+                HeaderText(
+                  text: MyStrings.selectPaymentMethod,
+                  textStyle: mediumOverLarge.copyWith(
                     fontSize: Dimensions.fontOverLarge,
                     fontWeight: FontWeight.normal,
-                    color: MyColor.colorBlack)),
-            spaceDown(Dimensions.space15),
-            Flexible(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: controller.paymentMethodList.length,
-                itemBuilder: (context, index) {
-                  return PaymentMethodCard(
-                    paymentMethod: controller.paymentMethodList[index],
-                    selected:
-                        controller.paymentMethodList[index].id.toString() ==
-                            controller.selectedPaymentMethod.id.toString(),
-                    assetPath:
-                        '${UrlContainer.domainUrl}/${controller.gatewayImagePath}/',
-                    press: () {
-                      controller.selectPaymentMethod(
-                          controller.paymentMethodList[index]);
+                    color: MyColor.colorBlack,
+                  ),
+                ),
+                spaceDown(Dimensions.space15),
+                Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.paymentMethodList.length,
+                    itemBuilder: (context, index) {
+                      return PaymentMethodCard(
+                        paymentMethod: controller.paymentMethodList[index],
+                        selected:
+                            controller.paymentMethodList[index].id.toString() ==
+                                controller.selectedPaymentMethod.id.toString(),
+                        assetPath:
+                            '${UrlContainer.domainUrl}/${controller.gatewayImagePath}/',
+                        press: () {
+                          controller.selectPaymentMethod(
+                            controller.paymentMethodList[index],
+                          );
+                        },
+                      );
                     },
-                  );
-                },
-              ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    });
+          ),
+        );
+      },
+    );
   }
 }

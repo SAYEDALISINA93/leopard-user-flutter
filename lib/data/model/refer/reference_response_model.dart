@@ -18,12 +18,7 @@ class ReferenceResponseModel {
   List<String>? message;
   Data? data;
 
-  ReferenceResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  ReferenceResponseModel({this.remark, this.status, this.message, this.data});
 
   factory ReferenceResponseModel.fromJson(Map<String, dynamic> json) =>
       ReferenceResponseModel(
@@ -47,17 +42,15 @@ class Data {
   GlobalUser? user;
   List<ReferenceUser>? referenceUsers;
 
-  Data({
-    this.user,
-    this.referenceUsers,
-  });
+  Data({this.user, this.referenceUsers});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         user: json["user"] == null ? null : GlobalUser.fromJson(json["user"]),
         referenceUsers: json["reference_users"] == null
             ? []
             : List<ReferenceUser>.from(
-                json["reference_users"]!.map((x) => ReferenceUser.fromJson(x))),
+                json["reference_users"]!.map((x) => ReferenceUser.fromJson(x)),
+              ),
       );
 
   Map<String, dynamic> toJson() => {

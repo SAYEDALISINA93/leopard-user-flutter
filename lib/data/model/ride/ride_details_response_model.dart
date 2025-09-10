@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/data/model/global/app/ride_model.dart';
 
 RideDetailsResponseModel rideDetailsResponseModelFromJson(String str) =>
@@ -18,12 +19,7 @@ class RideDetailsResponseModel {
   Data? data;
   List<String>? message;
 
-  RideDetailsResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  RideDetailsResponseModel({this.remark, this.status, this.message, this.data});
 
   factory RideDetailsResponseModel.fromJson(Map<String, dynamic> json) =>
       RideDetailsResponseModel(
@@ -48,18 +44,26 @@ class Data {
   String? serviceImagePath;
   String? brandImagePath;
   String? driverImagePath;
+  String? driverTotalRide;
 
-  Data(
-      {this.ride,
-      this.serviceImagePath,
-      this.brandImagePath,
-      this.driverImagePath});
+  Data({
+    this.ride,
+    this.serviceImagePath,
+    this.brandImagePath,
+    this.driverImagePath,
+    this.driverTotalRide,
+  });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) {
+    printX("driver_total_ride ${json["driver_total_ride"].toString()}");
+    return Data(
       ride: json["ride"] == null ? null : RideModel.fromJson(json["ride"]),
       serviceImagePath: json["service_image_path"],
       brandImagePath: json["brand_image_path"],
-      driverImagePath: json["driver_image_path"]);
+      driverImagePath: json["driver_image_path"],
+      driverTotalRide: json["driver_total_ride"].toString(),
+    );
+  }
 
   Map<String, dynamic> toJson() => {"ride": ride?.toJson()};
 }

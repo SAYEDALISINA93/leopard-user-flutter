@@ -87,12 +87,15 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
             color: widget.backgroundColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey
-                    .withValues(alpha: 0.5), // Choose your shadow color
+                color: Colors.grey.withValues(
+                  alpha: 0.5,
+                ), // Choose your shadow color
                 spreadRadius: 0.3,
                 blurRadius: 3,
-                offset:
-                    const Offset(0, 3), // Changes the position of the shadow
+                offset: const Offset(
+                  0,
+                  3,
+                ), // Changes the position of the shadow
               ),
             ],
           ),
@@ -141,10 +144,11 @@ ItemBuilder _defaultItemBuilder({
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               decoration: BoxDecoration(
-                  color: currentIndex == index
-                      ? selectedBackgroundColor
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(itemBorderRadius!)),
+                color: currentIndex == index
+                    ? selectedBackgroundColor
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(itemBorderRadius!),
+              ),
               child: InkWell(
                 onTap: () {
                   onTap!(index);
@@ -157,12 +161,13 @@ ItemBuilder _defaultItemBuilder({
                         MediaQuery.of(context).size.width / items.length - 24,
                     // width: width.isFinite ? (width / items.length - 8) : MediaQuery.of(context).size.width / items.length - 24,
                     padding: EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: item.title != null
-                            ? inLine == true
-                                ? 8
-                                : 4
-                            : 8),
+                      horizontal: 4,
+                      vertical: item.title != null
+                          ? inLine == true
+                              ? 8
+                              : 4
+                          : 8,
+                    ),
 
                     child: inLine == true
                         ? Row(
@@ -180,9 +185,7 @@ ItemBuilder _defaultItemBuilder({
                                     )
                                   : item.customWidget!,
                               if (item.title != null)
-                                SizedBox(
-                                  width: itemSpace,
-                                ),
+                                SizedBox(width: itemSpace),
                               if (item.title != null)
                                 Flexible(
                                   child: Text(
@@ -212,9 +215,7 @@ ItemBuilder _defaultItemBuilder({
                                       size: iconSize,
                                     )
                                   : item.customWidget!,
-                              SizedBox(
-                                height: itemSpace,
-                              ),
+                              SizedBox(height: itemSpace),
                               if (item.title != null)
                                 Text(
                                   '${item.title}',

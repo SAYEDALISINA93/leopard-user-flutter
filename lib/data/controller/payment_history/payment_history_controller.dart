@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -18,9 +17,7 @@ class PaymentHistoryController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
   List<String> transactionTypeList = ["All", "Plus", "Minus"];
-  List<String> remarksList = [
-    "All",
-  ];
+  List<String> remarksList = ["All"];
 
   List<PaymentHistoryData> transactionList = [];
   GlobalUser user = GlobalUser();
@@ -57,20 +54,22 @@ class PaymentHistoryController extends GetxController {
     page = page + 1;
 
     if (page == 1) {
-      currency = paymentRepo.apiClient.getCurrencyOrUsername();
-      currencySym = paymentRepo.apiClient.getCurrencyOrUsername(isSymbol: true);
+      currency = paymentRepo.apiClient.getCurrency();
+      currencySym = paymentRepo.apiClient.getCurrency(isSymbol: true);
       remarksList.clear();
       transactionList.clear();
     }
 
-    ResponseModel responseModel = await paymentRepo.getTransactionList(page,
-        type: selectedTrxType.toLowerCase(),
-        remark: selectedRemark.toLowerCase(),
-        searchText: trxSearchText);
+    ResponseModel responseModel = await paymentRepo.getTransactionList(
+      page,
+      type: selectedTrxType.toLowerCase(),
+      remark: selectedRemark.toLowerCase(),
+      searchText: trxSearchText,
+    );
 
     if (responseModel.statusCode == 200) {
-      PaymentHistoryResponseModel model = PaymentHistoryResponseModel.fromJson(
-          jsonDecode(responseModel.responseJson));
+      PaymentHistoryResponseModel model =
+          PaymentHistoryResponseModel.fromJson((responseModel.responseJson));
 
       nextPageUrl = model.data?.payments?.nextPageUrl;
 
@@ -95,9 +94,7 @@ class PaymentHistoryController extends GetxController {
         );
       }
     } else {
-      CustomSnackBar.error(
-        errorList: [responseModel.message],
-      );
+      CustomSnackBar.error(errorList: [responseModel.message]);
     }
     update();
   }

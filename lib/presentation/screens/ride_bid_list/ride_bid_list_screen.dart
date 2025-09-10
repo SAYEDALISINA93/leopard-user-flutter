@@ -5,11 +5,11 @@ import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/data/controller/ride/ride_bid_list/ride_bid_list_controller.dart';
 import 'package:leoparduser/data/repo/ride/ride_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/app-bar/custom_appbar.dart';
 import 'package:leoparduser/presentation/components/bottom-sheet/custom_bottom_sheet.dart';
 import 'package:leoparduser/presentation/components/no_data.dart';
 import 'package:leoparduser/presentation/components/shimmer/ride_shimmer.dart';
+import 'package:leoparduser/presentation/components/shimmer/transaction_card_shimmer.dart';
 import 'package:leoparduser/presentation/screens/ride_bid_list/widget/bid_card.dart';
 import 'package:leoparduser/presentation/screens/ride_bid_list/widget/cancel_bottom_sheet.dart';
 import 'package:leoparduser/presentation/screens/ride_bid_list/widget/ride_details_card.dart';
@@ -25,7 +25,6 @@ class RideBidListScreen extends StatefulWidget {
 class _RideBidListScreenState extends State<RideBidListScreen> {
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(RideRepo(apiClient: Get.find()));
     final controller = Get.put(RideBidListController(repo: Get.find()));
     super.initState();
@@ -50,12 +49,15 @@ class _RideBidListScreenState extends State<RideBidListScreen> {
             color: MyColor.primaryColor,
             backgroundColor: MyColor.colorWhite,
             onRefresh: () async {
-              controller.getRideBidList(controller.ride.id.toString(),
-                  isShouldLoading: false);
+              controller.getRideBidList(
+                controller.ride.id.toString(),
+                isShouldLoading: false,
+              );
             },
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               padding: Dimensions.screenPaddingHV,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,22 +69,29 @@ class _RideBidListScreenState extends State<RideBidListScreen> {
                         Align(
                           alignment: Alignment.center,
                           child: LinearProgressIndicator(
-                              color: MyColor.primaryColor,
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.mediumRadius)),
+                            color: MyColor.primaryColor,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.mediumRadius,
+                            ),
+                          ),
                         ),
                         Positioned.fill(
                           child: Align(
                             alignment: Alignment.center,
                             child: Container(
-                                width: 120,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                    color: MyColor.screenBgColor,
-                                    borderRadius: BorderRadius.circular(2)),
-                                child: Center(
-                                    child: Text(MyStrings.findingDrivers.tr,
-                                        style: boldDefault.copyWith()))),
+                              width: 120,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: MyColor.screenBgColor,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  MyStrings.findingDrivers.tr,
+                                  style: boldDefault.copyWith(),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -100,23 +109,36 @@ class _RideBidListScreenState extends State<RideBidListScreen> {
                           },
                         ),
                   const SizedBox(height: Dimensions.space20),
-                  Text(MyStrings.bidList.tr,
-                      style: regularExtraLarge.copyWith()),
+                  Text(
+                    MyStrings.bidList.tr,
+                    style: regularExtraLarge.copyWith(),
+                  ),
                   const SizedBox(height: Dimensions.space10),
-                  if (controller.bids.isNotEmpty) ...[
+                  if (controller.isLoading) ...[
+                    Column(
+                      children: List.generate(
+                        3,
+                        (index) => const TransactionCardShimmer(),
+                      ),
+                    ),
+                  ] else if (controller.bids.isNotEmpty) ...[
                     Column(
                       children: List.generate(
                         controller.bids.length,
                         (index) => BidCard(
-                            bid: controller.bids[index],
-                            ride: controller.ride,
-                            currency: controller.defaultCurrencySymbol),
+                          bid: controller.bids[index],
+                          ride: controller.ride,
+                          currency: controller.defaultCurrencySymbol,
+                        ),
                       ),
-                    )
+                    ),
                   ] else ...[
                     NoDataWidget(
-                        fromRide: false, text: 'No bid found', margin: 20)
-                  ]
+                      fromRide: false,
+                      text: MyStrings.NoBidFound,
+                      margin: 20,
+                    ),
+                  ],
                 ],
               ),
             ),

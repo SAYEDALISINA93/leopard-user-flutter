@@ -16,39 +16,50 @@ class TransactionCardShimmer extends StatelessWidget {
         Row(
           children: [
             Shimmer.fromColors(
-                baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
-                highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
-                child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    decoration: BoxDecoration(
-                        color: MyColor.colorGrey.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(50)),
-                    height: 40,
-                    width: 40)),
+              baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+              highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: MyColor.colorGrey.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                height: 40,
+                width: 40,
+              ),
+            ),
             const SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Shimmer.fromColors(
-                    baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
-                    highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: MyColor.colorGrey.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(1)),
-                        height: 10,
-                        width: width * 1.5)),
+                  baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+                  highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: MyColor.colorGrey.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(1),
+                    ),
+                    height: 10,
+                    width: width * 1.5,
+                  ),
+                ),
                 const SizedBox(height: 5),
                 Shimmer.fromColors(
-                    baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
-                    highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: MyColor.colorGrey.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(1)),
-                        height: 7,
-                        width: width * 1.5)),
+                  baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
+                  highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: MyColor.colorGrey.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(1),
+                    ),
+                    height: 7,
+                    width: width * 1.5,
+                  ),
+                ),
               ],
             ),
           ],
@@ -60,26 +71,30 @@ class TransactionCardShimmer extends StatelessWidget {
               baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
               highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
               child: Container(
-                  decoration: BoxDecoration(
-                      color: MyColor.colorGrey.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(1)),
-                  height: 7,
-                  width: width * 1.5),
+                decoration: BoxDecoration(
+                  color: MyColor.colorGrey.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(1),
+                ),
+                height: 7,
+                width: width * 1.5,
+              ),
             ),
             const SizedBox(height: 5),
             Shimmer.fromColors(
               baseColor: MyColor.colorGrey.withValues(alpha: 0.2),
               highlightColor: MyColor.primaryColor.withValues(alpha: 0.7),
               child: Container(
-                  decoration: BoxDecoration(
-                      color: MyColor.colorGrey.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(1)),
-                  height: 7,
-                  width: width * 1.5),
+                decoration: BoxDecoration(
+                  color: MyColor.colorGrey.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(1),
+                ),
+                height: 7,
+                width: width * 1.5,
+              ),
             ),
           ],
         ),
-        const SizedBox(width: Dimensions.space5)
+        const SizedBox(width: Dimensions.space5),
       ],
     );
   }

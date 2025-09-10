@@ -8,21 +8,24 @@ class MyShimmerWidget extends StatelessWidget {
   Color? highlightColor = MyColor.colorGrey;
   EdgeInsets? mergin;
   Widget child;
+  bool isEnable;
   MyShimmerWidget({
     super.key,
     this.baseColor,
     this.mergin,
     this.highlightColor,
     required this.child,
+    this.isEnable = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: baseColor ?? MyColor.colorGrey.withValues(alpha: 0.1),
-      highlightColor:
-          highlightColor ?? MyColor.primaryColor.withValues(alpha: 0.1),
-      child: child,
-    );
+    return isEnable
+        ? Shimmer.fromColors(
+            baseColor: baseColor ?? MyColor.colorGrey.withValues(alpha: 0.1),
+            highlightColor: highlightColor ?? MyColor.primaryColor.withValues(alpha: 0.1),
+            child: child,
+          )
+        : child;
   }
 }
