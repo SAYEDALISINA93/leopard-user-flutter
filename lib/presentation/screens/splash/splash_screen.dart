@@ -57,8 +57,16 @@ class _SplashScreenState extends State<SplashScreen>
                   children: [
                     Align(
                         alignment: Alignment.center,
-                        child: Image.asset(MyImages.appLogoIcon,
-                            height: 100, width: 100)),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            final size = constraints.maxWidth * 0.5;
+                            return Image.asset(
+                              MyImages.appLogoIcon,
+                              height: size,
+                              width: size,
+                            );
+                          },
+                        )),
                   ],
                 ),
         ),

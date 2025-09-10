@@ -119,15 +119,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onChanged: (value) {},
                                   focusNode: controller.mobileNumberFocusNode,
                                   // nextFocus: controller.passwordFocusNode,
+                                  prefixIcon: Container(
+                                    alignment: Alignment.center,
+                                    width: 48,
+                                    child: Text(
+                                      MyStrings.afgCode,
+                                      style: regularDefault.copyWith(
+                                        color: MyColor.getTextColor(),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
                                   textInputType: TextInputType.phone,
                                   inputAction: TextInputAction.next,
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    child: CustomSvgPicture(
-                                        image: MyIcons.phone,
-                                        color: MyColor.primaryColor),
-                                  ),
+                                  // prefixIcon: Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 10.0),
+                                  //   child: CustomSvgPicture(
+                                  //       image: MyIcons.phone,
+                                  //       color: MyColor.primaryColor),
+                                  // ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return MyStrings.fieldErrorMsg.tr;

@@ -39,6 +39,17 @@ class _PhoneRegistrationFormState extends State<PhoneRegistrationForm> {
                 focusNode: controller.mobileFocusNode,
                 textInputType: TextInputType.phone,
                 nextFocus: controller.mobileFocusNode,
+                prefixIcon: Container(
+                  alignment: Alignment.center,
+                  width: 48,
+                  child: Text(
+                    MyStrings.afgCode,
+                    style: regularDefault.copyWith(
+                      color: MyColor.getTextColor(),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return MyStrings.kEmptyPhoneNumberError.tr;

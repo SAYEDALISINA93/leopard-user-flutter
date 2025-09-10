@@ -175,33 +175,42 @@ class _SmsVerificationScreenState extends State<SmsVerificationScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: Dimensions.space30),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(MyStrings.didNotReceiveCode.tr,
+                                      Obx(() {
+                                        return Text(
+                                          controller.resendOtpTimer.value > 0
+                                              ? "Resend OTP in ${controller.resendOtpTimer.value}s"
+                                              : "Didn't receive the code?",
                                           style: regularDefault.copyWith(
-                                              color:
-                                                  MyColor.getLabelTextColor())),
-                                      const SizedBox(width: Dimensions.space5),
-                                      controller.resendLoading
-                                          ? Container(
-                                              margin: const EdgeInsets.all(5),
-                                              height: 20,
-                                              width: 20,
-                                              child: CircularProgressIndicator(
-                                                  color: MyColor
-                                                      .getPrimaryColor()))
-                                          : GestureDetector(
-                                              onTap: () {
-                                                controller.sendCodeAgain();
-                                              },
-                                              child: Text(
-                                                  MyStrings.resendCode.tr,
-                                                  style: regularDefault.copyWith(
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      color: MyColor
-                                                          .getPrimaryColor())),
+                                              fontSize: Dimensions.fontLarge),
+                                        );
+                                      }),
+                                      Obx(() {
+                                        if (controller.resendOtpTimer.value ==
+                                            0) {
+                                          return TextButton(
+                                            onPressed: () {
+                                              print(
+                                                  "Resend OTP button pressed"); // Debug log
+                                              controller.sendCodeAgain();
+                                            },
+                                            child: Text(
+                                              "Resend OTP",
+                                              style: regularDefault.copyWith(
+                                                  color: controller
+                                                              .resendOtpTimer
+                                                              .value >
+                                                          0
+                                                      ? Colors.grey
+                                                      : MyColor
+                                                          .getPrimaryColor()),
                                             ),
+                                          );
+                                        } else {
+                                          return SizedBox.shrink();
+                                        }
+                                      }),
                                     ],
                                   ),
                                 )

@@ -133,7 +133,8 @@ class RideDetailsMapWidget extends StatelessWidget {
                                     ride.status == AppStatus.RIDE_ACTIVE ||
                                     ride.status ==
                                         AppStatus.RIDE_PAYMENT_REQUESTED) {
-                                  MyUtils.launchPhone('${ride.driver?.mobile}');
+                                  MyUtils.launchPhone(
+                                      "+${ride.driver?.dialCode}${ride.driver?.mobile}");
                                 }
                               },
                             ),

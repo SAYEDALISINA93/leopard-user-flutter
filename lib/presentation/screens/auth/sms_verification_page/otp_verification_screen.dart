@@ -88,11 +88,14 @@ class _OtpVerificationScreenState extends State<OTPVerificationScreen> {
                           Image.asset(MyImages.appLogoWhite,
                               width: MediaQuery.of(context).size.width / 3),
                           Align(
-                              alignment: Alignment.center,
-                              child: SvgPicture.asset(MyIcons.bg,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  height: 200)),
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              MyIcons.bg,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              fit: BoxFit.contain,
+                              height: MediaQuery.of(context).size.height * 0.25,
+                            ),
+                          ),
                           Container(
                             padding: const EdgeInsetsDirectional.only(
                                 top: Dimensions.space20,
@@ -185,36 +188,27 @@ class _OtpVerificationScreenState extends State<OTPVerificationScreen> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: Dimensions.space30),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(MyStrings.didNotReceiveCode.tr,
-                                          style: regularDefault.copyWith(
-                                              color:
-                                                  MyColor.getLabelTextColor())),
-                                      const SizedBox(width: Dimensions.space5),
-                                      controller.resendLoading
-                                          ? Container(
-                                              margin: const EdgeInsets.all(5),
-                                              height: 20,
-                                              width: 20,
-                                              child: CircularProgressIndicator(
-                                                  color: MyColor
-                                                      .getPrimaryColor()))
-                                          : GestureDetector(
-                                              onTap: () {
-                                                controller.sendCodeAgain();
-                                              },
-                                              child: Text(
-                                                  MyStrings.resendCode.tr,
-                                                  style: regularDefault.copyWith(
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      color: MyColor
-                                                          .getPrimaryColor())),
-                                            ),
-                                    ],
-                                  ),
+                                  child: Obx(() {
+                                    if (controller.resendOtpTimer.value > 0) {
+                                      return Text(
+                                        'Resend Code in ${controller.resendOtpTimer.value} seconds',
+                                        style: regularDefault.copyWith(
+                                            color: MyColor.getLabelTextColor()),
+                                      );
+                                    } else {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          controller.sendCodeAgain();
+                                        },
+                                        child: Text(MyStrings.resendCode.tr,
+                                            style: regularDefault.copyWith(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                color:
+                                                    MyColor.getPrimaryColor())),
+                                      );
+                                    }
+                                  }),
                                 )
                               ],
                             ),

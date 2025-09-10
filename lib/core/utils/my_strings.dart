@@ -1052,6 +1052,8 @@ class MyStrings {
       'You will lose all of your data by deleting your account. This action cannot be undone.';
 
   static const String yourAverageRatingIs = "Your average rating is";
+  static const String phoneAlreadyRegistered =
+      "'The phone number is already associated with an account'";
 
   static const String riderReviews = "Driver reviews";
   static const String driverReviews = "My reviews";
@@ -1061,10 +1063,13 @@ class MyStrings {
   static const String vehicleInformation = "Vehicle Information";
   static const String carInfo = "Car Info";
   static const String apple = "Apple";
+  static const String afgCode = "+93";
   static List<MyLanguageModel> myLanguages = [
     MyLanguageModel(
         languageName: 'English', countryCode: 'US', languageCode: 'en'),
     MyLanguageModel(
-        languageName: 'Arabic', countryCode: 'SA', languageCode: 'ar'),
+        languageName: 'Dari (Persian)', countryCode: 'AF', languageCode: 'fa'),
+    MyLanguageModel(
+        languageName: 'Pashto', countryCode: 'AF', languageCode: 'ps'),
   ];
 }

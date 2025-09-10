@@ -84,16 +84,15 @@ class AccountUserCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis),
                         ),
-                        // in future make this username name plus lastname
-                        // const SizedBox(
-                        //   height: Dimensions.space3,
-                        // ),
-                        // Text("@$username",
-                        //     style: titleStyle ??
-                        //         regularDefault.copyWith(
-                        //             fontSize: Dimensions.fontSmall),
-                        //     maxLines: 1,
-                        //     overflow: TextOverflow.ellipsis),
+                        const SizedBox(
+                          height: Dimensions.space3,
+                        ),
+                        Text("@$username",
+                            style: titleStyle ??
+                                regularDefault.copyWith(
+                                    fontSize: Dimensions.fontSmall),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
                         const SizedBox(height: Dimensions.space5),
                         Text(subtitle ?? "",
                             style: subtitleStyle ??

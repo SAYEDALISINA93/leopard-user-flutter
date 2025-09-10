@@ -96,7 +96,8 @@ class _AppDrawerScreenState extends State<AppDrawerScreen> {
                               child: DrawerUserCard(
                                 fullName: name.removeNull(),
                                 username: userName.removeNull(),
-                                subtitle: "+${phone.removeNull()}",
+                                subtitle:
+                                    "+93${phone.removeNull()}", //try to use dynamic country code
                                 imgWidget: Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(

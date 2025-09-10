@@ -10,6 +10,7 @@ class GlobalDriverInfo {
   String? email;
   String? avatar;
   String? countryCode;
+  String? dialCode; // Not used in this model, but might be useful
   String? mobile;
   String? address;
   String? totalReviews; //
@@ -45,6 +46,7 @@ class GlobalDriverInfo {
     this.avatar,
     this.countryCode,
     this.mobile,
+    this.dialCode,
     this.address,
     this.totalReviews,
     this.avgRating,
@@ -81,6 +83,7 @@ class GlobalDriverInfo {
       avatar: json["image"].toString(),
       countryCode: json["country_code"].toString(),
       mobile: json["mobile"].toString(),
+      dialCode: json["dial_code"] == null ? "93" : json["dial_code"].toString(),
       address: json["address"].toString(),
       brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
       totalReviews: json["total_reviews"].toString(),
@@ -133,6 +136,7 @@ class GlobalDriverInfo {
         "avatar": avatar,
         "country_code": countryCode,
         "mobile": mobile,
+        "dial_code": dialCode,
         "address": address,
         "total_reviews": totalReviews,
         "avg_rating": avgRating,

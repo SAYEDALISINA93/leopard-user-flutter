@@ -1,22 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route_middleware.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/auth/login/login_response_model.dart';
-import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/repo/auth/login_repo.dart';
 import 'package:leoparduser/data/repo/auth/sms_email_verification_repo.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SmsVerificationController extends GetxController {
-  // SmsEmailVerificationRepo repo;
-  // SmsVerificationController({required this.repo});
-
   LoginRepo repo;
   SmsVerificationController({required this.repo});
 
@@ -32,21 +28,19 @@ class SmsVerificationController extends GetxController {
 
   Future<void> loadBefore() async {
     isLoading = true;
-    // userPhone = repo.apiClient.sharedPreferences
-    //         .getString(SharedPreferenceHelper.userPhoneNumberKey) ??
-    //     '';
 
     userCompletePhone = '+${countryCode + userPhone}';
 
     print("User Phone: $userPhone ");
     update();
-    // await repo.sendAuthorizationRequest();
     isLoading = false;
     update();
     return;
   }
 
   bool submitLoading = false;
+  SmsEmailVerificationRepo smsRepo = Get.find();
+
   verifyYourSms(String currentText) async {
     if (currentText.isEmpty) {
       CustomSnackBar.error(errorList: [MyStrings.otpFieldEmptyMsg.tr]);
@@ -56,57 +50,24 @@ class SmsVerificationController extends GetxController {
     submitLoading = true;
     update();
 
-    // ResponseModel responseModel =
-    //     await repo.verify(currentText, isEmail: false, isTFA: false);
+    try {
+      ResponseModel responseModel =
+          await smsRepo.verifyFirebase(currentText, verificationId);
 
-    // if (responseModel.statusCode == 200) {
-    //   AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-    //       jsonDecode(responseModel.responseJson));
-
-    //   if (model.status == MyStrings.success) {
-    //     CustomSnackBar.success(
-    //         successList: model.message ??
-    //             ['${MyStrings.sms.tr} ${MyStrings.verificationSuccess.tr}']);
-    //     RouteMiddleware.checkNGotoNext(user: model.data?.user);
-    //     // Get.offAndToNamed(isProfileCompleteEnable ? RouteHelper.profileCompleteScreen : RouteHelper.dashboard);
-    //   } else {
-    //     CustomSnackBar.error(
-    //         errorList: model.message ??
-    //             ['${MyStrings.sms.tr} ${MyStrings.verificationFailed}']);
-    //   }
-    // } else {
-    //   CustomSnackBar.error(errorList: [responseModel.message]);
-    // }
-
-    // Verify Firebase OTP
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: userCompletePhone,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        CustomSnackBar.success(successList: [
-          '${MyStrings.sms.tr} ${MyStrings.verificationSuccess.tr}'
+      if (responseModel.statusCode == 200) {
+        CustomSnackBar.success(successList: [responseModel.message]);
+        verificationToken = jsonDecode(responseModel.responseJson)['token'];
+        await callLoginApi();
+      } else {
+        CustomSnackBar.error(errorList: [
+          '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: Please check the code and try again.'
         ]);
-        // RouteMiddleware.checkNGotoNext();
-        callLoginApi();
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        CustomSnackBar.error(
-            errorList: ['${MyStrings.sms.tr} ${MyStrings.verificationFailed}']);
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-            verificationId: verificationId, smsCode: currentText);
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithCredential(phoneAuthCredential);
-        verificationToken = await userCredential.user?.getIdToken() ?? '';
-        CustomSnackBar.success(successList: [
-          '${MyStrings.sms.tr} ${MyStrings.verificationSuccess.tr}'
-        ]);
-        // RouteMiddleware.checkNGotoNext();
-        callLoginApi();
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+      }
+    } catch (e) {
+      CustomSnackBar.error(errorList: [
+        '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: An unexpected error occurred. Please try again later.'
+      ]);
+    }
 
     submitLoading = false;
     update();
@@ -120,10 +81,8 @@ class SmsVerificationController extends GetxController {
       LoginResponseModel loginModel =
           LoginResponseModel.fromJson(jsonDecode(model.responseJson));
 
-      print("Login Model: ${model.responseJson}");
       if (loginModel.status.toString().toLowerCase() ==
           MyStrings.success.toLowerCase()) {
-        // checkAndGotoNextStep(loginModel);
         await repo.apiClient.sharedPreferences
             .setBool(SharedPreferenceHelper.rememberMeKey, true);
         loggerI(loginModel.data?.toJson());
@@ -142,11 +101,78 @@ class SmsVerificationController extends GetxController {
   }
 
   bool resendLoading = false;
+  var resendOtpTimer = 60.obs; // Observable countdown timer
+  Timer? _resendOtpCountdownTimer;
+
+  void startResendOtpTimer() {
+    resendOtpTimer.value = 60; // Reset the timer
+    _resendOtpCountdownTimer?.cancel(); // Cancel any existing timer
+    _resendOtpCountdownTimer =
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (resendOtpTimer.value > 0) {
+        resendOtpTimer.value--; // Decrement the timer value
+        resendOtpTimer.refresh(); // Ensure observable triggers UI updates
+      } else {
+        timer.cancel(); // Stop the timer when it reaches 0
+        resendOtpTimer.refresh(); // Ensure UI reflects the final state
+      }
+    });
+  }
+
+  Future<bool> resendPhoneOtpWithFirebase(
+      {required String phoneNumber, String countryCode = "+93"}) async {
+    if (phoneNumber.isEmpty) {
+      CustomSnackBar.error(errorList: [MyStrings.enterPhoneNumber]);
+      return false;
+    }
+    try {
+      String verificationId = '';
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: countryCode + phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (FirebaseAuthException e) {
+          CustomSnackBar.error(
+              errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
+        },
+        codeSent: (String verId, int? resendToken) {
+          verificationId = verId;
+          CustomSnackBar.success(
+              successList: [MyStrings.successfullyCodeResend]);
+        },
+        codeAutoRetrievalTimeout: (String verId) {
+          verificationId = verId;
+        },
+      );
+      return true;
+    } catch (e) {
+      CustomSnackBar.error(errorList: [e.toString()]);
+      return false;
+    }
+  }
+
   Future<void> sendCodeAgain() async {
-    // resendLoading = true;
-    // update();
-    // await repo.resendVerifyCode(isEmail: false);
-    // resendLoading = false;
-    // update();
+    resendLoading = true;
+    update();
+    bool success = await resendPhoneOtpWithFirebase(
+      phoneNumber: userPhone,
+      countryCode: countryCode.isNotEmpty ? '+$countryCode' : '+93',
+    );
+    if (success) {
+      startResendOtpTimer();
+    }
+    resendLoading = false;
+    update();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    startResendOtpTimer();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    _resendOtpCountdownTimer?.cancel();
   }
 }

@@ -48,6 +48,7 @@ class SmsEmailVerificationRepo {
           }),
         );
       } else {
+        CustomSnackBar.error(errorList: ['Verification failed']);
         return ResponseModel(
           false,
           'Verification failed',
@@ -56,6 +57,7 @@ class SmsEmailVerificationRepo {
         );
       }
     } catch (e) {
+      CustomSnackBar.error(errorList: [e.toString()]);
       return ResponseModel(
         false,
         e.toString(),

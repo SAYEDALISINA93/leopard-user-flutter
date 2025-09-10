@@ -10,6 +10,7 @@ import 'package:leoparduser/data/model/auth/sign_up_model/sign_up_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
+import 'package:leoparduser/core/utils/my_strings.dart';
 
 class PhoneRegistrationRepo {
   ApiClient apiClient;
@@ -138,10 +139,11 @@ class PhoneRegistrationRepo {
     print("RESPONSE AUTHL $responseJSON");
 
     if (responseJSON['status'] != 'error') {
-      CustomSnackBar.error(errorList: [
-        'The phone number is already associated with an account'
-      ]);
-      completer.complete(null);
+      String errorMessage = MyStrings.phoneAlreadyRegistered;
+
+      CustomSnackBar.error(errorList: [errorMessage]);
+      result = {'status': false, 'message': errorMessage.toString()};
+      completer.complete(result);
     } else {
       String formattedPhoneNumber = mobileNumber.startsWith('+')
           ? mobileNumber

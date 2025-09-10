@@ -132,7 +132,6 @@ class LoginController extends GetxController {
       return false;
     }
   }
-
   bool isSubmitLoading = false;
   String countryCode = '93';
   void loginUser() async {
@@ -153,30 +152,16 @@ class LoginController extends GetxController {
       print('formattedPhoneNumber: $formattedPhoneNumber');
 
       try {
-        await FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: formattedPhoneNumber,
-          verificationCompleted: (PhoneAuthCredential credential) async {
-            // Auto-retrieval or instant verification
-          },
-          verificationFailed: (FirebaseAuthException e) {
-            CustomSnackBar.error(
-                errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
-          },
-          codeSent: (String verificationId, int? resendToken) {
-            // Handle code sent
-            Get.toNamed(RouteHelper.smsVerificationScreen, arguments: [
-              verificationId,
-              mobileNumberController.text.toString(),
-              countryCode
-            ]);
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {
-            // Handle timeout
-          },
-        );
+        await verifyPhoneNumber(formattedPhoneNumber);
       } catch (e) {
+        isSubmitLoading = false;
+        update();
         CustomSnackBar.error(errorList: [e.toString()]);
       }
+    } else {
+      // User doesn't have an account
+      isSubmitLoading = false;
+      update();
     }
 
     // ResponseModel model = await loginRepo.loginUser(
@@ -203,9 +188,38 @@ class LoginController extends GetxController {
     // } else {
     //   CustomSnackBar.error(errorList: [model.message]);
     // }
+  }
 
-    isSubmitLoading = false;
-    update();
+  Future<void> verifyPhoneNumber(String formattedPhoneNumber) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: formattedPhoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        // Auto-retrieval or instant verification
+        isSubmitLoading = false;
+        update();
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        isSubmitLoading = false;
+        update();
+        CustomSnackBar.error(
+            errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        // Handle code sent - keep loading until navigation completes
+        isSubmitLoading = false;
+        update();
+        Get.toNamed(RouteHelper.smsVerificationScreen, arguments: [
+          verificationId,
+          mobileNumberController.text.toString(),
+          countryCode
+        ]);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Handle timeout
+        isSubmitLoading = false;
+        update();
+      },
+    );
   }
 
   changeRememberMe() {

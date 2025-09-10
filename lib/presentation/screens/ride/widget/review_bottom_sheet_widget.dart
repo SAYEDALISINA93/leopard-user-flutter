@@ -94,7 +94,7 @@ class ReviewBottomSheet extends StatelessWidget {
                             height: 10,
                             width: 15),
                         const SizedBox(width: Dimensions.space5 - 1),
-                        Text("+${ride.driver?.mobile}",
+                        Text("+${ride.driver?.dialCode}${ride.driver?.mobile}",
                             style: boldDefault.copyWith(
                                 color: MyColor.colorGrey,
                                 fontSize: Dimensions.fontDefault,

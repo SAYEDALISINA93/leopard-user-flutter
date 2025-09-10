@@ -447,6 +447,9 @@ class PhoneRegistrationController extends GetxController {
           'verificationId': checkOTP['verificationId']
         },
       );
+    } else {
+      submitLoading = false;
+      update();
     }
   }
 
