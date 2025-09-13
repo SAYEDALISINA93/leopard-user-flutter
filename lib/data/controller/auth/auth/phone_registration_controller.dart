@@ -33,7 +33,7 @@ class PhoneRegistrationController extends GetxController {
   GeneralSettingResponseModel generalSettingMainModel =
       GeneralSettingResponseModel();
 
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  // final GoogleSignIn googleSignIn = GoogleSignIn();
   bool checkPasswordStrength = false;
   bool needAgree = true;
 
@@ -121,7 +121,7 @@ class PhoneRegistrationController extends GetxController {
       referName: referNameController.text.toString(),
       mobile: mobileController.text.toString(),
       email: '',
-      agree: generalSettingRepo.apiClient.isAgreePolicyEnable()
+      agree: generalSettingRepo.apiClient.isAgreePolicyEnabled()
           ? agreeTC
               ? true
               : false
@@ -342,26 +342,26 @@ class PhoneRegistrationController extends GetxController {
   bool isGoogle = false;
   bool remember = false;
 
-  Future<void> signInWithGoogle() async {
-    try {
-      isGoogle = true;
-      update();
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) {
-        isGoogle = false;
-        update();
-        return;
-      }
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      await socialLoginUser(
-          provider: 'google', accessToken: googleAuth.accessToken ?? '');
-    } catch (e) {
-      printX(e.toString());
+  // Future<void> signInWithGoogle() async {
+  //   try {
+  //     isGoogle = true;
+  //     update();
+  //     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+  //     if (googleUser == null) {
+  //       isGoogle = false;
+  //       update();
+  //       return;
+  //     }
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser.authentication;
+  //     await socialLoginUser(
+  //         provider: 'google', accessToken: googleAuth.accessToken ?? '');
+  //   } catch (e) {
+  //     printX(e.toString());
 
-      CustomSnackBar.error(errorList: [e.toString()]);
-    }
-  }
+  //     CustomSnackBar.error(errorList: [e.toString()]);
+  //   }
+  // }
 
   //Social Login API PART
 

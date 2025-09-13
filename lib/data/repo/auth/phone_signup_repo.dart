@@ -8,7 +8,7 @@ import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/registration_response_model.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/sign_up_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 

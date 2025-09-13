@@ -9,35 +9,29 @@ class MyStrings {
 
   static const String onboardTitle1 = "Check bid rate book a ride"; //Title 1
 
-  static const String onboardDescription1 =
-      "User can set their bid amount for their destination, driver bid depend on user bid amount , if user satisfy they can book ride.";
+  static const String onboardDescription1 = "User can set their bid amount for their destination, driver bid depend on user bid amount , if user satisfy they can book ride.";
 
   static const String onboardTitle2 = "City to City Ride Service"; //Title 2
 
-  static const String onboardDescription2 =
-      "A city-to-city ride service, sometimes referred to as an intercity or long-distance ride service";
+  static const String onboardDescription2 = "A city-to-city ride service, sometimes referred to as an intercity or long-distance ride service";
 
   static const String onboardTitle3 = "Safe and Secure Rides"; //Title 3
 
-  static const String onboardDescription3 =
-      "Every trip is backed by safety features and driver verification, ensuring peace of mind from start to finish.";
+  static const String onboardDescription3 = "Every trip is backed by safety features and driver verification, ensuring peace of mind from start to finish.";
 
   static const String loginScreenTitle = "Ready to GO?";
 
-  static const String loginScreenSubTitle =
-      "Login to find your next ride and make every journey memorable";
+  static const String loginScreenSubTitle = "Login to find your next ride and make every journey memorable";
 
   static const String regScreenTitle = "Join the Journey";
 
-  static const String regScreenSubTitle =
-      "Register to start exploring convenient rides, whenever you need them";
+  static const String regScreenSubTitle = "Register to start exploring convenient rides, whenever you need them";
 
   static const String selectService = "Select a service";
 
   static const String selectDestination = "Select Destination";
   static const String distanceALartTitle = "Distance Alert!";
-  static const String distanceALartMsg =
-      "Please select your destination Minimum distance";
+  static const String distanceALartMsg = "Please select your destination Minimum distance";
 
   static const String enterLocation = "Let's take a ride";
 
@@ -51,8 +45,7 @@ class MyStrings {
 
   static const String whereTo = "Where to go?";
 
-  static const String recommendedPrice =
-      "Recommended price is {priceKey} approximately distance {distanceKey}";
+  static const String recommendedPrice = "Recommended price is {priceKey} approximately distance {distanceKey}";
 
   static const String when = "When";
 
@@ -289,11 +282,9 @@ class MyStrings {
 
   static const String kycVerificationRequired = "KYC Verification Required";
 
-  static const String kycVerificationMsg =
-      "Please submit the required KYC information to verify yourself. Otherwise, you couldn't make any ride request.";
+  static const String kycVerificationMsg = "Please submit the required KYC information to verify yourself. Otherwise, you couldn't make any ride request.";
 
-  static const String kycPendingMsg =
-      "Thank you for submitting your KYC documents. Our team is currently reviewing the information.";
+  static const String kycPendingMsg = "Thank you for submitting your KYC documents. Our team is currently reviewing the information.";
 
   static const String kycAlreadyVerifiedMsg = 'You are already verified';
 
@@ -335,8 +326,7 @@ class MyStrings {
 
   static const String resetPassword = "Reset Password";
 
-  static const String subText =
-      "Your new password must different form \nprevious used passwords";
+  static const String subText = "Your new password must different form \nprevious used passwords";
 
   static const String newPassword = "New Password";
 
@@ -350,8 +340,7 @@ class MyStrings {
 
   static const String done = "Done";
 
-  static const String pleaseFillUpAllOfTheFields =
-      "Please fill up all of the fields";
+  static const String pleaseFillUpAllOfTheFields = "Please fill up all of the fields";
 
   static const String name = "Name";
 
@@ -373,8 +362,7 @@ class MyStrings {
 
   static const String accountAndSettings = "Account & Settings";
 
-  static const String referralSubtitle =
-      "Invite to signup using your link and you will get";
+  static const String referralSubtitle = "Invite to signup using your link and you will get";
 
   static const String firstOrder = "first order";
 
@@ -386,8 +374,7 @@ class MyStrings {
 
   static const String twoFactorAuth = 'Two Factor Authentication';
 
-  static const String twoFactorMsg =
-      'Enter 6-digit code from your two factor authenticator APP.';
+  static const String twoFactorMsg = 'Enter 6-digit code from your two factor authenticator APP.';
 
   static const String exitTitle = "Are you sure you want to exit the app?";
 
@@ -419,14 +406,11 @@ class MyStrings {
 
   static const String fieldErrorMsg = "Please fill out this field";
 
-  static const String resetPassContent =
-      "To secure your account please provide a secure password";
+  static const String resetPassContent = "To secure your account please provide a secure password";
 
-  static const String forgetPasswordSubText =
-      "Enter your email or username below to receive a password reset verification code";
+  static const String forgetPasswordSubText = "Enter your email or username below to receive a password reset verification code";
 
-  static const String verifyPasswordSubText =
-      "A 6 digits verification code sent to your email address";
+  static const String verifyPasswordSubText = "A 6 digits verification code sent to your email address";
 
   static const String phoneNo = "Phone No.";
 
@@ -434,8 +418,7 @@ class MyStrings {
 
   static const String emailVerification = "Email Verification";
 
-  static const String viaEmailVerify =
-      "We've sent you an access code via email for email verification";
+  static const String viaEmailVerify = "We've sent you an access code via email for email verification";
 
   static const String didNotReceiveCode = "Didn't receive code?";
 
@@ -443,8 +426,7 @@ class MyStrings {
 
   static const String verifyYourEmail = "Verify Your Email";
 
-  static const String verifyYourEmailSubTItle =
-      "A verification  code has been send to";
+  static const String verifyYourEmailSubTItle = "A verification  code has been send to";
 
   static const String resendCode = "Resend again";
 
@@ -454,8 +436,7 @@ class MyStrings {
 
   static const String profileCompleteTitle = "Ready to Ride!";
 
-  static const String profileCompleteSubTitle =
-      '''Complete Your Profile & Start Your Ride''';
+  static const String profileCompleteSubTitle = '''Complete Your Profile & Start Your Ride''';
 
   static const String enterYour = "Enter your";
 
@@ -523,8 +504,7 @@ class MyStrings {
 
   static const String createNewPassword = "Create new password";
 
-  static const String createPasswordSubText =
-      "Please provide a strong password to protect your account";
+  static const String createPasswordSubText = "Please provide a strong password to protect your account";
 
   static const String enterCurrentPassword = 'Enter current password';
 
@@ -596,8 +576,7 @@ class MyStrings {
 
   static const String enterNewPass = "Enter your new password";
 
-  static const String invalidPassMsg =
-      "Password must be contain 1 special character and number";
+  static const String invalidPassMsg = "Password must be contain 1 special character and number";
 
   static const String kMatchPassError = "Password doesn't match";
 
@@ -609,8 +588,7 @@ class MyStrings {
 
   static const String kEmptyPhoneNumberError = "Please enter phone number";
 
-  static const String kInvalidPhoneNumberError =
-      "Please enter valid phone number";
+  static const String kInvalidPhoneNumberError = "Please enter valid phone number";
 
   static const String passVerification = 'Password Verification';
 
@@ -638,8 +616,7 @@ class MyStrings {
 
   static const String noCodeReceive = "Didn't receive the code?";
 
-  static const String smsVerificationMsg =
-      "We've sent you an access code to your phone number for SMS verification";
+  static const String smsVerificationMsg = "We've sent you an access code to your phone number for SMS verification";
 
   static const String selectACountry = "Select a country";
 
@@ -661,8 +638,7 @@ class MyStrings {
 
   static const String otpFieldEmptyMsg = "Otp field can't be empty";
 
-  static const String goBackLogMsg =
-      'Sorry something went wrong here, go back and retry after sometimes';
+  static const String goBackLogMsg = 'Sorry something went wrong here, go back and retry after sometimes';
 
   static const String secondAgo = 'second ago';
 
@@ -712,24 +688,19 @@ class MyStrings {
 
   static const String remarkType = "Remark Type";
 
-  static const String agreePolicyMessage =
-      "You must agree with our privacy & policies";
+  static const String agreePolicyMessage = "You must agree with our privacy & policies";
 
   static const String myLocation = "My location";
 
-  static const String locationServiceDisableMsg =
-      "Location services are disabled. Please enable the services";
+  static const String locationServiceDisableMsg = "Location services are disabled. Please enable the services";
 
-  static const String locationPermissionDenied =
-      "Location permissions are denied";
+  static const String locationPermissionDenied = "Location permissions are denied";
 
-  static const String locationPermissionPermanentDenied =
-      "Location permissions are permanently denied, we cannot request permissions.";
+  static const String locationPermissionPermanentDenied = "Location permissions are permanently denied, we cannot request permissions.";
 
   static const String tapOnLocationPicker = "Tap on location picker";
   static const String setYourLocationPerfectly = "Set Your Location Perfectly";
-  static const String zoomInToSetExactLocation =
-      "Zoom in to set the exact location";
+  static const String zoomInToSetExactLocation = "Zoom in to set the exact location";
 
   static const String tips = "Tips";
 
@@ -749,16 +720,13 @@ class MyStrings {
 
   static const String pleaseSelectAService = "Please select a service";
 
-  static const String pleaseSelectPickupAndDestination =
-      "Please select your pickup and destination location";
+  static const String pleaseSelectPickupAndDestination = "Please select your pickup and destination location";
 
-  static RegExp emailValidatorRegExp =
-      RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  static RegExp emailValidatorRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
   static RegExp phoneValidatorRegExp = RegExp(r"^(0\d{9}|[1-9]\d{8})$");
 
-  static const String successfullyCopiedToClipboard =
-      "Successfully copied to clipboard";
+  static const String successfullyCopiedToClipboard = "Successfully copied to clipboard";
 
   static const String rideRules = "Ride Rules";
 
@@ -766,8 +734,7 @@ class MyStrings {
 
   static const String selectedRideRules = "Selected Ride Rules";
 
-  static const String otpSentToYourMobile =
-      "An OTP has been sent to your mobile number";
+  static const String otpSentToYourMobile = "An OTP has been sent to your mobile number";
 
   static const String pleaseEnterValidOtpCode = "Please Enter Valid OTP Code";
 
@@ -796,8 +763,7 @@ class MyStrings {
   static const String bidList = "Bid List";
   static const String NoBidFound = "No bid found";
 
-  static const String vehicleVerificationSubTitle =
-      "Kindly provide the following information to complete your vehicle verification process. Your cooperation ensures a safe and reliable ride-sharing experience for both you and your passengers. Thank you!";
+  static const String vehicleVerificationSubTitle = "Kindly provide the following information to complete your vehicle verification process. Your cooperation ensures a safe and reliable ride-sharing experience for both you and your passengers. Thank you!";
 
   static const String noRideFoundInYourArea = "No ride found in your area";
 
@@ -811,20 +777,15 @@ class MyStrings {
 
   static const String to = "to";
 
-  static const String sorryThereIsNoNewRideFound =
-      "Sorry there is no new ride found";
+  static const String sorryThereIsNoNewRideFound = "Sorry there is no new ride found";
 
-  static const String sorryThereIsNoCompleteRideFound =
-      "Sorry there is no complete ride found";
+  static const String sorryThereIsNoCompleteRideFound = "Sorry there is no complete ride found";
 
-  static const String sorryThereIsNoCanceledRideFound =
-      "Sorry there is no cancel ride found";
+  static const String sorryThereIsNoCanceledRideFound = "Sorry there is no cancel ride found";
 
-  static const String sorryThereIsNoActiveRideFound =
-      "Sorry there is no active ride found";
+  static const String sorryThereIsNoActiveRideFound = "Sorry there is no active ride found";
 
-  static const String sorryThereIsNoPendingRideFound =
-      "Sorry there is no pending ride found";
+  static const String sorryThereIsNoPendingRideFound = "Sorry there is no pending ride found";
 
   static const String pleaseEnterMinimum = "Please enter minimum";
 
@@ -842,8 +803,7 @@ class MyStrings {
 
   static const String rideFare = "Ride fare";
 
-  static const String referFriendTitle =
-      "Invite to sign up using your link and you will get";
+  static const String referFriendTitle = "Invite to sign up using your link and you will get";
 
   static const String yourReferences = "Your references";
 
@@ -855,8 +815,7 @@ class MyStrings {
 
   static const String payFromWallet = "Pay from wallet";
 
-  static const String pleaseUploadYourAppOnPlayStore =
-      "Please upload your app on play store";
+  static const String pleaseUploadYourAppOnPlayStore = "Please upload your app on play store";
 
   static const String nA = "N/A";
 
@@ -872,11 +831,9 @@ class MyStrings {
 
   static const String noReferralUsers = "No referral users";
 
-  static const String pleaseAcceptDriverBeforeCall =
-      "Please accept driver before call";
+  static const String pleaseAcceptDriverBeforeCall = "Please accept driver before call";
 
-  static const String pleaseAcceptDriverBeforeChat =
-      "Please accept driver before chat";
+  static const String pleaseAcceptDriverBeforeChat = "Please accept driver before chat";
 
   static const String howManyOfYouWillGo = "How many people will be going?";
 
@@ -888,8 +845,7 @@ class MyStrings {
 
   static const String carRules = "Car rules";
 
-  static const String errorLocation =
-      "Something went wrong while Taking Location";
+  static const String errorLocation = "Something went wrong while Taking Location";
 
   static const String createARequest = "Create a request";
 
@@ -899,11 +855,9 @@ class MyStrings {
 
   static const String additionalInformation = "Additional information";
 
-  static const String pleaseSelectYourPickupAndDestinationLocation =
-      "Please select your pickup and destination location";
+  static const String pleaseSelectYourPickupAndDestinationLocation = "Please select your pickup and destination location";
 
-  static const String additionalInformationHint =
-      "Write your additional information";
+  static const String additionalInformationHint = "Write your additional information";
 
   static const String cancelationReason = "Write your cancellation reason...";
 
@@ -997,8 +951,7 @@ class MyStrings {
 
   static const String ticketCreateSuccessfully = 'Ticket created successfully';
 
-  static const String cancelTicketMessage =
-      'Are you sure you want to close the ticket';
+  static const String cancelTicketMessage = 'Are you sure you want to close the ticket';
 
   static const String enterFile = "Enter file";
 
@@ -1012,8 +965,7 @@ class MyStrings {
 
   static const String requestFrom = "Request from";
 
-  static const String successFullSentMoneyRequest =
-      "Successfully Sent Money Request";
+  static const String successFullSentMoneyRequest = "Successfully Sent Money Request";
 
   static const String requestMoneyNote = "Enter Your Massage";
 
@@ -1022,8 +974,7 @@ class MyStrings {
   static const String imgDownloadMsg = "Successfully image downloaded";
   static const String imagePreview = "Image Preview";
 
-  static const String closeTicketWarningTxt =
-      'Are you sure you want to close this ticket';
+  static const String closeTicketWarningTxt = 'Are you sure you want to close this ticket';
 
   static const String pending = "Pending";
 
@@ -1055,17 +1006,14 @@ class MyStrings {
 
   static const String maintenanceTitle = "We're Down For Maintenance";
 
-  static const String maintenanceSubtitle =
-      "Application is now undergoing maintenance and will be back soon";
+  static const String maintenanceSubtitle = "Application is now undergoing maintenance and will be back soon";
 
   static const String deleteYourAccount = "Delete Your Account";
 
-  static const String deleteBottomSheetSubtitle =
-      'You will lose all of your data by deleting your account. This action cannot be undone.';
+  static const String deleteBottomSheetSubtitle = 'You will lose all of your data by deleting your account. This action cannot be undone.';
 
   static const String yourAverageRatingIs = "Your average rating is";
-  static const String phoneAlreadyRegistered =
-      "'The phone number is already associated with an account'";
+  static const String phoneAlreadyRegistered = "'The phone number is already associated with an account'";
   static const String averageRatingIs = "Average rating is";
   static const String driverReviews = "Driver reviews";
   static const String myReviews = "My reviews";
@@ -1075,13 +1023,18 @@ class MyStrings {
   static const String vehicleInformation = "Vehicle Information";
   static const String carInfo = "Car Info";
   static const String apple = "Apple";
+
+  static const String runningRideAlertTitle = "Complete your ride";
+  static const String runningRideAlertSubTitle = "You've reached your destination. Please confirm to end the ride";
+
   static const String afgCode = "+93";
   static List<MyLanguageModel> myLanguages = [
     MyLanguageModel(
-        languageName: 'English', countryCode: 'US', languageCode: 'en'),
-    MyLanguageModel(
-        languageName: 'Dari (Persian)', countryCode: 'AF', languageCode: 'fa'),
-    MyLanguageModel(
-        languageName: 'Pashto', countryCode: 'AF', languageCode: 'ps'),
+      languageName: 'English',
+      countryCode: 'US',
+      languageCode: 'en',
+    ),
+    MyLanguageModel(languageName: 'Dari (Persian)', countryCode: 'AF', languageCode: 'fa'),
+    MyLanguageModel(languageName: 'Pashto', countryCode: 'AF', languageCode: 'ps'),
   ];
 }

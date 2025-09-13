@@ -35,10 +35,8 @@ class LoginController extends GetxController {
 
   void checkAndGotoNextStep(LoginResponseModel responseModel) async {
     // printx('responseModel.data?.user?.tv ${responseModel.data?.user?.tv}');
-    bool needEmailVerification =
-        responseModel.data?.user?.ev == "1" ? false : true;
-    bool needSmsVerification =
-        responseModel.data?.user?.sv == '1' ? false : true;
+    bool needEmailVerification = responseModel.data?.user?.ev == "1" ? false : true;
+    bool needSmsVerification = responseModel.data?.user?.sv == '1' ? false : true;
 
     await loginRepo.apiClient.sharedPreferences.setString(
       SharedPreferenceHelper.userIdKey,
@@ -75,12 +73,11 @@ class LoginController extends GetxController {
     );
 
     await loginRepo.sendUserToken();
-    bool needProfileCompleted =
-        responseModel.data?.user?.profileComplete.toString() == '0'
+    bool needProfileCompleted = responseModel.data?.user?.profileComplete.toString() == '0'
+        ? true
+        : responseModel.data?.user?.profileComplete.toString() == 'null'
             ? true
-            : responseModel.data?.user?.profileComplete.toString() == 'null'
-                ? true
-                : false;
+            : false;
     printX('responseModel.data?.user?.SmsV ${responseModel.data?.user?.sv}');
     printX(
       'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.profileComplete}',
@@ -130,19 +127,14 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<bool> checkUserHasAccount(
-      String phoneNumber, String countryCode) async {
-    ResponseModel responseModel =
-        await loginRepo.checkUserHasAccount(phoneNumber, countryCode);
+  Future<bool> checkUserHasAccount(String phoneNumber, String countryCode) async {
+    ResponseModel responseModel = await loginRepo.checkUserHasAccount(phoneNumber, countryCode);
     if (responseModel.statusCode == 200) {
-      LoginResponseModel loginModel =
-          LoginResponseModel.fromJson(jsonDecode(responseModel.responseJson));
-      if (loginModel.status.toString().toLowerCase() ==
-          MyStrings.success.toLowerCase()) {
+      LoginResponseModel loginModel = LoginResponseModel.fromJson(responseModel.responseJson);
+      if (loginModel.status.toString().toLowerCase() == MyStrings.success.toLowerCase()) {
         return true;
       } else {
-        CustomSnackBar.error(
-            errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain]);
+        CustomSnackBar.error(errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain]);
         return false;
       }
     } else {
@@ -158,15 +150,9 @@ class LoginController extends GetxController {
     update();
 
 // First Check if the user has an account or not
-    if (await checkUserHasAccount(
-            mobileNumberController.text.toString(), countryCode) ==
-        true) {
+    if (await checkUserHasAccount(mobileNumberController.text.toString(), countryCode) == true) {
       // Call Firebase phone authentication
-      String formattedPhoneNumber = mobileNumberController.text
-              .toString()
-              .startsWith('+')
-          ? mobileNumberController.text.toString()
-          : '+$countryCode${mobileNumberController.text.toString()}'; // Ensure the phone number includes the country code
+      String formattedPhoneNumber = mobileNumberController.text.toString().startsWith('+') ? mobileNumberController.text.toString() : '+$countryCode${mobileNumberController.text.toString()}'; // Ensure the phone number includes the country code
 
       print('formattedPhoneNumber: $formattedPhoneNumber');
 
@@ -220,18 +206,13 @@ class LoginController extends GetxController {
       verificationFailed: (FirebaseAuthException e) {
         isSubmitLoading = false;
         update();
-        CustomSnackBar.error(
-            errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
+        CustomSnackBar.error(errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
       },
       codeSent: (String verificationId, int? resendToken) {
         // Handle code sent - keep loading until navigation completes
         isSubmitLoading = false;
         update();
-        Get.toNamed(RouteHelper.smsVerificationScreen, arguments: [
-          verificationId,
-          mobileNumberController.text.toString(),
-          countryCode
-        ]);
+        Get.toNamed(RouteHelper.smsVerificationScreen, arguments: [verificationId, mobileNumberController.text.toString(), countryCode]);
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         // Handle timeout

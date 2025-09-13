@@ -1,6 +1,6 @@
 class UrlContainer {
-  static const String domainUrl = 'https://theleopard.app'; //online
-  // static const String domainUrl = 'https://www.demo.theleopard.app'; //demo
+  // static const String domainUrl = 'https://theleopard.app'; //online
+  static const String domainUrl = 'https://demo.theleopard.app'; //demo
   // static const String domainUrl =
   // 'http://localhost/index.php'; //YOUR WEBSITE DOMAIN URL HERE
 
@@ -107,6 +107,5 @@ class UrlContainer {
 
   static const String serviceImagePath = '$domainUrl/assets/images/service/';
 
-  static const String countryFlagImageLink =
-      'https://flagpedia.net/data/flags/h24/{countryCode}.webp';
+  static const String countryFlagImageLink = 'https://flagpedia.net/data/flags/h24/{countryCode}.webp';
 }

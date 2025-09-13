@@ -52,22 +52,33 @@ class SmsVerificationController extends GetxController {
     update();
 
     try {
-      ResponseModel responseModel =
-          await smsRepo.verifyFirebase(currentText, verificationId);
+      ResponseModel responseModel = await smsRepo.verifyFirebase(currentText, verificationId);
 
       if (responseModel.statusCode == 200) {
-        CustomSnackBar.success(successList: [responseModel.message]);
-        verificationToken = jsonDecode(responseModel.responseJson)['token'];
-        await callLoginApi();
+        try {
+          CustomSnackBar.success(successList: [responseModel.message]);
+          // responseModel.responseJson may already be a parsed Map or a JSON string.
+          final resp = responseModel.responseJson;
+          dynamic parsed;
+          if (resp is String) {
+            parsed = jsonDecode(resp);
+          } else {
+            parsed = resp;
+          }
+          if (parsed is Map && parsed.containsKey('token')) {
+            verificationToken = parsed['token']?.toString() ?? '';
+          } else {
+            verificationToken = '';
+          }
+          await callLoginApi();
+        } catch (e) {
+          CustomSnackBar.error(errorList: ['${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: ${e.toString()}']);
+        }
       } else {
-        CustomSnackBar.error(errorList: [
-          '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: Please check the code and try again.'
-        ]);
+        CustomSnackBar.error(errorList: ['${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: Please check the code and try again.']);
       }
     } catch (e) {
-      CustomSnackBar.error(errorList: [
-        '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: An unexpected error occurred. Please try again later.'
-      ]);
+      CustomSnackBar.error(errorList: ['${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: An unexpected error occurred. Please try again later.']);
     }
 
     submitLoading = false;
@@ -75,29 +86,34 @@ class SmsVerificationController extends GetxController {
   }
 
   Future<void> callLoginApi() async {
-    ResponseModel model =
-        await repo.loginWithPhone(userPhone, countryCode, verificationToken);
+    try {
+      ResponseModel model = await repo.loginWithPhone(userPhone, countryCode, verificationToken);
 
-    if (model.statusCode == 200) {
-      LoginResponseModel loginModel =
-          LoginResponseModel.fromJson(jsonDecode(model.responseJson));
+      if (model.statusCode == 200) {
+        try {
+          final resp = model.responseJson;
+          dynamic parsed = resp is String ? jsonDecode(resp) : resp;
+          LoginResponseModel loginModel = LoginResponseModel.fromJson(parsed);
 
-      if (loginModel.status.toString().toLowerCase() ==
-          MyStrings.success.toLowerCase()) {
-        await repo.apiClient.sharedPreferences
-            .setBool(SharedPreferenceHelper.rememberMeKey, true);
-        loggerI(loginModel.data?.toJson());
-        RouteMiddleware.checkNGotoNext(
-          accessToken: loginModel.data?.accessToken ?? '',
-          tokenType: loginModel.data?.tokenType ?? '',
-          user: loginModel.data?.user,
-        );
+          if (loginModel.status.toString().toLowerCase() == MyStrings.success.toLowerCase()) {
+            await repo.apiClient.sharedPreferences.setBool(SharedPreferenceHelper.rememberMeKey, true);
+
+            RouteMiddleware.checkNGotoNext(
+              accessToken: loginModel.data?.accessToken ?? '',
+              tokenType: loginModel.data?.tokenType ?? '',
+              user: loginModel.data?.user,
+            );
+          } else {
+            CustomSnackBar.error(errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain]);
+          }
+        } catch (e) {
+          CustomSnackBar.error(errorList: ['${MyStrings.loginFailedTryAgain}: $e']);
+        }
       } else {
-        CustomSnackBar.error(
-            errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain]);
+        CustomSnackBar.error(errorList: [model.message]);
       }
-    } else {
-      CustomSnackBar.error(errorList: [model.message]);
+    } catch (e) {
+      CustomSnackBar.error(errorList: [MyStrings.loginFailedTryAgain]);
     }
   }
 
@@ -108,8 +124,7 @@ class SmsVerificationController extends GetxController {
   void startResendOtpTimer() {
     resendOtpTimer.value = 60; // Reset the timer
     _resendOtpCountdownTimer?.cancel(); // Cancel any existing timer
-    _resendOtpCountdownTimer =
-        Timer.periodic(const Duration(seconds: 1), (timer) {
+    _resendOtpCountdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (resendOtpTimer.value > 0) {
         resendOtpTimer.value--; // Decrement the timer value
         resendOtpTimer.refresh(); // Ensure observable triggers UI updates
@@ -120,25 +135,24 @@ class SmsVerificationController extends GetxController {
     });
   }
 
-  Future<bool> resendPhoneOtpWithFirebase(
-      {required String phoneNumber, String countryCode = "+93"}) async {
+  Future<bool> resendPhoneOtpWithFirebase({required String phoneNumber, String countryCode = "+93"}) async {
     if (phoneNumber.isEmpty) {
       CustomSnackBar.error(errorList: [MyStrings.enterPhoneNumber]);
       return false;
     }
     try {
-      String verificationId = '';
+      // Normalize country code to include a single '+' prefix
+      final normalizedCountry = countryCode.startsWith('+') ? countryCode : '+${countryCode.startsWith('+') ? countryCode.substring(1) : countryCode}';
       await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: countryCode + phoneNumber,
+        phoneNumber: normalizedCountry + phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) {},
         verificationFailed: (FirebaseAuthException e) {
-          CustomSnackBar.error(
-              errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
+          CustomSnackBar.error(errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
         },
         codeSent: (String verId, int? resendToken) {
+          // Save the verification id to the controller field so it can be used later
           verificationId = verId;
-          CustomSnackBar.success(
-              successList: [MyStrings.successfullyCodeResend]);
+          CustomSnackBar.success(successList: [MyStrings.successfullyCodeResend]);
         },
         codeAutoRetrievalTimeout: (String verId) {
           verificationId = verId;

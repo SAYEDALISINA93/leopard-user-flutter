@@ -74,18 +74,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(MyImages.appLogoWhite,
-                        width: MediaQuery.of(context).size.width / 3),
-                    Align(
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(MyIcons.bg,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            height: 200)),
+                    Image.asset(MyImages.appLogoWhite, width: MediaQuery.of(context).size.width / 3),
+                    Align(alignment: Alignment.center, child: SvgPicture.asset(MyIcons.bg, width: double.infinity, fit: BoxFit.cover, height: 200)),
                     Container(
-                      padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: Dimensions.space15,
-                          vertical: Dimensions.space10),
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: Dimensions.space15, vertical: Dimensions.space10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -93,15 +85,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           spaceDown(Dimensions.space20),
                           Text(
                             MyStrings.loginScreenTitle.tr,
-                            style: boldExtraLarge.copyWith(
-                                fontSize: 32, fontWeight: FontWeight.w700),
+                            style: boldExtraLarge.copyWith(fontSize: 32, fontWeight: FontWeight.w700),
                           ),
                           const SizedBox(height: Dimensions.space5),
                           Text(
                             MyStrings.loginScreenSubTitle.tr,
-                            style: lightDefault.copyWith(
-                                color: MyColor.bodyText,
-                                fontSize: Dimensions.fontLarge),
+                            style: lightDefault.copyWith(color: MyColor.bodyText, fontSize: Dimensions.fontLarge),
                           ),
                           spaceDown(Dimensions.space20),
                           SocialAuthSection(),
@@ -122,11 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textInputType: TextInputType.phone,
                                   inputAction: TextInputAction.next,
                                   prefixIcon: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    child: CustomSvgPicture(
-                                        image: MyIcons.phone,
-                                        color: MyColor.primaryColor),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: CustomSvgPicture(image: MyIcons.phone, color: MyColor.primaryColor),
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -151,12 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(MyStrings.doNotHaveAccount.tr,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: regularLarge.copyWith(
-                                            color: MyColor.getBodyTextColor(),
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14)),
+                                    Text(MyStrings.doNotHaveAccount.tr, overflow: TextOverflow.ellipsis, style: regularLarge.copyWith(color: MyColor.getBodyTextColor(), fontWeight: FontWeight.normal, fontSize: 14)),
                                     const SizedBox(width: Dimensions.space5),
                                     InkWell(
                                       onTap: () {
@@ -164,20 +145,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                         // RouteHelper.registrationScreen);
                                         Get.defaultDialog(
                                           title: "Under Development",
-                                          middleText:
-                                              "This feature is under development.",
+                                          middleText: "This feature is under development.",
                                           textConfirm: "OK",
                                           onConfirm: () {
                                             Get.back();
                                           },
                                         );
                                       },
-                                      child: Text(MyStrings.signUp.tr,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: boldLarge.copyWith(
-                                              color:
-                                                  MyColor.getPrimaryColor())),
+                                      child: Text(MyStrings.signUp.tr, maxLines: 2, overflow: TextOverflow.ellipsis, style: boldLarge.copyWith(color: MyColor.getPrimaryColor())),
                                     )
                                   ],
                                 ),
