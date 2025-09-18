@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:open_file_plus/open_file_plus.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -105,7 +105,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
   Future<void> openPDF(String path) async {
     final file = File(path);
     if (await file.exists()) {
-      final result = await OpenFile.open(path);
+      final result = await OpenFilex.open(path);
       if (result.type == ResultType.done) {
       } else {
         CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);

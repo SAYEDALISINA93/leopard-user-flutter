@@ -14,7 +14,7 @@ import 'package:leoparduser/data/model/global/response_model/response_model.dart
 import 'package:leoparduser/data/model/support/support_ticket_view_response_model.dart';
 import 'package:leoparduser/data/repo/support/support_repo.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
-import 'package:open_file_plus/open_file_plus.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
@@ -324,7 +324,7 @@ class TicketDetailsController extends GetxController {
   Future<void> openPDF(String path) async {
     final file = File(path);
     if (await file.exists()) {
-      final result = await OpenFile.open(path);
+      final result = await OpenFilex.open(path);
       if (result.type == ResultType.done) {
       } else {
         CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);

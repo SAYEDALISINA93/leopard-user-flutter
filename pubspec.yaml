@@ -52,7 +52,7 @@ dependencies:
   in_app_review: ^2.0.10
   another_flushbar: ^1.12.30
   logger: ^2.5.0
-  open_file_plus: ^3.4.1
+  open_filex: ^4.3.5
   equatable: ^2.0.7
   json_annotation: ^4.9.0
   connectivity_plus: ^6.1.2
@@ -71,6 +71,8 @@ dependency_overrides:
   intl: any
   http: any
   file_picker: any
+  # Replace open_file_plus with open_filex which is more maintained
+  open_filex: ^4.3.5
 
 flutter:
   uses-material-design: true
