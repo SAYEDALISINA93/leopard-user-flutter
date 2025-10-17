@@ -17,21 +17,19 @@ import 'package:leoparduser/data/model/global/response_model/response_model.dart
 // import 'package:leoparduser/data/model/model/error_model.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 class PhoneRegistrationController extends GetxController {
   PhoneRegistrationRepo registrationRepo;
   GeneralSettingRepo generalSettingRepo;
 
-  PhoneRegistrationController(
-      {required this.registrationRepo, required this.generalSettingRepo});
+  PhoneRegistrationController({required this.registrationRepo, required this.generalSettingRepo});
 
   bool isLoading = true;
   bool agreeTC = false;
   bool isReferralEnable = false;
 
-  GeneralSettingResponseModel generalSettingMainModel =
-      GeneralSettingResponseModel();
+  GeneralSettingResponseModel generalSettingMainModel = GeneralSettingResponseModel();
 
   // final GoogleSignIn googleSignIn = GoogleSignIn();
   bool checkPasswordStrength = false;
@@ -65,7 +63,24 @@ class PhoneRegistrationController extends GetxController {
   RegExp regex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
   bool submitLoading = false;
 
-  signUpUser() async {
+  // Normalize API responses that may already be decoded (Map) or be a JSON String
+  Map<String, dynamic> _asJsonMap(dynamic source) {
+    if (source == null) return <String, dynamic>{};
+    if (source is String) {
+      final s = source.trim();
+      if (s.isEmpty) return <String, dynamic>{};
+      final decoded = jsonDecode(s);
+      if (decoded is Map<String, dynamic>) return decoded;
+      if (decoded is List) return <String, dynamic>{'data': decoded};
+      return <String, dynamic>{};
+    }
+    if (source is Map) {
+      return Map<String, dynamic>.from(source);
+    }
+    return <String, dynamic>{};
+  }
+
+  void signUpUser() async {
     if (needAgree && !agreeTC) {
       CustomSnackBar.error(
         errorList: [MyStrings.agreePolicyMessage],
@@ -79,15 +94,10 @@ class PhoneRegistrationController extends GetxController {
     SignUpModel model = getUserData();
     model.firebaseToken = _token;
 
-    print(
-        "TOKKKKKKKKKKEN: ${model.firebaseToken} ${model.mobile}, ${model.countryCode}, ${model.mobileCode}");
-
     final responseModel = await registrationRepo.registerUser(model);
 
-    if (responseModel.status?.toLowerCase() ==
-        MyStrings.success.toLowerCase()) {
-      CustomSnackBar.success(
-          successList: responseModel.message ?? [MyStrings.success.tr]);
+    if (responseModel.status?.toLowerCase() == MyStrings.success.toLowerCase()) {
+      CustomSnackBar.success(successList: responseModel.message ?? [MyStrings.success.tr]);
       RouteMiddleware.checkNGotoNext(
         accessToken: responseModel.data?.accessToken ?? '',
         tokenType: responseModel.data?.tokenType ?? '',
@@ -95,23 +105,21 @@ class PhoneRegistrationController extends GetxController {
       );
       // checkAndGotoNextStep(responseModel);
     } else {
-      CustomSnackBar.error(
-          errorList:
-              responseModel.message ?? [MyStrings.somethingWentWrong.tr]);
+      CustomSnackBar.error(errorList: responseModel.message ?? [MyStrings.somethingWentWrong.tr]);
     }
 
     submitLoading = false;
     update();
   }
 
-  setCountryNameAndCode(String cName, String countryCode, String mobileCode) {
+  void setCountryNameAndCode(String cName, String countryCode, String mobileCode) {
     countryName = cName;
     this.countryCode = countryCode;
     this.mobileCode = mobileCode;
     update();
   }
 
-  updateAgreeTC() {
+  void updateAgreeTC() {
     agreeTC = !agreeTC;
     update();
   }
@@ -139,39 +147,26 @@ class PhoneRegistrationController extends GetxController {
   }
 
   void checkAndGotoNextStep(RegistrationResponseModel responseModel) async {
-    bool needEmailVerification =
-        responseModel.data?.user?.ev == "1" ? false : true;
-    bool needSmsVerification =
-        responseModel.data?.user?.sv == "1" ? false : true;
+    bool needEmailVerification = responseModel.data?.user?.ev == "1" ? false : true;
+    bool needSmsVerification = responseModel.data?.user?.sv == "1" ? false : true;
 
-    SharedPreferences preferences =
-        registrationRepo.apiClient.sharedPreferences;
+    SharedPreferences preferences = registrationRepo.apiClient.sharedPreferences;
 
-    await preferences.setString(SharedPreferenceHelper.userIdKey,
-        responseModel.data?.user?.id.toString() ?? '-1');
-    await preferences.setString(SharedPreferenceHelper.accessTokenKey,
-        responseModel.data?.accessToken ?? '');
-    await preferences.setString(SharedPreferenceHelper.accessTokenType,
-        responseModel.data?.tokenType ?? '');
-    await preferences.setString(SharedPreferenceHelper.userEmailKey,
-        responseModel.data?.user?.email ?? '');
-    await preferences.setString(SharedPreferenceHelper.userNameKey,
-        responseModel.data?.user?.username ?? '');
-    await preferences.setString(SharedPreferenceHelper.userPhoneNumberKey,
-        responseModel.data?.user?.mobile ?? '');
+    await preferences.setString(SharedPreferenceHelper.userIdKey, responseModel.data?.user?.id.toString() ?? '-1');
+    await preferences.setString(SharedPreferenceHelper.accessTokenKey, responseModel.data?.accessToken ?? '');
+    await preferences.setString(SharedPreferenceHelper.accessTokenType, responseModel.data?.tokenType ?? '');
+    await preferences.setString(SharedPreferenceHelper.userEmailKey, responseModel.data?.user?.email ?? '');
+    await preferences.setString(SharedPreferenceHelper.userNameKey, responseModel.data?.user?.username ?? '');
+    await preferences.setString(SharedPreferenceHelper.userPhoneNumberKey, responseModel.data?.user?.mobile ?? '');
 
     //attention: await registrationRepo.sendUserToken();
 
-    bool isProfileCompleteEnable =
-        responseModel.data?.user?.profileComplete.toString() == '0'
+    bool isProfileCompleteEnable = responseModel.data?.user?.profileComplete.toString() == '0'
+        ? true
+        : responseModel.data?.user?.profileComplete.toString() == 'null'
             ? true
-            : responseModel.data?.user?.profileComplete.toString() == 'null'
-                ? true
-                : false;
-    printX(
-        'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.loginBy}');
-    printX(
-        'responseModel.data?.user?.profileCompleted ${responseModel.data?.user?.profileComplete}');
+            : false;
+
     bool isTwoFactorEnable = false;
 
     if (needEmailVerification == false && needSmsVerification == false) {
@@ -181,14 +176,11 @@ class PhoneRegistrationController extends GetxController {
         Get.offAndToNamed(RouteHelper.dashboard);
       }
     } else if (needEmailVerification == true && needSmsVerification == true) {
-      Get.offAndToNamed(RouteHelper.emailVerificationScreen,
-          arguments: [true, isProfileCompleteEnable, isTwoFactorEnable]);
+      Get.offAndToNamed(RouteHelper.emailVerificationScreen, arguments: [true, isProfileCompleteEnable, isTwoFactorEnable]);
     } else if (needEmailVerification) {
-      Get.offAndToNamed(RouteHelper.emailVerificationScreen,
-          arguments: [false, isProfileCompleteEnable, isTwoFactorEnable]);
+      Get.offAndToNamed(RouteHelper.emailVerificationScreen, arguments: [false, isProfileCompleteEnable, isTwoFactorEnable]);
     } else if (needSmsVerification) {
-      Get.offAndToNamed(RouteHelper.smsVerificationScreen,
-          arguments: [isProfileCompleteEnable, isTwoFactorEnable]);
+      Get.offAndToNamed(RouteHelper.smsVerificationScreen, arguments: [isProfileCompleteEnable, isTwoFactorEnable]);
     }
   }
 
@@ -202,7 +194,7 @@ class PhoneRegistrationController extends GetxController {
     companyNameController.text = '';
   }
 
-  clearAllData() {
+  void clearAllData() {
     closeAllController();
   }
 
@@ -212,44 +204,36 @@ class PhoneRegistrationController extends GetxController {
     update();
     //   await getCountryData();
 
-    ResponseModel response = await generalSettingRepo.getGeneralSetting();
-    if (response.statusCode == 200) {
-      GeneralSettingResponseModel model = GeneralSettingResponseModel.fromJson(
-          jsonDecode(response.responseJson));
-      if (model.status?.toLowerCase() == 'success') {
-        generalSettingMainModel = model;
-        isReferralEnable =
-            generalSettingMainModel.data?.generalSetting?.riderReferral == '1'
-                ? true
-                : false;
-        registrationRepo.apiClient.storeGeneralSetting(model);
+    try {
+      ResponseModel response = await generalSettingRepo.getGeneralSetting();
+      if (response.statusCode == 200) {
+        GeneralSettingResponseModel model = GeneralSettingResponseModel.fromJson(_asJsonMap(response.responseJson));
+        if (model.status?.toLowerCase() == 'success') {
+          generalSettingMainModel = model;
+          isReferralEnable = generalSettingMainModel.data?.generalSetting?.riderReferral == '1' ? true : false;
+          registrationRepo.apiClient.storeGeneralSetting(model);
+        } else {
+          List<String> message = [MyStrings.somethingWentWrong.tr];
+          CustomSnackBar.error(errorList: model.message ?? message);
+          return;
+        }
       } else {
-        List<String> message = [MyStrings.somethingWentWrong.tr];
-        CustomSnackBar.error(errorList: model.message ?? message);
+        if (response.statusCode == 503) {
+          noInternet = true;
+          update();
+        }
+        CustomSnackBar.error(errorList: [response.message]);
         return;
       }
-    } else {
-      if (response.statusCode == 503) {
-        noInternet = true;
-        update();
-      }
-      CustomSnackBar.error(errorList: [response.message]);
-      return;
+
+      needAgree = generalSettingMainModel.data?.generalSetting?.agree.toString() == '0' ? false : true;
+      checkPasswordStrength = generalSettingMainModel.data?.generalSetting?.securePassword.toString() == '0' ? false : true;
+    } catch (e) {
+      printX('initData error: ${e.toString()}');
+    } finally {
+      isLoading = false;
+      update();
     }
-
-    needAgree =
-        generalSettingMainModel.data?.generalSetting?.agree.toString() == '0'
-            ? false
-            : true;
-    checkPasswordStrength = generalSettingMainModel
-                .data?.generalSetting?.securePassword
-                .toString() ==
-            '0'
-        ? false
-        : true;
-
-    isLoading = false;
-    update();
   }
 
   bool countryLoading = true;
@@ -259,7 +243,7 @@ class PhoneRegistrationController extends GetxController {
   TextEditingController searchController = TextEditingController();
   Countries selectedCountryData = Countries(countryCode: '-1');
 
-  selectCountryData(Countries value) {
+  void selectCountryData(Countries value) {
     selectedCountryData = value;
     printX('value.country ${value.country}');
     printX('value.dialCode ${value.countryCode}');
@@ -267,42 +251,46 @@ class PhoneRegistrationController extends GetxController {
     update();
   }
 
-  Future<dynamic> getCountryData() async {
-    ResponseModel mainResponse = await registrationRepo.getCountryList();
+  // Future<dynamic> getCountryData() async {
+  //   try {
+  //     ResponseModel mainResponse = await registrationRepo.getCountryList();
 
-    if (mainResponse.statusCode == 200) {
-      CountryModel model =
-          CountryModel.fromJson(jsonDecode(mainResponse.responseJson));
-      List<Countries>? tempList = model.data?.countries;
+  //     if (mainResponse.statusCode == 200) {
+  //       CountryModel model = CountryModel.fromJson(_asJsonMap(mainResponse.responseJson));
+  //       List<Countries>? tempList = model.data?.countries;
 
-      if (tempList != null && tempList.isNotEmpty) {
-        countryList.addAll(tempList);
-        filteredCountries.addAll(tempList);
-      }
-      var selectDefCountry = tempList!.firstWhere(
-        (country) =>
-            country.countryCode!.toLowerCase() ==
-            Environment.defaultCountryCode.toLowerCase(),
-        orElse: () => Countries(),
-      );
-      if (selectDefCountry.dialCode != null) {
-        selectCountryData(selectDefCountry);
-        setCountryNameAndCode(
-            selectDefCountry.country.toString(),
-            selectDefCountry.countryCode.toString(),
-            selectDefCountry.dialCode.toString());
-      }
-      countryLoading = false;
-      update();
-      return;
-    } else {
-      CustomSnackBar.error(errorList: [mainResponse.message]);
+  //       if (tempList != null && tempList.isNotEmpty) {
+  //         countryList
+  //           ..clear()
+  //           ..addAll(tempList);
+  //         filteredCountries
+  //           ..clear()
+  //           ..addAll(tempList);
 
-      countryLoading = false;
-      update();
-      return;
-    }
-  }
+  //         final selectDefCountry = tempList.firstWhere(
+  //           (country) => (country.countryCode ?? '').toLowerCase() == Environment.defaultCountryCode.toLowerCase(),
+  //           orElse: () => tempList.first,
+  //         );
+
+  //         if (selectDefCountry.dialCode != null && selectDefCountry.country != null && selectDefCountry.countryCode != null) {
+  //           selectCountryData(selectDefCountry);
+  //           setCountryNameAndCode(
+  //             selectDefCountry.country.toString(),
+  //             selectDefCountry.countryCode.toString(),
+  //             selectDefCountry.dialCode.toString(),
+  //           );
+  //         }
+  //       }
+  //     } else {
+  //       CustomSnackBar.error(errorList: [mainResponse.message]);
+  //     }
+  //   } catch (e) {
+  //     printX('getCountryData error: ${e.toString()}');
+  //   } finally {
+  //     countryLoading = false;
+  //     update();
+  //   }
+  // }
 
   // String? validatePassword(String value) {
   //   if (value.isEmpty) {
@@ -379,19 +367,15 @@ class PhoneRegistrationController extends GetxController {
         provider: provider,
       );
       if (responseModel.statusCode == 200) {
-        RegistrationResponseModel regModel = RegistrationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
-        if (regModel.status.toString().toLowerCase() ==
-            MyStrings.success.toLowerCase()) {
+        RegistrationResponseModel regModel = RegistrationResponseModel.fromJson(_asJsonMap(responseModel.responseJson));
+        if (regModel.status.toString().toLowerCase() == MyStrings.success.toLowerCase()) {
           remember = true;
           update();
           checkAndGotoNextStep(regModel);
         } else {
           isSocialSubmitLoading = false;
           update();
-          CustomSnackBar.error(
-              errorList:
-                  regModel.message ?? [MyStrings.loginFailedTryAgain.tr]);
+          CustomSnackBar.error(errorList: regModel.message ?? [MyStrings.loginFailedTryAgain.tr]);
         }
       } else {
         isSocialSubmitLoading = false;
@@ -408,9 +392,7 @@ class PhoneRegistrationController extends GetxController {
   }
 
   bool checkUserAccessTokeSaved() {
-    String token = registrationRepo.apiClient.sharedPreferences
-            .getString(SharedPreferenceHelper.accessTokenKey) ??
-        '';
+    String token = registrationRepo.apiClient.sharedPreferences.getString(SharedPreferenceHelper.accessTokenKey) ?? '';
 
     return !((token == '' || token == 'null'));
   }
@@ -422,32 +404,25 @@ class PhoneRegistrationController extends GetxController {
       );
       return;
     }
-
-    submitLoading = true;
-    update();
-
     if (mobileController.text.isEmpty) {
       CustomSnackBar.error(errorList: [MyStrings.kEmptyPhoneNumberError.tr]);
       return;
-    } else if (!MyStrings.phoneValidatorRegExp
-        .hasMatch(mobileController.text)) {
+    } else if (!MyStrings.phoneValidatorRegExp.hasMatch(mobileController.text)) {
       CustomSnackBar.error(errorList: [MyStrings.kInvalidPhoneNumberError.tr]);
       return;
     }
+    submitLoading = true;
+    update();
+    try {
+      Map<String, dynamic>? checkOTP = await registrationRepo.handleRequestPhoneOTP(mobileController.text, '93');
 
-    Map<String, dynamic>? checkOTP = await registrationRepo
-        .handleRequestPhoneOTP(mobileController.text, '93');
-
-    if (checkOTP != null && checkOTP['status'] == true) {
-      Get.offAndToNamed(
-        RouteHelper.otpVerificationScreen,
-        arguments: {
-          'countryCode': '93',
-          'phoneNumber': mobileController.text,
-          'verificationId': checkOTP['verificationId']
-        },
-      );
-    } else {
+      if (checkOTP != null && checkOTP['status'] == true) {
+        Get.offAndToNamed(
+          RouteHelper.otpVerificationScreen,
+          arguments: {'countryCode': '93', 'phoneNumber': mobileController.text, 'verificationId': checkOTP['verificationId']},
+        );
+      }
+    } finally {
       submitLoading = false;
       update();
     }

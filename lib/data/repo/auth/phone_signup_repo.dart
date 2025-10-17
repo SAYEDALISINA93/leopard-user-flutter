@@ -17,14 +17,29 @@ class PhoneRegistrationRepo {
 
   PhoneRegistrationRepo({required this.apiClient});
 
+  // Normalize API responses that may already be decoded (Map) or be a JSON String
+  Map<String, dynamic> _asJsonMap(dynamic source) {
+    if (source == null) return <String, dynamic>{};
+    if (source is String) {
+      final s = source.trim();
+      if (s.isEmpty) return <String, dynamic>{};
+      final decoded = jsonDecode(s);
+      if (decoded is Map<String, dynamic>) return decoded;
+      if (decoded is List) return <String, dynamic>{'data': decoded};
+      return <String, dynamic>{};
+    }
+    if (source is Map) {
+      return Map<String, dynamic>.from(source);
+    }
+    return <String, dynamic>{};
+  }
+
   Future<RegistrationResponseModel> registerUser(SignUpModel model) async {
     final map = modelToMap(model);
     String url = '${UrlContainer.baseUrl}${UrlContainer.registrationEndPoint}';
-    final res = await apiClient.request(url, Method.postMethod, map,
-        passHeader: true, isOnlyAcceptType: true);
-    final json = jsonDecode(res.responseJson);
-    RegistrationResponseModel responseModel =
-        RegistrationResponseModel.fromJson(json);
+    final res = await apiClient.request(url, Method.postMethod, map, passHeader: true, isOnlyAcceptType: true);
+    final jsonMap = _asJsonMap(res.responseJson);
+    RegistrationResponseModel responseModel = RegistrationResponseModel.fromJson(jsonMap);
     return responseModel;
   }
 
@@ -52,11 +67,8 @@ class PhoneRegistrationRepo {
 
   Future<bool> sendUserToken() async {
     String deviceToken;
-    if (apiClient.sharedPreferences
-        .containsKey(SharedPreferenceHelper.fcmDeviceKey)) {
-      deviceToken = apiClient.sharedPreferences
-              .getString(SharedPreferenceHelper.fcmDeviceKey) ??
-          '';
+    if (apiClient.sharedPreferences.containsKey(SharedPreferenceHelper.fcmDeviceKey)) {
+      deviceToken = apiClient.sharedPreferences.getString(SharedPreferenceHelper.fcmDeviceKey) ?? '';
     } else {
       deviceToken = '';
     }
@@ -72,8 +84,7 @@ class PhoneRegistrationRepo {
         if (deviceToken == fcmDeviceToken) {
           success = true;
         } else {
-          apiClient.sharedPreferences
-              .setString(SharedPreferenceHelper.fcmDeviceKey, fcmDeviceToken);
+          apiClient.sharedPreferences.setString(SharedPreferenceHelper.fcmDeviceKey, fcmDeviceToken);
           success = await sendUpdatedToken(fcmDeviceToken);
         }
       });
@@ -106,36 +117,28 @@ class PhoneRegistrationRepo {
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.socialLoginEndPoint}';
 
-    ResponseModel model =
-        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+    ResponseModel model = await apiClient.request(url, Method.postMethod, map, passHeader: false);
 
     return model;
   }
 
-  Future<ResponseModel> checkUserHasAccount(
-      String phoneNumber, countryCode) async {
-    Map<String, String> map = {
-      'phone_number': phoneNumber,
-      'country_code': countryCode
-    };
+  Future<ResponseModel> checkUserHasAccount(String phoneNumber, countryCode) async {
+    Map<String, String> map = {'phone_number': phoneNumber, 'country_code': countryCode};
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.checkUserHasAccount}';
 
-    ResponseModel model =
-        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+    ResponseModel model = await apiClient.request(url, Method.postMethod, map, passHeader: false);
 
     return model;
   }
 
-  Future<Map<String, dynamic>?> handleRequestPhoneOTP(
-      String mobileNumber, String countryCode) async {
+  Future<Map<String, dynamic>?> handleRequestPhoneOTP(String mobileNumber, String countryCode) async {
     Map<String, dynamic>? result;
     Completer<Map<String, dynamic>?> completer = Completer();
 
-    ResponseModel responseModel =
-        await checkUserHasAccount(mobileNumber, countryCode);
+    ResponseModel responseModel = await checkUserHasAccount(mobileNumber, countryCode);
 
-    final responseJSON = jsonDecode(responseModel.responseJson);
+    final responseJSON = _asJsonMap(responseModel.responseJson);
     print("RESPONSE AUTHL $responseJSON");
 
     if (responseJSON['status'] != 'error') {
@@ -145,9 +148,7 @@ class PhoneRegistrationRepo {
       result = {'status': false, 'message': errorMessage.toString()};
       completer.complete(result);
     } else {
-      String formattedPhoneNumber = mobileNumber.startsWith('+')
-          ? mobileNumber
-          : '+$countryCode$mobileNumber';
+      String formattedPhoneNumber = mobileNumber.startsWith('+') ? mobileNumber : '+$countryCode$mobileNumber';
 
       try {
         await FirebaseAuth.instance.verifyPhoneNumber(
@@ -156,8 +157,7 @@ class PhoneRegistrationRepo {
             // Auto-retrieval or instant verification
           },
           verificationFailed: (FirebaseAuthException e) {
-            CustomSnackBar.error(
-                errorList: [e.message ?? 'Login failed, please try again']);
+            CustomSnackBar.error(errorList: [e.message ?? 'Login failed, please try again']);
             result = {'status': false};
             completer.complete(result);
           },
