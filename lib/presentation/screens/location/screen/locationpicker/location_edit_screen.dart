@@ -20,8 +20,7 @@ class EditLocationPickerScreen extends StatefulWidget {
   final int selectedIndex;
 
   @override
-  State<EditLocationPickerScreen> createState() =>
-      _EditLocationPickerScreenState();
+  State<EditLocationPickerScreen> createState() => _EditLocationPickerScreenState();
 }
 
 class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
@@ -60,8 +59,7 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
           body: Stack(
             clipBehavior: Clip.none,
             children: [
-              if (controller.isLoading == true &&
-                  controller.isLoadingFirstTime == true)
+              if (controller.isLoading == true && controller.isLoadingFirstTime == true)
                 const SizedBox(
                   width: double.infinity,
                   height: double.infinity,
@@ -77,8 +75,7 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                             myLocationEnabled: true,
                             myLocationButtonEnabled: false,
                             initialCameraPosition: CameraPosition(
-                              target: controller.getInitialTargetLocationForMap(
-                                  pickupLocationForIndex: selectedIndex),
+                              target: controller.getInitialTargetLocationForMap(pickupLocationForIndex: selectedIndex),
                               zoom: currentZoom,
                               // bearing: 20,
                               // tilt: 0,
@@ -90,16 +87,8 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                                         "selected_location",
                                       ),
                                       position: LatLng(
-                                        controller.homeController
-                                                .getSelectedLocationInfoAtIndex(
-                                                    selectedIndex)
-                                                ?.latitude ??
-                                            0,
-                                        controller.homeController
-                                                .getSelectedLocationInfoAtIndex(
-                                                    selectedIndex)
-                                                ?.longitude ??
-                                            0,
+                                        controller.homeController.getSelectedLocationInfoAtIndex(selectedIndex)?.latitude ?? 0,
+                                        controller.homeController.getSelectedLocationInfoAtIndex(selectedIndex)?.longitude ?? 0,
                                       ),
                                       icon: locationPicker == null
                                           ? BitmapDescriptor.defaultMarker
@@ -113,24 +102,15 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                                 : <Marker>{},
                             // Modify the onMapCreated callback to move camera to the selected position after map creation
                             onMapCreated: (googleMapController) {
-                              controller.editMapController =
-                                  googleMapController;
+                              controller.editMapController = googleMapController;
 
                               // Add this to center on selected location after map loads
                               controller.editMapController?.animateCamera(
                                 CameraUpdate.newCameraPosition(
                                   CameraPosition(
                                     target: LatLng(
-                                      controller.homeController
-                                              .getSelectedLocationInfoAtIndex(
-                                                  selectedIndex)
-                                              ?.latitude ??
-                                          0,
-                                      controller.homeController
-                                              .getSelectedLocationInfoAtIndex(
-                                                  selectedIndex)
-                                              ?.longitude ??
-                                          0,
+                                      controller.homeController.getSelectedLocationInfoAtIndex(selectedIndex)?.latitude ?? 0,
+                                      controller.homeController.getSelectedLocationInfoAtIndex(selectedIndex)?.longitude ?? 0,
                                     ),
                                     zoom: currentZoom,
                                   ),
@@ -146,7 +126,7 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                               );
 
                               // Move camera to the tapped location
-                              controller.mapController?.animateCamera(
+                              controller.editMapController?.animateCamera(
                                 CameraUpdate.newLatLng(argument),
                               );
 
@@ -155,8 +135,7 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                             },
                             onCameraMove: (CameraPosition? position) async {
                               printX("MOving");
-                              if (_previousZoom != null &&
-                                  position?.zoom != _previousZoom) {
+                              if (_previousZoom != null && position?.zoom != _previousZoom) {
                                 if (!_isZooming) {
                                   setState(() {
                                     _isZooming = true;
@@ -173,11 +152,8 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                               });
                             },
                             onCameraIdle: () async {
-                              if (isDragging &&
-                                  !_isZooming &&
-                                  _currentCameraPosition != null) {
-                                controller
-                                    .changeCurrentLatLongBasedOnCameraMove(
+                              if (isDragging && !_isZooming && _currentCameraPosition != null) {
+                                controller.changeCurrentLatLongBasedOnCameraMove(
                                   _currentCameraPosition!.latitude,
                                   _currentCameraPosition!.longitude,
                                 );
@@ -187,14 +163,11 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                               setState(() {
                                 isDragging = false;
                                 _isZooming = false;
-                                showMarker =
-                                    true; // show marker again after done
+                                showMarker = true; // show marker again after done
                               });
                             },
                           ),
-                          if (isDragging &&
-                              !_isZooming &&
-                              locationPicker != null)
+                          if (isDragging && !_isZooming && locationPicker != null)
                             Positioned(
                               bottom: 45,
                               top: 0,
@@ -254,8 +227,7 @@ class _EditLocationPickerScreenState extends State<EditLocationPickerScreen> {
                       ),
                       color: MyColor.colorBlack,
                       onPressed: () async {
-                        await controller.getCurrentPosition(
-                            pickupLocationForIndex: -1, isFromEdit: true);
+                        await controller.getCurrentPosition(pickupLocationForIndex: -1, isFromEdit: true);
                       },
                       icon: const Icon(Icons.location_searching),
                     ),
