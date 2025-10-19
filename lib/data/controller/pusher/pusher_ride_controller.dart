@@ -127,14 +127,19 @@ class PusherRideController extends GetxController {
   void onEvent(PusherEvent event) {
     try {
       loggerX(event.eventName);
-      PusherResponseModel model =
-          PusherResponseModel.fromJson(jsonDecode(event.data));
+      // Some Pusher system events may not include data (e.g., subscription_succeeded)
+      if (event.data == null || event.data.isEmpty) {
+        return;
+      }
+      final decoded = jsonDecode(event.data);
+      final PusherResponseModel model = decoded is Map<String, dynamic>
+          ? PusherResponseModel.fromJson(decoded)
+          : PusherResponseModel();
       loggerX(event.channelName);
       final modify = PusherResponseModel(
           eventName: event.eventName,
           channelName: event.channelName,
           data: model.data);
-      if (event.data == null) return;
 
       updateEvent(modify);
     } catch (e) {

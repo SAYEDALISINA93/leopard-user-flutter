@@ -32,9 +32,11 @@ class PusherResponseModel {
 
   factory PusherResponseModel.fromJson(Map<String, dynamic> json) {
     return PusherResponseModel(
-      channelName: json["channelName"].toString(),
-      eventName: json["eventName"].toString(),
-      data: Data.fromJson(json["data"]),
+      channelName: json["channelName"]?.toString(),
+      eventName: json["eventName"]?.toString(),
+      data: json["data"] is Map<String, dynamic>
+          ? Data.fromJson(json["data"] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -88,17 +90,21 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-      remark: json["remark"].toString(),
-      userId: json["userId"].toString(),
-      driverId: json["driverId"].toString(),
-      rideId: json["rideId"].toString(),
-      message: json["message"] != null
-          ? RideMessage.fromJson(json["message"])
+      remark: json["remark"]?.toString(),
+      userId: json["userId"]?.toString(),
+      driverId: json["driverId"]?.toString(),
+      rideId: json["rideId"]?.toString(),
+      message: json["message"] is Map<String, dynamic>
+          ? RideMessage.fromJson(json["message"] as Map<String, dynamic>)
           : null,
-      driverLatitude: json["latitude"].toString(),
-      driverLongitude: json["longitude"].toString(),
-      ride: json["ride"] != null ? RideModel.fromJson(json["ride"]) : null,
-      bid: json["bid"] != null ? BidModel.fromJson(json["bid"]) : null,
+      driverLatitude: json["latitude"]?.toString(),
+      driverLongitude: json["longitude"]?.toString(),
+      ride: json["ride"] is Map<String, dynamic>
+          ? RideModel.fromJson(json["ride"] as Map<String, dynamic>)
+          : null,
+      bid: json["bid"] is Map<String, dynamic>
+          ? BidModel.fromJson(json["bid"] as Map<String, dynamic>)
+          : null,
     );
   }
 }

@@ -136,6 +136,7 @@ class RidePaymentController extends GetxController {
         type: selectedMethod.id == "-9" ? "2" : '1',
         methodCode: selectedMethod.methodCode.toString(),
         rideId: rideId,
+        tipsAmount: '0',
       );
       if (responseModel.statusCode == 200) {
         if (selectedMethod.id == "-9") {

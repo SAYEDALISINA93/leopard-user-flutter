@@ -33,6 +33,7 @@ class PaymentRepo {
     required String currency,
     required String methodCode,
     required String type,
+    String tipsAmount = '0',
   }) async {
     String url = "${UrlContainer.baseUrl}${UrlContainer.ridePayment}/$rideId";
     Map<String, String> params = {
@@ -40,6 +41,7 @@ class PaymentRepo {
       'currency': currency,
       'method_code': methodCode,
       'payment_type': type,
+      'tips_amount': tipsAmount,
     };
     ResponseModel responseModel = await apiClient
         .request(url, Method.postMethod, params, passHeader: true);
