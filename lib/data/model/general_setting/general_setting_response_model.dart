@@ -75,8 +75,14 @@ class GeneralSetting {
   String? curText;
   String? curSym;
   String? emailFrom;
+  String? emailFromName;
+  String? smsTemplate;
   String? smsBody;
   String? smsFrom;
+  String? pushTitle;
+  String? pushTemplate;
+  String? baseColor;
+  String? secondaryColor;
   String? driverReferralAmount; // string
   String? riderReferralAmount; // string
   String? extraActiveTime; // string
@@ -110,8 +116,12 @@ class GeneralSetting {
   String? updatedAt;
   String? googleLogin;
   String? appleLogin;
+  String? timezone;
   List<Countries>? operatingCountry;
   String? notificationAudio;
+  List<String>? tipsSuggestAmount;
+  Map<String, dynamic>? firebaseConfig;
+  String? firebaseServices;
 
   GeneralSetting({
     this.id,
@@ -119,8 +129,14 @@ class GeneralSetting {
     this.curText,
     this.curSym,
     this.emailFrom,
+    this.emailFromName,
+    this.smsTemplate,
     this.smsBody,
     this.smsFrom,
+    this.pushTitle,
+    this.pushTemplate,
+    this.baseColor,
+    this.secondaryColor,
     this.driverReferralAmount,
     this.riderReferralAmount,
     this.extraActiveTime,
@@ -154,8 +170,12 @@ class GeneralSetting {
     this.updatedAt,
     this.googleLogin,
     this.appleLogin,
+    this.timezone,
     this.operatingCountry,
     this.notificationAudio,
+    this.tipsSuggestAmount,
+    this.firebaseConfig,
+    this.firebaseServices,
   });
 
   factory GeneralSetting.fromJson(Map<String, dynamic> json) => GeneralSetting(
@@ -164,11 +184,17 @@ class GeneralSetting {
         curText: json["cur_text"],
         curSym: json["cur_sym"],
         emailFrom: json["email_from"],
+        emailFromName: json["email_from_name"],
+        smsTemplate: json["sms_template"],
+        pushTitle: json["push_title"],
+        pushTemplate: json["push_template"],
+        baseColor: json["base_color"],
+        secondaryColor: json["secondary_color"],
         smsBody: json["sms_body"],
         smsFrom: json["sms_from"],
-        riderReferralAmount: json["rider_referral_amount"].toString(),
-        driverReferralAmount: json["driver_referral_amount"].toString(),
-        extraActiveTime: json["extra_active_time"].toString(),
+        riderReferralAmount: json["rider_referral_amount"]?.toString(),
+        driverReferralAmount: json["driver_referral_amount"]?.toString(),
+        extraActiveTime: json["extra_active_time"]?.toString(),
         pushConfig: json["pusher_config"] == null
             ? null
             : PusherConfig.fromJson(json["pusher_config"]),
@@ -178,38 +204,47 @@ class GeneralSetting {
         socialiteCredentials: json["socialite_credentials"] == null
             ? null
             : SocialiteCredentials.fromJson(json["socialite_credentials"]),
-        kv: json["kv"].toString(),
-        ev: json["ev"].toString(),
-        en: json["en"].toString(),
-        sv: json["sv"].toString(),
-        sn: json["sn"].toString(),
-        userCancellationLimit: json["user_cancellation_limit"].toString(),
-        driverFreeCancel: json["driver_free_cancel"].toString(),
-        rideCancelFee: json["ride_cancel_fee"].toString(),
-        neighborArea: json["neighbor_area"].toString(),
-        minDistance: json["min_distance"].toString(),
-        forceSsl: json["force_ssl"].toString(),
-        maintenanceMode: json["maintenance_mode"].toString(),
-        securePassword: json["secure_password"].toString(),
-        agree: json["agree"].toString(),
-        riderReferral: json["rider_referral"].toString(),
+        kv: json["kv"]?.toString(),
+        ev: json["ev"]?.toString(),
+        en: json["en"]?.toString(),
+        sv: json["sv"]?.toString(),
+        sn: json["sn"]?.toString(),
+        userCancellationLimit: json["user_cancellation_limit"]?.toString(),
+        driverFreeCancel: json["driver_free_cancel"]?.toString(),
+        rideCancelFee: json["ride_cancel_fee"]?.toString(),
+        neighborArea: json["neighbor_area"]?.toString(),
+        minDistance: json["min_distance"]?.toString(),
+        forceSsl: json["force_ssl"]?.toString(),
+        maintenanceMode: json["maintenance_mode"]?.toString(),
+        securePassword: json["secure_password"]?.toString(),
+        agree: json["agree"]?.toString(),
+        riderReferral: json["rider_referral"]?.toString(),
         googleMapsApi: json["google_maps_api"],
-        fixedCharge: json["fixed_charge"].toString(),
-        percentageCharge: json["percentage_charge"].toString(),
-        multiLanguage: json["multi_language"].toString(),
-        registration: json["registration"].toString(),
+        fixedCharge: json["fixed_charge"]?.toString(),
+        percentageCharge: json["percentage_charge"]?.toString(),
+        multiLanguage: json["multi_language"]?.toString(),
+        registration: json["registration"]?.toString(),
         activeTemplate: json["active_template"],
         lastCron: json["last_cron"],
-        systemCustomized: json["system_customized"].toString(),
-        createdAt: json["created_at"].toString(),
+        systemCustomized: json["system_customized"]?.toString(),
+        createdAt: json["created_at"]?.toString(),
         updatedAt: json["updated_at"]?.toString(),
-        googleLogin: json["google_login"].toString(),
-        appleLogin: json["apple_login"].toString(),
+        googleLogin: json["google_login"]?.toString(),
+        appleLogin: json["apple_login"]?.toString(),
+        timezone: json["timezone"]?.toString(),
         operatingCountry: json["operating_country"] == null
             ? []
             : List<Countries>.from(
                 json["operating_country"]!.map((x) => Countries.fromJson(x))),
-        notificationAudio: json["notification_audio"].toString(),
+        notificationAudio: json["notification_audio"]?.toString(),
+        tipsSuggestAmount: json["tips_suggest_amount"] == null
+            ? []
+            : List<String>.from(
+                json["tips_suggest_amount"]!.map((x) => x.toString())),
+        firebaseConfig: json["firebase_config"] is Map
+            ? Map<String, dynamic>.from(json["firebase_config"])
+            : null,
+        firebaseServices: json["firebase_services"]?.toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -218,6 +253,12 @@ class GeneralSetting {
         "cur_text": curText,
         "cur_sym": curSym,
         "email_from": emailFrom,
+        "email_from_name": emailFromName,
+        "sms_template": smsTemplate,
+        "push_title": pushTitle,
+        "push_template": pushTemplate,
+        "base_color": baseColor,
+        "secondary_color": secondaryColor,
         "sms_body": smsBody,
         "sms_from": smsFrom,
         "driver_referral_amount": driverReferralAmount,
@@ -225,7 +266,7 @@ class GeneralSetting {
         "extra_active_time": extraActiveTime,
         "pusher_config": pushConfig?.toJson(),
         "global_shortcodes": globalShortCodes?.toJson(),
-        "socialite_credentials": socialiteCredentials,
+        "socialite_credentials": socialiteCredentials?.toJson(),
         "kv": kv,
         "ev": ev,
         "en": en,
@@ -253,8 +294,12 @@ class GeneralSetting {
         "updated_at": updatedAt,
         "google_login": googleLogin,
         "apple_login": appleLogin,
+        "timezone": timezone,
         "operating_country": operatingCountry?.map((e) => e.toJson()).toList(),
         "notification_audio": notificationAudio,
+        "tips_suggest_amount": tipsSuggestAmount,
+        "firebase_config": firebaseConfig,
+        "firebase_services": firebaseServices,
       };
 }
 
