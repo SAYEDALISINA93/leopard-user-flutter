@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_null_aware_operators
 
+import 'dart:convert';
+
 import 'package:leoparduser/data/model/global/app/vehicle_brand_model.dart';
 
 class GlobalDriverInfo {
@@ -97,9 +99,7 @@ class GlobalDriverInfo {
       licensePhoto: json["license_photo"].toString(),
       dv: json["dv"].toString(),
       vv: json["vv"].toString(),
-      riderRuleId: json["rider_rule_id"] == null
-          ? []
-          : List<String>.from(json["rider_rule_id"]!.map((x) => x)),
+      riderRuleId: _parseStringList(json["rider_rule_id"]),
       ev: json["ev"].toString(),
       sv: json["sv"].toString(),
       profileComplete: json["profile_complete"].toString(),
@@ -113,17 +113,9 @@ class GlobalDriverInfo {
       imageWithPath: json["image_with_path"] == null
           ? null
           : json["image_with_path"].toString(),
-      rules: json["rules"] == null
-          ? []
-          : List<String>.from(json["rules"]!.map((x) => x)),
-      driverData: json["driver_data"] == null
-          ? []
-          : List<KycPendingData>.from(
-              json["driver_data"]!.map((x) => KycPendingData.fromJson(x))),
-      vehicleData: json["vehicle_data"] == null
-          ? []
-          : List<KycPendingData>.from(
-              json["vehicle_data"]!.map((x) => KycPendingData.fromJson(x))),
+      rules: _parseStringList(json["rules"]),
+      driverData: _parseKycList(json["driver_data"]),
+      vehicleData: _parseKycList(json["vehicle_data"]),
     );
   }
 
@@ -161,6 +153,89 @@ class GlobalDriverInfo {
         "image_with_path": imageWithPath,
         "rules": rules,
       };
+}
+
+// Safely parse a list of strings that may arrive as:
+// - List<dynamic>
+// - JSON-encoded String (e.g. "[\"a\",\"b\"]")
+// - Comma-separated String (e.g. "a,b,c")
+List<String> _parseStringList(dynamic value) {
+  if (value == null) return [];
+
+  if (value is List) {
+    return value
+        .map((e) => e?.toString() ?? '')
+        .where((e) => e.isNotEmpty)
+        .toList();
+  }
+
+  if (value is String) {
+    final v = value.trim();
+    if (v.isEmpty) return [];
+
+    // Try JSON decode if looks like JSON array
+    if (v.startsWith('[') && v.endsWith(']')) {
+      try {
+        final decoded = jsonDecode(v);
+        if (decoded is List) {
+          return decoded
+              .map((e) => e?.toString() ?? '')
+              .where((e) => e.isNotEmpty)
+              .toList();
+        }
+      } catch (_) {
+        // fallthrough to comma-split
+      }
+    }
+
+    // Fallback: comma-separated values or single string
+    if (v.contains(',')) {
+      return v
+          .split(',')
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+    }
+    return [v];
+  }
+
+  // Unknown format
+  return [];
+}
+
+// Safely parse a list of KycPendingData that may arrive as:
+// - List<dynamic> of Map
+// - JSON-encoded String representing a List of Map
+List<KycPendingData> _parseKycList(dynamic value) {
+  if (value == null) return [];
+
+  Iterable<dynamic> items;
+
+  if (value is List) {
+    items = value;
+  } else if (value is String) {
+    final v = value.trim();
+    if (v.isEmpty) return [];
+    try {
+      final decoded = jsonDecode(v);
+      if (decoded is List) {
+        items = decoded;
+      } else if (decoded is Map<String, dynamic>) {
+        items = [decoded];
+      } else {
+        return [];
+      }
+    } catch (_) {
+      return [];
+    }
+  } else {
+    return [];
+  }
+
+  return items
+      .where((e) => e is Map<String, dynamic>)
+      .map((e) => KycPendingData.fromJson(e as Map<String, dynamic>))
+      .toList();
 }
 
 class Rule {
