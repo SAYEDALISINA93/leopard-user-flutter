@@ -137,15 +137,32 @@ class HomeController extends GetxController {
     update();
 
     try {
+      // Build robust pickup/destination display strings
+      final String pickupStr =
+          (selectedLocations[0].placeName?.trim().isNotEmpty == true
+                  ? selectedLocations[0].placeName!
+                  : (selectedLocations[0].fullAddress ?? ''))
+              .trim();
+      final String destinationStr =
+          (selectedLocations[1].placeName?.trim().isNotEmpty == true
+                  ? selectedLocations[1].placeName!
+                  : (selectedLocations[1].fullAddress ?? ''))
+              .trim();
+
+      if (destinationStr.isEmpty) {
+        CustomSnackBar.error(errorList: [MyStrings.selectDestination]);
+        isSubmitLoading = false;
+        update();
+        return;
+      }
+
       ResponseModel responseModel = await homeRepo.createRide(
         data: CreateRideRequestModel(
           serviceId: selectedService.id!,
-          pickUpLocation: selectedLocations[0].placeName ??
-              '${selectedLocations[0].fullAddress}',
+          pickUpLocation: pickupStr,
           pickUpLatitude: selectedLocations[0].latitude.toString(),
           pickUpLongitude: selectedLocations[0].longitude.toString(),
-          destination: selectedLocations[1].placeName ??
-              '${selectedLocations[1].fullAddress}',
+          destination: destinationStr,
           destinationLatitude: selectedLocations[1].latitude.toString(),
           destinationLongitude: selectedLocations[1].longitude.toString(),
           isIntercity: '1',

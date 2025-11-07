@@ -39,7 +39,9 @@ class CreateRideRequestModel {
       'pickup_location': pickUpLocation,
       'pickup_latitude': pickUpLatitude,
       'pickup_longitude': pickUpLongitude,
+      // Send both keys for compatibility across endpoints
       'destination': destination,
+      'destination_location': destination,
       'destination_latitude': destinationLatitude,
       'destination_longitude': destinationLongitude,
       'is_intercity': isIntercity,
