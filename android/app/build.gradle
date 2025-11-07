@@ -11,9 +11,18 @@ plugins {
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
+def hasKeystoreProps = keystorePropertiesFile.exists()
+if (hasKeystoreProps) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    println("[build.gradle] key.properties not found - release signing config will not be applied.\n" +
+            "Create android/key.properties and provide keystore details to build a signed release bundle.")
 }
+
+// Resolve keystore file existence when properties are present
+def storeFilePath = hasKeystoreProps ? (keystoreProperties['storeFile'] as String) : null
+def resolvedStoreFile = (storeFilePath != null && storeFilePath.trim()) ? file(storeFilePath) : null
+def hasKeystoreFile = (resolvedStoreFile != null && resolvedStoreFile.exists())
 
 def flutterVersionCode = project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode') : '5'
 def flutterVersionName = project.hasProperty('flutter.versionName') ? project.property('flutter.versionName') : '1.0.0'
@@ -64,20 +73,28 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword = keystoreProperties["storePassword"] as String
+        if (hasKeystoreProps && hasKeystoreFile) {
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = resolvedStoreFile
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        } else if (hasKeystoreProps && !hasKeystoreFile) {
+            println("[build.gradle] Keystore file not found at '${storeFilePath}'. Release signing will not be applied.\n" +
+                    "Update 'storeFile' in android/key.properties or place the .jks at that path.")
         }
-
     }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.release
+            if (hasKeystoreProps && hasKeystoreFile) {
+                signingConfig = signingConfigs.release
+            } else {
+                println("[build.gradle] No signing config applied to release. The generated AAB will be unsigned and cannot be uploaded to Play Store. Provide key.properties to sign.")
+            }
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
