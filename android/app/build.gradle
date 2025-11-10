@@ -24,7 +24,7 @@ def storeFilePath = hasKeystoreProps ? (keystoreProperties['storeFile'] as Strin
 def resolvedStoreFile = (storeFilePath != null && storeFilePath.trim()) ? file(storeFilePath) : null
 def hasKeystoreFile = (resolvedStoreFile != null && resolvedStoreFile.exists())
 
-def flutterVersionCode = project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode') : '5'
+def flutterVersionCode = project.hasProperty('flutter.versionCode') ? project.property('flutter.versionCode') : '9'
 def flutterVersionName = project.hasProperty('flutter.versionName') ? project.property('flutter.versionName') : '1.0.0'
 
 
