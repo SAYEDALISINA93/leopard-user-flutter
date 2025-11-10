@@ -230,8 +230,11 @@ class SelectLocationController extends GetxController {
       PlacesAutocompleteResponse? subscriptionResponse;
       if (locationName.isNotEmpty) {
         allPredictions.clear();
+        // Use location bias to improve establishment keyword searches
         response = await locationSearchRepo.searchAddressByLocationName(
-            text: locationName);
+            text: locationName,
+            latitude: selectedLatitude,
+            longitude: selectedLongitude);
 
         subscriptionResponse = PlacesAutocompleteResponse.fromJson(
             jsonDecode(response!.responseJson));
@@ -242,6 +245,37 @@ class SelectLocationController extends GetxController {
       if (subscriptionResponse.predictions!.isNotEmpty) {
         allPredictions.clear();
         allPredictions.addAll(subscriptionResponse.predictions!);
+      } else {
+        // Fallback: use Find Place from Text for keyword/business queries
+        final fpResponse = await locationSearchRepo.findPlaceFromText(
+            text: locationName,
+            latitude: selectedLatitude,
+            longitude: selectedLongitude,
+            radiusMeters: 15000);
+        final Map<String, dynamic> fpJson = jsonDecode(fpResponse.responseJson);
+        final List candidates = (fpJson['candidates'] ?? []) as List;
+        if (candidates.isNotEmpty) {
+          allPredictions.clear();
+          for (final c in candidates) {
+            try {
+              final placeId = c['place_id']?.toString();
+              final name = c['name']?.toString() ?? '';
+              final addr = c['formatted_address']?.toString() ?? '';
+              final loc = c['geometry']?['location'];
+              final lat = loc != null ? (loc['lat']?.toString()) : null;
+              final lng = loc != null ? (loc['lng']?.toString()) : null;
+
+              final prediction = Prediction(
+                placeId: placeId,
+                description: name.isNotEmpty ? "$name, $addr" : addr,
+                types: ['establishment'],
+                lat: lat,
+                lng: lng,
+              );
+              allPredictions.add(prediction);
+            } catch (_) {}
+          }
+        }
       }
       isSearched = false;
       update();
@@ -252,6 +286,16 @@ class SelectLocationController extends GetxController {
 
   Future<LatLng?> getLangAndLatFromMap(Prediction prediction) async {
     try {
+      // If we already have lat/lng (from Find Place), avoid extra network call
+      if (prediction.lat != null && prediction.lng != null) {
+        changeCurrentLatLongBasedOnCameraMove(
+            double.parse(prediction.lat!), double.parse(prediction.lng!));
+        allPredictions = [];
+        update();
+        return LatLng(
+            double.parse(prediction.lat!), double.parse(prediction.lng!));
+      }
+
       ResponseModel response =
           await locationSearchRepo.getPlaceDetailsFromPlaceId(prediction);
       final placeDetails =
