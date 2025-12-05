@@ -25,7 +25,7 @@ import 'package:leoparduser/data/services/running_ride_service.dart';
 import 'package:leoparduser/presentation/components/bottom-sheet/custom_bottom_sheet.dart';
 import 'package:leoparduser/presentation/components/dialog/app_dialog.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
-import 'package:leoparduser/presentation/screens/home/widgets/bottomsheet/ride_distance_warning_bottomSheet.dart';
+import 'package:leoparduser/presentation/screens/home/widgets/bottomsheet/ride_distance_warning_bottom_sheet.dart';
 
 class HomeController extends GetxController {
   HomeRepo homeRepo;
@@ -173,6 +173,13 @@ class HomeController extends GetxController {
                   ? selectedLocations[1].placeName!
                   : (selectedLocations[1].fullAddress ?? ''))
               .trim();
+
+      if (pickupStr.isEmpty) {
+        CustomSnackBar.error(errorList: [MyStrings.pickUpDestination]);
+        isSubmitLoading = false;
+        update();
+        return;
+      }
 
       if (destinationStr.isEmpty) {
         CustomSnackBar.error(errorList: [MyStrings.selectDestination]);

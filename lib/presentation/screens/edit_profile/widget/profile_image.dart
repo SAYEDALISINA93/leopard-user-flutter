@@ -140,7 +140,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               leading: Container(
                 padding: const EdgeInsets.all(Dimensions.space10),
                 decoration: BoxDecoration(
-                  color: MyColor.primaryColor.withOpacity(0.1),
+                  color: MyColor.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(Dimensions.space10),
                 ),
                 child: const Icon(
@@ -165,7 +165,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               leading: Container(
                 padding: const EdgeInsets.all(Dimensions.space10),
                 decoration: BoxDecoration(
-                  color: MyColor.primaryColor.withOpacity(0.1),
+                  color: MyColor.primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(Dimensions.space10),
                 ),
                 child: const Icon(

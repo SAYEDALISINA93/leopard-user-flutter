@@ -96,7 +96,7 @@ class SelectLocationController extends GetxController {
       if (pickupInfo != null) {
         pickupLatlong =
             LatLng(pickupInfo.latitude ?? 0, pickupInfo.longitude ?? 0);
-        pickUpController.text = pickupInfo.getFullAddress(showFull: true) ?? '';
+        pickUpController.text = pickupInfo.getFullAddress(showFull: true);
       }
 
       // Set destination location if available
@@ -105,8 +105,7 @@ class SelectLocationController extends GetxController {
         if (destInfo != null) {
           destinationLatlong =
               LatLng(destInfo.latitude ?? 0, destInfo.longitude ?? 0);
-          destinationController.text =
-              destInfo.getFullAddress(showFull: true) ?? '';
+          destinationController.text = destInfo.getFullAddress(showFull: true);
         }
 
         // Generate polyline route between pickup and destination
@@ -202,8 +201,9 @@ class SelectLocationController extends GetxController {
     // Get current position if no selected location
     if (effectiveIndex == -1) {
       await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.high)
-          .then((value) => currentPosition = value);
+          locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+      )).then((value) => currentPosition = value);
     }
 
     // Update camera position based on current or selected location

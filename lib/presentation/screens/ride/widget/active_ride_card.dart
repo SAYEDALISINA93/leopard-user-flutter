@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../components/divider/custom_spacer.dart';
-import '../../../components/timeline/custom_timeLine.dart';
+import '../../../components/timeline/custom_time_line.dart';
 
 class ActiveRideCard extends StatefulWidget {
   String currency;

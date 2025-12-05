@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/method.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/registration_response_model.dart';
@@ -135,7 +136,7 @@ class PhoneRegistrationRepo {
         await checkUserHasAccount(mobileNumber, countryCode);
 
     final responseJSON = responseModel.responseJson;
-    print("RESPONSE AUTHL $responseJSON");
+    printX("RESPONSE AUTHL $responseJSON");
 
     if (responseJSON['status'] != 'error') {
       String errorMessage = MyStrings.phoneAlreadyRegistered;

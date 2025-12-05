@@ -167,7 +167,7 @@ class LoginController extends GetxController {
           ? mobileNumberController.text.toString()
           : '+$countryCode${mobileNumberController.text.toString()}'; // Ensure the phone number includes the country code
 
-      print('formattedPhoneNumber: $formattedPhoneNumber');
+      printX('formattedPhoneNumber: $formattedPhoneNumber');
 
       try {
         await verifyPhoneNumber(formattedPhoneNumber);

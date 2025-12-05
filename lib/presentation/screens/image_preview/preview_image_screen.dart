@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 // import 'package:open_file/open_file.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
@@ -86,7 +87,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
         filePath,
         onReceiveProgress: (received, total) {
           if (total != -1) {
-            print("${(received / total * 100).toStringAsFixed(0)}%");
+            printE("${(received / total * 100).toStringAsFixed(0)}%");
           }
         },
       );

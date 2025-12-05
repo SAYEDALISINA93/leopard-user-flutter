@@ -4,7 +4,7 @@ import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 
 import 'package:leoparduser/presentation/components/shimmer/my_shimmer.dart';
-import 'package:leoparduser/presentation/components/timeline/custom_timeLine.dart';
+import 'package:leoparduser/presentation/components/timeline/custom_time_line.dart';
 
 class RideShimmer extends StatelessWidget {
   const RideShimmer({super.key});

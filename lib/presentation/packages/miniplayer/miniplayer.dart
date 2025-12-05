@@ -163,7 +163,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     return MiniplayerWillPopScope(
       onWillPop: () async {
         if (heightNotifier.value > widget.minHeight) {
-          _snapToPosition(PanelState.MIN);
+          _snapToPosition(PanelState.min);
           return false;
         }
         return true;
@@ -233,8 +233,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                     ),
                     onTap: () => _snapToPosition(
                       _dragHeight != widget.maxHeight
-                          ? PanelState.MAX
-                          : PanelState.MIN,
+                          ? PanelState.max
+                          : PanelState.min,
                     ),
                     onPanStart: (details) {
                       _startHeight = _dragHeight;
@@ -264,7 +264,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                       }
 
                       ///Determine to which SnapPosition the widget should snap
-                      PanelState snap = PanelState.MIN;
+                      PanelState snap = PanelState.min;
 
                       final percentageMax = percentageFromValueInRange(
                         min: widget.minHeight,
@@ -275,14 +275,14 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                       ///Started from expanded state
                       if (_startHeight > widget.minHeight) {
                         if (percentageMax > 1 - snapPercentage) {
-                          snap = PanelState.MAX;
+                          snap = PanelState.max;
                         }
                       }
 
                       ///Started from minified state
                       else {
                         if (percentageMax > snapPercentage) {
-                          snap = PanelState.MAX;
+                          snap = PanelState.max;
                         }
 
                         ///DismissedPercentage > 0.2 -> dismiss
@@ -293,7 +293,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                                   value: _dragHeight,
                                 ) >
                                 snapPercentage) {
-                          snap = PanelState.DISMISS;
+                          snap = PanelState.dismiss;
                         }
                       }
 
@@ -359,13 +359,13 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   ///Animates the panel height according to a SnapPoint
   void _snapToPosition(PanelState snapPosition) {
     switch (snapPosition) {
-      case PanelState.MAX:
+      case PanelState.max:
         _animateToHeight(widget.maxHeight);
         return;
-      case PanelState.MIN:
+      case PanelState.min:
         _animateToHeight(widget.minHeight);
         return;
-      case PanelState.DISMISS:
+      case PanelState.dismiss:
         _animateToHeight(0);
         return;
     }
@@ -428,7 +428,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 }
 
 ///-1 Min, -2 Max, -3 Dismiss
-enum PanelState { MAX, MIN, DISMISS }
+enum PanelState { max, min, dismiss }
 
 //ControllerData class. Used for the controller
 class ControllerData {

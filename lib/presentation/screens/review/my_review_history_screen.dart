@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/src/rating_bar.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/date_converter.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';

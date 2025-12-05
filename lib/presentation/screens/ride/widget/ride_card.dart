@@ -16,7 +16,7 @@ import 'package:leoparduser/data/services/download_service.dart';
 import 'package:leoparduser/environment.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import '../../../components/divider/custom_spacer.dart';
-import '../../../components/timeline/custom_timeLine.dart';
+import '../../../components/timeline/custom_time_line.dart';
 
 class RideCard extends StatefulWidget {
   String currency;

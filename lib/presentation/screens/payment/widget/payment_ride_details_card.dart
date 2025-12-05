@@ -8,7 +8,7 @@ import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/model/global/app/ride_model.dart';
 import 'package:leoparduser/presentation/components/divider/custom_spacer.dart';
 import 'package:leoparduser/presentation/components/image/my_network_image_widget.dart';
-import 'package:leoparduser/presentation/components/timeline/custom_timeLine.dart';
+import 'package:leoparduser/presentation/components/timeline/custom_time_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

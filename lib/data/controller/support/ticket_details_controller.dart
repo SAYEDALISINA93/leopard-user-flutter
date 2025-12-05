@@ -317,7 +317,7 @@ class TicketDetailsController extends GetxController {
       filePath,
       onReceiveProgress: (received, total) {
         if (total != -1) {
-          print("${(received / total * 100).toStringAsFixed(0)}%");
+          printX("${(received / total * 100).toStringAsFixed(0)}%");
         }
       },
     );

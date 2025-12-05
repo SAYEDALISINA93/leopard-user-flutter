@@ -30,7 +30,7 @@ class MyImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print("imageUrl $imageUrl");
+    // printX("imageUrl $imageUrl");
     return CachedNetworkImage(
       imageUrl: imageUrl.toString(),
       color: color,

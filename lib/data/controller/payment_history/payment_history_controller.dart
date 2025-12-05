@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/model/global/user/global_user_model.dart';
@@ -81,7 +82,9 @@ class PaymentHistoryController extends GetxController {
           List<String>? tempRemarksList = [];
 
           if (tempRemarksList.isNotEmpty) {
-            for (var element in tempRemarksList) {}
+            for (var element in tempRemarksList) {
+              printE("Temp Remarks: $element");
+            }
           }
         }
 

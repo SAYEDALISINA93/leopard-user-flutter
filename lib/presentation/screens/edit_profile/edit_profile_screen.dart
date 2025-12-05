@@ -78,7 +78,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   labelText: MyStrings.firstName.tr,
                                   onChanged: (value) {},
                                   readOnly: true,
-                                  fillColor: MyColor.colorGrey.withOpacity(0.1),
+                                  fillColor:
+                                      MyColor.colorGrey.withValues(alpha: 0.1),
                                   focusNode: controller.firstNameFocusNode,
                                   nextFocus: controller.lastNameFocusNode,
                                   textInputType: TextInputType.text,
@@ -100,7 +101,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   labelText: MyStrings.lastName.tr,
                                   onChanged: (value) {},
                                   readOnly: true,
-                                  fillColor: MyColor.colorGrey.withOpacity(0.1),
+                                  fillColor:
+                                      MyColor.colorGrey.withValues(alpha: 0.1),
                                   focusNode: controller.lastNameFocusNode,
                                   nextFocus: controller.emailFocusNode,
                                   textInputType: TextInputType.text,

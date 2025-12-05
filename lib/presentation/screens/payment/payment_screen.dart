@@ -149,8 +149,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   apply: () {},
                                   isApplied: true,
                                   remove: () {
-                                    if (couponController.isRemoveLoading)
+                                    if (couponController.isRemoveLoading) {
                                       return;
+                                    }
                                     couponController.removeCoupon(
                                       couponController.selectedCoupon,
                                     );

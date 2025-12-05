@@ -5,7 +5,7 @@ import 'package:leoparduser/presentation/packages/flutter_polyline_points/flutte
 import 'package:leoparduser/presentation/packages/flutter_polyline_points/src/new_route_coordinate_model.dart';
 
 class NetworkUtil {
-  static const String STATUS_OK = "ok";
+  static const String statusOk = "ok";
 
   final Dio _dio = Dio();
 
@@ -85,7 +85,7 @@ class NetworkUtil {
         if (response.statusCode == 200) {
           var parsedJson = response.data;
           printX("response of cordinate>> $parsedJson");
-          if (parsedJson["status"]?.toLowerCase() == STATUS_OK &&
+          if (parsedJson["status"]?.toLowerCase() == statusOk &&
               parsedJson["routes"] != null &&
               parsedJson["routes"].isNotEmpty) {
             List<dynamic> routeList = parsedJson["routes"];

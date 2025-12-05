@@ -135,7 +135,7 @@ class _RideBidListScreenState extends State<RideBidListScreen> {
                   ] else ...[
                     NoDataWidget(
                       fromRide: false,
-                      text: MyStrings.NoBidFound,
+                      text: MyStrings.noBidFound,
                       margin: 20,
                     ),
                   ],

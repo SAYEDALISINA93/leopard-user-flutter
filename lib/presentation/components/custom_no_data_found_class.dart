@@ -123,9 +123,10 @@ class _NoDataOrInternetScreenState extends State<NoDataOrInternetScreen> {
                         widget.isNoInternet
                             ? InkWell(
                                 onTap: () async {
-                                  if (await Connectivity()
-                                          .checkConnectivity() !=
-                                      ConnectivityResult.none) {
+                                  final connectivityResult =
+                                      await Connectivity().checkConnectivity();
+                                  if (!connectivityResult
+                                      .contains(ConnectivityResult.none)) {
                                     widget.onChanged!();
                                   }
                                 },

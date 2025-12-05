@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/controller/auth/auth/phone_registration_controller.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
@@ -29,7 +30,7 @@ class OtpVerificationController extends GetxController {
 
     userCompletePhone = '+${countryCode + userPhone}';
 
-    print("User Phone: $userPhone ");
+    printX("User Phone: $userPhone ");
     update();
 
     isLoading = false;
@@ -83,7 +84,7 @@ class OtpVerificationController extends GetxController {
       CustomSnackBar.error(errorList: [
         '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: $e'
       ]);
-      print("Error: $e");
+      printX("Error: $e");
     }
 
     submitLoading = false;

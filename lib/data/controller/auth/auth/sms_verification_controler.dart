@@ -31,7 +31,7 @@ class SmsVerificationController extends GetxController {
 
     userCompletePhone = '+${countryCode + userPhone}';
 
-    print("User Phone: $userPhone ");
+    printX("User Phone: $userPhone ");
     update();
     isLoading = false;
     update();
@@ -135,7 +135,7 @@ class SmsVerificationController extends GetxController {
       return false;
     }
     try {
-      String verificationId = '';
+      // String verificationId = '';
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: countryCode + phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) {},
@@ -144,12 +144,12 @@ class SmsVerificationController extends GetxController {
               errorList: [e.message ?? MyStrings.loginFailedTryAgain]);
         },
         codeSent: (String verId, int? resendToken) {
-          verificationId = verId;
+          // verificationId = verId;
           CustomSnackBar.success(
               successList: [MyStrings.successfullyCodeResend]);
         },
         codeAutoRetrievalTimeout: (String verId) {
-          verificationId = verId;
+          // verificationId = verId;
         },
       );
       return true;

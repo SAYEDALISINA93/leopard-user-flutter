@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 import '../../../../core/utils/my_icons.dart';
 import '../../../components/divider/custom_spacer.dart';
 import '../../../components/image/custom_svg_picture.dart';
-import '../../../components/timeline/custom_timeLine.dart';
+import '../../../components/timeline/custom_time_line.dart';
 
 class RideDetailsCard extends StatelessWidget {
   RideModel ride;

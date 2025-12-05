@@ -794,7 +794,7 @@ class MyStrings {
   static const String bidNOW = "Bid now";
 
   static const String bidList = "Bid List";
-  static const String NoBidFound = "No bid found";
+  static const String noBidFound = "No bid found";
 
   static const String vehicleVerificationSubTitle =
       "Kindly provide the following information to complete your vehicle verification process. Your cooperation ensures a safe and reliable ride-sharing experience for both you and your passengers. Thank you!";

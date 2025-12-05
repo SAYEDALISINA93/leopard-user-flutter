@@ -77,8 +77,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         } else if (widget.isProfileCompleted) {
                           showExitDialog(Get.context!);
                         } else {
-                          String previousRoute = Get.previousRoute;
-                          String currentRoute = Get.currentRoute;
+                          // String previousRoute = Get.previousRoute;
+                          // String currentRoute = Get.currentRoute;
 
                           Navigator.maybePop(context);
                         }

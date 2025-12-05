@@ -79,7 +79,7 @@ class PhoneRegistrationController extends GetxController {
     SignUpModel model = getUserData();
     model.firebaseToken = _token;
 
-    print(
+    printX(
         "TOKKKKKKKKKKEN: ${model.firebaseToken} ${model.mobile}, ${model.countryCode}, ${model.mobileCode}");
 
     final responseModel = await registrationRepo.registerUser(model);
