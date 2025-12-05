@@ -61,3 +61,24 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+# CI/CD sensitive files - DO NOT COMMIT
+keystore_base64.txt
+ios_certificates_base64.txt
+ios_provisioning_base64.txt
+**/google-play-service-account.json
+*.jks
+*.p12
+*.mobileprovision
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+**/fastlane/README.md
+
+# Ruby / Bundler
+.bundle/
+vendor/
+Gemfile.lock

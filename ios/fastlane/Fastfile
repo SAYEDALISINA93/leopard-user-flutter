@@ -1,0 +1,83 @@
+# Fastlane configuration for Leopard User iOS App
+
+default_platform(:ios)
+
+platform :ios do
+  
+  before_all do
+    setup_ci if ENV['CI']
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    # Increment build number
+    increment_build_number(
+      xcodeproj: "Runner.xcodeproj"
+    )
+
+    # Build the app
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "app.theleopard.rider" => "Leopard User Distribution"
+        }
+      }
+    )
+
+    # Upload to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+      distribute_external: false,
+      notify_external_testers: false
+    )
+  end
+
+  desc "Deploy a new version to the App Store"
+  lane :release do
+    # Increment build number
+    increment_build_number(
+      xcodeproj: "Runner.xcodeproj"
+    )
+
+    # Build the app
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store"
+    )
+
+    # Upload to App Store
+    upload_to_app_store(
+      force: true,
+      skip_screenshots: true,
+      skip_metadata: true,
+      submit_for_review: false,
+      automatic_release: false
+    )
+  end
+
+  desc "Register new devices"
+  lane :register_devices do
+    register_devices(
+      devices_file: "./devices.txt"
+    )
+  end
+
+  desc "Sync code signing"
+  lane :sync_signing do
+    match(
+      type: "appstore",
+      readonly: true
+    )
+  end
+
+  error do |lane, exception|
+    # Handle errors
+    puts "Error in lane #{lane}: #{exception}"
+  end
+
+end
