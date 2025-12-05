@@ -11,14 +11,15 @@ class DrawerItem extends StatelessWidget {
   TextStyle? titleStyle;
   VoidCallback onTap;
   final double? size;
-  DrawerItem(
-      {super.key,
-      required this.svgIcon,
-      required this.name,
-      required this.onTap,
-      this.iconColor,
-      this.titleStyle,
-      this.size = 20});
+  DrawerItem({
+    super.key,
+    required this.svgIcon,
+    required this.name,
+    required this.onTap,
+    this.iconColor,
+    this.titleStyle,
+    this.size = 20,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,9 @@ class DrawerItem extends StatelessWidget {
             svgIcon,
             fit: BoxFit.contain,
             colorFilter: ColorFilter.mode(
-                iconColor ?? MyColor.bodyText, BlendMode.srcIn),
+              iconColor ?? MyColor.bodyText,
+              BlendMode.srcIn,
+            ),
             height: size,
             width: size,
           ),
@@ -39,8 +42,7 @@ class DrawerItem extends StatelessWidget {
           Expanded(
             child: Text(
               name.tr,
-              style: titleStyle ??
-                  regularDefault.copyWith(fontSize: Dimensions.fontMedium),
+              style: titleStyle ?? regularDefault.copyWith(fontSize: Dimensions.fontMedium),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

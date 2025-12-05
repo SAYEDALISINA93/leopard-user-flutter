@@ -13,7 +13,7 @@ import 'package:leoparduser/data/controller/auth/login_controller.dart';
 import 'package:leoparduser/data/controller/auth/social_auth_controller.dart';
 import 'package:leoparduser/data/repo/auth/login_repo.dart';
 import 'package:leoparduser/data/repo/auth/socail_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/image/custom_svg_picture.dart';
 import 'package:leoparduser/presentation/components/text-form-field/custom_text_field.dart';

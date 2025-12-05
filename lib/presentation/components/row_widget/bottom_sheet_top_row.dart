@@ -11,11 +11,12 @@ class BottomSheetTopRow extends StatelessWidget {
   final double bottomSpace;
   final Color bgColor;
 
-  const BottomSheetTopRow(
-      {super.key,
-      required this.header,
-      this.bottomSpace = 10,
-      this.bgColor = MyColor.containerBgColor});
+  const BottomSheetTopRow({
+    super.key,
+    required this.header,
+    this.bottomSpace = 10,
+    this.bgColor = MyColor.containerBgColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,10 @@ class BottomSheetTopRow extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(header.tr,
-                style: regularDefault.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              header.tr,
+              style: regularDefault.copyWith(fontWeight: FontWeight.w600),
+            ),
             CustomCircleAnimatedButton(
               onTap: () {
                 Get.back();
@@ -34,9 +37,12 @@ class BottomSheetTopRow extends StatelessWidget {
               height: 30,
               width: 30,
               backgroundColor: bgColor,
-              child:
-                  const Icon(Icons.clear, color: MyColor.colorBlack, size: 15),
-            )
+              child: const Icon(
+                Icons.clear,
+                color: MyColor.colorBlack,
+                size: 15,
+              ),
+            ),
           ],
         ),
         const CustomDivider(),

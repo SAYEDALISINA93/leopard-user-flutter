@@ -5,20 +5,19 @@ class DottedLine extends StatelessWidget {
   final double width;
   final double height;
   final Color lineColor;
-  const DottedLine(
-      {super.key,
-      this.width = double.infinity,
-      this.height = 1,
-      this.lineColor = MyColor.borderColor});
+  const DottedLine({
+    super.key,
+    this.width = double.infinity,
+    this.height = 1,
+    this.lineColor = MyColor.borderColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
       height: height,
-      child: CustomPaint(
-        painter: DottedLinePainter(lineColor),
-      ),
+      child: CustomPaint(painter: DottedLinePainter(lineColor)),
     );
   }
 }
@@ -45,7 +44,10 @@ class DottedLinePainter extends CustomPainter {
 
     while (currentX < endX) {
       canvas.drawLine(
-          Offset(currentX, 0), Offset(currentX + dashWidth, 0), paint);
+        Offset(currentX, 0),
+        Offset(currentX + dashWidth, 0),
+        paint,
+      );
       currentX += dashWidth + dashSpace;
     }
   }

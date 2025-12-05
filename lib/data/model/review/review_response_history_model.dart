@@ -62,7 +62,8 @@ class Data {
         reviews: json["reviews"] == null
             ? []
             : List<Review>.from(
-                json["reviews"]!.map((x) => Review.fromJson(x))),
+                json["reviews"]!.map((x) => Review.fromJson(x)),
+              ),
         rider:
             json["rider"] == null ? null : GlobalUser.fromJson(json["rider"]),
         driver: json["driver"] == null

@@ -12,7 +12,7 @@ import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/data/controller/auth/auth/phone_registration_controller.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
 import 'package:leoparduser/data/repo/auth/phone_signup_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
 import 'package:leoparduser/presentation/components/custom_no_data_found_class.dart';
 import 'package:leoparduser/presentation/components/will_pop_widget.dart';

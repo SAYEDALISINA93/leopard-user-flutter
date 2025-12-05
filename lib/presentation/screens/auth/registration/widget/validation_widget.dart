@@ -8,8 +8,11 @@ class ValidationWidget extends StatelessWidget {
   final List<ErrorModel> list;
   final bool fromReset;
 
-  const ValidationWidget(
-      {super.key, required this.list, this.fromReset = false});
+  const ValidationWidget({
+    super.key,
+    required this.list,
+    this.fromReset = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +22,15 @@ class ValidationWidget extends StatelessWidget {
         const SizedBox(height: Dimensions.textToTextSpace),
         Wrap(
           children: list
-              .map((item) =>
-                  ChipWidget(name: item.text.tr, hasError: item.hasError))
+              .map(
+                (item) =>
+                    ChipWidget(name: item.text.tr, hasError: item.hasError),
+              )
               .toList(),
         ),
         fromReset
             ? const SizedBox(height: Dimensions.space12)
-            : const SizedBox()
+            : const SizedBox(),
       ],
     );
   }

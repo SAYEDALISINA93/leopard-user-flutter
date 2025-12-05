@@ -53,12 +53,7 @@ class SelectedLocationInfo {
       if (showFull == false) {
         return "$placeName, $address, $city, $country";
       } else {
-        // Prioritize street name and house number if available
-        if (address != null && address!.isNotEmpty) {
-          return "$address, $city, $country";
-        } else {
-          return "$fullAddress";
-        }
+        return "$fullAddress";
       }
     }
   }

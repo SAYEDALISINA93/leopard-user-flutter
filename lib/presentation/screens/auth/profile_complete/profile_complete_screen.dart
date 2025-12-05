@@ -12,9 +12,6 @@ import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/controller/account/profile_complete_controller.dart';
 import 'package:leoparduser/data/repo/account/profile_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
-import 'package:leoparduser/environment.dart';
-import 'package:leoparduser/presentation/components/bottom-sheet/custom_bottom_sheet.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
 import 'package:leoparduser/presentation/components/divider/custom_spacer.dart';
@@ -37,12 +34,10 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
 
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
-    Get.put(ProfileRepo(
-      apiClient: Get.find(),
-    ));
-    final controller =
-        Get.put(ProfileCompleteController(profileRepo: Get.find()));
+    Get.put(ProfileRepo(apiClient: Get.find()));
+    final controller = Get.put(
+      ProfileCompleteController(profileRepo: Get.find()),
+    );
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.initialData();
@@ -60,9 +55,10 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarBrightness: Brightness.light,
-          statusBarIconBrightness: Brightness.dark),
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+      ),
       child: WillPopWidget(
         nextRoute: '',
         child: Scaffold(
@@ -74,24 +70,32 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(MyImages.appLogoWhite,
-                        width: MediaQuery.of(context).size.width / 3),
+                    Image.asset(
+                      MyImages.appLogoWhite,
+                      width: MediaQuery.of(context).size.width / 3,
+                    ),
                     Align(
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(MyIcons.bg,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            height: 200)),
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        MyIcons.bg,
+                        width: double.infinity,
+                        fit: BoxFit.contain,
+                        height: 200,
+                      ),
+                    ),
                     Container(
                       padding: const EdgeInsetsDirectional.only(
-                          top: Dimensions.space20,
-                          bottom: Dimensions.space20,
-                          start: Dimensions.space20,
-                          end: Dimensions.space20),
+                        top: Dimensions.space20,
+                        bottom: Dimensions.space20,
+                        start: Dimensions.space20,
+                        end: Dimensions.space20,
+                      ),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.cardRadius)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.cardRadius,
+                        ),
+                      ),
                       child: controller.isLoading
                           ? const CustomLoader()
                           : Form(
@@ -100,217 +104,33 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                          MyStrings.profileCompleteTitle.tr,
-                                          style: boldExtraLarge.copyWith(
-                                              fontSize:
-                                                  Dimensions.fontExtraLarge +
-                                                      5))),
-                                  const SizedBox(height: Dimensions.space5),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      MyStrings.profileCompleteTitle.tr,
+                                      style: boldExtraLarge.copyWith(
+                                        fontSize: Dimensions.fontExtraLarge + 5,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: Dimensions.space5,
+                                  ),
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                        MyStrings.profileCompleteSubTitle.tr
-                                            .toTitleCase(),
-                                        textAlign: TextAlign.center,
-                                        style: regularDefault.copyWith(
-                                            color: MyColor.getBodyTextColor(),
-                                            fontSize: Dimensions.fontLarge)),
+                                      MyStrings.profileCompleteSubTitle.tr
+                                          .toTitleCase(),
+                                      textAlign: TextAlign.center,
+                                      style: regularDefault.copyWith(
+                                        color: MyColor.getBodyTextColor(),
+                                        fontSize: Dimensions.fontLarge,
+                                      ),
+                                    ),
                                   ),
                                   SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
                                               .04),
-                                  // CustomTextField(
-                                  //   animatedLabel: false,
-                                  //   isRequired: true,
-                                  //   needOutlineBorder: true,
-                                  //   labelText: MyStrings.username.tr,
-                                  //   hintText:
-                                  //       "${MyStrings.enterYour.tr} ${MyStrings.username.toLowerCase().tr}",
-                                  //   textInputType: TextInputType.text,
-                                  //   inputAction: TextInputAction.next,
-                                  //   focusNode: controller.userNameFocusNode,
-                                  //   controller: controller.userNameController,
-                                  //   nextFocus: controller.mobileNoFocusNode,
-                                  //   onChanged: (value) {
-                                  //     return;
-                                  //   },
-                                  //   validator: (value) {
-                                  //     if (value != null && value.isEmpty) {
-                                  //       return MyStrings.enterYourUsername.tr;
-                                  //     } else if (value.length < 6) {
-                                  //       return MyStrings.kShortUserNameError;
-                                  //     } else {
-                                  //       return null;
-                                  //     }
-                                  //   },
-                                  // ),
-                                  // const SizedBox(height: Dimensions.space20),
-                                  // LabelText(
-                                  //     text: MyStrings.country,
-                                  //     isRequired: true),
-                                  // const SizedBox(
-                                  //     height: Dimensions.textToTextSpace),
-                                  // Container(
-                                  //   decoration: BoxDecoration(
-                                  //       color: MyColor.colorWhite,
-                                  //       border: Border.all(
-                                  //           color: isNumberBlank
-                                  //               ? MyColor.colorRed
-                                  //               : MyColor.primaryColor
-                                  //                   .withOpacity(0.08)),
-                                  //       borderRadius: BorderRadius.circular(
-                                  //           Dimensions.mediumRadius)),
-                                  //   padding: const EdgeInsets.symmetric(
-                                  //       horizontal: Dimensions.space10),
-                                  //   child: Row(
-                                  //     crossAxisAlignment:
-                                  //         CrossAxisAlignment.center,
-                                  //     mainAxisAlignment:
-                                  //         MainAxisAlignment.start,
-                                  //     children: [
-                                  //       GestureDetector(
-                                  //         onTap: () {
-                                  //           CountryBottomSheet
-                                  //               .profileBottomSheet(
-                                  //                   context, controller);
-                                  //         },
-                                  //         child: Row(
-                                  //           crossAxisAlignment:
-                                  //               CrossAxisAlignment.center,
-                                  //           mainAxisAlignment:
-                                  //               MainAxisAlignment.center,
-                                  //           children: [
-                                  //             MyImageWidget(
-                                  //               imageUrl: UrlContainer
-                                  //                   .countryFlagImageLink
-                                  //                   .replaceAll(
-                                  //                       "{countryCode}",
-                                  //                       controller
-                                  //                           .selectedCountryData
-                                  //                           .countryCode
-                                  //                           .toString()
-                                  //                           .toLowerCase()),
-                                  //               height: Dimensions.space25,
-                                  //               width: Dimensions.space40,
-                                  //             ),
-                                  //             spaceSide(Dimensions.space3),
-                                  //             Icon(
-                                  //                 Icons
-                                  //                     .keyboard_arrow_down_rounded,
-                                  //                 color: MyColor
-                                  //                     .getBodyTextColor()),
-                                  //             spaceSide(Dimensions.space5),
-                                  //             Container(
-                                  //                 color: MyColor
-                                  //                     .getBodyTextColor(),
-                                  //                 width: 1,
-                                  //                 height: Dimensions.space15),
-                                  //             Padding(
-                                  //               padding:
-                                  //                   const EdgeInsetsDirectional
-                                  //                       .only(
-                                  //                       start:
-                                  //                           Dimensions.space10),
-                                  //               child: Text(
-                                  //                   "+${controller.selectedCountryData.dialCode}",
-                                  //                   style: regularMediumLarge
-                                  //                       .copyWith(
-                                  //                           fontSize: Dimensions
-                                  //                               .fontOverLarge)),
-                                  //             )
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //       Expanded(
-                                  //         child: Padding(
-                                  //           padding: const EdgeInsetsDirectional
-                                  //               .only(
-                                  //               start: Dimensions.space5,
-                                  //               top: Dimensions.space5 - 1),
-                                  //           child: TextFormField(
-                                  //             decoration: InputDecoration(
-                                  //               suffixIcon: Padding(
-                                  //                 padding: const EdgeInsets.all(
-                                  //                     Dimensions.space15),
-                                  //                 child: MyLocalImageWidget(
-                                  //                     imagePath: MyIcons.phone,
-                                  //                     height: 15,
-                                  //                     imageOverlayColor: MyColor
-                                  //                         .getBodyTextColor()),
-                                  //               ),
-                                  //               border: InputBorder
-                                  //                   .none, // Remove border
-                                  //               filled: false, // Remove fill
-                                  //               contentPadding:
-                                  //                   const EdgeInsetsDirectional
-                                  //                       .only(
-                                  //                       top: 6.7,
-                                  //                       start: 0,
-                                  //                       end: 15,
-                                  //                       bottom: 0),
-                                  //               hintStyle:
-                                  //                   regularMediumLarge.copyWith(
-                                  //                       fontSize: Dimensions
-                                  //                           .fontOverLarge,
-                                  //                       color: MyColor
-                                  //                           .getBodyTextColor()),
-                                  //               hintText: MyStrings
-                                  //                   .enterPhoneNumber000.tr,
-                                  //             ),
-                                  //             controller:
-                                  //                 controller.mobileNoController,
-                                  //             keyboardType: TextInputType
-                                  //                 .phone, // Set keyboard type to phone
-                                  //             style:
-                                  //                 regularMediumLarge.copyWith(
-                                  //                     fontSize: Dimensions
-                                  //                         .fontOverLarge),
-                                  //             cursorColor: MyColor
-                                  //                 .primaryColor, // Set cursor color to red
-                                  //             onChanged: (value) {
-                                  //               controller.mobileNoController
-                                  //                       .text.isNotEmpty
-                                  //                   ? isNumberBlank = false
-                                  //                   : null;
-                                  //               setState(() {});
-                                  //             },
-                                  //             focusNode:
-                                  //                 controller.mobileNoFocusNode,
-                                  //             validator: (value) {
-                                  //               final whitespaceOrEmpty =
-                                  //                   RegExp(r"^\s*$|^$");
-                                  //               if (whitespaceOrEmpty
-                                  //                   .hasMatch(value ?? "")) {
-                                  //                 setState(() {
-                                  //                   isNumberBlank = true;
-                                  //                 });
-                                  //                 return;
-                                  //               } else {
-                                  //                 return null;
-                                  //               }
-                                  //             },
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                  // isNumberBlank
-                                  //     ? const SizedBox(
-                                  //         height: Dimensions.space5)
-                                  //     : const SizedBox.shrink(),
-                                  // isNumberBlank
-                                  //     ? Padding(
-                                  //         padding:
-                                  //             const EdgeInsets.only(left: 8.0),
-                                  //         child: Text(
-                                  //             MyStrings.enterYourPhoneNumber,
-                                  //             style: regularSmall.copyWith(
-                                  //                 color: MyColor.colorRed)))
-                                  //     : const SizedBox.shrink(),
                                   const SizedBox(height: Dimensions.space20),
                                   CustomTextField(
                                     animatedLabel: false,
@@ -375,7 +195,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       return;
                                     },
                                   ),
-                                  const SizedBox(height: Dimensions.space20),
+                                  const SizedBox(
+                                    height: Dimensions.space20,
+                                  ),
                                   CustomTextField(
                                     animatedLabel: false,
                                     needOutlineBorder: true,
@@ -391,7 +213,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       return;
                                     },
                                   ),
-                                  const SizedBox(height: Dimensions.space20),
+                                  const SizedBox(
+                                    height: Dimensions.space20,
+                                  ),
                                   CustomTextField(
                                     animatedLabel: false,
                                     needOutlineBorder: true,
@@ -407,7 +231,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       return;
                                     },
                                   ),
-                                  const SizedBox(height: Dimensions.space20),
+                                  const SizedBox(
+                                    height: Dimensions.space20,
+                                  ),
                                   CustomTextField(
                                     animatedLabel: false,
                                     needOutlineBorder: true,
@@ -423,7 +249,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                     },
                                   ),
                                   if (controller.loginType == "google") ...[
-                                    const SizedBox(height: Dimensions.space20),
+                                    const SizedBox(
+                                      height: Dimensions.space20,
+                                    ),
                                     CustomTextField(
                                       animatedLabel: false,
                                       needOutlineBorder: true,
@@ -438,7 +266,9 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                       },
                                     ),
                                   ],
-                                  const SizedBox(height: Dimensions.space35),
+                                  const SizedBox(
+                                    height: Dimensions.space35,
+                                  ),
                                   RoundedButton(
                                     isLoading: controller.submitLoading,
                                     text: MyStrings.completeProfile.tr,
@@ -447,7 +277,7 @@ class _ProfileCompleteScreenState extends State<ProfileCompleteScreen> {
                                         controller.updateProfile();
                                       }
                                     },
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

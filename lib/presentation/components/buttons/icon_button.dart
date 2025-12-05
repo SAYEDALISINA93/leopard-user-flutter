@@ -39,42 +39,45 @@ class CustomIconButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
-            color: isOutline
-                ? Colors.transparent
-                : bgColor ?? MyColor.primaryColor,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: !isOutline ? Colors.transparent : MyColor.primaryColor,
-            )),
+          color:
+              isOutline ? Colors.transparent : bgColor ?? MyColor.primaryColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: !isOutline ? Colors.transparent : MyColor.primaryColor,
+          ),
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             isSvg!
-                ? SvgPicture.asset(icon,
+                ? SvgPicture.asset(
+                    icon,
                     fit: BoxFit.contain,
                     colorFilter: ColorFilter.mode(
-                        iconColor ?? MyColor.colorWhite, BlendMode.srcIn),
+                      iconColor ?? MyColor.colorWhite,
+                      BlendMode.srcIn,
+                    ),
                     height: iconSize,
-                    width: iconSize)
+                    width: iconSize,
+                  )
                 : Image.asset(
                     icon,
                     height: iconSize,
                     width: iconSize,
                     color: iconColor,
                   ),
-            const SizedBox(
-              width: Dimensions.space10,
-            ),
+            const SizedBox(width: Dimensions.space10),
             Flexible(
               child: Text(
                 name.tr,
                 overflow: TextOverflow.ellipsis,
                 style: style ??
                     boldDefault.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: iconColor ?? MyColor.colorWhite),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: iconColor ?? MyColor.colorWhite,
+                    ),
               ),
             ),
           ],

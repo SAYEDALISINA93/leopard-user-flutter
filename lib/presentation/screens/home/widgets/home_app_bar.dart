@@ -6,7 +6,6 @@ import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_icons.dart';
-import 'package:leoparduser/core/utils/my_images.dart';
 import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/controller/home/home_controller.dart';
@@ -18,8 +17,11 @@ import 'package:leoparduser/presentation/components/text/header_text.dart';
 class HomeScreenAppBar extends StatelessWidget {
   HomeController controller;
   Function openDrawer;
-  HomeScreenAppBar(
-      {super.key, required this.controller, required this.openDrawer});
+  HomeScreenAppBar({
+    super.key,
+    required this.controller,
+    required this.openDrawer,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,11 @@ class HomeScreenAppBar extends StatelessWidget {
                     children: [
                       Container(
                         margin: const EdgeInsetsDirectional.only(
-                            end: 3, top: 3, bottom: 3, start: 3),
+                          end: 3,
+                          top: 3,
+                          bottom: 3,
+                          start: 3,
+                        ),
                         padding: const EdgeInsets.all(5),
                         child: GestureDetector(
                           onTap: () {
@@ -50,8 +56,6 @@ class HomeScreenAppBar extends StatelessWidget {
                             width: 50,
                             radius: 50,
                             isProfile: true,
-                            errorWidget:
-                                Image.asset(MyImages.defaultAvatar, height: 50),
                           ),
                         ),
                       ),
@@ -62,28 +66,30 @@ class HomeScreenAppBar extends StatelessWidget {
                             HeaderText(
                               text: controller.user.id == '-1'
                                   ? controller.homeRepo.apiClient
-                                      .getCurrencyOrUsername(
-                                          isCurrency: false, isSymbol: false)
+                                      .getUserName()
                                       .toTitleCase()
-                                  : '${controller.user.firstname ?? ''} ${controller.user.lastname ?? ''}'
-                                      .toTitleCase(),
+                                  : controller.user.getFullName(),
                               textStyle: boldLarge.copyWith(
-                                  color: MyColor.getTextColor(), fontSize: 16),
+                                color: MyColor.getTextColor(),
+                                fontSize: 16,
+                              ),
                             ),
                             Row(
                               children: [
                                 CustomSvgPicture(
-                                    image: MyIcons.currentLocation,
-                                    color: MyColor.primaryColor),
+                                  image: MyIcons.currentLocation,
+                                  color: MyColor.primaryColor,
+                                ),
                                 SizedBox(width: Dimensions.space3),
                                 Expanded(
                                   child: Text(
                                     controller
                                         .appLocationController.currentAddress,
                                     style: regularDefault.copyWith(
-                                        color: MyColor.bodyText,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400),
+                                      color: MyColor.bodyText,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -105,16 +111,20 @@ class HomeScreenAppBar extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsetsDirectional.only(end: 10),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
                     decoration: BoxDecoration(
-                        border: Border.all(color: MyColor.borderColor),
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.largeRadius)),
+                      border: Border.all(color: MyColor.borderColor),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.largeRadius,
+                      ),
+                    ),
                     child: SvgPicture.asset(MyIcons.sideMenu),
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

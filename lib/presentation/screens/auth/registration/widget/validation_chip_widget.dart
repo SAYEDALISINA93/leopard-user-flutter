@@ -16,22 +16,27 @@ class ChipWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Chip(
-          avatar: Icon(hasError ? Icons.cancel : Icons.check_circle,
-              color: hasError ? Colors.red : Colors.green, size: 15),
+          avatar: Icon(
+            hasError ? Icons.cancel : Icons.check_circle,
+            color: hasError ? Colors.red : Colors.green,
+            size: 15,
+          ),
           shape: StadiumBorder(
-              side: BorderSide(
-                  color: hasError ? Colors.red : Colors.green, width: 1)),
+            side: BorderSide(
+              color: hasError ? Colors.red : Colors.green,
+              width: 1,
+            ),
+          ),
           label: Text(
             name.tr,
             style: regularSmall.copyWith(
-                fontSize: Dimensions.fontExtraSmall,
-                color: hasError ? Colors.red : Colors.green),
+              fontSize: Dimensions.fontExtraSmall,
+              color: hasError ? Colors.red : Colors.green,
+            ),
           ),
           backgroundColor: MyColor.getCardBgColor(),
         ),
-        const SizedBox(
-          width: 5,
-        ),
+        const SizedBox(width: 5),
       ],
     );
   }

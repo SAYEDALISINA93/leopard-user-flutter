@@ -31,20 +31,25 @@ class ResetPasswordController extends GetxController {
     submitLoading = true;
     update();
 
-    EmailVerificationModel model =
-        await loginRepo.resetPassword(email, password, code);
+    EmailVerificationModel model = await loginRepo.resetPassword(
+      email,
+      password,
+      code,
+    );
     submitLoading = false;
     update();
 
     if (model.status == 'success') {
-      loginRepo.apiClient.sharedPreferences
-          .remove(SharedPreferenceHelper.resetPassTokenKey);
+      loginRepo.apiClient.sharedPreferences.remove(
+        SharedPreferenceHelper.resetPassTokenKey,
+      );
       Get.offAndToNamed(RouteHelper.loginScreen);
     }
   }
 
   RegExp regex = RegExp(
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*(),.?":{}|<>]).{6,}$');
+    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*(),.?":{}|<>]).{6,}$',
+  );
 
   String? validatePassword(String value) {
     if (value.isEmpty) {

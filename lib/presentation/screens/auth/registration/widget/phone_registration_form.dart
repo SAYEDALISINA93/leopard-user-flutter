@@ -90,7 +90,7 @@ class _PhoneRegistrationFormState extends State<PhoneRegistrationForm> {
                       ),
                     ),
                     if (controller.generalSettingRepo.apiClient
-                        .isAgreePolicyEnable()) ...[
+                        .isAgreePolicyEnabled()) ...[
                       const SizedBox(width: Dimensions.space8),
                       Expanded(
                         child: GestureDetector(

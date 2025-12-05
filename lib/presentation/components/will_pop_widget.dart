@@ -12,20 +12,21 @@ class WillPopWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (bool didPop, d) async {
-          if (didPop) return;
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, d) async {
+        if (didPop) return;
 
-          if (nextRoute.isEmpty) {
-            showExitDialog(context);
+        if (nextRoute.isEmpty) {
+          showExitDialog(context);
+        } else {
+          if (nextRoute == 'maintenance') {
+            SystemNavigator.pop();
           } else {
-            if (nextRoute == 'maintenance') {
-              SystemNavigator.pop();
-            } else {
-              Get.offAndToNamed(nextRoute);
-            }
+            Get.offAndToNamed(nextRoute);
           }
-        },
-        child: child);
+        }
+      },
+      child: child,
+    );
   }
 }

@@ -1,1 +1,0 @@
-enum RideTab { ACTIVE, COMPLETE, CANCELED }

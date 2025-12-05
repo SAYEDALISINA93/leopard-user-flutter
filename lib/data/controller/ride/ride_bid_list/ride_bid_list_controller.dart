@@ -6,6 +6,7 @@ import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
+import 'package:leoparduser/data/controller/ride/ride_details/ride_details_controller.dart';
 import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
 import 'package:leoparduser/data/model/bid/bid_list_response_model.dart';
 import 'package:leoparduser/data/model/global/bid/bid_model.dart';
@@ -28,10 +29,9 @@ class RideBidListController extends GetxController {
   String rideId = "";
 
   Future<void> initialData(String id) async {
-    defaultCurrency = repo.apiClient.getCurrencyOrUsername();
-    defaultCurrencySymbol =
-        repo.apiClient.getCurrencyOrUsername(isSymbol: true);
-    username = repo.apiClient.getCurrencyOrUsername(isCurrency: false);
+    defaultCurrency = repo.apiClient.getCurrency();
+    defaultCurrencySymbol = repo.apiClient.getCurrency(isSymbol: true);
+    username = repo.apiClient.getCurrency(isSymbol: false);
     rideId = id;
     update();
     getRideBidList(id);
@@ -45,8 +45,8 @@ class RideBidListController extends GetxController {
     try {
       ResponseModel responseModel = await repo.getRideBidList(id: id);
       if (responseModel.statusCode == 200) {
-        BidListResponseModel model = BidListResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        BidListResponseModel model =
+            BidListResponseModel.fromJson(responseModel.responseJson);
         userImagePath =
             '${UrlContainer.domainUrl}/${model.data?.userImagePath}/';
         driverImagePath =
@@ -78,8 +78,8 @@ class RideBidListController extends GetxController {
     try {
       ResponseModel responseModel = await repo.acceptBid(bidId: id);
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson(responseModel.responseJson);
         if (model.status == "success") {
           Get.toNamed(RouteHelper.rideDetailsScreen, arguments: rideId);
         } else {
@@ -106,12 +106,19 @@ class RideBidListController extends GetxController {
     try {
       ResponseModel responseModel = await repo.rejectBid(id: id);
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson(responseModel.responseJson);
         if (model.status == "success") {
           bids = [];
           update();
           getRideBidList(rideId);
+
+          // Update bid count in RideDetailsController if it's registered
+          if (Get.isRegistered<RideDetailsController>()) {
+            final detailsController = Get.find<RideDetailsController>();
+            detailsController.updateBidCount(true); // true = remove/decrease
+          }
+
           CustomSnackBar.success(successList: model.message ?? ["Success"]);
         } else {
           CustomSnackBar.error(

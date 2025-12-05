@@ -5,6 +5,7 @@
 
 import 'dart:convert';
 
+import 'package:leoparduser/data/model/global/app/app_service_model.dart';
 import 'package:leoparduser/data/model/global/app/ride_meassage_model.dart';
 import 'package:leoparduser/data/model/global/app/ride_model.dart';
 import 'package:leoparduser/data/model/global/bid/bid_model.dart';
@@ -15,14 +16,14 @@ PusherResponseModel pusherResponseModelFromJson(String str) =>
 class PusherResponseModel {
   String? channelName;
   String? eventName;
-  Data? data;
+  EventData? data;
 
   PusherResponseModel({this.channelName, this.eventName, this.data});
 
   PusherResponseModel copyWith({
     String? channelName,
     String? eventName,
-    Data? data,
+    EventData? data,
   }) =>
       PusherResponseModel(
         channelName: channelName.toString(),
@@ -32,79 +33,84 @@ class PusherResponseModel {
 
   factory PusherResponseModel.fromJson(Map<String, dynamic> json) {
     return PusherResponseModel(
-      channelName: json["channelName"]?.toString(),
-      eventName: json["eventName"]?.toString(),
-      data: json["data"] is Map<String, dynamic>
-          ? Data.fromJson(json["data"] as Map<String, dynamic>)
-          : null,
+      channelName: json["channelName"].toString(),
+      eventName: json["eventName"].toString(),
+      data: EventData.fromJson(json["data"]),
     );
   }
 }
 
-class Data {
+class EventData {
   String? remark;
   String? userId;
   String? driverId;
   String? rideId;
+  String? driverTotalRide;
   RideMessage? message;
   String? driverLatitude;
   String? driverLongitude;
   RideModel? ride;
+  AppService? service;
   BidModel? bid;
-  Data({
+  EventData({
     this.remark,
     this.userId,
     this.driverId,
     this.rideId,
+    this.driverTotalRide,
     this.message,
     this.driverLatitude,
     this.driverLongitude,
     this.ride,
+    this.service,
     this.bid,
   });
 
-  Data copyWith({
+  EventData copyWith({
     String? channelName,
     String? eventName,
     String? remark,
     String? userId,
     String? driverId,
     String? rideId,
+    String? driverTotalRide,
     RideMessage? message,
     String? driverLatitude,
     String? driverLongitude,
     RideModel? ride,
+    AppService? service,
     BidModel? bid,
   }) =>
-      Data(
+      EventData(
         remark: remark.toString(),
         userId: userId.toString(),
         driverId: driverId.toString(),
         rideId: rideId.toString(),
+        driverTotalRide: driverTotalRide.toString(),
         message: message,
         driverLatitude: driverLatitude ?? '',
         driverLongitude: driverLongitude ?? '',
         ride: ride,
+        service: service,
         bid: bid,
       );
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      remark: json["remark"]?.toString(),
-      userId: json["userId"]?.toString(),
-      driverId: json["driverId"]?.toString(),
-      rideId: json["rideId"]?.toString(),
-      message: json["message"] is Map<String, dynamic>
-          ? RideMessage.fromJson(json["message"] as Map<String, dynamic>)
+  factory EventData.fromJson(Map<String, dynamic> json) {
+    return EventData(
+      remark: json["remark"].toString(),
+      userId: json["userId"].toString(),
+      driverId: json["driverId"].toString(),
+      rideId: json["rideId"].toString(),
+      driverTotalRide: json["driver_total_ride"].toString(),
+      message: json["message"] != null
+          ? RideMessage.fromJson(json["message"])
           : null,
-      driverLatitude: json["latitude"]?.toString(),
-      driverLongitude: json["longitude"]?.toString(),
-      ride: json["ride"] is Map<String, dynamic>
-          ? RideModel.fromJson(json["ride"] as Map<String, dynamic>)
-          : null,
-      bid: json["bid"] is Map<String, dynamic>
-          ? BidModel.fromJson(json["bid"] as Map<String, dynamic>)
-          : null,
+      driverLatitude: json["latitude"].toString(),
+      driverLongitude: json["longitude"].toString(),
+      ride: json["ride"] != null ? RideModel.fromJson(json["ride"]) : null,
+      service:
+          json["service"] != null ? AppService.fromJson(json["service"]) : null,
+      bid: json["bid"] != null ? BidModel.fromJson(json["bid"]) : null,
     );
   }
 }

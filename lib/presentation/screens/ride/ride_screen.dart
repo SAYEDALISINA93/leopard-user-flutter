@@ -33,7 +33,8 @@ class _RideScreenState extends State<RideScreen> {
     return Scaffold(
       backgroundColor: MyColor.screenBgColor,
       appBar: CustomAppBar(
-          title: isCity ? MyStrings.city.tr : MyStrings.interCity.tr),
+        title: isCity ? MyStrings.city.tr : MyStrings.interCity.tr,
+      ),
       body: GetBuilder<RideScreenSettingsController>(
         builder: (controller) {
           return Padding(
@@ -49,22 +50,28 @@ class _RideScreenState extends State<RideScreen> {
                       children: [
                         Container(
                           decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: MyColor.colorWhite))),
+                            border: Border(
+                              bottom: BorderSide(color: MyColor.colorWhite),
+                            ),
+                          ),
                           child: TabBar(
                             tabAlignment: TabAlignment.start,
                             dividerColor: MyColor.borderColor,
                             indicator: const BoxDecoration(
                               border: Border(
-                                  bottom: BorderSide(
-                                      color: MyColor.primaryColor, width: 2)),
+                                bottom: BorderSide(
+                                  color: MyColor.primaryColor,
+                                  width: 2,
+                                ),
+                              ),
                             ),
                             indicatorSize: TabBarIndicatorSize.label,
                             isScrollable: true,
                             labelColor: MyColor.primaryColor,
                             labelPadding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             unselectedLabelColor: MyColor.colorBlack,
                             physics: const BouncingScrollPhysics(),
                             onTap: (i) {
@@ -87,7 +94,8 @@ class _RideScreenState extends State<RideScreen> {
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: Dimensions.space10),
+                      horizontal: Dimensions.space10,
+                    ),
                     child: Builder(
                       builder: (_) {
                         if (controller.selectedTab == 0) {

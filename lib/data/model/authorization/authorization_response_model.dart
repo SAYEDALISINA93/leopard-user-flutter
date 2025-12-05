@@ -47,10 +47,7 @@ class AuthorizationResponseModel {
 }
 
 class Data {
-  Data({
-    String? actionId,
-    GlobalUser? user,
-  }) {
+  Data({String? actionId, GlobalUser? user}) {
     _actionId = actionId;
     _user = user;
   }

@@ -10,7 +10,7 @@ import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/method.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/firebase_options.dart';
 import 'package:path_provider/path_provider.dart';
 

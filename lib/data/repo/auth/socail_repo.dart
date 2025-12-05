@@ -3,7 +3,7 @@ import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/utils/method.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 
 class SocialAuthRepo {
   ApiClient apiClient;
@@ -27,19 +27,28 @@ class SocialAuthRepo {
     if (provider == 'facebook') {
       map = {'token': accessToken, 'provider': "facebook"};
     }
+    if (provider == 'apple') {
+      map = {'token': accessToken, 'provider': "apple"};
+    }
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.socialLoginEndPoint}';
-    ResponseModel model =
-        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+    ResponseModel model = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      passHeader: false,
+    );
     return model;
   }
 
   Future<bool> sendUserToken() async {
     String deviceToken;
-    if (apiClient.sharedPreferences
-        .containsKey(SharedPreferenceHelper.fcmDeviceKey)) {
-      deviceToken = apiClient.sharedPreferences
-              .getString(SharedPreferenceHelper.fcmDeviceKey) ??
+    if (apiClient.sharedPreferences.containsKey(
+      SharedPreferenceHelper.fcmDeviceKey,
+    )) {
+      deviceToken = apiClient.sharedPreferences.getString(
+            SharedPreferenceHelper.fcmDeviceKey,
+          ) ??
           '';
     } else {
       deviceToken = '';
@@ -55,8 +64,10 @@ class SocialAuthRepo {
         if (deviceToken == fcmDeviceToken) {
           success = true;
         } else {
-          apiClient.sharedPreferences
-              .setString(SharedPreferenceHelper.fcmDeviceKey, fcmDeviceToken);
+          apiClient.sharedPreferences.setString(
+            SharedPreferenceHelper.fcmDeviceKey,
+            fcmDeviceToken,
+          );
           success = await sendUpdatedToken(fcmDeviceToken);
         }
       });

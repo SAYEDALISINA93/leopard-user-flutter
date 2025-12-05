@@ -1,14 +1,13 @@
-import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:http/http.dart' as http;
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/method.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
+import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/model/auth/verification/email_verification_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 
 class LoginRepo {
@@ -52,8 +51,12 @@ class LoginRepo {
     // Map<String, String> map = {'username': email, 'password': password};
     String url = '${UrlContainer.baseUrl}${UrlContainer.loginEndPoint}';
 
-    ResponseModel model =
-        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+    ResponseModel model = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      passHeader: false,
+    );
 
     return model;
   }
@@ -62,18 +65,27 @@ class LoginRepo {
     final map = modelToMap(value, type);
     String url =
         '${UrlContainer.baseUrl}${UrlContainer.forgetPasswordEndPoint}';
-    final response = await apiClient.request(url, Method.postMethod, map,
-        isOnlyAcceptType: true, passHeader: true);
+    final response = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      isOnlyAcceptType: true,
+      passHeader: true,
+    );
 
     EmailVerificationModel model =
-        EmailVerificationModel.fromJson(jsonDecode(response.responseJson));
+        EmailVerificationModel.fromJson((response.responseJson));
 
     if (model.status.toLowerCase() == "success") {
       apiClient.sharedPreferences.setString(
-          SharedPreferenceHelper.userEmailKey, model.data?.email ?? '');
-      CustomSnackBar.success(successList: [
-        '${MyStrings.passwordResetEmailSentTo} ${model.data?.email ?? MyStrings.yourEmail}'
-      ]);
+        SharedPreferenceHelper.userEmailKey,
+        model.data?.email ?? '',
+      );
+      CustomSnackBar.success(
+        successList: [
+          '${MyStrings.passwordResetEmailSentTo} ${model.data?.email != null ? MyUtils.getFormatMaskMail(model.data?.email ?? "") : MyStrings.yourEmail}',
+        ],
+      );
       return model.data?.email ?? '';
     } else {
       CustomSnackBar.error(errorList: model.message ?? [MyStrings.requestFail]);
@@ -87,19 +99,25 @@ class LoginRepo {
   }
 
   Future<EmailVerificationModel> verifyForgetPassCode(String code) async {
-    String? email = apiClient.sharedPreferences
-            .getString(SharedPreferenceHelper.userEmailKey) ??
+    String? email = apiClient.sharedPreferences.getString(
+          SharedPreferenceHelper.userEmailKey,
+        ) ??
         '';
     Map<String, String> map = {'code': code, 'email': email};
 
     String url =
         '${UrlContainer.baseUrl}${UrlContainer.passwordVerifyEndPoint}';
 
-    final response = await apiClient.request(url, Method.postMethod, map,
-        passHeader: true, isOnlyAcceptType: true);
+    final response = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      passHeader: true,
+      isOnlyAcceptType: true,
+    );
 
     EmailVerificationModel model =
-        EmailVerificationModel.fromJson(jsonDecode(response.responseJson));
+        EmailVerificationModel.fromJson((response.responseJson));
     if (model.status == 'success') {
       model.setCode(200);
       return model;
@@ -110,7 +128,10 @@ class LoginRepo {
   }
 
   Future<EmailVerificationModel> resetPassword(
-      String email, String password, String code) async {
+    String email,
+    String password,
+    String code,
+  ) async {
     Map<String, String> map = {
       'token': code,
       'email': email,
@@ -118,16 +139,17 @@ class LoginRepo {
       'password_confirmation': password,
     };
 
-    Uri url = Uri.parse(
-        '${UrlContainer.baseUrl}${UrlContainer.resetPasswordEndPoint}');
+    String url = '${UrlContainer.baseUrl}${UrlContainer.resetPasswordEndPoint}';
+    final response = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      passHeader: true,
+      isOnlyAcceptType: true,
+    );
 
-    final response = await http.post(url, body: map, headers: {
-      "Accept": "application/json",
-      "dev-token":
-          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
-    });
     EmailVerificationModel model =
-        EmailVerificationModel.fromJson(jsonDecode(response.body));
+        EmailVerificationModel.fromJson((response.responseJson));
 
     if (model.status == 'success') {
       CustomSnackBar.success(successList: model.message ?? []);
@@ -142,10 +164,12 @@ class LoginRepo {
 
   Future<bool> sendUserToken() async {
     String deviceToken;
-    if (apiClient.sharedPreferences
-        .containsKey(SharedPreferenceHelper.fcmDeviceKey)) {
-      deviceToken = apiClient.sharedPreferences
-              .getString(SharedPreferenceHelper.fcmDeviceKey) ??
+    if (apiClient.sharedPreferences.containsKey(
+      SharedPreferenceHelper.fcmDeviceKey,
+    )) {
+      deviceToken = apiClient.sharedPreferences.getString(
+            SharedPreferenceHelper.fcmDeviceKey,
+          ) ??
           '';
     } else {
       deviceToken = '';
@@ -165,8 +189,10 @@ class LoginRepo {
         if (deviceToken == fcmDeviceToken) {
           success = true;
         } else {
-          apiClient.sharedPreferences
-              .setString(SharedPreferenceHelper.fcmDeviceKey, fcmDeviceToken);
+          apiClient.sharedPreferences.setString(
+            SharedPreferenceHelper.fcmDeviceKey,
+            fcmDeviceToken,
+          );
           success = await sendUpdatedToken(fcmDeviceToken);
         }
       });
@@ -201,8 +227,12 @@ class LoginRepo {
 
     String url = '${UrlContainer.baseUrl}${UrlContainer.socialLoginEndPoint}';
 
-    ResponseModel model =
-        await apiClient.request(url, Method.postMethod, map, passHeader: false);
+    ResponseModel model = await apiClient.request(
+      url,
+      Method.postMethod,
+      map,
+      passHeader: false,
+    );
 
     return model;
   }

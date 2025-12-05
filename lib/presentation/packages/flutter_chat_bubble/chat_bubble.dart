@@ -76,16 +76,17 @@ class ChatBubble extends StatelessWidget {
   /// the selected clipper type.
   final EdgeInsetsGeometry? padding;
 
-  const ChatBubble(
-      {super.key,
-      this.clipper,
-      this.child,
-      this.margin,
-      this.elevation,
-      this.backGroundColor,
-      this.shadowColor,
-      this.alignment,
-      this.padding});
+  const ChatBubble({
+    super.key,
+    this.clipper,
+    this.child,
+    this.margin,
+    this.elevation,
+    this.backGroundColor,
+    this.shadowColor,
+    this.alignment,
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {

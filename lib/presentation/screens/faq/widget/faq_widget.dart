@@ -14,20 +14,23 @@ class FaqListItem extends StatelessWidget {
   final int selectedIndex;
   final VoidCallback press;
 
-  const FaqListItem(
-      {super.key,
-      required this.answer,
-      required this.question,
-      required this.index,
-      required this.press,
-      required this.selectedIndex});
+  const FaqListItem({
+    super.key,
+    required this.answer,
+    required this.question,
+    required this.index,
+    required this.press,
+    required this.selectedIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.space15, vertical: Dimensions.space15),
+        horizontal: Dimensions.space15,
+        vertical: Dimensions.space15,
+      ),
       margin: const EdgeInsets.only(bottom: Dimensions.space15),
       decoration: BoxDecoration(
         color: MyColor.getCardBgColor(),
@@ -51,13 +54,14 @@ class FaqListItem extends StatelessWidget {
                 child: IconButton(
                   onPressed: press,
                   icon: Icon(
-                      index == selectedIndex
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      color: MyColor.getPrimaryColor(),
-                      size: 20),
+                    index == selectedIndex
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    color: MyColor.getPrimaryColor(),
+                    size: 20,
+                  ),
                 ),
-              )
+              ),
             ],
           ),
           ExpandedSection(
@@ -68,12 +72,13 @@ class FaqListItem extends StatelessWidget {
                 const SizedBox(height: Dimensions.space10),
                 HtmlWidget(
                   answer.tr,
-                  textStyle:
-                      regularSmall.copyWith(color: MyColor.getLabelTextColor()),
-                )
+                  textStyle: regularSmall.copyWith(
+                    color: MyColor.getLabelTextColor(),
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

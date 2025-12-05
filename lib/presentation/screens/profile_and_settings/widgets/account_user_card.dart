@@ -67,76 +67,87 @@ class AccountUserCard extends StatelessWidget {
                       ),
                       child: const CustomSvgPicture(image: MyIcons.avatar),
                     ),
-                  const SizedBox(
-                    width: Dimensions.space15,
-                  ),
+                  const SizedBox(width: Dimensions.space15),
                   Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
-                          child: Text("$fullName".toUpperCase(),
-                              style: titleStyle ??
-                                  boldDefault.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: Dimensions.fontLarge + 3),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        const SizedBox(
-                          height: Dimensions.space3,
-                        ),
-                        Text("@$username",
+                          child: Text(
+                            "$fullName".toUpperCase(),
                             style: titleStyle ??
-                                regularDefault.copyWith(
-                                    fontSize: Dimensions.fontSmall),
+                                boldDefault.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Dimensions.fontLarge + 3,
+                                ),
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(height: Dimensions.space3),
+                        Text(
+                          "@$username",
+                          style: titleStyle ??
+                              regularDefault.copyWith(
+                                fontSize: Dimensions.fontSmall,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         const SizedBox(height: Dimensions.space5),
-                        Text(subtitle ?? "",
-                            style: subtitleStyle ??
-                                regularDefault.copyWith(
-                                    fontSize: Dimensions.fontSmall,
-                                    color: MyColor.bodyText
-                                        .withValues(alpha: 0.8)),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
+                        Text(
+                          subtitle ?? "",
+                          style: subtitleStyle ??
+                              regularDefault.copyWith(
+                                fontSize: Dimensions.fontSmall,
+                                color: MyColor.bodyText.withValues(alpha: 0.8),
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         const SizedBox(height: Dimensions.space5),
                         Container(
                           decoration: BoxDecoration(
-                              color: MyColor.colorBlack,
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.space20)),
+                            color: MyColor.colorBlack,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.space20,
+                            ),
+                          ),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: Dimensions.space10,
-                              vertical: Dimensions.space5),
+                            horizontal: Dimensions.space10,
+                            vertical: Dimensions.space5,
+                          ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.star_rounded,
-                                  color: MyColor.colorOrange,
-                                  size: Dimensions.fontLarge),
+                              const Icon(
+                                Icons.star_rounded,
+                                color: MyColor.colorOrange,
+                                size: Dimensions.fontLarge,
+                              ),
                               const SizedBox(width: 5),
                               Text(
-                                  rating == '0.00'
-                                      ? MyStrings.nA.tr
-                                      : (rating ?? ''),
-                                  style: boldDefault.copyWith(
-                                      fontSize: Dimensions.fontDefault,
-                                      color: MyColor.colorWhite))
+                                rating == '0.00'
+                                    ? MyStrings.nA.tr
+                                    : (rating ?? ''),
+                                style: boldDefault.copyWith(
+                                  fontSize: Dimensions.fontDefault,
+                                  color: MyColor.colorWhite,
+                                ),
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            rightWidget ?? const SizedBox.shrink()
+            rightWidget ?? const SizedBox.shrink(),
           ],
         ),
       ),

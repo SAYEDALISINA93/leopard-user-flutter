@@ -6,7 +6,7 @@ class CreateRideRequestModel {
   String pickUpLocation;
   String pickUpLatitude;
   String pickUpLongitude;
-  String destination;
+  String destinationLocation;
   String destinationLatitude;
   String destinationLongitude;
   String isIntercity;
@@ -21,7 +21,7 @@ class CreateRideRequestModel {
     required this.pickUpLocation,
     required this.pickUpLatitude,
     required this.pickUpLongitude,
-    required this.destination,
+    required this.destinationLocation,
     required this.destinationLatitude,
     required this.destinationLongitude,
     required this.isIntercity,
@@ -39,9 +39,7 @@ class CreateRideRequestModel {
       'pickup_location': pickUpLocation,
       'pickup_latitude': pickUpLatitude,
       'pickup_longitude': pickUpLongitude,
-      // Send both keys for compatibility across endpoints
-      'destination': destination,
-      'destination_location': destination,
+      'destination_location': destinationLocation,
       'destination_latitude': destinationLatitude,
       'destination_longitude': destinationLongitude,
       'is_intercity': isIntercity,
@@ -60,7 +58,7 @@ class CreateRideRequestModel {
       pickUpLocation: map['pickUpLocation'] as String,
       pickUpLatitude: map['pickUpLatitude'] as String,
       pickUpLongitude: map['pickUpLongitude'] as String,
-      destination: map['destination'] as String,
+      destinationLocation: map['destination'] as String,
       destinationLatitude: map['destinationLatitude'] as String,
       destinationLongitude: map['destinationLongitude'] as String,
       isIntercity: map['isIntercity'] as String,
@@ -75,7 +73,7 @@ class CreateRideRequestModel {
 
   String toJson() => json.encode(toMap());
 
-  factory CreateRideRequestModel.fromJson(String source) =>
-      CreateRideRequestModel.fromMap(
-          json.decode(source) as Map<String, dynamic>);
+  factory CreateRideRequestModel.fromJson(String source) => CreateRideRequestModel.fromMap(
+        json.decode(source) as Map<String, dynamic>,
+      );
 }

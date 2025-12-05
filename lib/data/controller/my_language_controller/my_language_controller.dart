@@ -19,8 +19,10 @@ import '../localization/localization_controller.dart';
 class MyLanguageController extends GetxController {
   GeneralSettingRepo repo;
   LocalizationController localizationController;
-  MyLanguageController(
-      {required this.repo, required this.localizationController});
+  MyLanguageController({
+    required this.repo,
+    required this.localizationController,
+  });
 
   bool isLoading = true;
   List<MyLanguageModel> langList = [];
@@ -34,17 +36,19 @@ class MyLanguageController extends GetxController {
     String languageString =
         pref.getString(SharedPreferenceHelper.languageListKey) ?? '';
     var language = jsonDecode(languageString);
-    MainLanguageResponseModel model =
-        MainLanguageResponseModel.fromJson(language);
+    MainLanguageResponseModel model = MainLanguageResponseModel.fromJson(
+      language,
+    );
     languageImagePath =
         "${UrlContainer.domainUrl}/${model.data?.imagePath ?? ''}";
     if (model.data?.languages != null && model.data!.languages!.isNotEmpty) {
       for (var listItem in model.data!.languages!) {
         MyLanguageModel model = MyLanguageModel(
-            languageCode: listItem.code ?? '',
-            countryCode: listItem.name ?? '',
-            languageName: listItem.name ?? '',
-            imageUrl: listItem.image ?? '');
+          languageCode: listItem.code ?? '',
+          countryCode: listItem.name ?? '',
+          languageName: listItem.name ?? '',
+          imageUrl: listItem.image ?? '',
+        );
         langList.add(model);
       }
     }
@@ -57,8 +61,10 @@ class MyLanguageController extends GetxController {
     }
 
     if (langList.isNotEmpty) {
-      int index = langList.indexWhere((element) =>
-          element.languageCode.toLowerCase() == languageCode.toLowerCase());
+      int index = langList.indexWhere(
+        (element) =>
+            element.languageCode.toLowerCase() == languageCode.toLowerCase(),
+      );
 
       changeSelectedIndex(index);
     }
@@ -81,22 +87,30 @@ class MyLanguageController extends GetxController {
 
       if (response.statusCode == 200) {
         try {
-          var resJson = jsonDecode(response.responseJson);
+          // response.responseJson is already decoded, not a string
+          var resJson = response.responseJson;
+
           await repo.apiClient.sharedPreferences.setString(
-              SharedPreferenceHelper.languageListKey, response.responseJson);
+            SharedPreferenceHelper.languageListKey,
+            jsonEncode(response.responseJson),
+          );
 
           Locale local = Locale(selectedLangModel.languageCode, 'US');
           localizationController.setLanguage(
-              local, "$languageImagePath/${langList[index].imageUrl}");
+            local,
+            "$languageImagePath/${langList[index].imageUrl}",
+          );
 
-          var value = resJson['data']['file'].toString() == '[]'
-              ? {}
-              : resJson['data']['file'];
+          // Get the file data and ensure it's a Map
+          var fileData = resJson['data']['file'];
           Map<String, String> json = {};
 
-          value.forEach((key, value) {
-            json[key] = value.toString();
-          });
+          if (fileData != null && fileData is Map) {
+            // Convert Map<String, dynamic> to Map<String, String>
+            for (var entry in fileData.entries) {
+              json[entry.key.toString()] = entry.value.toString();
+            }
+          }
 
           Map<String, Map<String, String>> language = {};
           language['${selectedLangModel.languageCode}_${'US'}'] = json;
@@ -104,9 +118,15 @@ class MyLanguageController extends GetxController {
           Get.clearTranslations();
           Get.addTranslations(Messages(languages: language).keys);
           Get.back();
-          CustomSnackBar.success(
-              successList:
-                  resJson['message'] ?? ["Language changed successfully"]);
+
+          // Convert message list to List<String>
+          List<String> messageList = ["Language changed successfully"];
+          if (resJson['message'] != null && resJson['message'] is List) {
+            messageList =
+                (resJson['message'] as List).map((e) => e.toString()).toList();
+          }
+
+          CustomSnackBar.success(successList: messageList);
         } catch (e) {
           printX(e.toString());
         }

@@ -12,11 +12,7 @@ import 'package:leoparduser/presentation/components/text-form-field/custom_text_
 class SosBottomSheetBody extends StatelessWidget {
   RideHistoryController controller;
   String id;
-  SosBottomSheetBody({
-    super.key,
-    required this.controller,
-    required this.id,
-  });
+  SosBottomSheetBody({super.key, required this.controller, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +42,7 @@ class SosBottomSheetBody extends StatelessWidget {
               CustomSnackBar.error(errorList: ['Please Enter Message']);
             }
           },
-        )
+        ),
       ],
     );
   }

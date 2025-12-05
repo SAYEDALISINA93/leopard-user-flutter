@@ -56,9 +56,7 @@ class DrawerUserCard extends StatelessWidget {
                     ),
                     child: const CustomSvgPicture(image: MyIcons.avatar),
                   ),
-                const SizedBox(
-                  width: Dimensions.space15,
-                ),
+                const SizedBox(width: Dimensions.space15),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -76,9 +74,7 @@ class DrawerUserCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(
-                        height: Dimensions.space3,
-                      ),
+                      const SizedBox(height: Dimensions.space3),
                       Text(
                         "@$username",
                         style: titleStyle ??
@@ -88,15 +84,14 @@ class DrawerUserCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(
-                        height: Dimensions.space5,
-                      ),
+                      const SizedBox(height: Dimensions.space5),
                       Text(
                         subtitle ?? "",
                         style: subtitleStyle ??
                             regularDefault.copyWith(
-                                fontSize: Dimensions.fontSmall,
-                                color: MyColor.bodyText.withValues(alpha: 0.8)),
+                              fontSize: Dimensions.fontSmall,
+                              color: MyColor.bodyText.withValues(alpha: 0.8),
+                            ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -106,7 +101,7 @@ class DrawerUserCard extends StatelessWidget {
               ],
             ),
           ),
-          rightWidget ?? const SizedBox.shrink()
+          rightWidget ?? const SizedBox.shrink(),
         ],
       ),
     );

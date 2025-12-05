@@ -28,8 +28,10 @@ class CustomTimeLine extends StatelessWidget {
       shrinkWrap: true,
       theme: TimelineThemeData(
         nodePosition: 0,
-        indicatorTheme:
-            const IndicatorThemeData(size: 15.0, color: MyColor.colorBlack),
+        indicatorTheme: const IndicatorThemeData(
+          size: 15.0,
+          color: MyColor.colorBlack,
+        ),
         indicatorPosition: indicatorPosition,
         nodeItemOverlap: false,
       ),
@@ -40,7 +42,9 @@ class CustomTimeLine extends StatelessWidget {
             index == 0 ? firstWidget : secondWidget,
         connectorBuilder: (_, index, __) {
           return DashedLineConnector(
-              color: dashColor ?? MyColor.colorBlack, thickness: .5);
+            color: dashColor ?? MyColor.colorBlack,
+            thickness: .5,
+          );
         },
         indicatorBuilder: (_, index) {
           return index == 0
@@ -48,12 +52,14 @@ class CustomTimeLine extends StatelessWidget {
                   image: MyIcons.mapRed,
                   color: MyColor.colorRed,
                   height: 28,
-                  width: 28)
+                  width: 28,
+                )
               : const CustomSvgPicture(
                   image: MyIcons.mapYellow,
                   color: MyColor.colorYellow,
                   height: 28,
-                  width: 28);
+                  width: 28,
+                );
         },
         itemCount: 2,
       ),

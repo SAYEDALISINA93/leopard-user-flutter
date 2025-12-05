@@ -5,9 +5,5 @@ class FloatingNavbarItem {
   final IconData? icon;
   final Widget? customWidget;
 
-  FloatingNavbarItem({
-    this.icon,
-    this.title,
-    this.customWidget,
-  }) : assert(icon != null || customWidget != null);
+  FloatingNavbarItem({this.icon, this.title, this.customWidget}) : assert(icon != null || customWidget != null);
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
-import 'package:leoparduser/core/utils/audio_utils.dart';
 import 'package:leoparduser/core/utils/my_icons.dart';
 import 'package:leoparduser/data/controller/home/home_controller.dart';
 import 'package:leoparduser/presentation/components/image/custom_svg_picture.dart';
 import 'package:leoparduser/presentation/components/shimmer/create_ride_shimmer.dart';
+import 'package:leoparduser/presentation/components/shimmer/my_shimmer.dart';
 import 'package:leoparduser/presentation/components/shimmer/ride_services_shimmer.dart';
 import 'package:leoparduser/presentation/screens/home/section/ride_create_form.dart';
 import 'package:leoparduser/presentation/screens/home/section/ride_service_section.dart';
@@ -38,10 +38,12 @@ class _HomeBodyState extends State<HomeBody> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 color: MyColor.colorWhite,
-                child: const RideServiceShimmer())
+                child: const RideServiceShimmer(),
+              )
             : Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: Dimensions.space15),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Dimensions.space15,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -50,20 +52,27 @@ class _HomeBodyState extends State<HomeBody> {
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: Dimensions.space10,
-                            vertical: Dimensions.space20),
+                          horizontal: Dimensions.space10,
+                          vertical: Dimensions.space20,
+                        ),
                         decoration: BoxDecoration(
-                            color: MyColor.colorWhite,
-                            boxShadow: MyUtils.getShadow2(),
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.mediumRadius)),
+                          color: MyColor.colorWhite,
+                          boxShadow: MyUtils.getShadow2(),
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.mediumRadius,
+                          ),
+                        ),
                         child: Center(
-                            child: Text(MyStrings.noServiceAvailable.tr,
-                                style: regularDefault.copyWith(
-                                    color: MyColor.bodyText))),
-                      )
+                          child: Text(
+                            MyStrings.noServiceAvailable.tr,
+                            style: regularDefault.copyWith(
+                              color: MyColor.bodyText,
+                            ),
+                          ),
+                        ),
+                      ),
                     ] else ...[
-                      RideServiceSection()
+                      RideServiceSection(),
                     ],
                   ],
                 ),
@@ -72,15 +81,19 @@ class _HomeBodyState extends State<HomeBody> {
         widget.controller.isLoading
             ? const CreateRideShimmer()
             : Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: Dimensions.space15),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Dimensions.space15,
+                ),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 24,
+                  ),
                   decoration: BoxDecoration(
-                      color: MyColor.colorWhite,
-                      borderRadius: BorderRadius.circular(Dimensions.space12),
-                      boxShadow: MyUtils.getCardTopShadow()),
+                    color: MyColor.colorWhite,
+                    borderRadius: BorderRadius.circular(Dimensions.space12),
+                    boxShadow: MyUtils.getCardTopShadow(),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -89,34 +102,45 @@ class _HomeBodyState extends State<HomeBody> {
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: Dimensions.space5,
-                              vertical: Dimensions.space8),
-                          margin:
-                              const EdgeInsets.only(bottom: Dimensions.space20),
-                          decoration: BoxDecoration(
-                              color: MyColor.bodyTextBgColor,
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.space5)),
-                          child: Text(
-                            MyStrings.recommendPrice.tr.rKv({
-                              "priceKey":
-                                  "${widget.controller.defaultCurrencySymbol}${Converter.formatDouble(widget.controller.rideFare.recommendAmount.toString())}",
-                              "distanceKey":
-                                  "${widget.controller.rideFare.distance}${MyStrings.km.tr}",
-                            }).tr,
-                            textAlign: TextAlign.center,
-                            style: regularDefault.copyWith(
-                                color: MyColor.bodyText),
+                            horizontal: Dimensions.space5,
+                            vertical: Dimensions.space8,
                           ),
-                        ).animate().shimmer()
+                          margin: const EdgeInsets.only(
+                            bottom: Dimensions.space20,
+                          ),
+                          decoration: BoxDecoration(
+                            color: MyColor.bodyTextBgColor,
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.space5,
+                            ),
+                          ),
+                          child: MyShimmerWidget(
+                            isEnable: widget.controller.isPriceLoading,
+                            child: Text(
+                              MyStrings.recommendedPrice.tr.rKv({
+                                "priceKey":
+                                    "${widget.controller.defaultCurrencySymbol}${StringConverter.formatNumber(widget.controller.rideFare.recommendAmount.toString())}",
+                                "distanceKey":
+                                    "${widget.controller.rideFare.distance} ${MyStrings.km.tr}",
+                              }).tr,
+                              textAlign: TextAlign.center,
+                              style: regularDefault.copyWith(
+                                color: MyColor.bodyText,
+                              ),
+                            ),
+                          ),
+                        ).animate().shimmer(),
                       ],
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text(MyStrings.findDriver.tr,
-                            style: boldLarge.copyWith(
-                                color: MyColor.getRideTitleColor(),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17)),
+                        child: Text(
+                          MyStrings.findDriver.tr,
+                          style: boldLarge.copyWith(
+                            color: MyColor.getRideTitleColor(),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                          ),
+                        ),
                       ),
                       SizedBox(height: Dimensions.space10),
                       const RideCreateForm(),
@@ -138,9 +162,11 @@ class _HomeBodyState extends State<HomeBody> {
                             const SizedBox(width: Dimensions.space10),
                             InkWell(
                               onTap: () {
-                                CustomBottomSheet(
-                                        child: const RideMassageBottomSheet())
-                                    .customBottomSheet(context);
+                                if (widget.controller.isPriceLoading == false) {
+                                  CustomBottomSheet(
+                                    child: const RideMassageBottomSheet(),
+                                  ).customBottomSheet(context);
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -148,12 +174,16 @@ class _HomeBodyState extends State<HomeBody> {
                                   vertical: Dimensions.space12,
                                 ),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.mediumRadius),
-                                    border: Border.all(
-                                        color: MyColor.primaryColor
-                                            .withValues(alpha: 0.1),
-                                        width: 1.5)),
+                                  borderRadius: BorderRadius.circular(
+                                    Dimensions.mediumRadius,
+                                  ),
+                                  border: Border.all(
+                                    color: MyColor.primaryColor.withValues(
+                                      alpha: 0.1,
+                                    ),
+                                    width: 1.5,
+                                  ),
+                                ),
                                 child: CustomSvgPicture(
                                   image: MyIcons.message,
                                   color: MyColor.primaryColor,

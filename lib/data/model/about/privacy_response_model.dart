@@ -14,9 +14,7 @@ class PrivacyResponseModel {
   PrivacyResponseModel.fromJson(dynamic json) {
     _remark = json['remark'];
     _status = json['status'];
-    _message = json['message'] != null
-        ? List<String>.from(json["message"]!.map((x) => x.toString()))
-        : [];
+    _message = json['message'] != null ? List<String>.from(json["message"]!.map((x) => x.toString())) : [];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
   String? _remark;
@@ -47,9 +45,7 @@ class PrivacyResponseModel {
 }
 
 class Data {
-  Data({
-    List<PolicyPages>? policyPages,
-  }) {
+  Data({List<PolicyPages>? policyPages}) {
     _policyPages = policyPages;
   }
 
@@ -75,12 +71,13 @@ class Data {
 }
 
 class PolicyPages {
-  PolicyPages(
-      {int? id,
-      String? dataKeys,
-      DataValues? dataValues,
-      String? createdAt,
-      String? updatedAt}) {
+  PolicyPages({
+    int? id,
+    String? dataKeys,
+    DataValues? dataValues,
+    String? createdAt,
+    String? updatedAt,
+  }) {
     _id = id;
     _dataKeys = dataKeys;
     _dataValues = dataValues;
@@ -91,9 +88,7 @@ class PolicyPages {
   PolicyPages.fromJson(dynamic json) {
     _id = json['id'];
     _dataKeys = json['data_keys'];
-    _dataValues = json['data_values'] != null
-        ? DataValues.fromJson(json['data_values'])
-        : null;
+    _dataValues = json['data_values'] != null ? DataValues.fromJson(json['data_values']) : null;
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }
@@ -123,10 +118,7 @@ class PolicyPages {
 }
 
 class DataValues {
-  DataValues({
-    String? title,
-    String? details,
-  }) {
+  DataValues({String? title, String? details}) {
     _title = title;
     _details = details;
   }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/faq/faq_response_model.dart';
@@ -34,10 +32,10 @@ class FaqController extends GetxController {
     ResponseModel responseModel = await faqRepo.getFaqData();
     if (responseModel.statusCode == 200) {
       FaqResponseModel model =
-          FaqResponseModel.fromJson(jsonDecode(responseModel.responseJson));
+          FaqResponseModel.fromJson((responseModel.responseJson));
       if (model.status == MyStrings.success) {
-        List<Faq>? tempList = model.data?.faq;
-        if (tempList != null && tempList.isNotEmpty) {
+        List<Faq>? tempList = model.data?.faq ?? [];
+        if (tempList.isNotEmpty) {
           selectedIndex = 0;
           faqList.addAll(tempList);
           update();

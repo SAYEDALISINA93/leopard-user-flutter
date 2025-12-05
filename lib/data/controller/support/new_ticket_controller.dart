@@ -32,9 +32,10 @@ class NewTicketController extends GetxController {
   List<File> attachmentList = [];
   void pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: true,
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx']);
+      allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx'],
+    );
 
     if (result == null) return;
     for (var i = 0; i < result.files.length; i++) {
@@ -48,14 +49,14 @@ class NewTicketController extends GetxController {
     return;
   }
 
-  removeAttachmentFromList(int index) {
+  void removeAttachmentFromList(int index) {
     if (attachmentList.length > index) {
       attachmentList.removeAt(index);
       update();
     }
   }
 
-  addNewAttachment() {
+  void addNewAttachment() {
     if (attachmentList.length > 4) {
       CustomSnackBar.error(errorList: [MyStrings.somethingWentWrong]);
       return;
@@ -73,7 +74,7 @@ class NewTicketController extends GetxController {
   List<String> priorityList = [
     MyStrings.low.tr,
     MyStrings.medium.tr,
-    MyStrings.high.tr
+    MyStrings.high.tr,
   ];
   String? selectedPriority = MyStrings.low.tr;
 
@@ -132,9 +133,7 @@ class NewTicketController extends GetxController {
     String message = messageController.text.toString();
 
     if (message.isEmpty) {
-      CustomSnackBar.error(
-        errorList: [MyStrings.messageRequired],
-      );
+      CustomSnackBar.error(errorList: [MyStrings.messageRequired]);
       return;
     }
 
@@ -147,12 +146,13 @@ class NewTicketController extends GetxController {
     update();
 
     TicketStoreModel model = TicketStoreModel(
-        name: name,
-        email: email,
-        subject: subject,
-        priority: priority,
-        message: message,
-        list: attachmentList);
+      name: name,
+      email: email,
+      subject: subject,
+      priority: priority,
+      message: message,
+      fileList: attachmentList,
+    );
 
     bool isSuccess = await repo.storeTicket(model);
 
@@ -163,7 +163,8 @@ class NewTicketController extends GetxController {
         printX(Get.previousRoute);
         Get.back();
         CustomSnackBar.success(
-            successList: [MyStrings.ticketCreateSuccessfully]);
+          successList: [MyStrings.ticketCreateSuccessfully],
+        );
         clearSelectedData();
       }
     } catch (e) {

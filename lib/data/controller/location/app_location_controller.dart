@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,7 @@ class AppLocationController extends GetxController {
   String currentAddress = "Loading...";
 
   Future<bool> checkPermission() async {
-    var status = await Geolocator.requestPermission();
+    var status = await Geolocator.checkPermission();
     if (status == LocationPermission.denied) {
       var requestStatus = await Geolocator.requestPermission();
       if (requestStatus == LocationPermission.whileInUse ||
@@ -22,10 +24,14 @@ class AppLocationController extends GetxController {
         CustomSnackBar.error(errorList: ["Please enable location permission"]);
       }
     } else if (status == LocationPermission.deniedForever) {
-      CustomSnackBar.error(errorList: [
-        "Location permission is permanently denied. Please enable it from settings."
-      ]);
-      await openAppSettings(); // Opens device settings
+      CustomSnackBar.error(
+        errorList: [
+          "Location permission is permanently denied. Please enable it from settings.",
+        ],
+      );
+      if (Platform.isAndroid) {
+        await openAppSettings(); // Opens device settings
+      }
     } else if (status == LocationPermission.whileInUse) {
       getCurrentPosition();
     }
@@ -53,13 +59,13 @@ class AppLocationController extends GetxController {
       return currentPosition;
     } catch (e) {
       CustomSnackBar.error(
-          errorList: [MyStrings.locationPermissionPermanentDenied]);
-      Future.delayed(
-        const Duration(seconds: 2),
-        () {
-          openAppSettings();
-        },
+        errorList: [MyStrings.locationPermissionPermanentDenied],
       );
+      Future.delayed(const Duration(seconds: 2), () {
+        if (Platform.isAndroid) {
+          openAppSettings(); // Opens device settings
+        }
+      });
     }
     return null;
   }

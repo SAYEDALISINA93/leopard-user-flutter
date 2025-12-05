@@ -18,12 +18,7 @@ class CreateRideResponseModel {
   List<String>? message;
   Data? data;
 
-  CreateRideResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  CreateRideResponseModel({this.remark, this.status, this.message, this.data});
 
   factory CreateRideResponseModel.fromJson(Map<String, dynamic> json) =>
       CreateRideResponseModel(
@@ -46,15 +41,11 @@ class CreateRideResponseModel {
 class Data {
   RideModel? ride;
 
-  Data({
-    this.ride,
-  });
+  Data({this.ride});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         ride: json["ride"] == null ? null : RideModel.fromJson(json["ride"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "ride": ride?.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"ride": ride?.toJson()};
 }

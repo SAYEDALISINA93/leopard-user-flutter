@@ -23,13 +23,27 @@ class ChatBubbleClipper7 extends CustomClipper<Path> {
     var path = Path();
 
     if (type == BubbleType.sendBubble) {
-      path.addRRect(RRect.fromLTRBAndCorners(0, 0, size.width, size.height,
+      path.addRRect(
+        RRect.fromLTRBAndCorners(
+          0,
+          0,
+          size.width,
+          size.height,
           topLeft: Radius.circular(radius),
-          bottomRight: Radius.circular(radius)));
+          bottomRight: Radius.circular(radius),
+        ),
+      );
     } else {
-      path.addRRect(RRect.fromLTRBAndCorners(0, 0, size.width, size.height,
+      path.addRRect(
+        RRect.fromLTRBAndCorners(
+          0,
+          0,
+          size.width,
+          size.height,
           topRight: Radius.circular(radius),
-          bottomLeft: Radius.circular(radius)));
+          bottomLeft: Radius.circular(radius),
+        ),
+      );
     }
 
     return path;

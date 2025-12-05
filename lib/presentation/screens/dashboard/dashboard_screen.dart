@@ -2,9 +2,10 @@ import 'package:get/get.dart';
 import 'package:leoparduser/core/utils/my_icons.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/controller/menu/my_menu_controller.dart';
+import 'package:leoparduser/data/controller/pusher/global_pusher_controller.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
 import 'package:leoparduser/data/repo/menu_repo/menu_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/presentation/components/annotated_region/annotated_region_widget.dart';
 import 'package:leoparduser/presentation/components/image/custom_svg_picture.dart';
 import 'package:leoparduser/presentation/screens/home/home_screen.dart';
 import 'package:leoparduser/presentation/screens/profile_and_settings/profile_and_settings_screen.dart';
@@ -34,19 +35,22 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     int index = Get.arguments ?? 0;
     selectedIndex = index;
     super.initState();
-    Get.put(ApiClient(sharedPreferences: Get.find()));
+
     Get.put(GeneralSettingRepo(apiClient: Get.find()));
     Get.put(MenuRepo(apiClient: Get.find()));
     Get.put(MyMenuController(menuRepo: Get.find(), repo: Get.find()));
+    final pusherController =
+        Get.put(GlobalPusherController(apiClient: Get.find()));
     _dashBoardScaffoldKey = GlobalKey<ScaffoldState>();
 
     _widgets = <Widget>[
       HomeScreen(dashBoardScaffoldKey: _dashBoardScaffoldKey),
       InterCityScreen(dashBoardScaffoldKey: _dashBoardScaffoldKey),
-      const ProfileAndSettingsScreen(
-        showBackBtn: false,
-      ),
+      const ProfileAndSettingsScreen(),
     ];
+    WidgetsBinding.instance.addPostFrameCallback((t) {
+      pusherController.ensureConnection();
+    });
   }
 
   void closeDrawer() {
@@ -69,58 +73,67 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           endDrawer: AppDrawerScreen(
             closeFunction: closeDrawer,
             callback: (val) {
-              setState(() {
-                selectedIndex = val;
-              });
+              selectedIndex = val;
+              setState(() {});
               closeDrawer(); // closeDrawer
             },
           ),
           body: WillPopWidget(child: _widgets[selectedIndex]),
-          bottomNavigationBar: FloatingNavbar(
-            inLine: true,
-            fontSize: Dimensions.fontMedium,
-            backgroundColor: MyColor.colorWhite,
-            unselectedItemColor: MyColor.bodyText,
-            selectedItemColor: MyColor.primaryColor,
-            borderRadius: Dimensions.space50,
-            itemBorderRadius: Dimensions.space50,
-            selectedBackgroundColor:
-                MyColor.primaryColor.withValues(alpha: 0.09),
-            onTap: (int val) {
-              controller.repo.apiClient.storeCurrentTab(val.toString());
-              changeScreen(val);
-            },
-            margin: const EdgeInsetsDirectional.only(
+          bottomNavigationBar: AnnotatedRegionWidget(
+            child: FloatingNavbar(
+              inLine: true,
+              fontSize: Dimensions.fontMedium,
+              backgroundColor: MyColor.colorWhite,
+              unselectedItemColor: MyColor.bodyText,
+              selectedItemColor: MyColor.primaryColor,
+              borderRadius: Dimensions.space50,
+              itemBorderRadius: Dimensions.space50,
+              selectedBackgroundColor: MyColor.primaryColor.withValues(
+                alpha: 0.09,
+              ),
+              onTap: (int val) {
+                controller.repo.apiClient.storeCurrentTab(val.toString());
+                changeScreen(val);
+              },
+              margin: const EdgeInsetsDirectional.only(
                 start: Dimensions.space20,
                 end: Dimensions.space20,
-                bottom: Dimensions.space15),
-            currentIndex: selectedIndex,
-            items: [
-              FloatingNavbarItem(
+                bottom: Dimensions.space15,
+              ),
+              currentIndex: selectedIndex,
+              items: [
+                FloatingNavbarItem(
                   icon: LineIcons.home,
                   title: MyStrings.city.tr,
                   customWidget: CustomSvgPicture(
-                      image: MyIcons.cityHome,
-                      color: selectedIndex == 0
-                          ? MyColor.primaryColor
-                          : MyColor.colorGreyIcon)),
-              FloatingNavbarItem(
+                    image: MyIcons.cityHome,
+                    color: selectedIndex == 0
+                        ? MyColor.primaryColor
+                        : MyColor.colorGreyIcon,
+                  ),
+                ),
+                FloatingNavbarItem(
                   icon: LineIcons.city,
                   title: MyStrings.interCity_.tr,
                   customWidget: CustomSvgPicture(
-                      image: MyIcons.intercityHome,
-                      color: selectedIndex == 1
-                          ? MyColor.primaryColor
-                          : MyColor.colorGreyIcon)),
-              FloatingNavbarItem(
+                    image: MyIcons.intercityHome,
+                    color: selectedIndex == 1
+                        ? MyColor.primaryColor
+                        : MyColor.colorGreyIcon,
+                  ),
+                ),
+                FloatingNavbarItem(
                   icon: LineIcons.list,
                   title: MyStrings.menu.tr,
                   customWidget: CustomSvgPicture(
-                      image: MyIcons.menu1,
-                      color: selectedIndex == 2
-                          ? MyColor.primaryColor
-                          : MyColor.colorGreyIcon)),
-            ],
+                    image: MyIcons.menu1,
+                    color: selectedIndex == 2
+                        ? MyColor.primaryColor
+                        : MyColor.colorGreyIcon,
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

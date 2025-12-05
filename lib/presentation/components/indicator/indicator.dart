@@ -14,9 +14,10 @@ class LoadingIndicator extends StatelessWidget {
       width: 40,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: MyColor.colorWhite,
-          boxShadow: MyUtils.getCardShadow()),
+        shape: BoxShape.circle,
+        color: MyColor.colorWhite,
+        boxShadow: MyUtils.getCardShadow(),
+      ),
       child: const CircularProgressIndicator(
         color: MyColor.primaryColor,
         strokeWidth: 3,

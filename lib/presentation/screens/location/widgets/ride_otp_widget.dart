@@ -12,10 +12,7 @@ import 'package:leoparduser/presentation/components/image/custom_svg_picture.dar
 
 class RideOtpWidget extends StatelessWidget {
   final RideModel ride;
-  const RideOtpWidget({
-    super.key,
-    required this.ride,
-  });
+  const RideOtpWidget({super.key, required this.ride});
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +32,7 @@ class RideOtpWidget extends StatelessWidget {
                   "${MyStrings.otp.tr}: ${ride.otp}",
                   style: boldDefault.copyWith(color: MyColor.bodyText),
                 ),
-                const SizedBox(
-                  width: Dimensions.space5,
-                ),
+                const SizedBox(width: Dimensions.space5),
                 InkWell(
                   onTap: () {
                     MyUtils.copy(text: "${ride.otp}");
@@ -48,7 +43,7 @@ class RideOtpWidget extends StatelessWidget {
                     height: 14,
                     width: 12,
                   ),
-                )
+                ),
               ],
             ),
           ] else ...[

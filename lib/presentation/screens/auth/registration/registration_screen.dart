@@ -12,7 +12,6 @@ import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/data/controller/auth/auth/registration_controller.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
 import 'package:leoparduser/data/repo/auth/signup_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
 import 'package:leoparduser/presentation/components/custom_no_data_found_class.dart';
 import 'package:leoparduser/presentation/components/will_pop_widget.dart';
@@ -32,7 +31,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    Get.put(ApiClient(sharedPreferences: Get.find()));
     Get.put(GeneralSettingRepo(apiClient: Get.find()));
     Get.put(RegistrationRepo(apiClient: Get.find()));
     Get.put(RegistrationController(
@@ -53,9 +51,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarBrightness: Brightness.light,
-          statusBarIconBrightness: Brightness.dark),
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+      ),
       child: GetBuilder<RegistrationController>(
         builder: (controller) => WillPopWidget(
           nextRoute: RouteHelper.loginScreen,
@@ -79,10 +78,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(MyImages.appLogoWhite,
-                                      width: MediaQuery.of(context).size.width /
-                                          3),
-                                  SvgPicture.asset(MyIcons.bg),
+                                  Image.asset(
+                                    MyImages.appLogoWhite,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      MyIcons.bg,
+                                      width: double.infinity,
+                                      fit: BoxFit.contain,
+                                      height: 200,
+                                    ),
+                                  ),
                                 ],
                               ),
                               Container(
@@ -91,35 +100,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   bottom: Dimensions.space50 * 1,
                                 ),
                                 padding: const EdgeInsetsDirectional.only(
-                                    top: Dimensions.space20,
-                                    start: Dimensions.space20,
-                                    end: Dimensions.space20,
-                                    bottom: Dimensions.space20),
+                                  top: Dimensions.space20,
+                                  start: Dimensions.space20,
+                                  end: Dimensions.space20,
+                                  bottom: Dimensions.space20,
+                                ),
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.cardRadius)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(
+                                    Dimensions.cardRadius,
+                                  ),
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     spaceDown(Dimensions.space20),
-                                    Text(MyStrings.regScreenTitle.tr,
-                                        style: boldExtraLarge.copyWith(
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w700)),
+                                    Text(
+                                      MyStrings.regScreenTitle.tr,
+                                      style: boldExtraLarge.copyWith(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                     const SizedBox(height: Dimensions.space5),
                                     Text(
                                       MyStrings.regScreenSubTitle.tr,
                                       style: regularDefault.copyWith(
-                                          color: MyColor.getBodyTextColor(),
-                                          fontSize: 16),
+                                        color: MyColor.getBodyTextColor(),
+                                        fontSize: 16,
+                                      ),
                                     ),
                                     spaceDown(Dimensions.space20),
                                     SocialAuthSection(
-                                        googleAuthTitle: MyStrings.regGoogle),
+                                      googleAuthTitle: MyStrings.regGoogle,
+                                    ),
                                     spaceDown(Dimensions.space15),
-                                    const RegistrationForm()
+                                    const RegistrationForm(),
                                   ],
                                 ),
                               ),

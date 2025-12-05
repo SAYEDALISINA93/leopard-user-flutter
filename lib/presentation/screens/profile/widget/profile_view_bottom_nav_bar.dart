@@ -29,11 +29,15 @@ class _ProfileViewBottomNavBarState extends State<ProfileViewBottomNavBar> {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-            horizontal: Dimensions.space20, vertical: Dimensions.space10),
+          horizontal: Dimensions.space20,
+          vertical: Dimensions.space10,
+        ),
         child: RoundedButton(
           text: MyStrings.editProfile,
           textStyle: boldExtraLarge.copyWith(
-              color: MyColor.colorWhite, fontSize: Dimensions.fontLarge),
+            color: MyColor.colorWhite,
+            fontSize: Dimensions.fontLarge,
+          ),
           press: () {
             Get.toNamed(RouteHelper.editProfileScreen);
           },

@@ -36,33 +36,33 @@ class ProfileCardColumn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment:
-              alignmentEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            Text(
-              header.tr,
-              style: headerTextDecoration ??
-                  boldDefault.copyWith(
-                      color: MyColor.getTextColor().withValues(alpha: 0.6)),
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(
-              height: space,
-            ),
-            Text(
-              body.tr,
-              style: bodyTextDecoration ??
-                  regularDefault.copyWith(
-                    fontSize: Dimensions.fontExtraLarge - 1,
-                    color: textColor ?? MyColor.getTextColor(),
-                  ),
-              // maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: alignmentEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              Text(
+                header.tr,
+                style: headerTextDecoration ??
+                    boldDefault.copyWith(
+                      color: MyColor.getTextColor().withValues(alpha: 0.6),
+                    ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: space),
+              Text(
+                body.tr,
+                style: bodyTextDecoration ??
+                    regularDefault.copyWith(
+                      fontSize: Dimensions.fontExtraLarge - 1,
+                      color: textColor ?? MyColor.getTextColor(),
+                    ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
-        if (endWidget != null) ...[endWidget!]
+        if (endWidget != null) ...[endWidget!],
       ],
     );
   }

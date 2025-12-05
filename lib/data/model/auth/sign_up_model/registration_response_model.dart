@@ -1,8 +1,12 @@
 import 'package:leoparduser/data/model/global/user/global_user_model.dart';
 
 class RegistrationResponseModel {
-  RegistrationResponseModel(
-      {String? remark, String? status, List<String>? message, Data? data}) {
+  RegistrationResponseModel({
+    String? remark,
+    String? status,
+    List<String>? message,
+    Data? data,
+  }) {
     _remark = remark;
     _status = status;
     _message = message;

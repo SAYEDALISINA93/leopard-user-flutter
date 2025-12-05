@@ -44,45 +44,57 @@ class _LocationPickTextFieldState extends State<LocationPickTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        style: regularDefault.copyWith(
-            color: MyColor.getTextColor(), fontSize: 16),
-        readOnly: widget.readOnly,
-        cursorColor: MyColor.getTextColor(),
-        controller: widget.controller,
-        autofocus: false,
-        textInputAction: widget.inputAction,
-        keyboardType: widget.textInputType,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsetsDirectional.only(
-              top: 5, start: 15, end: 15, bottom: 5),
-          fillColor: widget.fillColor,
-          filled: true,
-          hintText: widget.hintText?.tr ?? '',
-          suffixIcon: widget.suffixIcon,
-          prefixIcon: widget.preffixIcon,
-          prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-                width: 0.5, color: MyColor.getTextFieldDisableBorder()),
-            borderRadius: BorderRadius.circular(widget.radius!),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 0.5,
-              color: MyColor.getTextFieldEnableBorder(),
-            ),
-            borderRadius: BorderRadius.circular(widget.radius!),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  width: 0.5, color: MyColor.getTextFieldDisableBorder()),
-              borderRadius: BorderRadius.circular(widget.radius!)),
+      style: regularDefault.copyWith(
+        color: MyColor.getTextColor(),
+        fontSize: 16,
+      ),
+      readOnly: widget.readOnly,
+      cursorColor: MyColor.getTextColor(),
+      controller: widget.controller,
+      autofocus: false,
+      textInputAction: widget.inputAction,
+      keyboardType: widget.textInputType,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsetsDirectional.only(
+          top: 5,
+          start: 15,
+          end: 15,
+          bottom: 5,
         ),
-        onChanged: (text) => widget.onChanged!(text),
-        onTap: () {
-          if (widget.onTap != null) {
-            widget.onTap!();
-          }
-        });
+        fillColor: widget.fillColor,
+        filled: true,
+        hintText: widget.hintText?.tr ?? '',
+        suffixIcon: widget.suffixIcon,
+        prefixIcon: widget.preffixIcon,
+        prefixIconConstraints: BoxConstraints.loose(Size(40, 40)),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 0.5,
+            color: MyColor.getTextFieldDisableBorder(),
+          ),
+          borderRadius: BorderRadius.circular(widget.radius!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 0.5,
+            color: MyColor.getTextFieldEnableBorder(),
+          ),
+          borderRadius: BorderRadius.circular(widget.radius!),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 0.5,
+            color: MyColor.getTextFieldDisableBorder(),
+          ),
+          borderRadius: BorderRadius.circular(widget.radius!),
+        ),
+      ),
+      onChanged: (text) => widget.onChanged!(text),
+      onTap: () {
+        if (widget.onTap != null) {
+          widget.onTap!();
+        }
+      },
+    );
   }
 }

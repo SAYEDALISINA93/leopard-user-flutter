@@ -16,19 +16,22 @@ class CreateRideShimmer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 32),
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-          color: MyColor.borderColor.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(Dimensions.space12),
-          boxShadow: MyUtils.getCardTopShadow()),
+        color: MyColor.borderColor.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(Dimensions.space12),
+        boxShadow: MyUtils.getCardTopShadow(),
+      ),
       child: Column(
         children: [
           MyShimmerWidget(
             child: Container(
               height: 8,
-              margin:
-                  const EdgeInsets.symmetric(horizontal: Dimensions.space50),
+              margin: const EdgeInsets.symmetric(
+                horizontal: Dimensions.space50,
+              ),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                borderRadius: BorderRadius.circular(2),
+                color: MyColor.colorGrey.withValues(alpha: 0.3),
+              ),
             ),
           ),
           const SizedBox(height: Dimensions.space8),
@@ -36,8 +39,9 @@ class CreateRideShimmer extends StatelessWidget {
             child: Container(
               height: 8,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                borderRadius: BorderRadius.circular(2),
+                color: MyColor.colorGrey.withValues(alpha: 0.3),
+              ),
             ),
           ),
           const SizedBox(height: Dimensions.space20),
@@ -48,9 +52,11 @@ class CreateRideShimmer extends StatelessWidget {
                   child: Container(
                     height: 40,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.mediumRadius),
-                        color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3),
+                    ),
                   ),
                 ),
               ),
@@ -60,8 +66,9 @@ class CreateRideShimmer extends StatelessWidget {
                   child: Container(
                     height: 40,
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.mediumRadius),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
                       color: MyColor.colorGrey.withValues(alpha: 0.3),
                     ),
                   ),
@@ -75,11 +82,14 @@ class CreateRideShimmer extends StatelessWidget {
               Expanded(
                 child: MyShimmerWidget(
                   child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.mediumRadius),
-                          color: MyColor.colorGrey.withValues(alpha: 0.3))),
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: Dimensions.space10),
@@ -88,9 +98,11 @@ class CreateRideShimmer extends StatelessWidget {
                   child: Container(
                     height: 40,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.mediumRadius),
-                        color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.mediumRadius,
+                      ),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3),
+                    ),
                   ),
                 ),
               ),
@@ -105,8 +117,9 @@ class CreateRideShimmer extends StatelessWidget {
                   child: Container(
                     height: 40,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                      borderRadius: BorderRadius.circular(4),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3),
+                    ),
                   ),
                 ),
               ),
@@ -117,8 +130,9 @@ class CreateRideShimmer extends StatelessWidget {
                   child: Container(
                     height: 40,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: MyColor.colorGrey.withValues(alpha: 0.3)),
+                      borderRadius: BorderRadius.circular(4),
+                      color: MyColor.colorGrey.withValues(alpha: 0.3),
+                    ),
                   ),
                 ),
               ),

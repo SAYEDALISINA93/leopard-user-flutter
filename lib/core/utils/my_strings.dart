@@ -35,6 +35,9 @@ class MyStrings {
   static const String selectService = "Select a service";
 
   static const String selectDestination = "Select Destination";
+  static const String distanceALartTitle = "Distance Alert!";
+  static const String distanceALartMsg =
+      "Please select your destination Minimum distance";
 
   static const String enterLocation = "Let's take a ride";
 
@@ -48,8 +51,8 @@ class MyStrings {
 
   static const String whereTo = "Where to go?";
 
-  static const String recommendPrice =
-      "Recommend price is {priceKey} approximately distance {distanceKey}";
+  static const String recommendedPrice =
+      "Recommended price is {priceKey} approximately distance {distanceKey}";
 
   static const String when = "When";
 
@@ -87,7 +90,7 @@ class MyStrings {
 
   static const String ridePlace = "Ride Place";
 
-  static const String rideCreated = "Ride created";
+  static const String createdTime = "Created Time";
 
   static const String rideCompleted = "Ride Completed";
 
@@ -255,6 +258,8 @@ class MyStrings {
   static const String last = "Last";
 
   static const String country = "Country";
+
+  static const String receipt = "Receipt";
 
   static const String backToHome = 'Back Home';
 
@@ -722,6 +727,11 @@ class MyStrings {
       "Location permissions are permanently denied, we cannot request permissions.";
 
   static const String tapOnLocationPicker = "Tap on location picker";
+  static const String setYourLocationPerfectly = "Set Your Location Perfectly";
+  static const String zoomInToSetExactLocation =
+      "Zoom in to set the exact location";
+
+  static const String tips = "Tips";
 
   static const String searchYourLocation = "Search your location";
 
@@ -784,6 +794,7 @@ class MyStrings {
   static const String bidNOW = "Bid now";
 
   static const String bidList = "Bid List";
+  static const String NoBidFound = "No bid found";
 
   static const String vehicleVerificationSubTitle =
       "Kindly provide the following information to complete your vehicle verification process. Your cooperation ensures a safe and reliable ride-sharing experience for both you and your passengers. Thank you!";
@@ -1009,6 +1020,7 @@ class MyStrings {
   static const String userMessage = "User Massage";
 
   static const String imgDownloadMsg = "Successfully image downloaded";
+  static const String imagePreview = "Image Preview";
 
   static const String closeTicketWarningTxt =
       'Are you sure you want to close this ticket';
@@ -1037,7 +1049,7 @@ class MyStrings {
 
   static const String show = "Show";
 
-  static const String audioNotification = "Audio Notification";
+  static const String soundNotification = "Sound Notification";
 
   static const String regTerm = "I have read & agree to the";
 
@@ -1054,9 +1066,9 @@ class MyStrings {
   static const String yourAverageRatingIs = "Your average rating is";
   static const String phoneAlreadyRegistered =
       "'The phone number is already associated with an account'";
-
-  static const String riderReviews = "Driver reviews";
-  static const String driverReviews = "My reviews";
+  static const String averageRatingIs = "Average rating is";
+  static const String driverReviews = "Driver reviews";
+  static const String myReviews = "My reviews";
   static const String driver = "Driver";
   static const String vehicle = "Vehicle";
   static const String driverInformation = "Driver Information";
@@ -1064,6 +1076,11 @@ class MyStrings {
   static const String carInfo = "Car Info";
   static const String apple = "Apple";
   static const String afgCode = "+93";
+
+  static const String runningRideAlertTitle = "Complete your ride";
+  static const String runningRideAlertSubTitle =
+      "You've reached your destination. Please confirm to end the ride";
+
   static List<MyLanguageModel> myLanguages = [
     MyLanguageModel(
         languageName: 'English', countryCode: 'US', languageCode: 'en'),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,7 +21,9 @@ import 'package:leoparduser/core/utils/util.dart';
 import 'package:leoparduser/data/model/general_setting/general_setting_response_model.dart';
 import 'package:leoparduser/data/model/location/selected_location_info.dart';
 import 'package:leoparduser/data/repo/home/home_repo.dart';
+import 'package:leoparduser/data/services/running_ride_service.dart';
 import 'package:leoparduser/presentation/components/bottom-sheet/custom_bottom_sheet.dart';
+import 'package:leoparduser/presentation/components/dialog/app_dialog.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 import 'package:leoparduser/presentation/screens/home/widgets/bottomsheet/ride_distance_warning_bottomSheet.dart';
 
@@ -54,7 +55,7 @@ class HomeController extends GetxController {
   bool isKycVerified = true;
   bool isKycPending = false;
 
-  updatePassenger(bool isIncrement) {
+  void updatePassenger(bool isIncrement) {
     if (isIncrement) {
       passenger++;
     } else {
@@ -67,25 +68,23 @@ class HomeController extends GetxController {
       GeneralSettingResponseModel();
   Future<void> initialData({bool shouldLoad = true}) async {
     isLoading = shouldLoad;
-    defaultCurrency =
-        homeRepo.apiClient.getCurrencyOrUsername(isCurrency: true);
-    defaultCurrencySymbol =
-        homeRepo.apiClient.getCurrencyOrUsername(isSymbol: true);
-    username = homeRepo.apiClient
-        .getCurrencyOrUsername(isCurrency: false, isSymbol: false);
+    defaultCurrency = homeRepo.apiClient.getCurrency();
+    defaultCurrencySymbol = homeRepo.apiClient.getCurrency(isSymbol: true);
+    username = homeRepo.apiClient.getUserName();
     email = homeRepo.apiClient.getUserEmail();
-    generalSettingResponseModel = homeRepo.apiClient.getGSData();
+    generalSettingResponseModel = homeRepo.apiClient.getGeneralSettings();
     minimumDistance =
-        double.tryParse(homeRepo.apiClient.minimumRideDistance()) ?? 0.0;
+        double.tryParse(homeRepo.apiClient.getMinimumRideDistance()) ?? 0.0;
     bool t = await appLocationController.checkPermission();
     if (t == true) {
       currentPosition = await appLocationController.getCurrentPosition();
       currentAddress = appLocationController.currentAddress;
       SelectedLocationInfo l = SelectedLocationInfo(
-          address: currentAddress,
-          fullAddress: currentAddress,
-          latitude: appLocationController.currentPosition.latitude,
-          longitude: appLocationController.currentPosition.longitude);
+        address: currentAddress,
+        fullAddress: currentAddress,
+        latitude: appLocationController.currentPosition.latitude,
+        longitude: appLocationController.currentPosition.longitude,
+      );
       addLocationAtIndex(l, 0);
     }
     loggerX("selectedLocations.length ${selectedLocations.length}");
@@ -101,24 +100,50 @@ class HomeController extends GetxController {
       ResponseModel responseModel = await homeRepo.getData();
       if (responseModel.statusCode == 200) {
         printX(responseModel.responseJson);
-        DashBoardResponseModel model = DashBoardResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
-        if (model.status == MyStrings.success) {
+        DashBoardResponseModel model =
+            DashBoardResponseModel.fromJson((responseModel.responseJson));
+        if (model.status == MyStrings.success && model.data != null) {
           appServices.clear();
           appServices = model.data?.services ?? [];
           paymentMethodList.clear();
           paymentMethodList = model.data?.paymentMethod ?? [];
           paymentMethodList.insertAll(0, MyUtils.getDefaultPaymentMethod());
           user = model.data?.userInfo ?? GlobalUser(id: '-1');
-          loggerX(user.image);
           serviceImagePath = model.data?.serviceImagePath ?? '';
           gatewayImagePath = model.data?.gatewayImagePath ?? '';
           userImagePath = model.data?.userImagePath ?? '';
+          printX(
+            "RunningRideService.instance.isRunningShow ${RunningRideService.instance.isRunningShow}",
+          );
+          if (model.data?.runningRide != null &&
+              RunningRideService.instance.isRunningShow == false) {
+            RunningRideService.instance.setIsRunning(true);
+            runningRide = model.data!.runningRide!;
+            AppDialog().showRideDetailsDialog(
+              Get.context!,
+              title: MyStrings.runningRideAlertTitle.tr,
+              description: MyStrings.runningRideAlertSubTitle,
+              barrierDismissible: true,
+              onTap: () {
+                Get.toNamed(
+                  RouteHelper.rideDetailsScreen,
+                  arguments: runningRide.id,
+                );
+              },
+              onClose: () {
+                Get.closeAllSnackbars();
+                Get.back();
+                printX(
+                  "RunningRideService.instance.isRunningShow ${RunningRideService.instance.isRunningShow}",
+                );
+              },
+            );
+          }
           update();
-          printX(userImagePath);
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -159,14 +184,14 @@ class HomeController extends GetxController {
       ResponseModel responseModel = await homeRepo.createRide(
         data: CreateRideRequestModel(
           serviceId: selectedService.id!,
-          pickUpLocation: pickupStr,
+          pickUpLocation: selectedLocations[0].fullAddress ?? "",
           pickUpLatitude: selectedLocations[0].latitude.toString(),
           pickUpLongitude: selectedLocations[0].longitude.toString(),
-          destination: destinationStr,
+          destinationLocation: selectedLocations[1].fullAddress ?? "",
           destinationLatitude: selectedLocations[1].latitude.toString(),
           destinationLongitude: selectedLocations[1].longitude.toString(),
           isIntercity: '1',
-          pickUpDateTime: DateConverter.createRideDate(DateTime.now()),
+          pickUpDateTime: DateConverter.estimatedDate(DateTime.now()),
           numberOfPassenger: passenger.toString(),
           note: noteController.text,
           offerAmount: mainAmount.toString(),
@@ -175,17 +200,22 @@ class HomeController extends GetxController {
         ),
       );
       if (responseModel.statusCode == 200) {
-        CreateRideResponseModel model = CreateRideResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        CreateRideResponseModel model =
+            CreateRideResponseModel.fromJson((responseModel.responseJson));
         if (model.status == MyStrings.success) {
           printX(model.remark);
           clearData();
-          Get.toNamed(RouteHelper.rideDetailsScreen,
-              arguments: model.data?.ride?.id);
+          if (Get.currentRoute != RouteHelper.rideDetailsScreen) {
+            Get.toNamed(
+              RouteHelper.rideDetailsScreen,
+              arguments: model.data?.ride?.id,
+            );
+          }
         } else {
           loggerX(model.toJson());
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -207,7 +237,7 @@ class HomeController extends GetxController {
           pickUpLocation: selectedLocations[0].city.toString(),
           pickUpLatitude: selectedLocations[0].latitude.toString(),
           pickUpLongitude: selectedLocations[0].longitude.toString(),
-          destination: selectedLocations[1].city.toString(),
+          destinationLocation: selectedLocations[1].city.toString(),
           destinationLatitude: selectedLocations[1].latitude.toString(),
           destinationLongitude: selectedLocations[1].longitude.toString(),
           isIntercity: '1',
@@ -220,17 +250,18 @@ class HomeController extends GetxController {
         ),
       );
       if (responseModel.statusCode == 200) {
-        RideFareResponseModel model = RideFareResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        RideFareResponseModel model =
+            RideFareResponseModel.fromJson((responseModel.responseJson));
         if (model.status == MyStrings.success) {
           loggerX(model.data?.recommendAmount);
           rideFare = model.data ?? RideFareModel(status: '-1');
           loggerX(rideFare.recommendAmount);
-          mainAmount =
-              Converter.formatDouble(rideFare.recommendAmount.toString());
-          amountController.text =
-              Converter.formatDouble(rideFare.recommendAmount.toString())
-                  .toString();
+          mainAmount = StringConverter.formatDouble(
+            rideFare.recommendAmount.toString(),
+          );
+          amountController.text = StringConverter.formatDouble(
+            rideFare.recommendAmount.toString(),
+          ).toString();
           distance = double.tryParse(rideFare.distance.toString()) ?? 0.0;
           if (distance < minimumDistance) {
             distanceAlert();
@@ -240,7 +271,8 @@ class HomeController extends GetxController {
         } else {
           rideFare = RideFareModel(status: '-1');
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         rideFare = RideFareModel(status: '-1');
@@ -261,14 +293,16 @@ class HomeController extends GetxController {
   List<SelectedLocationInfo> selectedLocations = [];
   bool isServiceShake = false;
   bool isLocationShake = false;
-  updateIsServiceShake(bool value) {
+  void updateIsServiceShake(bool value) {
     isServiceShake = value;
     update();
   }
 
   Future<void> addLocationAtIndex(
-      SelectedLocationInfo selectedLocationInfo, int index,
-      {bool getFareData = false}) async {
+    SelectedLocationInfo selectedLocationInfo,
+    int index, {
+    bool getFareData = false,
+  }) async {
     SelectedLocationInfo newLocation = selectedLocationInfo;
     if (selectedLocations.length > index && index >= 0) {
       selectedLocations[index] = newLocation;
@@ -296,9 +330,9 @@ class HomeController extends GetxController {
   double minimumDistance = -1;
 
   //Handle Ride Functionality Start From here END
-  updateMainAmount(double amount) {
+  void updateMainAmount(double amount) {
     mainAmount = amount;
-    amountController.text = amount.toString();
+    amountController.text = StringConverter.formatNumber(mainAmount.toString());
     printX(amount);
     printX(mainAmount);
     printX(amountController.text);
@@ -306,7 +340,7 @@ class HomeController extends GetxController {
   }
 
   AppPaymentMethod selectedPaymentMethod = MyUtils.getDefaultPaymentMethod()[0];
-  selectPaymentMethod(AppPaymentMethod method) {
+  void selectPaymentMethod(AppPaymentMethod method) {
     printX(method.id);
     selectedPaymentMethod = method;
     update();
@@ -314,18 +348,29 @@ class HomeController extends GetxController {
   }
 
   AppService selectedService = AppService(id: '-99');
-  void selectService(AppService service) {
-    if (selectedLocations.length > 1) {
-      selectedService = service;
+
+  bool isPriceLoading = false;
+  void selectService(AppService service) async {
+    isPriceLoading = true;
+    try {
       update();
-      getRideFare();
-    } else {
-      CustomSnackBar.error(
-          errorList: [MyStrings.pleaseSelectPickupAndDestination]);
+      if (selectedLocations.length > 1) {
+        selectedService = service;
+        update();
+        await getRideFare();
+      } else {
+        CustomSnackBar.error(
+          errorList: [MyStrings.pleaseSelectPickupAndDestination],
+        );
+      }
+    } catch (e) {
+      printE(e);
     }
+    isPriceLoading = false;
+    update();
   }
 
-// ride alert methods
+  // ride alert methods
   void distanceAlert() {
     CustomBottomSheet(
       child: RideDistanceWarningBottomSheetBody(
@@ -348,7 +393,7 @@ class HomeController extends GetxController {
     return true;
   }
 
-  clearData() {
+  void clearData() {
     email = "";
     isLoading = true;
     username = "";

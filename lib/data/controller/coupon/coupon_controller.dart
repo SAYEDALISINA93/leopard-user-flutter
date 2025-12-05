@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
@@ -25,7 +23,7 @@ class CouponController extends GetxController {
 
   CouponModel selectedCoupon = CouponModel(id: '-1');
 
-  updateCoupon(CouponModel existingCoupon) {
+  void updateCoupon(CouponModel existingCoupon) {
     selectedCoupon = existingCoupon;
     update();
   }
@@ -35,9 +33,8 @@ class CouponController extends GetxController {
     applyCouponId = "-1";
     selectedCoupon = CouponModel(id: '-1');
     couponList.clear();
-    defaultCurrency = couponRepo.apiClient.getCurrencyOrUsername();
-    defaultCurrencySymbol =
-        couponRepo.apiClient.getCurrencyOrUsername(isSymbol: true);
+    defaultCurrency = couponRepo.apiClient.getCurrency();
+    defaultCurrencySymbol = couponRepo.apiClient.getCurrency(isSymbol: true);
     update();
     couponList.addAll(list);
     isLoading = false;
@@ -54,18 +51,20 @@ class CouponController extends GetxController {
         rideId: rideId,
       );
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           selectedCoupon = coupon;
           update();
 
           Get.back();
           CustomSnackBar.success(
-              successList: model.message ?? [MyStrings.succeed]);
+            successList: model.message ?? [MyStrings.succeed],
+          );
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -91,15 +90,22 @@ class CouponController extends GetxController {
       );
       if (responseModel.statusCode == 200) {
         //changed: need coupon from response
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
+          selectedCoupon = couponList.firstWhere(
+            (element) => element.code == applyTextController.text,
+            orElse: () => CouponModel(id: '-1'),
+          );
+          applyTextController.text = "";
           Get.back();
           CustomSnackBar.success(
-              successList: model.message ?? [MyStrings.succeed]);
+            successList: model.message ?? [MyStrings.succeed],
+          );
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
@@ -113,28 +119,40 @@ class CouponController extends GetxController {
     update();
   }
 
+  bool isRemoveLoading = false;
+
   Future<void> removeCoupon(CouponModel coupon) async {
     try {
+      isRemoveLoading = true;
+      update();
+
       ResponseModel responseModel = await couponRepo.removeCoupon(
-          code: coupon.code.toString(), rideId: rideId);
+        code: coupon.code.toString(),
+        rideId: rideId,
+      );
       if (responseModel.statusCode == 200) {
-        AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        AuthorizationResponseModel model =
+            AuthorizationResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           selectedCoupon = CouponModel(id: '-1');
 
           CustomSnackBar.success(
-              successList: model.message ?? [MyStrings.succeed]);
+            successList: model.message ?? [MyStrings.succeed],
+          );
           update();
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);
       }
     } catch (e) {
       printX(e);
+    } finally {
+      isRemoveLoading = false;
+      update();
     }
   }
 

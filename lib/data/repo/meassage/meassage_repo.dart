@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:leoparduser/core/utils/method.dart';
@@ -6,8 +5,7 @@ import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
-import 'package:http/http.dart' as http;
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 
 class MessageRepo {
@@ -20,8 +18,12 @@ class MessageRepo {
   }) async {
     String url =
         "${UrlContainer.baseUrl}${UrlContainer.rideMessageList}/$id?page=$page";
-    ResponseModel responseModel =
-        await apiClient.request(url, Method.getMethod, null, passHeader: true);
+    ResponseModel responseModel = await apiClient.request(
+      url,
+      Method.getMethod,
+      null,
+      passHeader: true,
+    );
     return responseModel;
   }
 
@@ -32,24 +34,25 @@ class MessageRepo {
   }) async {
     String url = "${UrlContainer.baseUrl}${UrlContainer.sendMessage}/$id";
     apiClient.initToken();
-    Map<String, String> params = {'message': txt};
-    var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.headers.addAll(<String, String>{
-      'Authorization': 'Bearer ${apiClient.token}',
-      "dev-token":
-          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
-    });
-    if (file != null) {
-      request.files.add(http.MultipartFile(
-          'image', file.readAsBytes().asStream(), file.lengthSync(),
-          filename: file.path.split('/').last));
-    }
-    request.fields.addAll(params);
-    http.StreamedResponse response = await request.send();
+    Map<String, String> finalMap = {'message': txt};
 
-    String jsonResponse = await response.stream.bytesToString();
+    //Attachments file list
+    Map<String, File> attachmentFiles = {};
+    if (file != null) {
+      attachmentFiles = {"image": file};
+    }
+
+    ResponseModel responseModel = await apiClient.multipartRequest(
+      url,
+      Method.postMethod,
+      finalMap,
+      files: attachmentFiles,
+      passHeader: true,
+    );
+
     AuthorizationResponseModel model =
-        AuthorizationResponseModel.fromJson(jsonDecode(jsonResponse));
+        AuthorizationResponseModel.fromJson((responseModel.responseJson));
+
     if (model.status?.toLowerCase() == MyStrings.success.toLowerCase()) {
       return true;
     } else {

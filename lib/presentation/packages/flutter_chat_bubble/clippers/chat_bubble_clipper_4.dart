@@ -24,27 +24,47 @@ class ChatBubbleClipper4 extends CustomClipper<Path> {
   /// offset show distance from bottom and has default value 10.
   final double offset;
 
-  ChatBubbleClipper4(
-      {this.type, this.radius = 5, this.offset = 10, this.nipSize = 7});
+  ChatBubbleClipper4({
+    this.type,
+    this.radius = 5,
+    this.offset = 10,
+    this.nipSize = 7,
+  });
 
   @override
   Path getClip(Size size) {
     var path = Path();
 
     if (type == BubbleType.sendBubble) {
-      path.addRRect(RRect.fromLTRBR(
-          0, 0, size.width - nipSize, size.height, Radius.circular(radius)));
+      path.addRRect(
+        RRect.fromLTRBR(
+          0,
+          0,
+          size.width - nipSize,
+          size.height,
+          Radius.circular(radius),
+        ),
+      );
 
       var path2 = Path();
       path2.lineTo(nipSize, nipSize);
       path2.lineTo(0, 2 * nipSize);
       path2.lineTo(0, 0);
 
-      path.addPath(path2,
-          Offset(size.width - nipSize, size.height - offset - 2 * nipSize));
+      path.addPath(
+        path2,
+        Offset(size.width - nipSize, size.height - offset - 2 * nipSize),
+      );
     } else {
-      path.addRRect(RRect.fromLTRBR(
-          nipSize, 0, size.width, size.height, Radius.circular(radius)));
+      path.addRRect(
+        RRect.fromLTRBR(
+          nipSize,
+          0,
+          size.width,
+          size.height,
+          Radius.circular(radius),
+        ),
+      );
 
       var path2 = Path();
       path2.lineTo(0, 2 * nipSize);

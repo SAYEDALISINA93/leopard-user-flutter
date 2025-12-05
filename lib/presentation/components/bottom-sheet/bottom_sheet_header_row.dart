@@ -8,8 +8,11 @@ import 'package:leoparduser/presentation/components/text/bottom_sheet_header_tex
 class BottomSheetHeaderRow extends StatelessWidget {
   final String header;
   final double bottomSpace;
-  const BottomSheetHeaderRow(
-      {super.key, this.header = '', this.bottomSpace = Dimensions.space10});
+  const BottomSheetHeaderRow({
+    super.key,
+    this.header = '',
+    this.bottomSpace = Dimensions.space10,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +30,7 @@ class BottomSheetHeaderRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(
-          height: 2,
-        ),
+        const SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

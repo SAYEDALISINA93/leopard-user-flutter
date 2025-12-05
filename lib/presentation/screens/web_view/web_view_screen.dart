@@ -5,14 +5,15 @@ import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/url_container.dart';
+import 'package:leoparduser/data/model/webview/webview_model.dart';
 import 'package:leoparduser/presentation/components/app-bar/custom_appbar.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyWebViewScreen extends StatefulWidget {
-  final String url;
-  const MyWebViewScreen({super.key, required this.url});
+  final WebviewModel model;
+  const MyWebViewScreen({super.key, required this.model});
 
   @override
   State<MyWebViewScreen> createState() => _MyWebViewScreenState();
@@ -25,7 +26,7 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
 
   @override
   void initState() {
-    url = widget.url;
+    url = widget.model.url;
     super.initState();
   }
 
@@ -54,12 +55,15 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
               webViewController = controller;
             },
             onLoadStart: (controller, url) {
-              loggerX('url : ${url}');
-              loggerX('url : ${url?.path}');
+              loggerX('url>>: ${url?.path}');
               if (url.toString() ==
                   '${UrlContainer.domainUrl}/user/deposit/history') {
                 Future.delayed(const Duration(seconds: 1), () {
-                  Get.offNamed(RouteHelper.dashboard);
+                  loggerX('url<< $url');
+                  Get.offNamed(
+                    RouteHelper.rideReviewScreen,
+                    arguments: widget.model.rideId,
+                  );
                 });
                 CustomSnackBar.success(successList: [MyStrings.requestSuccess]);
               } else if (url.toString() ==
@@ -73,7 +77,6 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
             },
             shouldOverrideUrlLoading: (controller, navigationAction) async {
               var uri = navigationAction.request.url!;
-
               if (![
                 "http",
                 "https",
@@ -81,12 +84,10 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
                 "chrome",
                 "data",
                 "javascript",
-                "about"
+                "about",
               ].contains(uri.scheme)) {
-                if (await canLaunchUrl(Uri.parse(widget.url))) {
-                  await launchUrl(
-                    Uri.parse(widget.url),
-                  );
+                if (await canLaunchUrl(Uri.parse(widget.model.url))) {
+                  await launchUrl(Uri.parse(widget.model.url));
                   return NavigationActionPolicy.CANCEL;
                 }
               }

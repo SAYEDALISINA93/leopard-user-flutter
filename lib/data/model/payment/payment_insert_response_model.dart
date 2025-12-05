@@ -1,6 +1,10 @@
 class PaymentInsertResponseModel {
-  PaymentInsertResponseModel(
-      {String? remark, String? status, List<String>? message, Data? data}) {
+  PaymentInsertResponseModel({
+    String? remark,
+    String? status,
+    List<String>? message,
+    Data? data,
+  }) {
     _remark = remark;
     _status = status;
     _message = message;
@@ -10,9 +14,7 @@ class PaymentInsertResponseModel {
   PaymentInsertResponseModel.fromJson(dynamic json) {
     _remark = json['remark'];
     _status = json['status'];
-    _message = json['message'] != null
-        ? List<String>.from(json["message"]!.map((x) => x.toString()))
-        : [];
+    _message = json['message'] != null ? List<String>.from(json["message"]!.map((x) => x.toString())) : [];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
@@ -46,8 +48,7 @@ class Data {
   }
 
   Data.fromJson(dynamic json) {
-    _redirectUrl =
-        json['redirect_url'] != null ? json['redirect_url'].toString() : '';
+    _redirectUrl = json['redirect_url'] != null ? json['redirect_url'].toString() : '';
   }
 
   String? _redirectUrl;

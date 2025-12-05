@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/theme/light/light.dart';
 import 'package:leoparduser/core/utils/audio_utils.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
@@ -7,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leoparduser/data/services/unverified_service.dart';
+import 'package:leoparduser/data/services/running_ride_service.dart';
 import 'package:leoparduser/environment.dart';
 import 'package:leoparduser/firebase_options.dart';
 import 'package:leoparduser/data/services/push_notification_service.dart';
@@ -21,7 +22,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:logger/logger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'core/di_service/di_services.dart' as di_service;
+import 'data/services/api_client.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
+//APP ENTRY POINT
 Future<void> _messageHandler(RemoteMessage message) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -61,10 +65,22 @@ Future<bool> handleLocationPermission() async {
 }
 
 Future<void> main() async {
+  // Ensures that widget binding is initialized before calling native code
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize the API client for network communication
+  await ApiClient.init();
+
+  // Load and initialize localization/language support
   Map<String, Map<String, String>> languages = await di_service.init();
+
+  // Configure app UI to support all screen sizes
   MyUtils.allScreen();
+
+  // Lock device orientation to portrait mode
   MyUtils().stopLandscape();
+
+  // Initialize audio utilities (e.g., background music, sound effects)
   AudioUtils();
 
   final hasPermission = await handleLocationPermission();
@@ -73,14 +89,24 @@ Future<void> main() async {
   }
 
   try {
+    // Initialize push notification service and handle interaction messages
     FirebaseMessaging.onBackgroundMessage(_messageHandler);
     await PushNotificationService(apiClient: Get.find())
         .setupInteractedMessage();
   } catch (e) {
-    print(e);
+    // Print error to console if FCM setup fails
+    printX(e);
   }
+
+  // Override HTTP settings (e.g., SSL certificate handling)
   HttpOverrides.global = MyHttpOverrides();
-  UnverifiedService.instance.setIsUnverified(false);
+
+  // Set running ride status to false at app launch
+  RunningRideService.instance.setIsRunning(false);
+
+  tz.initializeTimeZones();
+
+  // Launch the main application with loaded languages
   runApp(MyApp(languages: languages));
 }
 
@@ -118,6 +144,8 @@ class _MyAppState extends State<MyApp> {
         translations: Messages(languages: widget.languages),
         fallbackLocale: Locale(localizeController.locale.languageCode,
             localizeController.locale.countryCode),
+        textDirection:
+            localizeController.isLtr ? TextDirection.ltr : TextDirection.rtl,
       ),
     );
   }

@@ -18,12 +18,7 @@ class AllResponseModel {
   List<String>? message;
   Data? data;
 
-  AllResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  AllResponseModel({this.remark, this.status, this.message, this.data});
 
   factory AllResponseModel.fromJson(Map<String, dynamic> json) =>
       AllResponseModel(
@@ -47,17 +42,12 @@ class AllResponseModel {
 class Data {
   Rides? rides;
 
-  Data({
-    this.rides,
-  });
+  Data({this.rides});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        rides: json["rides"] == null ? null : Rides.fromJson(json["rides"]),
-      );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(rides: json["rides"] == null ? null : Rides.fromJson(json["rides"]));
 
-  Map<String, dynamic> toJson() => {
-        "rides": rides?.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"rides": rides?.toJson()};
 }
 
 class Rides {
@@ -65,18 +55,15 @@ class Rides {
   List<RideModel>? data;
   String? nextPageUrl;
 
-  Rides({
-    this.currentPage,
-    this.data,
-    this.nextPageUrl,
-  });
+  Rides({this.currentPage, this.data, this.nextPageUrl});
 
   factory Rides.fromJson(Map<String, dynamic> json) => Rides(
         currentPage: json["current_page"],
         data: json["data"] == null
             ? []
             : List<RideModel>.from(
-                json["data"]!.map((x) => RideModel.fromJson(x))),
+                json["data"]!.map((x) => RideModel.fromJson(x)),
+              ),
         nextPageUrl: json["next_page_url"],
       );
 

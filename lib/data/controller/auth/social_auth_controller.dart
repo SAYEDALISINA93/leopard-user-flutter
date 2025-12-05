@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
@@ -15,30 +12,46 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class SocialAuthController extends GetxController {
   SocialAuthRepo authRepo;
   SocialAuthController({required this.authRepo});
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: <String>['email', 'profile'],
+  );
   bool isGoogleSignInLoading = false;
   Future<void> signInWithGoogle() async {
     try {
       isGoogleSignInLoading = true;
       update();
-      googleSignIn.signOut();
+
+      await googleSignIn.signOut();
+
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
-        isGoogleSignInLoading = false;
-        update();
+        // User cancelled the sign-in
         return;
       }
+
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+
+      if (googleAuth.accessToken == null && googleAuth.idToken == null) {
+        return;
+      }
+
+      final String token = googleAuth.accessToken ?? googleAuth.idToken ?? '';
+
+      printX(token);
+
       await socialLoginUser(
-          provider: 'google', accessToken: googleAuth.accessToken ?? '');
+        provider: 'google',
+        accessToken: token,
+      );
     } catch (e) {
       printX(e.toString());
-      CustomSnackBar.error(errorList: [e.toString()]);
+      // CustomSnackBar.error(errorList: [e.toString()]);
+    } finally {
+      isGoogleSignInLoading = false;
+      update();
     }
-
-    isGoogleSignInLoading = false;
-    update();
   }
 
   bool isAppleSignInLoading = false;
@@ -47,17 +60,21 @@ class SocialAuthController extends GetxController {
     update();
     try {
       final AuthorizationCredentialAppleID credential =
-          await SignInWithApple.getAppleIDCredential(scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ]);
+          await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
       printX(credential.email);
       printX(credential.givenName);
       printX(credential.familyName);
       printX(credential.authorizationCode);
       printX(credential.identityToken);
-      printX(credential.authorizationCode);
-      printX(credential.identityToken);
+      socialLoginUser(
+        provider: 'apple',
+        accessToken: credential.identityToken ?? '',
+      );
     } catch (e) {
       printX(e.toString());
       CustomSnackBar.error(errorList: [MyStrings.somethingWentWrong]);
@@ -67,10 +84,7 @@ class SocialAuthController extends GetxController {
     }
   }
 
-  Future socialLoginUser({
-    String accessToken = '',
-    String? provider,
-  }) async {
+  Future socialLoginUser({String accessToken = '', String? provider}) async {
     try {
       ResponseModel responseModel = await authRepo.socialLoginUser(
         accessToken: accessToken,
@@ -78,7 +92,7 @@ class SocialAuthController extends GetxController {
       );
       if (responseModel.statusCode == 200) {
         LoginResponseModel loginModel =
-            LoginResponseModel.fromJson(jsonDecode(responseModel.responseJson));
+            LoginResponseModel.fromJson((responseModel.responseJson));
         if (loginModel.status.toString().toLowerCase() ==
             MyStrings.success.toLowerCase()) {
           RouteMiddleware.checkNGotoNext(
@@ -88,8 +102,8 @@ class SocialAuthController extends GetxController {
           );
         } else {
           CustomSnackBar.error(
-              errorList:
-                  loginModel.message ?? [MyStrings.loginFailedTryAgain.tr]);
+            errorList: loginModel.message ?? [MyStrings.loginFailedTryAgain.tr],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);

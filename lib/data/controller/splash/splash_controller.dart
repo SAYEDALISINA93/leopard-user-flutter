@@ -20,10 +20,11 @@ class SplashController extends GetxController {
   SplashController({required this.repo, required this.localizationController});
 
   bool isLoading = true;
-  gotoNextPage() async {
+  Future<void> gotoNextPage() async {
     await loadLanguage();
-    bool isRemember = repo.apiClient.sharedPreferences
-            .getBool(SharedPreferenceHelper.rememberMeKey) ??
+    bool isRemember = repo.apiClient.sharedPreferences.getBool(
+          SharedPreferenceHelper.rememberMeKey,
+        ) ??
         false;
 
     noInternet = false;
@@ -38,22 +39,25 @@ class SplashController extends GetxController {
   bool isMaintenance = false;
   void getGSData(bool isRemember) async {
     ResponseModel response = await repo.getGeneralSetting();
-    bool isOnboardAlreadyDisplayed = repo.apiClient.sharedPreferences
-            .getBool(SharedPreferenceHelper.onBoardKey) ??
+    bool isOnboardAlreadyDisplayed = repo.apiClient.sharedPreferences.getBool(
+          SharedPreferenceHelper.onBoardKey,
+        ) ??
         false;
 
     if (response.statusCode == 200) {
-      GeneralSettingResponseModel model = GeneralSettingResponseModel.fromJson(
-          jsonDecode(response.responseJson));
+      GeneralSettingResponseModel model =
+          GeneralSettingResponseModel.fromJson((response.responseJson));
       if (model.status?.toLowerCase() == MyStrings.success) {
         isMaintenance =
             model.data?.generalSetting?.maintenanceMode == "1" ? true : false;
         loggerX(isMaintenance);
         repo.apiClient.storeGeneralSetting(model);
         repo.apiClient.storePushSetting(
-            model.data?.generalSetting?.pushConfig ?? PusherConfig());
+          model.data?.generalSetting?.pushConfig ?? PusherConfig(),
+        );
         repo.apiClient.storeNotificationAudio(
-            "${UrlContainer.domainUrl}/${model.data?.notificationAudioPath}/${model.data?.generalSetting?.notificationAudio ?? ""}");
+          "${UrlContainer.domainUrl}/${model.data?.notificationAudioPath}/${model.data?.generalSetting?.notificationAudio ?? ""}",
+        );
       } else {
         if (model.remark == "maintenance_mode") {
           Future.delayed(const Duration(seconds: 1), () {
@@ -75,6 +79,7 @@ class SplashController extends GetxController {
 
     isLoading = false;
     update();
+
     if (noInternet == false) {
       if (isOnboardAlreadyDisplayed == false) {
         Future.delayed(const Duration(seconds: 1), () {
@@ -95,17 +100,21 @@ class SplashController extends GetxController {
   }
 
   Future<bool> initSharedData() {
-    if (!repo.apiClient.sharedPreferences
-        .containsKey(SharedPreferenceHelper.countryCode)) {
+    if (!repo.apiClient.sharedPreferences.containsKey(
+      SharedPreferenceHelper.countryCode,
+    )) {
       return repo.apiClient.sharedPreferences.setString(
-          SharedPreferenceHelper.countryCode,
-          MyStrings.myLanguages[0].countryCode);
+        SharedPreferenceHelper.countryCode,
+        MyStrings.myLanguages[0].countryCode,
+      );
     }
-    if (!repo.apiClient.sharedPreferences
-        .containsKey(SharedPreferenceHelper.languageCode)) {
+    if (!repo.apiClient.sharedPreferences.containsKey(
+      SharedPreferenceHelper.languageCode,
+    )) {
       return repo.apiClient.sharedPreferences.setString(
-          SharedPreferenceHelper.languageCode,
-          MyStrings.myLanguages[0].languageCode);
+        SharedPreferenceHelper.languageCode,
+        MyStrings.myLanguages[0].languageCode,
+      );
     }
     return Future.value(true);
   }
@@ -117,7 +126,8 @@ class SplashController extends GetxController {
 
     if (response.statusCode == 200) {
       AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-          jsonDecode(response.responseJson));
+        (response.responseJson),
+      );
       if (model.remark == "maintenance_mode") {
         Future.delayed(const Duration(seconds: 1), () {
           Get.offAndToNamed(RouteHelper.maintenanceScreen);
@@ -126,8 +136,8 @@ class SplashController extends GetxController {
       }
       try {
         Map<String, Map<String, String>> language = {};
-        var resJson = jsonDecode(response.responseJson);
-        saveLanguageList(response.responseJson);
+        var resJson = (response.responseJson);
+        saveLanguageList(jsonEncode(response.responseJson));
         var value = resJson['data']['file'].toString() == '[]'
             ? {}
             : resJson['data']['file'];
@@ -151,8 +161,10 @@ class SplashController extends GetxController {
   }
 
   void saveLanguageList(String languageJson) async {
-    await repo.apiClient.sharedPreferences
-        .setString(SharedPreferenceHelper.languageListKey, languageJson);
+    await repo.apiClient.sharedPreferences.setString(
+      SharedPreferenceHelper.languageListKey,
+      languageJson,
+    );
     return;
   }
 }

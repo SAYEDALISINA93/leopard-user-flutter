@@ -15,7 +15,7 @@ import 'package:leoparduser/core/utils/my_images.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
 import 'package:leoparduser/data/repo/auth/sms_email_verification_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/will_pop_widget.dart';
 

@@ -21,9 +21,7 @@ class MaintenanceScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.2),
               Lottie.asset(MyAnimation.maintenance),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: Dimensions.space10),
@@ -31,9 +29,12 @@ class MaintenanceScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(MyStrings.maintenanceTitle,
-                        style: boldExtraLarge.copyWith(
-                            color: MyColor.primaryColor)),
+                    Text(
+                      MyStrings.maintenanceTitle,
+                      style: boldExtraLarge.copyWith(
+                        color: MyColor.primaryColor,
+                      ),
+                    ),
                     SizedBox(height: Dimensions.space5),
                     Text(
                       MyStrings.maintenanceSubtitle,
@@ -42,7 +43,7 @@ class MaintenanceScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

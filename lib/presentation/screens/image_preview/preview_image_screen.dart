@@ -1,20 +1,20 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:open_filex/open_filex.dart';
+// import 'package:open_file/open_file.dart';
 import 'package:leoparduser/core/utils/dimensions.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/authorization/authorization_response_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
+import 'package:leoparduser/environment.dart';
 import 'package:leoparduser/presentation/components/app-bar/custom_appbar.dart';
 import 'package:leoparduser/presentation/components/buttons/circle_icon_button.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 
 class PreviewImageScreen extends StatefulWidget {
   String url;
@@ -60,35 +60,51 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     }
   }
 
-  Future<void> downloadAttachment(
-    String url,
-  ) async {
-    _prepareSaveDir();
-    String extention = url.split('.')[1];
+  Future<void> downloadAttachment(String url) async {
+    await _prepareSaveDir(); // Ensure this is `awaited` if it's async
+
+    String extension = url.split('.').last;
     isSubmitLoading = true;
     setState(() {});
-    final headers = {
-      'Authorization': "Bearer ${Get.find<ApiClient>().token}",
-      'content-type': "application/pdf",
-      "dev-token":
-          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
-    };
 
-    final response = await http.get(Uri.parse(url), headers: headers);
-    if (response.statusCode == 200) {
-      final bytes = response.bodyBytes;
+    try {
+      Dio dio = Dio();
+      dio.options.headers = {
+        'Authorization': "Bearer ${Get.find<ApiClient>().token}",
+        // 'content-type': "application/pdf",
+        "dev-token": Environment.devToken,
+      };
 
-      await saveAndOpenFile(
-          bytes, '${MyStrings.appName} ${DateTime.now()}.$extention');
-    } else {
+      String fileName = '${MyStrings.appName} ${DateTime.now()}.$extension';
+
+      // Get the device's download directory
+      final dir = await getApplicationDocumentsDirectory();
+      final filePath = "${dir.path}/$fileName";
+
+      await dio.download(
+        url,
+        filePath,
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            print("${(received / total * 100).toStringAsFixed(0)}%");
+          }
+        },
+      );
+
+      // Open or handle the file
+      final fileBytes = await File(filePath).readAsBytes();
+      await saveAndOpenFile(fileBytes, fileName);
+    } on DioException catch (e) {
       try {
-        AuthorizationResponseModel model =
-            AuthorizationResponseModel.fromJson(jsonDecode(response.body));
+        final model = AuthorizationResponseModel.fromJson(e.response?.data);
         CustomSnackBar.error(
-            errorList: model.message ?? [MyStrings.somethingWentWrong]);
-      } catch (e) {
+          errorList: model.message ?? [MyStrings.somethingWentWrong],
+        );
+      } catch (_) {
         CustomSnackBar.error(errorList: [MyStrings.somethingWentWrong]);
       }
+    } catch (e) {
+      CustomSnackBar.error(errorList: [MyStrings.somethingWentWrong]);
     }
 
     isSubmitLoading = false;
@@ -105,11 +121,11 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
   Future<void> openPDF(String path) async {
     final file = File(path);
     if (await file.exists()) {
-      final result = await OpenFilex.open(path);
-      if (result.type == ResultType.done) {
-      } else {
-        CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);
-      }
+      // final result = await OpenFile.open(path);
+      // if (result.type == ResultType.done) {
+      // } else {
+      //   CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);
+      // }
     } else {
       CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);
     }
@@ -120,7 +136,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     return Scaffold(
       backgroundColor: MyColor.screenBgColor,
       appBar: CustomAppBar(
-        title: 'Image Preview'.tr,
+        title: MyStrings.imagePreview.tr,
         isTitleCenter: true,
         actionsWidget: [
           CircleIconButton(
@@ -132,7 +148,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
             backgroundColor: MyColor.primaryColor,
             child: const Icon(Icons.download, color: MyColor.colorWhite),
           ),
-          const SizedBox(width: Dimensions.space10)
+          const SizedBox(width: Dimensions.space10),
         ],
       ),
       body: Stack(
@@ -144,17 +160,23 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                 imageUrl: widget.url.toString(),
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
-                      boxShadow: const [],
-                      image: DecorationImage(
-                          image: imageProvider, fit: BoxFit.contain)),
+                    boxShadow: const [],
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
                 placeholder: (context, url) => SizedBox(
                   child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.mediumRadius),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.mediumRadius,
+                    ),
                     child: Center(
                       child: SpinKitFadingCube(
-                        color: MyColor.getPrimaryColor().withValues(alpha: 0.3),
+                        color: MyColor.getPrimaryColor().withValues(
+                          alpha: 0.3,
+                        ),
                         size: Dimensions.space20,
                       ),
                     ),
@@ -162,8 +184,9 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                 ),
                 errorWidget: (context, url, error) => SizedBox(
                   child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.mediumRadius),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.mediumRadius,
+                    ),
                     child: Center(
                       child: Icon(
                         Icons.image,
@@ -180,11 +203,9 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
               height: context.height,
               width: context.width,
               color: MyColor.primaryColor.withValues(alpha: 0.1),
-              child: const SpinKitFadingCircle(
-                color: MyColor.primaryColor,
-              ),
-            )
-          ]
+              child: const SpinKitFadingCircle(color: MyColor.primaryColor),
+            ),
+          ],
         ],
       ),
     );

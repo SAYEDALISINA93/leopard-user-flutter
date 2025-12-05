@@ -31,8 +31,9 @@ class _AppBodyWidgetCardState extends State<AppBodyWidgetCard> {
               margin: widget.margin,
               padding: widget.padding ??
                   const EdgeInsets.symmetric(
-                      horizontal: Dimensions.space15 + 1,
-                      vertical: Dimensions.space25 - 1),
+                    horizontal: Dimensions.space15 + 1,
+                    vertical: Dimensions.space25 - 1,
+                  ),
               decoration: BoxDecoration(
                 color: MyColor.colorWhite,
                 borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
@@ -44,8 +45,9 @@ class _AppBodyWidgetCardState extends State<AppBodyWidgetCard> {
             width: double.infinity,
             padding: widget.padding ??
                 const EdgeInsets.symmetric(
-                    horizontal: Dimensions.space15 + 1,
-                    vertical: Dimensions.space25 - 1),
+                  horizontal: Dimensions.space15 + 1,
+                  vertical: Dimensions.space25 - 1,
+                ),
             margin: widget.margin,
             decoration: BoxDecoration(
               color: MyColor.colorWhite,

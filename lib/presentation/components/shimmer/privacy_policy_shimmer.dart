@@ -12,11 +12,14 @@ class PrivacyPolicyShimmer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-          color: MyColor.colorWhite,
-          borderRadius: BorderRadius.circular(Dimensions.mediumRadius)),
+        color: MyColor.colorWhite,
+        borderRadius: BorderRadius.circular(Dimensions.mediumRadius),
+      ),
       width: context.width,
       padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.space15, vertical: Dimensions.space15),
+        horizontal: Dimensions.space15,
+        vertical: Dimensions.space15,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,8 +39,9 @@ class PrivacyPolicyShimmer extends StatelessWidget {
               width: context.width,
               height: 3,
               decoration: BoxDecoration(
-                  color: MyColor.colorGrey2,
-                  borderRadius: BorderRadius.circular(2)),
+                color: MyColor.colorGrey2,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           const SizedBox(height: Dimensions.space5),
@@ -46,8 +50,9 @@ class PrivacyPolicyShimmer extends StatelessWidget {
               width: context.width - 60,
               height: 3,
               decoration: BoxDecoration(
-                  color: MyColor.colorGrey2,
-                  borderRadius: BorderRadius.circular(2)),
+                color: MyColor.colorGrey2,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           const SizedBox(height: Dimensions.space5),
@@ -56,8 +61,9 @@ class PrivacyPolicyShimmer extends StatelessWidget {
               width: context.width - 50,
               height: 3,
               decoration: BoxDecoration(
-                  color: MyColor.colorGrey2,
-                  borderRadius: BorderRadius.circular(2)),
+                color: MyColor.colorGrey2,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           const SizedBox(height: Dimensions.space5),
@@ -66,8 +72,9 @@ class PrivacyPolicyShimmer extends StatelessWidget {
               width: context.width - 40,
               height: 3,
               decoration: BoxDecoration(
-                  color: MyColor.colorGrey2,
-                  borderRadius: BorderRadius.circular(2)),
+                color: MyColor.colorGrey2,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           const SizedBox(height: Dimensions.space5),
@@ -76,8 +83,9 @@ class PrivacyPolicyShimmer extends StatelessWidget {
               width: context.width / 2,
               height: 3,
               decoration: BoxDecoration(
-                  color: MyColor.colorGrey2,
-                  borderRadius: BorderRadius.circular(2)),
+                color: MyColor.colorGrey2,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           const SizedBox(height: Dimensions.space5),

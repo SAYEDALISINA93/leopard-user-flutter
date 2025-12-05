@@ -121,7 +121,7 @@ class PhoneRegistrationController extends GetxController {
       referName: referNameController.text.toString(),
       mobile: mobileController.text.toString(),
       email: '',
-      agree: generalSettingRepo.apiClient.isAgreePolicyEnable()
+      agree: generalSettingRepo.apiClient.isAgreePolicyEnabled()
           ? agreeTC
               ? true
               : false
@@ -214,8 +214,8 @@ class PhoneRegistrationController extends GetxController {
 
     ResponseModel response = await generalSettingRepo.getGeneralSetting();
     if (response.statusCode == 200) {
-      GeneralSettingResponseModel model = GeneralSettingResponseModel.fromJson(
-          jsonDecode(response.responseJson));
+      GeneralSettingResponseModel model =
+          GeneralSettingResponseModel.fromJson(response.responseJson);
       if (model.status?.toLowerCase() == 'success') {
         generalSettingMainModel = model;
         isReferralEnable =

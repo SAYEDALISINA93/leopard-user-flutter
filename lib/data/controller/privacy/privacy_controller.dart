@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:leoparduser/data/model/about/privacy_response_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
@@ -19,7 +18,7 @@ class PrivacyController extends GetxController {
     ResponseModel model = await repo.loadAboutData();
     if (model.statusCode == 200) {
       PrivacyResponseModel responseModel =
-          PrivacyResponseModel.fromJson(jsonDecode(model.responseJson));
+          PrivacyResponseModel.fromJson((model.responseJson));
       if (responseModel.data?.policyPages != null &&
           responseModel.data!.policyPages != null &&
           responseModel.data!.policyPages!.isNotEmpty) {
@@ -40,7 +39,7 @@ class PrivacyController extends GetxController {
     update();
   }
 
-  updateLoading(bool status) {
+  void updateLoading(bool status) {
     isLoading = status;
     update();
   }

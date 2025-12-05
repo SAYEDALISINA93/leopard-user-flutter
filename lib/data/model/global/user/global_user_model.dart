@@ -79,7 +79,7 @@ class GlobalUser {
         address: json["address"] ?? "",
         city: json["city"] ?? "",
         zip: json["zip"] ?? "",
-        country: json["country"] ?? "",
+        country: json["country_name"] ?? "",
         state: json["state"] ?? "",
         totalReviews: json["total_reviews"].toString(),
         avgRating: json["avg_rating"].toString(),
@@ -126,4 +126,7 @@ class GlobalUser {
         "updated_at": updatedAt,
         "image_with_path": imageWithPath,
       };
+  String getFullName() {
+    return "${firstname ?? ""} ${lastname ?? ""}".trim();
+  }
 }

@@ -26,36 +26,46 @@ class RideCreateForm extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                CustomBottomSheet(child: const HomeSelectPaymentMethod())
-                    .customBottomSheet(context);
+                if (controller.isPriceLoading == false) {
+                  CustomBottomSheet(
+                    child: const HomeSelectPaymentMethod(),
+                  ).customBottomSheet(context);
+                }
               },
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                    border: Border.all(color: MyColor.borderColor, width: 0.5),
-                    borderRadius: BorderRadius.circular(8)),
+                  border: Border.all(color: MyColor.borderColor, width: 0.5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         CustomSvgPicture(
-                            image: MyIcons.money, color: MyColor.primaryColor),
+                          image: MyIcons.money,
+                          color: MyColor.primaryColor,
+                        ),
                         SizedBox(width: Dimensions.space5),
                         Text(
-                            (controller.selectedPaymentMethod.id == '-1'
-                                    ? MyStrings.paymentMethod.tr
-                                    : controller.selectedPaymentMethod.method
-                                            ?.name ??
-                                        MyStrings.paymentMethod)
-                                .tr,
-                            style: regularDefault.copyWith(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
+                          (controller.selectedPaymentMethod.id == '-1'
+                                  ? MyStrings.paymentMethod.tr
+                                  : controller
+                                          .selectedPaymentMethod.method?.name ??
+                                      MyStrings.paymentMethod)
+                              .tr,
+                          style: regularDefault.copyWith(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ],
                     ),
-                    Icon(Icons.keyboard_arrow_down_rounded,
-                        color: MyColor.getRideSubTitleColor(), size: 16),
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: MyColor.getRideSubTitleColor(),
+                      size: 16,
+                    ),
                   ],
                 ),
               ),
@@ -70,36 +80,54 @@ class RideCreateForm extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       if (controller.selectedService.id != '-99') {
-                        controller.updateMainAmount(controller.mainAmount);
-                        CustomBottomSheet(
-                          child: const HomeOfferRateWidget(),
-                        ).customBottomSheet(context);
+                        if (controller.isPriceLoading == false) {
+                          controller.updateMainAmount(controller.mainAmount);
+                          CustomBottomSheet(child: const HomeOfferRateWidget())
+                              .customBottomSheet(context);
+                        }
                       } else {
                         CustomSnackBar.error(
-                            errorList: [MyStrings.pleaseSelectAService]);
+                          errorList: [MyStrings.pleaseSelectAService],
+                        );
                       }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: Dimensions.space15,
-                          vertical: Dimensions.space15),
+                        horizontal: Dimensions.space15,
+                        vertical: Dimensions.space15,
+                      ),
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              color: MyColor.borderColor, width: 0.5),
-                          borderRadius: BorderRadius.circular(8)),
+                        border: Border.all(
+                          color: MyColor.borderColor,
+                          width: 0.5,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(children: [
-                            Text(
-                                controller.mainAmount == 0
-                                    ? MyStrings.offerYourRate.tr
-                                    : '${Converter.formatDouble(controller.mainAmount.toString())} ${controller.defaultCurrency}',
-                                style: regularDefault.copyWith(
-                                    color: MyColor.bodyText))
-                          ]),
-                          Icon(Icons.keyboard_arrow_down_rounded,
-                              color: MyColor.getRideSubTitleColor(), size: 16),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    controller.mainAmount == 0
+                                        ? MyStrings.offerYourRate.tr
+                                        : '${StringConverter.formatDouble(controller.mainAmount.toString())} ${controller.defaultCurrency}',
+                                    style: regularDefault.copyWith(
+                                      color: MyColor.bodyText,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: MyColor.getRideSubTitleColor(),
+                            size: 16,
+                          ),
                         ],
                       ),
                     ),
@@ -110,18 +138,26 @@ class RideCreateForm extends StatelessWidget {
                   flex: 2,
                   child: InkWell(
                     onTap: () {
-                      CustomBottomSheet(child: const PassengerBottomSheet())
-                          .customBottomSheet(context);
+                      if (controller.isPriceLoading == false) {
+                        CustomBottomSheet(
+                          child: const PassengerBottomSheet(),
+                        ).customBottomSheet(context);
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: Dimensions.space15,
-                          vertical: Dimensions.space15),
+                        horizontal: Dimensions.space15,
+                        vertical: Dimensions.space15,
+                      ),
                       decoration: BoxDecoration(
-                          border:
-                              Border.all(color: MyColor.borderColor, width: .5),
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.mediumRadius)),
+                        border: Border.all(
+                          color: MyColor.borderColor,
+                          width: .5,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.mediumRadius,
+                        ),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -130,16 +166,21 @@ class RideCreateForm extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               CustomSvgPicture(
-                                  image: MyIcons.user,
-                                  color: MyColor.primaryColor),
+                                image: MyIcons.user,
+                                color: MyColor.primaryColor,
+                              ),
                               spaceSide(Dimensions.space8),
                               Text(
-                                  "${controller.passenger.toString()} ${MyStrings.person.tr}",
-                                  style: regularDefault.copyWith()),
+                                "${controller.passenger.toString()} ${MyStrings.person.tr}",
+                                style: regularDefault.copyWith(),
+                              ),
                             ],
                           ),
-                          Icon(Icons.keyboard_arrow_down_rounded,
-                              color: MyColor.getRideSubTitleColor(), size: 16),
+                          Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: MyColor.getRideSubTitleColor(),
+                            size: 16,
+                          ),
                         ],
                       ),
                     ),

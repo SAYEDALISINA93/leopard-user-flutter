@@ -30,6 +30,7 @@ import 'package:leoparduser/presentation/screens/inbox/ride_message_screen.dart'
 import 'package:leoparduser/presentation/screens/inter_city/inter_city_screen.dart';
 
 import 'package:leoparduser/presentation/screens/language/language_screen.dart';
+import 'package:leoparduser/presentation/screens/location/screen/locationpicker/location_edit_screen.dart';
 import 'package:leoparduser/presentation/screens/location/screen/locationpicker/location_picker_screen.dart';
 
 import 'package:leoparduser/presentation/screens/location/screen/ride_details_screen.dart';
@@ -45,8 +46,9 @@ import 'package:leoparduser/presentation/screens/privacy_policy/privacy_policy_s
 import 'package:leoparduser/presentation/screens/profile_and_settings/profile_and_settings_screen.dart';
 
 import 'package:leoparduser/presentation/screens/referral_a_friends/referral_a_friends_screen.dart';
-import 'package:leoparduser/presentation/screens/review/review_history_screen.dart';
-import 'package:leoparduser/presentation/screens/review/user_review_history_screen.dart';
+import 'package:leoparduser/presentation/screens/review/driver_review_history_screen.dart';
+import 'package:leoparduser/presentation/screens/review/ride_review_screen.dart';
+import 'package:leoparduser/presentation/screens/review/my_review_history_screen.dart';
 
 import 'package:leoparduser/presentation/screens/ride/ride_screen.dart';
 
@@ -121,6 +123,8 @@ class RouteHelper {
 
   static const String paymentScreen = '/payment_Screen';
 
+  static const String rideReviewScreen = '/ridereview_Screen';
+
   static const String couponScreen = '/coupon_Screen';
 
   static const String referralAFriendsScreen = '/referral_a_friends_screen';
@@ -128,6 +132,8 @@ class RouteHelper {
   static const String rideMessageScreen = '/inbox_message_screen';
 
   static const String locationPickUpScreen = '/location_pickup_screen';
+
+  static const String editLocationPickUpScreen = '/edit_location_pickup_screen';
 
   static const String rideDetailsScreen = '/ride_details_screen';
 
@@ -159,10 +165,14 @@ class RouteHelper {
     GetPage(name: loginScreen, page: () => const LoginScreen()),
 
     GetPage(
-        name: forgotPasswordScreen, page: () => const ForgetPasswordScreen()),
+      name: forgotPasswordScreen,
+      page: () => const ForgetPasswordScreen(),
+    ),
 
     GetPage(
-        name: changePasswordScreen, page: () => const ChangePasswordScreen()),
+      name: changePasswordScreen,
+      page: () => const ChangePasswordScreen(),
+    ),
 
     GetPage(name: registrationScreen, page: () => const RegistrationScreen()),
 
@@ -182,66 +192,87 @@ class RouteHelper {
         name: profileCompleteScreen, page: () => const ProfileCompleteScreen()),
 
     GetPage(
-        name: dashboard,
-        page: () => const DashBoardScreen(),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: dashboard,
+      page: () => const DashBoardScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     GetPage(
-        name: rideScreen,
-        page: () => const RideScreen(),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: rideScreen,
+      page: () => const RideScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     GetPage(
-        name: rideDetailsScreen,
-        page: () => RideDetailsScreen(rideId: Get.arguments)),
+      name: rideDetailsScreen,
+      page: () => RideDetailsScreen(rideId: Get.arguments),
+    ),
 
     GetPage(
-        name: rideMessageScreen, page: () => RideMessageScreen(rideID: '-1')),
+      name: rideMessageScreen,
+      page: () => RideMessageScreen(rideID: '-1'),
+    ),
 
     GetPage(
-        name: interCityScreen,
-        page: () => const InterCityScreen(),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: interCityScreen,
+      page: () => const InterCityScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     GetPage(
-        name: rideBidScreen,
-        page: () => const RideBidListScreen(),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: rideBidScreen,
+      page: () => const RideBidListScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     GetPage(
-        name: paymentScreen,
-        page: () => const PaymentScreen(),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: paymentScreen,
+      page: () => const PaymentScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     GetPage(
-        name: couponScreen,
-        page: () => const CouponScreen(),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: rideReviewScreen,
+      page: () => RideReviewScreen(rideId: Get.arguments),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     GetPage(
-        name: driverReviewScreen,
-        page: () => ReviewHistoryScreen(driverId: Get.arguments)),
-    GetPage(
-        name: myReviewScreen,
-        page: () => UserReviewHistoryScreen(avgRating: Get.arguments)),
+      name: couponScreen,
+      page: () => const CouponScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     GetPage(
-        name: referralAFriendsScreen,
-        page: () => const ReferralAFriendsScreen(),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: driverReviewScreen,
+      page: () => DriverReviewHistoryScreen(driverId: Get.arguments),
+    ),
 
     GetPage(
-        name: webViewScreen,
-        page: () => MyWebViewScreen(url: Get.arguments),
-        transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 300)),
+      name: myReviewScreen,
+      page: () => MyReviewHistoryScreen(avgRating: Get.arguments),
+    ),
+
+    GetPage(
+      name: referralAFriendsScreen,
+      page: () => const ReferralAFriendsScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: webViewScreen,
+      page: () => MyWebViewScreen(model: Get.arguments),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
     //
     GetPage(name: profileScreen, page: () => const ProfileScreen()),
 
@@ -249,32 +280,42 @@ class RouteHelper {
 
     GetPage(
         name: profileAndSettingsScreen,
-        page: () => const ProfileAndSettingsScreen(
-              showBackBtn: true,
-            ),
+        page: () => const ProfileAndSettingsScreen(),
         transition: Transition.fadeIn,
         transitionDuration: const Duration(milliseconds: 300)),
     //Location
     GetPage(
-        name: locationPickUpScreen,
-        page: () =>
-            LocationPickerScreen(pickupLocationForIndex: Get.arguments[0])),
+      name: locationPickUpScreen,
+      page: () =>
+          LocationPickerScreen(pickupLocationForIndex: Get.arguments[0]),
+    ),
+    GetPage(
+        name: editLocationPickUpScreen,
+        page: () => EditLocationPickerScreen(selectedIndex: Get.arguments)),
+    // GetPage(name: editLocationPickUpScreen, page: () => EditLocationPickerScreen()),
+    GetPage(
+      name: paymentHistoryScreen,
+      page: () => const PaymentHistoryScreen(),
+    ),
 
     GetPage(
-        name: paymentHistoryScreen, page: () => const PaymentHistoryScreen()),
+      name: emailVerificationScreen,
+      page: () => EmailVerificationScreen(
+        needSmsVerification: Get.arguments[0],
+        isProfileCompleteEnabled: Get.arguments[1],
+        needTwoFactor: Get.arguments[2],
+      ),
+    ),
 
     GetPage(
-        name: emailVerificationScreen,
-        page: () => EmailVerificationScreen(
-            needSmsVerification: Get.arguments[0],
-            isProfileCompleteEnabled: Get.arguments[1],
-            needTwoFactor: Get.arguments[2])),
+      name: smsVerificationScreen,
+      page: () => const SmsVerificationScreen(),
+    ),
 
     GetPage(
-        name: smsVerificationScreen, page: () => const SmsVerificationScreen()),
-
-    GetPage(
-        name: verifyPassCodeScreen, page: () => const VerifyForgetPassScreen()),
+      name: verifyPassCodeScreen,
+      page: () => const VerifyForgetPassScreen(),
+    ),
 
     GetPage(name: resetPasswordScreen, page: () => const ResetPasswordScreen()),
 
@@ -285,35 +326,22 @@ class RouteHelper {
     GetPage(name: faqScreen, page: () => const FaqScreen()),
     //support
     GetPage(
-        name: createSupportTicketScreen,
-        page: () => const AddNewTicketScreen()),
+      name: createSupportTicketScreen,
+      page: () => const AddNewTicketScreen(),
+    ),
 
     GetPage(name: supportTicketScreen, page: () => const SupportTicketScreen()),
 
     GetPage(
-        name: supportTicketDetailsScreen,
-        page: () => const TicketDetailsScreen()),
+      name: supportTicketDetailsScreen,
+      page: () => const TicketDetailsScreen(),
+    ),
 
     GetPage(
-        name: previewImageScreen,
-        page: () => PreviewImageScreen(url: Get.arguments)),
+      name: previewImageScreen,
+      page: () => PreviewImageScreen(url: Get.arguments),
+    ),
 
     GetPage(name: maintenanceScreen, page: () => MaintenanceScreen()),
   ];
 }
-
-/**
- 
-========NEW_RIDE=============================================
-  NEW_BID  -> ride_bid_Screen-(rideId)
-  ACCEPT_RIDE -> ride_details_screen->(rideId)
-  BID_REJECT -> ride_bid_Screen-(rideId) 
-  START_RIDE  -> ride_details_screen->(rideId)
-  CANCEL_RIDE -> dashboard_screen-(rideId/empty/0)
-  COMPLETE_RIDE -> dashboard_screen->(rideId/empty/0)
-  COMPLETE_RIDE_PAYMENT -> ride_details_screen->(rideId)
-  RECEIVE_RIDE_PAYMENT -> ride_details_screen->(rideId)
-  PROMOTIONAL_NOTIFY -> null
-================================================================ 
-
- */

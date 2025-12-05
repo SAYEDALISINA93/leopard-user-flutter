@@ -14,9 +14,7 @@ class CountryModel {
   CountryModel.fromJson(dynamic json) {
     _remark = json['remark'];
     _status = json['status'];
-    _message = json['message'] != null
-        ? List<String>.from(json["message"]!.map((x) => x.toString()))
-        : [];
+    _message = json['message'] != null ? List<String>.from(json["message"]!.map((x) => x.toString())) : [];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
   String? _remark;
@@ -44,9 +42,7 @@ class CountryModel {
 }
 
 class Data {
-  Data({
-    List<Countries>? countries,
-  }) {
+  Data({List<Countries>? countries}) {
     _countries = countries;
   }
 
@@ -72,11 +68,7 @@ class Data {
 }
 
 class Countries {
-  Countries({
-    String? country,
-    String? dialCode,
-    String? countryCode,
-  }) {
+  Countries({String? country, String? dialCode, String? countryCode}) {
     _country = country;
     _dialCode = dialCode;
     _countryCode = countryCode;

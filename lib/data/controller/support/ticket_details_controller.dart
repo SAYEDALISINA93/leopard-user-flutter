@@ -1,11 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
+import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/utils/my_color.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/controller/support/support_controller.dart';
@@ -13,10 +14,10 @@ import 'package:leoparduser/data/model/authorization/authorization_response_mode
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
 import 'package:leoparduser/data/model/support/support_ticket_view_response_model.dart';
 import 'package:leoparduser/data/repo/support/support_repo.dart';
+import 'package:leoparduser/environment.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
-import 'package:open_filex/open_filex.dart';
+// import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
 class TicketDetailsController extends GetxController {
@@ -27,11 +28,12 @@ class TicketDetailsController extends GetxController {
 
   TicketDetailsController({required this.repo, required this.ticketId});
 
-  loadData() async {
+  Future<void> loadData() async {
     isLoading = true;
     update();
-    String languageCode = repo.apiClient.sharedPreferences
-            .getString(SharedPreferenceHelper.languageCode) ??
+    String languageCode = repo.apiClient.sharedPreferences.getString(
+          SharedPreferenceHelper.languageCode,
+        ) ??
         'eng';
     if (languageCode == 'ar') {
       isRtl = true;
@@ -43,7 +45,7 @@ class TicketDetailsController extends GetxController {
   }
 
   void loadUserName() {
-    username = repo.apiClient.getCurrencyOrUsername(isCurrency: false);
+    username = repo.apiClient.getUserName();
   }
 
   bool isLoading = false;
@@ -60,9 +62,10 @@ class TicketDetailsController extends GetxController {
 
   void pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx']);
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx'],
+    );
     if (result == null) return;
 
     if (attachmentList.length < 5) {
@@ -74,7 +77,7 @@ class TicketDetailsController extends GetxController {
     update();
   }
 
-  removeAttachmentFromList(int index) {
+  void removeAttachmentFromList(int index) {
     if (attachmentList.length > index) {
       attachmentList.removeAt(index);
       update();
@@ -94,22 +97,22 @@ class TicketDetailsController extends GetxController {
     ResponseModel response = await repo.getSingleTicket(ticketId);
 
     if (response.statusCode == 200) {
-      model = SupportTicketViewResponseModel.fromJson(
-          jsonDecode(response.responseJson));
+      model = SupportTicketViewResponseModel.fromJson((response.responseJson));
       if (model.status?.toLowerCase() == MyStrings.success.toLowerCase()) {
         ticket = model.data?.myTickets?.ticket ?? '';
         subject = model.data?.myTickets?.subject ?? '';
         status = model.data?.myTickets?.status ?? '';
         ticketName = model.data?.myTickets?.name ?? '';
         receivedTicketModel = model.data?.myTickets;
-        List<SupportMessage>? tempTicketList = model.data?.myMessages;
-        if (tempTicketList != null && tempTicketList.isNotEmpty) {
+        List<SupportMessage>? tempTicketList = model.data?.myMessages ?? [];
+        if (tempTicketList.isNotEmpty) {
           messageList.clear();
           messageList.addAll(tempTicketList);
         }
       } else {
         CustomSnackBar.error(
-            errorList: model.message ?? [MyStrings.somethingWentWrong]);
+          errorList: model.message ?? [MyStrings.somethingWentWrong],
+        );
       }
     } else {
       CustomSnackBar.error(errorList: [response.message]);
@@ -129,8 +132,11 @@ class TicketDetailsController extends GetxController {
     update();
 
     try {
-      bool b = await repo.replyTicket(replyController.text, attachmentList,
-          receivedTicketModel?.id.toString() ?? "-1");
+      bool b = await repo.replyTicket(
+        replyController.text,
+        attachmentList,
+        receivedTicketModel?.id.toString() ?? "-1",
+      );
 
       if (b) {
         await loadTicketDetailsData(shouldLoad: false);
@@ -139,6 +145,7 @@ class TicketDetailsController extends GetxController {
         refreshAttachmentList();
       }
     } catch (e) {
+      printE(e);
       submitLoading = false;
       update();
     } finally {
@@ -147,7 +154,7 @@ class TicketDetailsController extends GetxController {
     }
   }
 
-  setTicketModel(MyTickets? ticketModel) {
+  void setTicketModel(MyTickets? ticketModel) {
     receivedTicketModel = ticketModel;
     update();
   }
@@ -169,18 +176,20 @@ class TicketDetailsController extends GetxController {
     update();
     ResponseModel responseModel = await repo.closeTicket(supportTicketID);
     if (responseModel.statusCode == 200) {
-      AuthorizationResponseModel model = AuthorizationResponseModel.fromJson(
-          jsonDecode(responseModel.responseJson));
+      AuthorizationResponseModel model =
+          AuthorizationResponseModel.fromJson((responseModel.responseJson));
       if (model.status?.toLowerCase() == MyStrings.success.toLowerCase()) {
         Get.find<SupportController>().loadData();
         clearAllData();
         Get.back();
         CustomSnackBar.success(
-            successList: model.message ?? [MyStrings.requestSuccess]);
+          successList: model.message ?? [MyStrings.requestSuccess],
+        );
         Get.find<SupportController>().loadData();
       } else {
         CustomSnackBar.error(
-            errorList: model.message ?? [MyStrings.requestFail]);
+          errorList: model.message ?? [MyStrings.requestFail],
+        );
       }
     } else {
       CustomSnackBar.error(errorList: [responseModel.message]);
@@ -190,8 +199,11 @@ class TicketDetailsController extends GetxController {
     update();
   }
 
-  String getStatusText(String priority,
-      {bool isPriority = false, bool isStatus = false}) {
+  String getStatusText(
+    String priority, {
+    bool isPriority = false,
+    bool isStatus = false,
+  }) {
     String text = '';
     text = priority == '0'
         ? MyStrings.open.tr
@@ -279,32 +291,52 @@ class TicketDetailsController extends GetxController {
   int selectedIndex = -1;
 
   Future<void> downloadAttachment(
-      String url, int index, String extention) async {
+    String url,
+    int index,
+    String extension,
+  ) async {
     selectedIndex = index;
     isSubmitLoading = true;
     update();
 
     _prepareSaveDir();
 
-    final headers = {
-      'Authorization': "Bearer ${repo.apiClient.token}",
+    Dio dio = Dio();
+    dio.options.headers = {
+      'Authorization': "Bearer ${repo.apiClient.getToken()}",
       'content-type': "application/pdf",
-      "dev-token":
-          "\$2y\$12\$mEVBW3QASB5HMBv8igls3ejh6zw2A0Xb480HWAmYq6BY9xEifyBjG",
+      "dev-token": Environment.devToken,
     };
+    String fileName = '${MyStrings.appName} ${DateTime.now()}.$extension';
+    // Get the device's download directory
+    final dir = await getApplicationDocumentsDirectory();
+    final filePath = "${dir.path}/$fileName";
 
-    final response = await http.get(Uri.parse(url), headers: headers);
+    final response = await dio.download(
+      url,
+      filePath,
+      onReceiveProgress: (received, total) {
+        if (total != -1) {
+          print("${(received / total * 100).toStringAsFixed(0)}%");
+        }
+      },
+    );
+
     if (response.statusCode == 200) {
-      final bytes = response.bodyBytes;
+      // Open or handle the file
+      final fileBytes = await File(filePath).readAsBytes();
 
       await saveAndOpenPDF(
-          bytes, '${MyStrings.appName} ${DateTime.now()}.$extention');
+        fileBytes,
+        '${MyStrings.appName} ${DateTime.now()}.$extension',
+      );
     } else {
       try {
         AuthorizationResponseModel model =
-            AuthorizationResponseModel.fromJson(jsonDecode(response.body));
+            AuthorizationResponseModel.fromJson((response.data));
         CustomSnackBar.error(
-            errorList: model.message ?? [MyStrings.somethingWentWrong]);
+          errorList: model.message ?? [MyStrings.somethingWentWrong],
+        );
       } catch (e) {
         CustomSnackBar.error(errorList: [MyStrings.somethingWentWrong]);
       }
@@ -324,11 +356,11 @@ class TicketDetailsController extends GetxController {
   Future<void> openPDF(String path) async {
     final file = File(path);
     if (await file.exists()) {
-      final result = await OpenFilex.open(path);
-      if (result.type == ResultType.done) {
-      } else {
-        CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);
-      }
+      // final result = await OpenFile.open(path);
+      // if (result.type == ResultType.done) {
+      // } else {
+      //   CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);
+      // }
     } else {
       CustomSnackBar.error(errorList: [MyStrings.fileNotFound]);
     }

@@ -18,12 +18,7 @@ class GatewayListResponseModel {
   List<String>? message;
   Data? data;
 
-  GatewayListResponseModel({
-    this.remark,
-    this.status,
-    this.message,
-    this.data,
-  });
+  GatewayListResponseModel({this.remark, this.status, this.message, this.data});
 
   factory GatewayListResponseModel.fromJson(Map<String, dynamic> json) =>
       GatewayListResponseModel(
@@ -45,21 +40,23 @@ class GatewayListResponseModel {
 class Data {
   List<AppPaymentMethod>? gatewayCurrency;
 
-  Data({
-    this.gatewayCurrency,
-  });
+  Data({this.gatewayCurrency});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         gatewayCurrency: json["gateway_currency"] == null
             ? []
-            : List<AppPaymentMethod>.from(json["gateway_currency"]!
-                .map((x) => AppPaymentMethod.fromJson(x))),
+            : List<AppPaymentMethod>.from(
+                json["gateway_currency"]!.map(
+                  (x) => AppPaymentMethod.fromJson(x),
+                ),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
         "gateway_currency": gatewayCurrency == null
             ? []
             : List<AppPaymentMethod>.from(
-                gatewayCurrency!.map((x) => x.toJson())),
+                gatewayCurrency!.map((x) => x.toJson()),
+              ),
       };
 }

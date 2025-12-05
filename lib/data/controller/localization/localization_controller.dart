@@ -12,8 +12,10 @@ class LocalizationController extends GetxController {
     loadCurrentLanguage();
   }
 
-  Locale _locale = Locale(MyStrings.myLanguages[0].languageCode,
-      MyStrings.myLanguages[0].countryCode);
+  Locale _locale = Locale(
+    MyStrings.myLanguages[0].languageCode,
+    MyStrings.myLanguages[0].countryCode,
+  );
   bool _isLtr = true;
   final List<MyLanguageModel> _languages = [];
 
@@ -24,7 +26,11 @@ class LocalizationController extends GetxController {
   void setLanguage(Locale locale, String imageUrl) {
     Get.updateLocale(locale);
     _locale = locale;
-    if (_locale.languageCode == 'ar') {
+    // RTL languages: Arabic (ar), Dari/Persian (pr/fa), Pashto (ps)
+    if (_locale.languageCode == 'ar' ||
+        _locale.languageCode == 'pr' ||
+        _locale.languageCode == 'fa' ||
+        _locale.languageCode == 'ps') {
       _isLtr = false;
     } else {
       _isLtr = true;
@@ -35,21 +41,32 @@ class LocalizationController extends GetxController {
 
   void loadCurrentLanguage() async {
     _locale = Locale(
-        sharedPreferences.getString(SharedPreferenceHelper.languageCode) ??
-            MyStrings.myLanguages[0].languageCode,
-        sharedPreferences.getString(SharedPreferenceHelper.countryCode) ??
-            MyStrings.myLanguages[0].countryCode);
-    _isLtr = _locale.languageCode != 'ar';
+      sharedPreferences.getString(SharedPreferenceHelper.languageCode) ??
+          MyStrings.myLanguages[0].languageCode,
+      sharedPreferences.getString(SharedPreferenceHelper.countryCode) ??
+          MyStrings.myLanguages[0].countryCode,
+    );
+    // RTL languages: Arabic (ar), Dari/Persian (pr/fa), Pashto (ps)
+    _isLtr = !(_locale.languageCode == 'ar' ||
+        _locale.languageCode == 'pr' ||
+        _locale.languageCode == 'fa' ||
+        _locale.languageCode == 'ps');
     update();
   }
 
   void saveLanguage(Locale locale, String? imageUrl) async {
     sharedPreferences.setString(
-        SharedPreferenceHelper.languageCode, locale.languageCode);
+      SharedPreferenceHelper.languageCode,
+      locale.languageCode,
+    );
     sharedPreferences.setString(
-        SharedPreferenceHelper.countryCode, locale.countryCode ?? '');
+      SharedPreferenceHelper.countryCode,
+      locale.countryCode ?? '',
+    );
     sharedPreferences.setString(
-        SharedPreferenceHelper.languageImagePath, imageUrl ?? '');
+      SharedPreferenceHelper.languageImagePath,
+      imageUrl ?? '',
+    );
   }
 
   int _selectedIndex = 0;

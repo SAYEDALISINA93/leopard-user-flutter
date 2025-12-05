@@ -7,14 +7,13 @@ import 'package:leoparduser/data/controller/localization/localization_controller
 import 'package:leoparduser/data/controller/splash/splash_controller.dart';
 import 'package:leoparduser/data/repo/auth/general_setting_repo.dart';
 import 'package:leoparduser/data/repo/splash/splash_repo.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 
 Future<Map<String, Map<String, String>>> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
   Get.lazyPut(() => sharedPreferences, fenix: true);
   Get.lazyPut(() => ApiClient(sharedPreferences: Get.find()));
-  Get.lazyPut(() => GeneralSettingRepo(apiClient: Get.find()));
   Get.lazyPut(() => SplashRepo(apiClient: Get.find()));
   Get.lazyPut(() => AppLocationController());
   Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
@@ -22,7 +21,6 @@ Future<Map<String, Map<String, String>>> init() async {
       SplashController(repo: Get.find(), localizationController: Get.find()));
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
   Get.lazyPut(() => GeneralSettingRepo(apiClient: Get.find()));
-  Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
   Get.lazyPut(() => LocationSearchRepo(apiClient: Get.find()));
 
   Map<String, Map<String, String>> language = {};

@@ -15,12 +15,13 @@ class PaymentMethodCard extends StatelessWidget {
   AppPaymentMethod paymentMethod;
   final String assetPath;
   bool selected = false;
-  PaymentMethodCard(
-      {super.key,
-      required this.press,
-      required this.paymentMethod,
-      required this.assetPath,
-      this.selected = false});
+  PaymentMethodCard({
+    super.key,
+    required this.press,
+    required this.paymentMethod,
+    required this.assetPath,
+    this.selected = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +45,17 @@ class PaymentMethodCard extends StatelessWidget {
           child: CheckboxListTile(
             value: selected,
             checkboxShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Dimensions.space10)),
+              borderRadius: BorderRadius.circular(Dimensions.space10),
+            ),
             onChanged: (val) {
               press();
             },
             contentPadding: const EdgeInsetsDirectional.only(
-                start: Dimensions.space20,
-                end: Dimensions.space20,
-                top: Dimensions.space1,
-                bottom: Dimensions.space1),
+              start: Dimensions.space20,
+              end: Dimensions.space20,
+              top: Dimensions.space1,
+              bottom: Dimensions.space1,
+            ),
             activeColor: MyColor.primaryColor,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +66,7 @@ class PaymentMethodCard extends StatelessWidget {
                     paymentMethod.method?.image ?? '',
                     width: Dimensions.space50 + 8,
                     height: Dimensions.fontExtraLarge + 15,
-                  )
+                  ),
                 ] else ...[
                   MyImageWidget(
                     imageUrl: '$assetPath/${paymentMethod.method?.image}',
@@ -77,7 +80,7 @@ class PaymentMethodCard extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    paymentMethod.method?.name ?? '',
+                    paymentMethod.name ?? '',
                     style: semiBoldDefault.copyWith(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

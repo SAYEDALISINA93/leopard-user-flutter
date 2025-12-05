@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
@@ -23,16 +21,16 @@ class ReferenceController extends GetxController {
   GlobalUser user = GlobalUser();
 
   Future<void> getReferData() async {
-    currency = repo.apiClient.getCurrencyOrUsername(isCurrency: true);
-    currencySym = repo.apiClient.getCurrencyOrUsername(isSymbol: true);
+    currency = repo.apiClient.getCurrency();
+    currencySym = repo.apiClient.getCurrency(isSymbol: true);
     isLoading = true;
     update();
 
     try {
       ResponseModel responseModel = await repo.getReferData();
       if (responseModel.statusCode == 200) {
-        ReferenceResponseModel model = ReferenceResponseModel.fromJson(
-            jsonDecode(responseModel.responseJson));
+        ReferenceResponseModel model =
+            ReferenceResponseModel.fromJson((responseModel.responseJson));
         if (model.status == "success") {
           user = model.data?.user ?? GlobalUser();
           referUsers.clear();
@@ -40,7 +38,8 @@ class ReferenceController extends GetxController {
           update();
         } else {
           CustomSnackBar.error(
-              errorList: model.message ?? [MyStrings.somethingWentWrong]);
+            errorList: model.message ?? [MyStrings.somethingWentWrong],
+          );
         }
       } else {
         CustomSnackBar.error(errorList: [responseModel.message]);

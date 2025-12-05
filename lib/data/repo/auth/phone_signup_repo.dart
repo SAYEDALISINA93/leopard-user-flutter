@@ -8,7 +8,7 @@ import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/registration_response_model.dart';
 import 'package:leoparduser/data/model/auth/sign_up_model/sign_up_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';
-import 'package:leoparduser/data/services/api_service.dart';
+import 'package:leoparduser/data/services/api_client.dart';
 import 'package:leoparduser/presentation/components/snack_bar/show_custom_snackbar.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 
@@ -22,7 +22,7 @@ class PhoneRegistrationRepo {
     String url = '${UrlContainer.baseUrl}${UrlContainer.registrationEndPoint}';
     final res = await apiClient.request(url, Method.postMethod, map,
         passHeader: true, isOnlyAcceptType: true);
-    final json = jsonDecode(res.responseJson);
+    final json = res.responseJson;
     RegistrationResponseModel responseModel =
         RegistrationResponseModel.fromJson(json);
     return responseModel;
@@ -135,7 +135,7 @@ class PhoneRegistrationRepo {
     ResponseModel responseModel =
         await checkUserHasAccount(mobileNumber, countryCode);
 
-    final responseJSON = jsonDecode(responseModel.responseJson);
+    final responseJSON = responseModel.responseJson;
     print("RESPONSE AUTHL $responseJSON");
 
     if (responseJSON['status'] != 'error') {

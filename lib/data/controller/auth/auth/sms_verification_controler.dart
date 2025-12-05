@@ -51,12 +51,18 @@ class SmsVerificationController extends GetxController {
     update();
 
     try {
+      printX(
+          "Verifying SMS with code: $currentText and verificationId: $verificationId");
       ResponseModel responseModel =
           await smsRepo.verifyFirebase(currentText, verificationId);
 
+      printX("SMS Verification Response: ${responseModel.responseJson} ");
+
       if (responseModel.statusCode == 200) {
+        Map<String, dynamic> jsonResponse =
+            jsonDecode(responseModel.responseJson);
         CustomSnackBar.success(successList: [responseModel.message]);
-        verificationToken = jsonDecode(responseModel.responseJson)['token'];
+        verificationToken = jsonResponse['token'];
         await callLoginApi();
       } else {
         CustomSnackBar.error(errorList: [
@@ -67,6 +73,7 @@ class SmsVerificationController extends GetxController {
       CustomSnackBar.error(errorList: [
         '${MyStrings.sms.tr} ${MyStrings.verificationFailed.tr}: An unexpected error occurred. Please try again later.'
       ]);
+      printX("SmsVerificationController verifyYourSms Error: $e");
     }
 
     submitLoading = false;
@@ -74,18 +81,20 @@ class SmsVerificationController extends GetxController {
   }
 
   Future<void> callLoginApi() async {
+    printX(
+        "Calling login API with phone: $userPhone, countryCode: $countryCode, verificationToken: $verificationToken");
     ResponseModel model =
         await repo.loginWithPhone(userPhone, countryCode, verificationToken);
 
     if (model.statusCode == 200) {
       LoginResponseModel loginModel =
-          LoginResponseModel.fromJson(jsonDecode(model.responseJson));
+          LoginResponseModel.fromJson(model.responseJson);
 
       if (loginModel.status.toString().toLowerCase() ==
           MyStrings.success.toLowerCase()) {
         await repo.apiClient.sharedPreferences
             .setBool(SharedPreferenceHelper.rememberMeKey, true);
-        loggerI(loginModel.data?.toJson());
+        loggerX(loginModel.data?.toJson());
         RouteMiddleware.checkNGotoNext(
           accessToken: loginModel.data?.accessToken ?? '',
           tokenType: loginModel.data?.tokenType ?? '',
