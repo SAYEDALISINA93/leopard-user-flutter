@@ -288,10 +288,11 @@ class _ProfileAndSettingsScreenState extends State<ProfileAndSettingsScreen> {
                                 ),
                                 Switch(
                                   activeTrackColor: MyColor.greenSuccessColor,
-                                  activeThumbColor: MyColor.colorWhite,
+                                  thumbColor: WidgetStateProperty.resolveWith(
+                                    (states) => MyColor.colorWhite,
+                                  ),
                                   inactiveTrackColor:
                                       MyColor.redCancelTextColor,
-                                  inactiveThumbColor: MyColor.colorWhite,
                                   trackOutlineColor: WidgetStateProperty.all(
                                     MyColor.colorWhite,
                                   ),
