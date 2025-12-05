@@ -9,18 +9,12 @@ import 'package:leoparduser/core/utils/my_icons.dart';
 import 'package:leoparduser/core/utils/my_images.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/core/utils/style.dart';
-import 'package:leoparduser/core/utils/url_container.dart';
 import 'package:leoparduser/data/controller/account/profile_complete_controller.dart';
 import 'package:leoparduser/data/repo/account/profile_repo.dart';
 import 'package:leoparduser/presentation/components/buttons/rounded_button.dart';
 import 'package:leoparduser/presentation/components/custom_loader/custom_loader.dart';
-import 'package:leoparduser/presentation/components/divider/custom_spacer.dart';
-import 'package:leoparduser/presentation/components/image/my_local_image_widget.dart';
-import 'package:leoparduser/presentation/components/image/my_network_image_widget.dart';
 import 'package:leoparduser/presentation/components/text-form-field/custom_text_field.dart';
-import 'package:leoparduser/presentation/components/text/label_text.dart';
 import 'package:leoparduser/presentation/components/will_pop_widget.dart';
-import 'package:leoparduser/presentation/screens/auth/registration/widget/country_bottom_sheet.dart';
 
 class ProfileCompleteScreen extends StatefulWidget {
   const ProfileCompleteScreen({super.key});

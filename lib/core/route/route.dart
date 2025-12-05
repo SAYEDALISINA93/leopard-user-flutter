@@ -1,4 +1,4 @@
-import 'package:leoparduser/presentation/screens/Profile/profile_screen.dart';
+import 'package:leoparduser/presentation/screens/profile/profile_screen.dart';
 
 import 'package:leoparduser/presentation/screens/account/change-password/change_password_screen.dart';
 

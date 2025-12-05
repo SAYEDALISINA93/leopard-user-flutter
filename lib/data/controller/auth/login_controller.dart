@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/helper/string_format_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
-import 'package:leoparduser/core/route/route_middleware.dart';
 import 'package:leoparduser/core/utils/my_strings.dart';
 import 'package:leoparduser/data/model/auth/login/login_response_model.dart';
 import 'package:leoparduser/data/model/global/response_model/response_model.dart';

@@ -18,8 +18,6 @@ import 'package:leoparduser/core/helper/shared_preference_helper.dart';
 import 'package:leoparduser/core/route/route.dart';
 import 'package:leoparduser/core/utils/messages.dart';
 import 'package:leoparduser/data/controller/localization/localization_controller.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:logger/logger.dart';
 import 'package:geolocator/geolocator.dart';
 import 'core/di_service/di_services.dart' as di_service;
 import 'data/services/api_client.dart';
