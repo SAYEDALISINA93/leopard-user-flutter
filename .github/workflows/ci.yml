@@ -79,15 +79,17 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build AAB
+      - name: Build AAB (unsigned for CI verification)
         run: flutter build appbundle --release
+        continue-on-error: false
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-aab
+          name: app-release-aab-unsigned
           path: build/app/outputs/bundle/release/app-release.aab
           retention-days: 7
+          if-no-files-found: warn
 
   build-ios:
     name: Build iOS
