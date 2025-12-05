@@ -45,7 +45,8 @@ class RippleAnimation extends StatefulWidget {
 }
 
 ///state of the animation
-class RippleAnimationState extends State<RippleAnimation> with TickerProviderStateMixin {
+class RippleAnimationState extends State<RippleAnimation>
+    with TickerProviderStateMixin {
   AnimationController? _controller;
 
   @override

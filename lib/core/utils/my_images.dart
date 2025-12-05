@@ -1,5 +1,6 @@
 class MyImages {
-  static const String appLogoBanner = "assets/images/logo/logo_banner_white.png";
+  static const String appLogoBanner =
+      "assets/images/logo/logo_banner_white.png";
   static const String appLogoWhite = "assets/images/logo/app_logo_white.png";
   static const String appLogoIcon = "assets/images/logo/app_icon.png";
 

@@ -15,7 +15,8 @@ class ExpandedSection extends StatefulWidget {
   State<ExpandedSection> createState() => _ExpandedSectionState();
 }
 
-class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProviderStateMixin {
+class _ExpandedSectionState extends State<ExpandedSection>
+    with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<double> animation;
 

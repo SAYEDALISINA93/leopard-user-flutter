@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-RideFareResponseModel rideFareResponseModelFromJson(String str) => RideFareResponseModel.fromJson(json.decode(str));
+RideFareResponseModel rideFareResponseModelFromJson(String str) =>
+    RideFareResponseModel.fromJson(json.decode(str));
 
-String rideFareResponseModelToJson(RideFareResponseModel data) => json.encode(data.toJson());
+String rideFareResponseModelToJson(RideFareResponseModel data) =>
+    json.encode(data.toJson());
 
 class RideFareResponseModel {
   String? remark;
@@ -16,11 +18,15 @@ class RideFareResponseModel {
 
   RideFareResponseModel({this.remark, this.status, this.message, this.data});
 
-  factory RideFareResponseModel.fromJson(Map<String, dynamic> json) => RideFareResponseModel(
+  factory RideFareResponseModel.fromJson(Map<String, dynamic> json) =>
+      RideFareResponseModel(
         remark: json["remark"],
         status: json["status"],
-        message: json["message"] == null ? [] : List<String>.from(json["message"]!.map((x) => x.toString())),
-        data: json["data"] == null ? null : RideFareModel.fromJson(json["data"]),
+        message: json["message"] == null
+            ? []
+            : List<String>.from(json["message"]!.map((x) => x.toString())),
+        data:
+            json["data"] == null ? null : RideFareModel.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,8 +68,12 @@ class RideFareModel {
         minAmount: json["min_amount"].toString(),
         maxAmount: json["max_amount"].toString(),
         intraCity: json["intra_city"].toString(),
-        originAddresses: json["origin_addresses"] == null ? [] : List<String>.from(json["origin_addresses"]!.map((x) => x)),
-        destinationAddresses: json["destination_addresses"] == null ? [] : List<String>.from(json["destination_addresses"]!.map((x) => x)),
+        originAddresses: json["origin_addresses"] == null
+            ? []
+            : List<String>.from(json["origin_addresses"]!.map((x) => x)),
+        destinationAddresses: json["destination_addresses"] == null
+            ? []
+            : List<String>.from(json["destination_addresses"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -74,7 +84,11 @@ class RideFareModel {
         "min_amount": minAmount,
         "max_amount": maxAmount,
         "intra_city": intraCity,
-        "origin_addresses": originAddresses == null ? [] : List<dynamic>.from(originAddresses!.map((x) => x)),
-        "destination_addresses": destinationAddresses == null ? [] : List<dynamic>.from(destinationAddresses!.map((x) => x)),
+        "origin_addresses": originAddresses == null
+            ? []
+            : List<dynamic>.from(originAddresses!.map((x) => x)),
+        "destination_addresses": destinationAddresses == null
+            ? []
+            : List<dynamic>.from(destinationAddresses!.map((x) => x)),
       };
 }

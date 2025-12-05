@@ -63,9 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '723926195144',
     projectId: 'leopard-user-105ff',
     storageBucket: 'leopard-user-105ff.firebasestorage.app',
-    androidClientId: '723926195144-6ddfp9j22ivfeatnlqss1pddv0vmuc7b.apps.googleusercontent.com',
-    iosClientId: '723926195144-7iufs2d5l7acaba3ktspiion0d8o5q7j.apps.googleusercontent.com',
+    androidClientId:
+        '723926195144-6ddfp9j22ivfeatnlqss1pddv0vmuc7b.apps.googleusercontent.com',
+    iosClientId:
+        '723926195144-7iufs2d5l7acaba3ktspiion0d8o5q7j.apps.googleusercontent.com',
     iosBundleId: 'com.leopard.rider',
   );
-
 }

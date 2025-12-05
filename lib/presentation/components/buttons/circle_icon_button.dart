@@ -19,7 +19,8 @@ class CircleIconButton extends StatefulWidget {
   State<CircleIconButton> createState() => _CircleIconButtonState();
 }
 
-class _CircleIconButtonState extends State<CircleIconButton> with SingleTickerProviderStateMixin {
+class _CircleIconButtonState extends State<CircleIconButton>
+    with SingleTickerProviderStateMixin {
   late double _scale;
   late AnimationController _controller;
 

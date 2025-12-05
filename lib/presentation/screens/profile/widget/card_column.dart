@@ -38,7 +38,9 @@ class ProfileCardColumn extends StatelessWidget {
       children: [
         Expanded(
           child: Column(
-            crossAxisAlignment: alignmentEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            crossAxisAlignment: alignmentEnd
+                ? CrossAxisAlignment.end
+                : CrossAxisAlignment.start,
             children: [
               Text(
                 header.tr,

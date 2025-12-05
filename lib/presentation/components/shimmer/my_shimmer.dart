@@ -23,7 +23,8 @@ class MyShimmerWidget extends StatelessWidget {
     return isEnable
         ? Shimmer.fromColors(
             baseColor: baseColor ?? MyColor.colorGrey.withValues(alpha: 0.1),
-            highlightColor: highlightColor ?? MyColor.primaryColor.withValues(alpha: 0.1),
+            highlightColor:
+                highlightColor ?? MyColor.primaryColor.withValues(alpha: 0.1),
             child: child,
           )
         : child;

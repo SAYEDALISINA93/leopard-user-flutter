@@ -16,10 +16,12 @@ class CustomCircleAnimatedButton extends StatefulWidget {
   });
 
   @override
-  State<CustomCircleAnimatedButton> createState() => _CustomCircleAnimatedButtonState();
+  State<CustomCircleAnimatedButton> createState() =>
+      _CustomCircleAnimatedButtonState();
 }
 
-class _CustomCircleAnimatedButtonState extends State<CustomCircleAnimatedButton> with SingleTickerProviderStateMixin {
+class _CustomCircleAnimatedButtonState extends State<CustomCircleAnimatedButton>
+    with SingleTickerProviderStateMixin {
   late double _scale;
   late AnimationController _controller;
 

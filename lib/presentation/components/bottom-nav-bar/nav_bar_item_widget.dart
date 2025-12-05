@@ -34,7 +34,9 @@ class NavBarItem extends StatelessWidget {
             padding: const EdgeInsets.all(Dimensions.space10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: isSelected ? MyColor.screenBgColor : Colors.grey.withValues(alpha: 0.2),
+              color: isSelected
+                  ? MyColor.screenBgColor
+                  : Colors.grey.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
             child: imagePath.contains('svg')
@@ -49,7 +51,8 @@ class NavBarItem extends StatelessWidget {
                   )
                 : Image.asset(
                     imagePath,
-                    color: isSelected ? MyColor.primaryColor : MyColor.iconColor,
+                    color:
+                        isSelected ? MyColor.primaryColor : MyColor.iconColor,
                     width: 16,
                     height: 16,
                   ),
@@ -59,7 +62,8 @@ class NavBarItem extends StatelessWidget {
             label.tr,
             textAlign: TextAlign.center,
             style: regularSmall.copyWith(
-              color: isSelected ? MyColor.primaryColor : MyColor.primaryTextColor,
+              color:
+                  isSelected ? MyColor.primaryColor : MyColor.primaryTextColor,
             ),
           ),
         ],

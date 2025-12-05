@@ -47,7 +47,8 @@ class CircleImageWidget extends StatelessWidget {
                       height: width,
                     );
                   },
-                  placeholder: isProfile ? MyImages.profile : MyImages.placeHolderImage,
+                  placeholder:
+                      isProfile ? MyImages.profile : MyImages.placeHolderImage,
                 ),
               ),
             )
@@ -74,13 +75,17 @@ class CircleImageWidget extends StatelessWidget {
                             height: width,
                             imageErrorBuilder: (ctx, object, trx) {
                               return Image.asset(
-                                isProfile ? MyImages.profile : MyImages.placeHolderImage,
+                                isProfile
+                                    ? MyImages.profile
+                                    : MyImages.placeHolderImage,
                                 fit: BoxFit.cover,
                                 width: height,
                                 height: width,
                               );
                             },
-                            placeholder: isProfile ? MyImages.profile : MyImages.placeHolderImage,
+                            placeholder: isProfile
+                                ? MyImages.profile
+                                : MyImages.placeHolderImage,
                           ),
                         ),
                 ),

@@ -27,10 +27,13 @@ class SupportTicketViewResponseModel {
     this.data,
   });
 
-  factory SupportTicketViewResponseModel.fromJson(Map<String, dynamic> json) => SupportTicketViewResponseModel(
+  factory SupportTicketViewResponseModel.fromJson(Map<String, dynamic> json) =>
+      SupportTicketViewResponseModel(
         remark: json["remark"],
         status: json["status"],
-        message: json["message"] == null ? [] : List<String>.from(json["message"]!.map((x) => x.toString())),
+        message: json["message"] == null
+            ? []
+            : List<String>.from(json["message"]!.map((x) => x.toString())),
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
@@ -50,7 +53,9 @@ class Data {
   Data({this.myTickets, this.myMessages, this.ticketImagePath});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        myTickets: json["my_ticket"] == null ? null : MyTickets.fromJson(json["my_ticket"]),
+        myTickets: json["my_ticket"] == null
+            ? null
+            : MyTickets.fromJson(json["my_ticket"]),
         myMessages: json["messages"] == null
             ? []
             : List<SupportMessage>.from(
@@ -61,7 +66,9 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "my_ticket": myTickets?.toJson(),
-        "messages": myMessages == null ? [] : List<dynamic>.from(myMessages!.map((x) => x.toJson())),
+        "messages": myMessages == null
+            ? []
+            : List<dynamic>.from(myMessages!.map((x) => x.toJson())),
         "ticket_image_path": ticketImagePath,
       };
 }
@@ -96,7 +103,8 @@ class SupportMessage {
         message: json["message"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-        ticket: json["ticket"] == null ? null : MyTickets.fromJson(json["ticket"]),
+        ticket:
+            json["ticket"] == null ? null : MyTickets.fromJson(json["ticket"]),
         admin: json["admin"] == null ? null : Admin.fromJson(json["admin"]),
         attachments: json["attachments"] == null
             ? []
@@ -114,7 +122,9 @@ class SupportMessage {
         "updated_at": updatedAt,
         "ticket": ticket?.toJson(),
         "admin": admin?.toJson(),
-        "attachments": attachments == null ? [] : List<dynamic>.from(attachments!.map((x) => x.toJson())),
+        "attachments": attachments == null
+            ? []
+            : List<dynamic>.from(attachments!.map((x) => x.toJson())),
       };
 }
 

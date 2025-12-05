@@ -3,7 +3,8 @@ class NewRouteCoordinateModel {
 
   NewRouteCoordinateModel({this.routes});
 
-  factory NewRouteCoordinateModel.fromJson(Map<String, dynamic> json) => NewRouteCoordinateModel(
+  factory NewRouteCoordinateModel.fromJson(Map<String, dynamic> json) =>
+      NewRouteCoordinateModel(
         routes: json["routes"] == null
             ? []
             : List<RouteCoordinate>.from(
@@ -12,7 +13,9 @@ class NewRouteCoordinateModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "routes": routes == null ? [] : List<dynamic>.from(routes!.map((x) => x.toJson())),
+        "routes": routes == null
+            ? []
+            : List<dynamic>.from(routes!.map((x) => x.toJson())),
       };
 }
 
@@ -23,10 +26,13 @@ class RouteCoordinate {
 
   RouteCoordinate({this.distanceMeters, this.duration, this.polyline});
 
-  factory RouteCoordinate.fromJson(Map<String, dynamic> json) => RouteCoordinate(
+  factory RouteCoordinate.fromJson(Map<String, dynamic> json) =>
+      RouteCoordinate(
         distanceMeters: json["distanceMeters"],
         duration: json["duration"],
-        polyline: json["polyline"] == null ? null : Polyline.fromJson(json["polyline"]),
+        polyline: json["polyline"] == null
+            ? null
+            : Polyline.fromJson(json["polyline"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,7 +47,8 @@ class Polyline {
 
   Polyline({this.encodedPolyline});
 
-  factory Polyline.fromJson(Map<String, dynamic> json) => Polyline(encodedPolyline: json["encodedPolyline"]);
+  factory Polyline.fromJson(Map<String, dynamic> json) =>
+      Polyline(encodedPolyline: json["encodedPolyline"]);
 
   Map<String, dynamic> toJson() => {"encodedPolyline": encodedPolyline};
 }

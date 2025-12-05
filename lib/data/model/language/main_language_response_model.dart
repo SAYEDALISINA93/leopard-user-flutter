@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-MainLanguageResponseModel mainLanguageResponseModelFromJson(String str) => MainLanguageResponseModel.fromJson(json.decode(str));
+MainLanguageResponseModel mainLanguageResponseModelFromJson(String str) =>
+    MainLanguageResponseModel.fromJson(json.decode(str));
 
-String mainLanguageResponseModelToJson(MainLanguageResponseModel data) => json.encode(data.toJson());
+String mainLanguageResponseModelToJson(MainLanguageResponseModel data) =>
+    json.encode(data.toJson());
 
 class MainLanguageResponseModel {
   String? remark;
@@ -21,17 +23,21 @@ class MainLanguageResponseModel {
     this.data,
   });
 
-  factory MainLanguageResponseModel.fromJson(Map<String, dynamic> json) => MainLanguageResponseModel(
+  factory MainLanguageResponseModel.fromJson(Map<String, dynamic> json) =>
+      MainLanguageResponseModel(
         remark: json["remark"],
         status: json["status"],
-        message: json["message"] == null ? [] : List<String>.from(json["message"]!.map((x) => x)),
+        message: json["message"] == null
+            ? []
+            : List<String>.from(json["message"]!.map((x) => x)),
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "remark": remark,
         "status": status,
-        "message": message == null ? [] : List<dynamic>.from(message!.map((x) => x)),
+        "message":
+            message == null ? [] : List<dynamic>.from(message!.map((x) => x)),
         "data": data?.toJson(),
       };
 }
@@ -55,7 +61,9 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "languages": languages == null ? [] : List<dynamic>.from(languages!.map((x) => x.toJson())),
+        "languages": languages == null
+            ? []
+            : List<dynamic>.from(languages!.map((x) => x.toJson())),
         "file": Map.from(file!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "image_path": imagePath,
       };

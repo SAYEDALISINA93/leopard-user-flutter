@@ -27,10 +27,13 @@ class SupportTicketListResponseModel {
     this.data,
   });
 
-  factory SupportTicketListResponseModel.fromJson(Map<String, dynamic> json) => SupportTicketListResponseModel(
+  factory SupportTicketListResponseModel.fromJson(Map<String, dynamic> json) =>
+      SupportTicketListResponseModel(
         remark: json["remark"],
         status: json["status"],
-        message: json["message"] == null ? [] : List<String>.from(json["message"]!.map((x) => x.toString())),
+        message: json["message"] == null
+            ? []
+            : List<String>.from(json["message"]!.map((x) => x.toString())),
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
@@ -48,7 +51,8 @@ class Data {
   Data({this.tickets});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        tickets: json["tickets"] == null ? null : Tickets.fromJson(json["tickets"]),
+        tickets:
+            json["tickets"] == null ? null : Tickets.fromJson(json["tickets"]),
       );
 
   Map<String, dynamic> toJson() => {"tickets": tickets?.toJson()};
@@ -76,7 +80,9 @@ class Tickets {
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "next_page_url": nextPageUrl,
         "path": path,
       };

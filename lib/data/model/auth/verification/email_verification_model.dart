@@ -16,7 +16,9 @@ class EmailVerificationModel {
     _code = json['code'] ?? 0;
     _colorRedirectUrl = json['colorRedirect_url'] ?? '';
     _status = json['status'] ?? 'null status';
-    _message = json['message'] != null ? List<String>.from(json['message']!.map((x) => x.toString())) : [];
+    _message = json['message'] != null
+        ? List<String>.from(json['message']!.map((x) => x.toString()))
+        : [];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 

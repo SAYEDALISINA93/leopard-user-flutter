@@ -42,7 +42,8 @@ class DrawerItem extends StatelessWidget {
           Expanded(
             child: Text(
               name.tr,
-              style: titleStyle ?? regularDefault.copyWith(fontSize: Dimensions.fontMedium),
+              style: titleStyle ??
+                  regularDefault.copyWith(fontSize: Dimensions.fontMedium),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

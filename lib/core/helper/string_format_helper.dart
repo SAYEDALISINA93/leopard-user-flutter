@@ -37,7 +37,8 @@ class StringConverter {
 
   static String removeQuotationAndSpecialCharacterFromString(String value) {
     try {
-      String formatedString = value.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '');
+      String formatedString =
+          value.replaceAll('"', '').replaceAll('[', '').replaceAll(']', '');
       return formatedString;
     } catch (e) {
       return value;
@@ -47,7 +48,8 @@ class StringConverter {
   static String replaceUnderscoreWithSpace(String value) {
     try {
       String formatedString = value.replaceAll('_', ' ');
-      String v = formatedString.split(" ").map((str) => str.capitalize).join(" ");
+      String v =
+          formatedString.split(" ").map((str) => str.capitalize).join(" ");
       return v;
     } catch (e) {
       return value;
@@ -155,18 +157,22 @@ class StringConverter {
   }
 
   static String mul(String first, String second) {
-    double result = (double.tryParse(first) ?? 0) * (double.tryParse(second) ?? 0);
+    double result =
+        (double.tryParse(first) ?? 0) * (double.tryParse(second) ?? 0);
     return StringConverter.formatNumber(result.toString());
   }
 
   static String calculateRate(String amount, String rate, {int precision = 2}) {
-    double result = (double.tryParse(amount) ?? 0) / (double.tryParse(rate) ?? 0);
-    return StringConverter.formatNumber(result.toString(), precision: precision);
+    double result =
+        (double.tryParse(amount) ?? 0) / (double.tryParse(rate) ?? 0);
+    return StringConverter.formatNumber(result.toString(),
+        precision: precision);
   }
 }
 
 extension StringCasingExtension on String {
-  String toCapitalized() => length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
 
   String toTitleCase() => replaceAll(
         RegExp(' +'),
