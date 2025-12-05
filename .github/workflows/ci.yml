@@ -2,9 +2,9 @@ name: CI - Build & Test
 
 on:
   push:
-    branches: [main, develop, feature/**]
+    branches: [main, develop, staging, feature/**]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, staging]
 
 jobs:
   analyze-and-test:
@@ -57,7 +57,7 @@ jobs:
     name: Build Android
     runs-on: ubuntu-latest
     needs: analyze-and-test
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging'
 
     steps:
       - name: Checkout code
@@ -96,7 +96,7 @@ jobs:
     name: Build iOS
     runs-on: macos-latest
     needs: analyze-and-test
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging'
 
     steps:
       - name: Checkout code
