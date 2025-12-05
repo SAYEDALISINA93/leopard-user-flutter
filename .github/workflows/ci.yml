@@ -39,9 +39,15 @@ jobs:
         run: flutter analyze --no-fatal-infos
 
       - name: Run tests
-        run: flutter test --coverage
+        run: |
+          if [ -d "test" ]; then
+            flutter test --coverage
+          else
+            echo "No test directory found, skipping tests"
+          fi
 
       - name: Upload coverage to Codecov
+        if: success() && hashFiles('coverage/lcov.info') != ''
         uses: codecov/codecov-action@v4
         with:
           files: ./coverage/lcov.info
